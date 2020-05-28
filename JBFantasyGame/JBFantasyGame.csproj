@@ -58,6 +58,9 @@
     <Compile Include="DMMainWin.xaml.cs">
       <DependentUpon>DMMainWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlayerMain.xaml.cs">
+      <DependentUpon>PlayerMain.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RollDie.cs" />
     <Page Include="DMMainWin.xaml">
       <SubType>Designer</SubType>
@@ -79,6 +82,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PlayerMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Party.cs" />

@@ -33,5 +33,11 @@ namespace JBFantasyGame
             DMMainWin dMMainWin1 = new DMMainWin();
             dMMainWin1.Show();
         }
+
+        private void RunPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            PlayerMain playerMain1 = new PlayerMain();
+            playerMain1.Show();
+        }
     }
 }

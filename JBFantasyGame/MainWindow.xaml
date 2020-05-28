@@ -8,7 +8,7 @@
         Title="JBFantasyGame" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid Background="#FFDBFBBB">
         <Button x:Name ="RunDM" Content="Run as Dungeon Master" HorizontalAlignment="Left" Margin="449,170,0,0" VerticalAlignment="Top" Width="252" RenderTransformOrigin="-0.076,0.725" Height="47" FontFamily="Yu Gothic UI Semibold" FontSize="20" Background="#FFD3D09C" Click="RunDM_Click" />
-        <Button x:Name="RunPlayer" Content="Run as Player Character" HorizontalAlignment="Left" Margin="133,170,0,0" VerticalAlignment="Top" Width="252" RenderTransformOrigin="-0.076,0.725" Height="47" FontFamily="Yu Gothic UI Semibold" FontSize="20" Background="#FFD3D09C"/>
+        <Button x:Name="RunPlayer" Content="Run as Player Character" HorizontalAlignment="Left" Margin="133,170,0,0" VerticalAlignment="Top" Width="252" RenderTransformOrigin="-0.076,0.725" Height="47" FontFamily="Yu Gothic UI Semibold" FontSize="20" Background="#FFD3D09C" Click="RunPlayer_Click"/>
     </Grid>
 
 </Window>
