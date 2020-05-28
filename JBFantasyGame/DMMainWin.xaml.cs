@@ -10,28 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace JBFantasyGame
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DMMainWin.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DMMainWin : Window
     {
-        public static List<Character> playcharacter;
-        public MainWindow()
+        public DMMainWin()
         {
-            playcharacter = new List<Character>();
             InitializeComponent();
-            
-        }
-
-        private void RunDM_Click(object sender, RoutedEventArgs e)
-        {
-            DMMainWin dMMainWin1 = new DMMainWin();
-            dMMainWin1.Show();
         }
     }
 }

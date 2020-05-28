@@ -55,7 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DMMainWin.xaml.cs">
+      <DependentUpon>DMMainWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RollDie.cs" />
+    <Page Include="DMMainWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
