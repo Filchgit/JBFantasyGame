@@ -23,9 +23,7 @@ namespace JBFantasyGame
         public DMMainWin()
         {
             InitializeComponent();
-        }
-        
-     
+        }     
 
         private void RollDieDM_TextChanged_1(object sender, TextChangedEventArgs e)
         {
