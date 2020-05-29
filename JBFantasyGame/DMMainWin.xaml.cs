@@ -23,5 +23,26 @@ namespace JBFantasyGame
         {
             InitializeComponent();
         }
+        
+     
+
+        private void RollDieDM_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+            string var;
+            var = RollDieDM.Text;
+            MessageBox.Show($"{var}");
+        }
+
+        private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            string var;
+            var = RollDieDM.Text;          
+        }
+
+        private void DMRollDiceBtn_Click(object sender, RoutedEventArgs e)
+        {
+            RollingDie thisRoll = new RollingDie(20,2);
+            MessageBox.Show($"{thisRoll.Roll() }"); 
+        }
     }
 }

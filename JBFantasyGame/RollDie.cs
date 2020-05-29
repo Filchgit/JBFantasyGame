@@ -17,9 +17,7 @@ namespace JBFantasyGame
             public RollingDie(int sidesCount, int timesRoll=1)
             {
                 this.timesRoll = timesRoll;
-                this.sidesCount = sidesCount;
-                ;
-               
+                this.sidesCount = sidesCount;              
             }
 
             public int GetSidesCount()
