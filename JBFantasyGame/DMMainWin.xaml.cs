@@ -24,20 +24,11 @@ namespace JBFantasyGame
         {
             InitializeComponent();
         }     
-
-        private void RollDieDM_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-            string var;
-            var = RollDieDM.Text;
-            MessageBox.Show($"{var}");
-        }
-
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
         {
             string var;
             var = RollDieDM.Text;          
         }
-
         private void DMRollDiceBtn_Click(object sender, RoutedEventArgs e)
         {
             String diecheck = RollDieDM.Text;
@@ -47,13 +38,14 @@ namespace JBFantasyGame
                 string[] splitdie = diecheck.Split(new Char[] { 'D', 'd' });
                 int i1;
                 int i2;
-                if (splitdie[0] != "") 
+                if (splitdie[0] != "")
                 {
                     i2 = Int32.Parse(splitdie[0]);
                     i1 = Int32.Parse(splitdie[1]);
                 }
                 else
-                { i1 = Int32.Parse(splitdie[1]);
+                {
+                    i1 = Int32.Parse(splitdie[1]);
                     i2 = 1;
                 }
 
@@ -64,6 +56,19 @@ namespace JBFantasyGame
             {
                 MessageBox.Show($"Not a valid input to roll dice, should be in the form of 3d6 , 4D8, 1d20 or even d20");
             }
+        }
+        private void Nameinput_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            string var2;
+            var2 = Nameinput.Text;
+        }
+           
+        private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
+        {
+     
+            Character thischaracter = new Character(Nameinput.Text);
+            MainWindow.playcharacter.Add(thischaracter);
+            MessageBox.Show($"{thischaracter.Name}");
         }
     }
 }
