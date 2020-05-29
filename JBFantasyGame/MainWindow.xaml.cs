@@ -20,10 +20,12 @@ namespace JBFantasyGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static List<Character> playcharacter;
+        public static List<Character> Party;
+        public static List<Party> Parties;
         public MainWindow()
         {
-            playcharacter = new List<Character>();
+            Party = new List<Character>();
+            Parties = new List<Party>();
             InitializeComponent();
             
         }

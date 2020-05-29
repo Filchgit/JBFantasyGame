@@ -66,9 +66,15 @@ namespace JBFantasyGame
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
         {
      
-            Character thischaracter = new Character(Nameinput.Text);
-            MainWindow.playcharacter.Add(thischaracter);
-            MessageBox.Show($"{thischaracter.Name}");
+            Character thischaracter = new Character(Nameinput.Text); // need to add check to exclude names that are identical to any already in party
+            MainWindow.Party.Add(thischaracter);                                 
+           
+        }
+
+        private void ListParty_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Character charac in MainWindow.Party)
+            { MessageBox.Show($"{charac.Name}"); }
         }
     }
 }
