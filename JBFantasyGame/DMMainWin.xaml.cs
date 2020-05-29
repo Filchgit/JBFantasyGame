@@ -43,18 +43,28 @@ namespace JBFantasyGame
         private void DMRollDiceBtn_Click(object sender, RoutedEventArgs e)
         {
             String diecheck = RollDieDM.Text;
-            string rex = "^([0-9]*)d([0-9]+)";
+            string rex = "^([0-9]*)[D-d]([0-9]+)";
             if (Regex.IsMatch(diecheck, rex) == true)
             {
                 string[] splitdie = diecheck.Split(new Char[] { 'D', 'd' });
-                int i2 = Int32.Parse(splitdie[0]);
-                int i1 = Int32.Parse(splitdie[1]);
+                int i1;
+                int i2;
+                if (splitdie[0] != "") 
+                {
+                    i2 = Int32.Parse(splitdie[0]);
+                    i1 = Int32.Parse(splitdie[1]);
+                }
+                else
+                { i1 = Int32.Parse(splitdie[1]);
+                    i2 = 1;
+                }
+
                 RollingDie thisRoll = new RollingDie(i1, i2);
                 MessageBox.Show($"{thisRoll.Roll() } {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
             }
             if (Regex.IsMatch(diecheck, rex) == false)
             {
-                MessageBox.Show($"Not a valid input to roll dice, should be in the form of 3d6 or 1d20 or even d20");
+                MessageBox.Show($"Not a valid input to roll dice, should be in the form of 3d6 , 4D8, 1d20 or even d20");
             }
         }
     }
