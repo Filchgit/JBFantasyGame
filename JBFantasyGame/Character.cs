@@ -100,7 +100,7 @@ namespace JBFantasyGame
         #endregion
         public void Iam() => WriteLine($"I am {name}!");
         public Character(string newName) : base(newName) { }
-        public virtual Character newCharacter (Character a_character)
+        public virtual Character NewCharacter (Character a_character)
         { 
             RerollCharacter(a_character);
             a_character.isAlive = true;

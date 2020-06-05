@@ -16,5 +16,6 @@
         <Button x:Name="CreateNewCharacter" Content="Create New Character" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="120" Click="CreateNewCharacter_Click"/>
         <Button x:Name="CreateNewParty" Content="Create New Party" HorizontalAlignment="Left" Margin="21,123,0,0" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.467,1.8"/>
         <Button x:Name="ListParty" Content="List Party Members " HorizontalAlignment="Left" Margin="21,143,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.467,2.2" Click="ListParty_Click" />
+        <Button x:Name="ShwCharSht" Content ="Show Char Sheet for"  HorizontalAlignment="Left" Margin="21,163,0,0" VerticalAlignment="Top" Width="120" Height="20" Click="ShwCharSht_Click" />
     </Grid>
 </Window>

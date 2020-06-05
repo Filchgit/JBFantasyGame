@@ -67,6 +67,8 @@ namespace JBFantasyGame
         {
      
             Character thischaracter = new Character(Nameinput.Text); // need to add check to exclude names that are identical to any already in party
+            thischaracter.NewCharacter(thischaracter); 
+            thischaracter.RerollCharacter(thischaracter);
             MainWindow.Party.Add(thischaracter);                                 
            
         }
@@ -75,6 +77,13 @@ namespace JBFantasyGame
         {
             foreach (Character charac in MainWindow.Party)
             { MessageBox.Show($"{charac.Name}"); }
+        }
+
+        private void ShwCharSht_Click(object sender, RoutedEventArgs e)
+        {
+           // Character thischaracter = new Character(Nameinput.Text);             //ok just mucking around to see if I could pass character in this fashion to next window
+            ShowCharWin ShowCharWin1 = new ShowCharWin(MainWindow.Party[0] );      // this is temp, will obv. need to change character shown , want to see if it passes
+            ShowCharWin1.Show();
         }
     }
 }
