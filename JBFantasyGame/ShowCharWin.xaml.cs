@@ -31,8 +31,8 @@ namespace JBFantasyGame
             ShowCharDex.Text = thischaracter.Dex.ToString();
             ShowCharCon.Text = thischaracter.Con.ToString();
             ShowCharChr.Text = thischaracter.Chr.ToString();
-
-
+            ShowCharLvl.Text = thischaracter.Lvl.ToString();
+            ShowCharExp.Text = thischaracter.Exp.ToString();
         }
     }
 }
