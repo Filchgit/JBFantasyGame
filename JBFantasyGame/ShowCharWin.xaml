@@ -10,22 +10,22 @@
     <Grid Background="#FFD3F5F4" >
 
 
-        <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="41,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="287" FontSize="35" RenderTransformOrigin="0.012,-0.624" Grid.ColumnSpan="3"/>
-        <Label  x:Name="HpLabel"  Content="Hit Points " HorizontalAlignment="Left" Margin="333,10,0,0" VerticalAlignment="Top" FontSize ="30"  Height="42" Width="141" RenderTransformOrigin="-0.045,0.546"/>
-        <TextBlock x:Name="HP" HorizontalAlignment="Left" Margin="487,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="71" FontSize="35" RenderTransformOrigin="0.012,-0.624"/>
+        <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="41,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="360" FontSize="32" RenderTransformOrigin="0.012,-0.624"/>
+        <Label  x:Name="HpLabel"  Content="Hit Points " HorizontalAlignment="Left" Margin="406,10,0,0" VerticalAlignment="Top" FontSize ="30"  Height="42" Width="141" RenderTransformOrigin="-0.045,0.546"/>
+        <TextBlock x:Name="HP" HorizontalAlignment="Left" Margin="552,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="71" FontSize="35" RenderTransformOrigin="0.012,-0.624"/>
 
-        <Label Content="Strength" Height="30" VerticalAlignment ="Top" Margin="0,60,925,0" FontSize="15"             />
-        <Label Content="Intelligence" Height=" 30"  VerticalAlignment ="Top" Margin="0,90,925,0"  FontSize="15"        />
-        <Label Content="Wisdom" Height=" 30"  VerticalAlignment ="Top" Margin="0,120,925,0"  FontSize="15"             />
-        <Label Content="Dexterity" Height=" 30"  VerticalAlignment ="Top" Margin="0,150,925,0" FontSize="15"           />
-        <Label Content="Constitution"  Height=" 30"  VerticalAlignment ="Top" Margin="0,180,925,0" FontSize="15"       />
-        <Label Content="Charisma"  Height=" 30"  VerticalAlignment ="Top"  Margin="0,210,925,0"  FontSize="15"         />
+        <Label Content="Strength" Height="30" VerticalAlignment ="Top" Margin="5,60,900,0" FontSize="15"  FontWeight="Bold"           />
+        <Label Content="Intelligence" Height=" 30"  VerticalAlignment ="Top" Margin="5,90,900,0"  FontSize="15"  FontWeight="Bold"      />
+        <Label Content="Wisdom" Height=" 30"  VerticalAlignment ="Top" Margin="5,120,900,0"  FontSize="15"  FontWeight="Bold"           />
+        <Label Content="Dexterity" Height=" 30"  VerticalAlignment ="Top" Margin="5,150,900,0" FontSize="15" FontWeight="Bold"          />
+        <Label Content="Constitution"  Height=" 30"  VerticalAlignment ="Top" Margin="5,180,900,0" FontSize="15" FontWeight="Bold"      />
+        <Label Content="Charisma"  Height=" 30"  VerticalAlignment ="Top"  Margin="5,210,900,0"  FontSize="15"  FontWeight="Bold"       />
 
-        <TextBlock x:Name="ShowCharStr" Height=" 25" VerticalAlignment ="Top" Margin="90,65,869,0" FontSize="15"   />
-        <TextBlock x:Name="ShowCharInt" Height=" 25" VerticalAlignment ="Top" Margin="90,95,869,0" FontSize="15" />
-        <TextBlock x:Name="ShowCharWis" Height=" 25" VerticalAlignment ="Top" Margin="90,125,869,0" FontSize="15" />
-        <TextBlock x:Name="ShowCharDex" Height=" 25" VerticalAlignment ="Top" Margin="90,155,869,0" FontSize="15" />
-        <TextBlock x:Name="ShowCharCon" Height=" 25" VerticalAlignment ="Top" Margin="90,185,869,0" FontSize="15" />
-        <TextBlock x:Name="ShowCharChr" Height=" 25" VerticalAlignment ="Top" Margin="90,215,869,0" FontSize="15" />
+        <TextBlock x:Name="ShowCharStr" Height=" 25" VerticalAlignment ="Top" Margin="115,65,869,0" FontSize="15"  FontWeight="Bold"  />
+        <TextBlock x:Name="ShowCharInt" Height=" 25" VerticalAlignment ="Top" Margin="115,95,869,0" FontSize="15" FontWeight="Bold" />
+        <TextBlock x:Name="ShowCharWis" Height=" 25" VerticalAlignment ="Top" Margin="115,125,869,0" FontSize="15" FontWeight="Bold" />
+        <TextBlock x:Name="ShowCharDex" Height=" 25" VerticalAlignment ="Top" Margin="115,155,869,0" FontSize="15" FontWeight="Bold" />
+        <TextBlock x:Name="ShowCharCon" Height=" 25" VerticalAlignment ="Top" Margin="115,185,869,0" FontSize="15" FontWeight="Bold" />
+        <TextBlock x:Name="ShowCharChr" Height=" 25" VerticalAlignment ="Top" Margin="115,215,869,0" FontSize="15" FontWeight="Bold" />
     </Grid>
 </Window>
