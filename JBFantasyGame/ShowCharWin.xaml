@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JBFantasyGame"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
+        Title="Character Sheet
+        " Height="450" Width="800">
     <Grid>
-        <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="113,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="51" Width="122" RenderTransformOrigin="0.012,-0.624"/>
-        <TextBlock x:Name="ShowCharInt" HorizontalAlignment="Left" Margin="101,158,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="51" Width="122" RenderTransformOrigin="0.012,-0.624"/>
+        <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="60,26,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="51" Width="122" RenderTransformOrigin="0.012,-0.624"/>
+        <TextBlock x:Name="ShowCharInt" HorizontalAlignment="Left" Margin="60,77,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="51" Width="122" RenderTransformOrigin="0.012,-0.624"/>
     </Grid>
 </Window>
