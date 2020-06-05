@@ -24,8 +24,15 @@ namespace JBFantasyGame
             InitializeComponent();
             //TextBlock ShowCharname = new TextBlock() ;
             ShowCharname.Text = thischaracter.Name;
-            string inte = thischaracter.Inte.ToString();
-            ShowCharInt.Text = inte;
+            HP.Text = thischaracter.Hp.ToString();
+            ShowCharStr.Text = thischaracter.Str.ToString();  
+            ShowCharInt.Text = thischaracter.Inte.ToString();
+            ShowCharWis.Text = thischaracter.Wis.ToString();
+            ShowCharDex.Text = thischaracter.Dex.ToString();
+            ShowCharCon.Text = thischaracter.Con.ToString();
+            ShowCharChr.Text = thischaracter.Chr.ToString();
+
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="JBFantasyGame.ShowCharWin"
+﻿<Window x:Name="CharacterSheet" x:Class="JBFantasyGame.ShowCharWin"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,9 +6,41 @@
         xmlns:local="clr-namespace:JBFantasyGame"
         mc:Ignorable="d"
         Title="Character Sheet
-        " Height="450" Width="800">
-    <Grid>
-        <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="60,26,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="51" Width="122" RenderTransformOrigin="0.012,-0.624"/>
-        <TextBlock x:Name="ShowCharInt" HorizontalAlignment="Left" Margin="60,77,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="51" Width="122" RenderTransformOrigin="0.012,-0.624"/>
+        " Height="450" Width="1031.657">
+    <Grid Background="#FFD3F5F4" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="82*"/>
+            <ColumnDefinition Width="859*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="73*"/>
+            <RowDefinition Height="346*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="41,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="287" FontSize="35" RenderTransformOrigin="0.012,-0.624" Grid.ColumnSpan="3"/>
+        <Label  x:Name="HpLabel"  Content="Hit Points " HorizontalAlignment="Left" Margin="178,10,0,0" VerticalAlignment="Top" FontSize ="30"  Height="42" Width="141" RenderTransformOrigin="-0.045,0.546" Grid.Column="2"/>
+        <TextBlock x:Name="HP" HorizontalAlignment="Left" Margin="319,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="71" FontSize="35" RenderTransformOrigin="0.012,-0.624" Grid.Column="2"/>
+        <StackPanel HorizontalAlignment="Left" Height="100" Margin="-64,186,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
+
+        <StackPanel HorizontalAlignment="Left" Height="157" Grid.Row="1" VerticalAlignment="Top" Width="80" Grid.ColumnSpan="1">
+            <Label Content="Strength" Height=" 25" VerticalAlignment ="Top"/>
+            <Label Content="Intelligence" Height=" 25"  VerticalAlignment ="Top"        />
+            <Label Content="Wisdom" Height=" 25"  VerticalAlignment ="Top"               />
+            <Label Content="Dexterity" Height=" 25"  VerticalAlignment ="Top"            />
+            <Label Content="Constitution"  Height=" 25"  VerticalAlignment ="Top"        />
+            <Label Content="Charisma"  Height=" 25"  VerticalAlignment ="Top"            />
+
+
+
+
+        </StackPanel>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Left" Height="157" Grid.Row="1" VerticalAlignment="Bottom" Width="59" RenderTransformOrigin="0.427,0.355" Margin="0,0,0,189">
+            <TextBlock x:Name="ShowCharStr" Height=" 25" VerticalAlignment ="Top" />
+            <TextBlock x:Name="ShowCharInt" Height=" 25" VerticalAlignment ="Top" />
+            <TextBlock x:Name="ShowCharWis" Height=" 25" VerticalAlignment ="Top" />
+            <TextBlock x:Name="ShowCharDex" Height=" 25" VerticalAlignment ="Top" />
+            <TextBlock x:Name="ShowCharCon" Height=" 25" VerticalAlignment ="Top" />
+            <TextBlock x:Name="ShowCharChr" Height=" 25" VerticalAlignment ="Top" />
+        </StackPanel>
     </Grid>
 </Window>

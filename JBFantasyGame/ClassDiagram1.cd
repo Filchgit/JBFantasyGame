@@ -7,23 +7,23 @@
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Character" Collapsed="true">
-    <Position X="1.5" Y="1.75" Width="1.5" />
+  <Class Name="JBFantasyGame.Character">
+    <Position X="3" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAgAAAABQACAAEQAgQAAIAGAACAAgQAAAAEAAgA=</HashCode>
+      <HashCode>AAQCAAgAAAABQACAAEAAgQAAIAGAACAAgQAAAAEAAgA=</HashCode>
       <FileName>Character.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="JBFantasyGame.DMMainWin" BaseTypeListCollapsed="true">
     <Position X="9" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAIAAAAABAAAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAQAAAAAAAAAAAIAAAAgAAIAAAAABAAAAAAIAAAAAA=</HashCode>
       <FileName>DMMainWin.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="JBFantasyGame.Entity" Collapsed="true">
-    <Position X="1.5" Y="0.5" Width="1.5" />
+  <Class Name="JBFantasyGame.Entity">
+    <Position X="1.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EQAAQBAAAAAAgABAAAAAAAQAABAEAAAAAABAEwEAQAE=</HashCode>
       <FileName>Entity.cs</FileName>
@@ -36,15 +36,15 @@
       <FileName>Item.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Mage" Collapsed="true">
-    <Position X="1.75" Y="3.25" Width="1.5" />
+  <Class Name="JBFantasyGame.Mage">
+    <Position X="5.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Mage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="JBFantasyGame.MainWindow" BaseTypeListCollapsed="true">
-    <Position X="4.5" Y="0.75" Width="1.5" />
+    <Position X="5.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAgAAAAAAAAAAAAAAAAAAAAAAAgAAAAACAAAAAAAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
@@ -52,7 +52,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="JBFantasyGame.Party">
-    <Position X="4.5" Y="3.25" Width="1.5" />
+    <Position X="12.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAABAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Party.cs</FileName>
