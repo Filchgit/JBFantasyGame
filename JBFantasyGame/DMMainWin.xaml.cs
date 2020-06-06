@@ -69,8 +69,8 @@ namespace JBFantasyGame
             Character thischaracter = new Character(Nameinput.Text); // need to add check to exclude names that are identical to any already in party
             thischaracter.NewCharacter(thischaracter); 
             thischaracter.RerollCharacter(thischaracter);
-            MainWindow.Party.Add(thischaracter);                                 
-           
+            Party thisparty = (Party )GroupList.SelectedItem;                                                          //MainWindow.Party.Add(thischaracter);                                 
+            thisparty.Add(thischaracter);         
         }
      
 
@@ -93,15 +93,16 @@ namespace JBFantasyGame
         private void UpdatePartiesButton_Click(object sender, RoutedEventArgs e)
         {
             List<Party> currentParties = new List<Party>();
-            foreach(Party group in MainWindow.Parties)
-            {currentParties.Add(group); }
+            foreach(Party group in MainWindow.Parties)           //was MainWindow.Parties
+            { currentParties.Add(group); }
             GroupList.ItemsSource = currentParties;
             GroupList.DisplayMemberPath = "Name";
         }
         private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
         {
             List<Character> currentparty = new List<Character>();
-            foreach (Character charac in MainWindow.Party)
+            Party thisparty = (Party)GroupList.SelectedItem;                                                          //MainWindow.Party.Add(thischaracter);                                 
+            foreach (Character charac in thisparty )                                         //MainWindow.Party
             { currentparty.Add(charac);  }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
@@ -119,7 +120,7 @@ namespace JBFantasyGame
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
         {
             Party thisparty = new Party(Nameinput.Text);
-            MainWindow.Parties.Add(thisparty);
+            MainWindow.Parties.Add(thisparty);            // was MainWindow.Parties
         }
 
        
