@@ -101,8 +101,8 @@ namespace JBFantasyGame
         private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
         {
             List<Character> currentparty = new List<Character>();
-            Party thisparty = (Party)GroupList.SelectedItem;                                                          //MainWindow.Party.Add(thischaracter);                                 
-            foreach (Character charac in thisparty )                                         //MainWindow.Party
+            Party thisparty = (Party)GroupList.SelectedItem;     //MainWindow.Party.Add(thischaracter);                                 
+            foreach (Character charac in thisparty )             //MainWindow.Party
             { currentparty.Add(charac);  }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
