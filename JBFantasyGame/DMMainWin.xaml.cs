@@ -72,11 +72,12 @@ namespace JBFantasyGame
             MainWindow.Party.Add(thischaracter);                                 
            
         }
+     
 
         private void ListParty_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Character charac in MainWindow.Party)
-            { MessageBox.Show($"{charac.Name}"); }
+            foreach (Party group in MainWindow.Parties)
+            { MessageBox.Show($"{group .Name}"); }
         }
 
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
@@ -89,7 +90,14 @@ namespace JBFantasyGame
                 ShowCharWin1.Show();
             }
         }
-
+        private void UpdatePartiesButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<Party> currentParties = new List<Party>();
+            foreach(Party group in MainWindow.Parties)
+            {currentParties.Add(group); }
+            GroupList.ItemsSource = currentParties;
+            GroupList.DisplayMemberPath = "Name";
+        }
         private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
         {
             List<Character> currentparty = new List<Character>();
@@ -99,10 +107,21 @@ namespace JBFantasyGame
             CurrentPartyList.DisplayMemberPath = "Name";
 
         }
-
+        private void GroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GroupList.SelectionChanged += GroupList_SelectionChanged;
+        }
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentPartyList.SelectionChanged  += CurrentPartyList_SelectionChanged;
         }
+
+        private void CreateNewParty_Click(object sender, RoutedEventArgs e)
+        {
+            Party thisparty = new Party(Nameinput.Text);
+            MainWindow.Parties.Add(thisparty);
+        }
+
+       
     }
 }

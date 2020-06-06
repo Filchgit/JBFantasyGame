@@ -26,6 +26,7 @@ namespace JBFantasyGame
         {
             Party = new List<Character>();
             Parties = new List<Party>();
+            
             InitializeComponent();
             
         }
