@@ -92,7 +92,7 @@ namespace JBFantasyGame
         }
         private void UpdatePartiesButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Party> currentParties = new List<Party>();
+            List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
             foreach(Party group in MainWindow.Parties)           //was MainWindow.Parties
             { currentParties.Add(group); }
             GroupList.ItemsSource = currentParties;
@@ -101,8 +101,8 @@ namespace JBFantasyGame
         private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
         {
             List<Character> currentparty = new List<Character>();
-            Party thisparty = (Party)GroupList.SelectedItem;     //MainWindow.Party.Add(thischaracter);                                 
-            foreach (Character charac in thisparty )             //MainWindow.Party
+            Party thisparty = (Party)GroupList.SelectedItem;         //MainWindow.Party.Add(thischaracter);                                 
+            foreach (Character charac in thisparty )                  //MainWindow.Party
             { currentparty.Add(charac);  }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
@@ -111,6 +111,13 @@ namespace JBFantasyGame
         private void GroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GroupList.SelectionChanged += GroupList_SelectionChanged;
+            List<Character> currentparty = new List<Character>();
+            Party thisparty = (Party)GroupList.SelectedItem;         //MainWindow.Party.Add(thischaracter);                                 
+            foreach (Character charac in thisparty)                  //MainWindow.Party
+            { currentparty.Add(charac); }
+            CurrentPartyList.ItemsSource = currentparty;
+            CurrentPartyList.DisplayMemberPath = "Name";
+
         }
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
