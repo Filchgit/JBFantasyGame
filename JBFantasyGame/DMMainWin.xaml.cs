@@ -81,9 +81,13 @@ namespace JBFantasyGame
 
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
         {
-           // Character thischaracter = new Character(Nameinput.Text);             //ok just mucking around to see if I could pass character in this fashion to next window
-            ShowCharWin ShowCharWin1 = new ShowCharWin(MainWindow.Party[0] );      // this is temp, will obv. need to change character shown , want to see if it passes
-            ShowCharWin1.Show();
+            // Character thischaracter = new Character(Nameinput.Text);             //ok just mucking around to see if I could pass character in this fashion to next window
+            //  ShowCharWin ShowCharWin1 = new ShowCharWin(MainWindow.Party[0] );      // this is temp, will obv. need to change character shown , want to see if it passes
+            foreach (Character selected in CurrentPartyList.SelectedItems)
+            {
+                ShowCharWin ShowCharWin1 = new ShowCharWin(selected);
+                ShowCharWin1.Show();
+            }
         }
 
         private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
@@ -94,6 +98,11 @@ namespace JBFantasyGame
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
 
+        }
+
+        private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CurrentPartyList.SelectionChanged  += CurrentPartyList_SelectionChanged;
         }
     }
 }
