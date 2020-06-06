@@ -88,8 +88,12 @@ namespace JBFantasyGame
 
         private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
         {
+            List<Character> currentparty = new List<Character>();
             foreach (Character charac in MainWindow.Party)
-            { CurrentPartyList.Items.Add(charac.Name); }
+            { currentparty.Add(charac);  }
+            CurrentPartyList.ItemsSource = currentparty;
+            CurrentPartyList.DisplayMemberPath = "Name";
+
         }
     }
 }
