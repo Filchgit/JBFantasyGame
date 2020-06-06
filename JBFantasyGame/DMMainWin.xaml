@@ -17,5 +17,9 @@
         <Button x:Name="CreateNewParty" Content="Create New Party" HorizontalAlignment="Left" Margin="21,123,0,0" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.467,1.8"/>
         <Button x:Name="ListParty" Content="List Party Members " HorizontalAlignment="Left" Margin="21,143,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.467,2.2" Click="ListParty_Click" />
         <Button x:Name="ShwCharSht" Content ="Show Char Sheet for"  HorizontalAlignment="Left" Margin="21,163,0,0" VerticalAlignment="Top" Width="120" Height="20" Click="ShwCharSht_Click" />
+
+        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="85" Margin="170,98,0,0" VerticalAlignment="Top" Width="100" />
+        <Label x:Name="CurrentPartyLabel" Content="Current Party" HorizontalAlignment="Left" Margin="172,65,0,0" VerticalAlignment="Top" Width="98" Height="33" Background="#FFF9F9F9"/>
+        <Button x:Name="UpdatePartyButton" Content="Update Party" HorizontalAlignment="Left" Margin="172,183,0,0" VerticalAlignment="Top" Width="98" Click="UpdatePartyButton_Click"/>
     </Grid>
 </Window>

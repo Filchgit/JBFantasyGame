@@ -85,5 +85,11 @@ namespace JBFantasyGame
             ShowCharWin ShowCharWin1 = new ShowCharWin(MainWindow.Party[0] );      // this is temp, will obv. need to change character shown , want to see if it passes
             ShowCharWin1.Show();
         }
+
+        private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Character charac in MainWindow.Party)
+            { CurrentPartyList.Items.Add(charac.Name); }
+        }
     }
 }
