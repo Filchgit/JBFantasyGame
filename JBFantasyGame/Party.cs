@@ -33,7 +33,8 @@ namespace JBFantasyGame
                 {
                     WriteLine("\bWhat would you like this character to be named? :");
                     string newName = ReadLine();
-                    Character newguy = new Character(newName);
+                    Character newguy = new Character();
+                    newguy.Name = newName;
                     myParty.Add(newguy);
                 }
                 else if (c == 'n')

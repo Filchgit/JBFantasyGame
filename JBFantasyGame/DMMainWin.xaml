@@ -24,5 +24,6 @@
         <Label Name="PartiesAvailable" Content="Available Parties" HorizontalAlignment="Left" Margin="178,70,0,0" VerticalAlignment="Top" Width="104" Background="#FFF7EEEE" Height="33"/>
         <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="178,103,0,0" VerticalAlignment="Top" Width="104" SelectionChanged="GroupList_SelectionChanged"/>
         <Button  x:Name ="UpdatePartiesButton"  Content="Update Parties" HorizontalAlignment="Left" Margin="178,183,0,0" VerticalAlignment="Top" Width="104" Click="UpdatePartiesButton_Click"/>
+        <Button x:Name="SaveAll"  Content="Save All" HorizontalAlignment="Left" Margin="21,193,0,0" VerticalAlignment="Top" Width="120" Click="SaveAll_Click" />
     </Grid>
 </Window>

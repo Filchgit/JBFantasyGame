@@ -27,8 +27,8 @@ namespace JBFantasyGame
             get { return name; }
             set { name = value; }
         }
-        public Entity() => name = "The entity has no name.";
-        public Entity(string newName) => name = newName;
+       // public Entity() => name = "The entity has no name.";
+        // public Entity(string newName) => name = newName;
         public void Poke() => WriteLine($"{name} has been poked!");
         protected int lvl;
         public int Lvl
@@ -115,7 +115,7 @@ namespace JBFantasyGame
                 return Defender.Hp; }
         }
         
-         public List<Item> Inventory = new List<Item>{ };
+         //public List<Item> Inventory = new List<Item>{ };
           
     }
 }

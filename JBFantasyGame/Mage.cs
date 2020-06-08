@@ -10,7 +10,7 @@ namespace JBFantasyGame
 {
     public class Mage : Character
     {
-        public Mage(string newName) : base(newName) { }
+      //  public Mage(string newName) : base(newName) { }
         
         public override int  MeleeAttack(Entity Defender)                                  // just doing this to check override function hiton20  will calculate %chance to hits and euipped weapons + str modifiers will do damage really.
         {

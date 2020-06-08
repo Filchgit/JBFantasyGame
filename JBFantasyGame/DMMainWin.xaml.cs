@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Xml.Serialization;
+using System.Runtime.CompilerServices;
+using System.IO.IsolatedStorage;
 
 namespace JBFantasyGame
 {
@@ -23,11 +27,11 @@ namespace JBFantasyGame
         public DMMainWin()
         {
             InitializeComponent();
-        }     
+        }
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
         {
             string var;
-            var = RollDieDM.Text;          
+            var = RollDieDM.Text;
         }
         private void DMRollDiceBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -62,22 +66,23 @@ namespace JBFantasyGame
             string var2;
             var2 = Nameinput.Text;
         }
-           
+
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
         {
-     
-            Character thischaracter = new Character(Nameinput.Text); // need to add check to exclude names that are identical to any already in party
-            thischaracter.NewCharacter(thischaracter); 
+
+            Character thischaracter = new Character(); // need to add check to exclude names that are identical to any already in party
+            thischaracter.NewCharacter(thischaracter);
+            thischaracter.Name = Nameinput.Text; 
             thischaracter.RerollCharacter(thischaracter);
-            Party thisparty = (Party )GroupList.SelectedItem;                                                          //MainWindow.Party.Add(thischaracter);                                 
-            thisparty.Add(thischaracter);         
+            Party thisparty = (Party)GroupList.SelectedItem;                                                          //MainWindow.Party.Add(thischaracter);                                 
+            thisparty.Add(thischaracter);
         }
-     
+
 
         private void ListParty_Click(object sender, RoutedEventArgs e)
         {
             foreach (Party group in MainWindow.Parties)
-            { MessageBox.Show($"{group .Name}"); }
+            { MessageBox.Show($"{group.Name}"); }
         }
 
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
@@ -93,7 +98,7 @@ namespace JBFantasyGame
         private void UpdatePartiesButton_Click(object sender, RoutedEventArgs e)
         {
             List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
-            foreach(Party group in MainWindow.Parties)           //was MainWindow.Parties
+            foreach (Party group in MainWindow.Parties)           //was MainWindow.Parties
             { currentParties.Add(group); }
             GroupList.ItemsSource = currentParties;
             GroupList.DisplayMemberPath = "Name";
@@ -102,8 +107,8 @@ namespace JBFantasyGame
         {
             List<Character> currentparty = new List<Character>();
             Party thisparty = (Party)GroupList.SelectedItem;         //MainWindow.Party.Add(thischaracter);                                 
-            foreach (Character charac in thisparty )                  //MainWindow.Party
-            { currentparty.Add(charac);  }
+            foreach (Character charac in thisparty)                  //MainWindow.Party
+            { currentparty.Add(charac); }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
 
@@ -121,7 +126,7 @@ namespace JBFantasyGame
         }
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentPartyList.SelectionChanged  += CurrentPartyList_SelectionChanged;
+            CurrentPartyList.SelectionChanged += CurrentPartyList_SelectionChanged;
         }
 
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
@@ -130,6 +135,28 @@ namespace JBFantasyGame
             MainWindow.Parties.Add(thisparty);            // was MainWindow.Parties
         }
 
-       
+        private void SaveAll_Click(object sender, RoutedEventArgs e)
+        {
+
+            Save(MainWindow.Parties);
+
+        }
+
+        private void Save(List<Party> partysave)
+        {
+           //   string folder = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame";             // this works, so not a problem with this program having access
+            //  string fileName = "test.txt";
+            // string fullPath = folder + fileName;
+            // string[] authors = { "mahesh Chand", "Allen O'Neill", "David McCarter", "ian Davies" };
+            //   File.WriteAllLines(fullPath, authors);
+            //FileStream aFile = new FileStream("FantTest", FileMode.Create, FileAccess.ReadWrite);
+            //StreamWriter sw = new StreamWriter(aFile);
+
+            string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
+            FileStream outfile = File.Create(path);
+            XmlSerializer formatter = new XmlSerializer(partysave.GetType());
+            formatter.Serialize(outfile, partysave);
+        }
     }
+    
 }
