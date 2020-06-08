@@ -131,7 +131,8 @@ namespace JBFantasyGame
 
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
         {
-            Party thisparty = new Party(Nameinput.Text);
+            Party thisparty = new Party();
+            thisparty.Name = Nameinput.Text;
             MainWindow.Parties.Add(thisparty);            // was MainWindow.Parties
         }
 
@@ -141,18 +142,19 @@ namespace JBFantasyGame
         }
         private void LoadAll_Click(object sender, RoutedEventArgs e)
         {
-         Load();
+         List<Party> newpartylist = LoadPartyList();
+         MainWindow.Parties = newpartylist;
         }
-         private List<Party> Load()
+         private List<Party>  LoadPartyList()
          {
           string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
-           List<Party> loadedParties = new List<Party>();
-           XmlSerializer formatter = new XmlSerializer(loadedParties.GetType());
+            MainWindow.Parties = new List<Party>();
+           XmlSerializer formatter = new XmlSerializer(MainWindow.Parties.GetType());
          FileStream aFile = new FileStream(path, FileMode.Open);
            byte[] buffer = new byte[aFile.Length];
                aFile.Read(buffer, 0, (int) aFile.Length);
             MemoryStream stream = new MemoryStream(buffer);
-            return (List<Party>)formatter.Deserialize(stream);
+            return (List<Party> )formatter.Deserialize(stream);
             
           }
 

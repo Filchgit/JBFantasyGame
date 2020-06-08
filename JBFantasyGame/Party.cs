@@ -16,7 +16,7 @@ namespace JBFantasyGame
             set { name = value; }
         }
         public Party() => name = "The Party has no name.";
-        public Party(string newName) => name = newName;
+       // public Party(string newName) => name = newName;
         
 
         //this is the place to play with all the changes you make to methods classes etc 
