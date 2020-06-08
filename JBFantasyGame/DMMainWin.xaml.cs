@@ -137,10 +137,24 @@ namespace JBFantasyGame
 
         private void SaveAll_Click(object sender, RoutedEventArgs e)
         {
-
             Save(MainWindow.Parties);
-
         }
+        private void LoadAll_Click(object sender, RoutedEventArgs e)
+        {
+         Load();
+        }
+         private List<Party> Load()
+         {
+          string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
+           List<Party> loadedParties = new List<Party>();
+           XmlSerializer formatter = new XmlSerializer(loadedParties.GetType());
+         FileStream aFile = new FileStream(path, FileMode.Open);
+           byte[] buffer = new byte[aFile.Length];
+               aFile.Read(buffer, 0, (int) aFile.Length);
+            MemoryStream stream = new MemoryStream(buffer);
+            return (List<Party>)formatter.Deserialize(stream);
+            
+          }
 
         private void Save(List<Party> partysave)
         {
@@ -157,6 +171,8 @@ namespace JBFantasyGame
             XmlSerializer formatter = new XmlSerializer(partysave.GetType());
             formatter.Serialize(outfile, partysave);
         }
+
+        
     }
     
 }

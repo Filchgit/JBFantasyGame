@@ -89,9 +89,9 @@ namespace JBFantasyGame
             get { return exp; }
             set
             {
-                if (value > 0 && value <= 1000000)
-                    exp = value;
-                else throw new ArgumentOutOfRangeException();
+               // if (value > 0 && value <= 1000000)
+               //     exp = value;
+               // else throw new ArgumentOutOfRangeException();
             }
         }
 

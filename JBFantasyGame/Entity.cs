@@ -36,9 +36,9 @@ namespace JBFantasyGame
             get { return lvl; }
             set
             {
-                if (value > 0 && value <= 30)
-                    lvl = value;
-                else throw new ArgumentOutOfRangeException();
+               // if (value > 0 && value <= 30)
+              //      lvl = value;
+              //  else throw new ArgumentOutOfRangeException();
             }
         }
         protected int hp;
@@ -47,9 +47,9 @@ namespace JBFantasyGame
             get { return hp; }
             set
             {
-                if (value <= 1000)
-                    hp = value;
-                else throw new ArgumentOutOfRangeException();
+              //  if (value <= 1000)
+              //      hp = value;
+              //  else throw new ArgumentOutOfRangeException();
 
             }
         }
@@ -59,9 +59,9 @@ namespace JBFantasyGame
             get { return maxHp; }
             set
             {
-                if (value > 0 && value <= 1000)
-                    maxHp = value;
-                else throw new ArgumentOutOfRangeException();
+               // if (value > 0 && value <= 1000)
+               //     maxHp = value;
+               // else throw new ArgumentOutOfRangeException();
             }
         }
         protected int ac;                // armour class
@@ -69,9 +69,9 @@ namespace JBFantasyGame
         {
             get { return ac; }
             set
-            { if (value > -20 && value < 20)
-                    ac = value;
-                else throw new ArgumentOutOfRangeException();
+            { //if (value > -20 && value < 20)
+              //      ac = value;
+              //  else throw new ArgumentOutOfRangeException();
             }
         }
         protected int hiton20;
@@ -79,9 +79,9 @@ namespace JBFantasyGame
         {
             get { return hiton20; }
             set
-            { if (value > -50 && value < 50)
-                    hiton20 = value;
-                else throw new ArgumentOutOfRangeException();
+            { // if (value > -50 && value < 50)
+              //      hiton20 = value;
+              //  else throw new ArgumentOutOfRangeException();
             }
         }
 
