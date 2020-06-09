@@ -16,14 +16,14 @@
         <Button x:Name="CreateNewCharacter" Content="Create New Character" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="120" Click="CreateNewCharacter_Click"/>
         <Button x:Name="CreateNewParty" Content="Create New Party" HorizontalAlignment="Left" Margin="21,123,0,0" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.467,1.8" Click="CreateNewParty_Click"/>
         
-        <Button x:Name="ShwCharSht" Content ="Show Char Sheet"  HorizontalAlignment="Left" Margin="348,208,0,0" VerticalAlignment="Top" Width="98" Height="27"  Click="ShwCharSht_Click" />
+        <Button x:Name="ShwCharSht" Content ="Show Char Sheet"  HorizontalAlignment="Left" Margin="348,193,0,0" VerticalAlignment="Top" Width="98" Height="27"  Click="ShwCharSht_Click" RenderTransformOrigin="0.52,0.037" />
 
-        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="85" Margin="348,103,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" />
+        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="85" Margin="348,103,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" SelectedIndex="0" />
         <Label x:Name="CurrentPartyLabel" Content="Current Party" HorizontalAlignment="Left" Margin="350,70,0,0" VerticalAlignment="Top" Width="98" Height="33" Background="#FFF9F9F9"/>
-        <Button x:Name="UpdatePartyButton" Content="Update Party" HorizontalAlignment="Left" Margin="348,188,0,0" VerticalAlignment="Top" Width="98" Click="UpdatePartyButton_Click"/>
+        
         <Label Name="PartiesAvailable" Content="Available Parties" HorizontalAlignment="Left" Margin="178,70,0,0" VerticalAlignment="Top" Width="104" Background="#FFF7EEEE" Height="33"/>
-        <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="178,103,0,0" VerticalAlignment="Top" Width="165" SelectionChanged="GroupList_SelectionChanged"/>
-        <Button  x:Name ="UpdatePartiesButton"  Content="Update Parties" HorizontalAlignment="Left" Margin="178,183,0,0" VerticalAlignment="Top" Width="104" Click="UpdatePartiesButton_Click"/>
+        <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="178,103,0,0" VerticalAlignment="Top" Width="165" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0"/>
+        
         <Button x:Name="SaveAll"  Content="Save All All Characters / Parties" HorizontalAlignment="Left" Margin="203,50,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
         <Button x:Name="LoadAll"  Content="Clear and Load All Characters / Parties" HorizontalAlignment="Left" Margin="203,27,0,0" VerticalAlignment="Top" Width="209" Click="LoadAll_Click" Height="23"/>
     </Grid>

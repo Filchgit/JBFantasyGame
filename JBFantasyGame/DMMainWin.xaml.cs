@@ -68,24 +68,20 @@ namespace JBFantasyGame
         }
 
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
-        {
-
-            Character thischaracter = new Character();                                                // need to add check to exclude names that are identical to any already in party
-            thischaracter.NewCharacter(thischaracter);
-            thischaracter.Name = Nameinput.Text; 
-            thischaracter.RerollCharacter(thischaracter);
-            Party thisparty = (Party)GroupList.SelectedItem;                   // choosing the party as per selction on list; need to do something about no party chosen maybe go to default                                                                       
-            thisparty.Add(thischaracter);
-            thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
-            UpdatePartyListBox();
+        { if ((Party)GroupList.SelectedItem is null)
+            { MessageBox.Show("You must pick a party to add a new character. "); }
+            else
+            {
+                Character thischaracter = new Character();                                                // might need to add check to exclude names that are identical to any already in party
+                thischaracter.NewCharacter(thischaracter);
+                thischaracter.Name = Nameinput.Text;
+                thischaracter.RerollCharacter(thischaracter);
+                Party thisparty = (Party)GroupList.SelectedItem;                                                                                          
+                thisparty.Add(thischaracter);
+                thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
+                UpdatePartyListBox();
+            }
         }
-
-
-        //private void ListParty_Click(object sender, RoutedEventArgs e)            this is extraneous will delete soon
-        //{
-        //    foreach (Party group in MainWindow.Parties)
-        //    { MessageBox.Show($"{group.Name}"); }
-        //}
 
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
         {
@@ -97,11 +93,7 @@ namespace JBFantasyGame
                 ShowCharWin1.Show();
             }
         }
-        private void UpdatePartiesButton_Click(object sender, RoutedEventArgs e)
-        {
-            UpdatePartiesListBox();
-        }
-        private void UpdatePartiesListBox()
+         private void UpdatePartiesListBox()
         {
             List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
             foreach (Party group in MainWindow.Parties)           //was MainWindow.Parties
@@ -118,21 +110,10 @@ namespace JBFantasyGame
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
         }
-        private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
-        {
-            UpdatePartyListBox();
-        }
         private void GroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GroupList.SelectionChanged += GroupList_SelectionChanged;
             UpdatePartyListBox();
-
-       //     List<Character> currentparty = new List<Character>();
-       //     Party thisparty = (Party)GroupList.SelectedItem;                        //was MainWindow.Party.Add(thischaracter);                                 
-       //     foreach (Character charac in thisparty)                                 //was MainWindow.Party
-       //     { currentparty.Add(charac); }
-       //     CurrentPartyList.ItemsSource = currentparty;
-       //     CurrentPartyList.DisplayMemberPath = "Name";
 
         }
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -157,11 +138,13 @@ namespace JBFantasyGame
          List<Party> newpartylist = LoadPartyList();
          MainWindow.Parties = newpartylist;                                
          foreach (Party thisparty in MainWindow.Parties )
-            { thisparty.Name = thisparty[0].PartyName; }
-          //  UpdatePartiesListBox();                         mucks up as nothing is selected
-         //   UpdatePartyListBox();
+            { thisparty.Name = thisparty[0].PartyName; }         
+          UpdatePartiesListBox();
+           
+
+            
         }
-         private List<Party>  LoadPartyList()
+        private List<Party>  LoadPartyList()
          {
           string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             MainWindow.Parties = new List<Party>();
@@ -172,7 +155,7 @@ namespace JBFantasyGame
             MemoryStream stream = new MemoryStream(buffer);
             return (List<Party> )formatter.Deserialize(stream);           
           }
-        private void Save(List<Party> partysave)
+        private void Save(List<Party> partysave)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
         {
             string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             FileStream outfile = File.Create(path);
