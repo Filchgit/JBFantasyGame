@@ -70,12 +70,13 @@ namespace JBFantasyGame
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
         {
 
-            Character thischaracter = new Character(); // need to add check to exclude names that are identical to any already in party
+            Character thischaracter = new Character();                                                // need to add check to exclude names that are identical to any already in party
             thischaracter.NewCharacter(thischaracter);
             thischaracter.Name = Nameinput.Text; 
             thischaracter.RerollCharacter(thischaracter);
-            Party thisparty = (Party)GroupList.SelectedItem;                                                          //MainWindow.Party.Add(thischaracter);                                 
+            Party thisparty = (Party)GroupList.SelectedItem;                   // choosing the party as per selction on list; need to do something about no party chosen maybe go to default                                                                       
             thisparty.Add(thischaracter);
+            thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
         }
 
 
@@ -106,8 +107,8 @@ namespace JBFantasyGame
         private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
         {
             List<Character> currentparty = new List<Character>();
-            Party thisparty = (Party)GroupList.SelectedItem;         //MainWindow.Party.Add(thischaracter);                                 
-            foreach (Character charac in thisparty)                  //MainWindow.Party
+            Party thisparty = (Party)GroupList.SelectedItem;         //was MainWindow.Party.Add(thischaracter);                                 
+            foreach (Character charac in thisparty)                  //was MainWindow.Party
             { currentparty.Add(charac); }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
@@ -117,8 +118,8 @@ namespace JBFantasyGame
         {
             GroupList.SelectionChanged += GroupList_SelectionChanged;
             List<Character> currentparty = new List<Character>();
-            Party thisparty = (Party)GroupList.SelectedItem;         //MainWindow.Party.Add(thischaracter);                                 
-            foreach (Character charac in thisparty)                  //MainWindow.Party
+            Party thisparty = (Party)GroupList.SelectedItem;                        //was MainWindow.Party.Add(thischaracter);                                 
+            foreach (Character charac in thisparty)                                 //was MainWindow.Party
             { currentparty.Add(charac); }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
@@ -143,7 +144,9 @@ namespace JBFantasyGame
         private void LoadAll_Click(object sender, RoutedEventArgs e)
         {
          List<Party> newpartylist = LoadPartyList();
-         MainWindow.Parties = newpartylist;
+         MainWindow.Parties = newpartylist;                               // at this point I could assign each parties name as per the groups name of Member 0! I think, try it 
+         foreach (Party thisparty in MainWindow.Parties )
+            { thisparty.Name = thisparty[0].PartyName; }
         }
          private List<Party>  LoadPartyList()
          {
@@ -154,20 +157,10 @@ namespace JBFantasyGame
            byte[] buffer = new byte[aFile.Length];
                aFile.Read(buffer, 0, (int) aFile.Length);
             MemoryStream stream = new MemoryStream(buffer);
-            return (List<Party> )formatter.Deserialize(stream);
-            
+            return (List<Party> )formatter.Deserialize(stream);           
           }
-
         private void Save(List<Party> partysave)
         {
-           //   string folder = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame";             // this works, so not a problem with this program having access
-            //  string fileName = "test.txt";
-            // string fullPath = folder + fileName;
-            // string[] authors = { "mahesh Chand", "Allen O'Neill", "David McCarter", "ian Davies" };
-            //   File.WriteAllLines(fullPath, authors);
-            //FileStream aFile = new FileStream("FantTest", FileMode.Create, FileAccess.ReadWrite);
-            //StreamWriter sw = new StreamWriter(aFile);
-
             string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             FileStream outfile = File.Create(path);
             XmlSerializer formatter = new XmlSerializer(partysave.GetType());

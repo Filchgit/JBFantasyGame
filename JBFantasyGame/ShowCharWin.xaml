@@ -24,6 +24,8 @@
 
         <Label Content="Level" HorizontalAlignment="Left" Margin="330,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold"  />
         <Label Content="Experience Points" HorizontalAlignment="Left" Margin="413,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold"  />
+        <Label Content="Member of :" HorizontalAlignment="Left" Margin="628,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" RenderTransformOrigin="1.285,0.739"  />
+        
         <TextBlock x:Name="ShowCharStr" Height=" 25" VerticalAlignment ="Top" Margin="115,65,869,0" FontSize="15"  FontWeight="Bold"  />
         <TextBlock x:Name="ShowCharInt" Height=" 25" VerticalAlignment ="Top" Margin="115,95,869,0" FontSize="15" FontWeight="Bold" />
         <TextBlock x:Name="ShowCharWis" Height=" 25" VerticalAlignment ="Top" Margin="115,125,869,0" FontSize="15" FontWeight="Bold" />
@@ -32,6 +34,7 @@
         <TextBlock x:Name="ShowCharChr" Height=" 25" VerticalAlignment ="Top" Margin="115,215,869,0" FontSize="15" FontWeight="Bold" />
         <TextBlock x:Name="ShowCharLvl" Height=" 25" VerticalAlignment ="Top" Margin="381,65,616,0" FontSize="15" FontWeight="Bold"  />
         <TextBlock x:Name="ShowCharExp" Height=" 25" VerticalAlignment ="Top" Margin="552,65,401,0" FontSize="15" FontWeight="Bold"  />
+        <TextBlock x:Name="ShowGroup" Height=" 25" VerticalAlignment ="Top" Margin="730,65,156,0" FontSize="15" FontWeight="Bold" />
 
 
 

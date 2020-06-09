@@ -33,6 +33,7 @@ namespace JBFantasyGame
             ShowCharChr.Text = thischaracter.Chr.ToString();
             ShowCharLvl.Text = thischaracter.Lvl.ToString();
             ShowCharExp.Text = thischaracter.Exp.ToString();
+            ShowGroup.Text = thischaracter.PartyName.ToString();
         }
     }
 }

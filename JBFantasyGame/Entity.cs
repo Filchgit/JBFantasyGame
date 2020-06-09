@@ -8,18 +8,15 @@ using System.Threading.Tasks;
 using static System.Console;
 
 namespace JBFantasyGame
-
 {
     public class Entity
     {
         protected bool isAlive;
-
         public bool IsAlive
         {
             get { return isAlive; }
             set { isAlive = value; }
         }
-
 
         protected string name;
         public string Name
@@ -27,8 +24,17 @@ namespace JBFantasyGame
             get { return name; }
             set { name = value; }
         }
-       // public Entity() => name = "The entity has no name.";
+        // public Entity() => name = "The entity has no name.";
         // public Entity(string newName) => name = newName;
+
+        protected string partyName;
+        public string PartyName
+        {
+            get { return partyName; }
+            set { partyName = value;  }
+        }
+        
+        
         public void Poke() => WriteLine($"{name} has been poked!");
         protected int lvl;
         public int Lvl
@@ -115,7 +121,7 @@ namespace JBFantasyGame
                 return Defender.Hp; }
         }
         
-         //public List<Item> Inventory = new List<Item>{ };
+         public List<Item> Inventory = new List<Item>{ };                   // this obviously needs a lot of work kind of a placeholder to 
           
     }
 }
