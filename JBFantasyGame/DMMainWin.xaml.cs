@@ -27,6 +27,7 @@ namespace JBFantasyGame
         public DMMainWin()
         {
             InitializeComponent();
+            UpdateGlobalItems();
         }
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
         {
@@ -93,7 +94,21 @@ namespace JBFantasyGame
                 ShowCharWin1.Show();
             }
         }
-         private void UpdatePartiesListBox()
+        private void UpdateGlobalItems()
+        {
+            List<PhysObj> currentPhysObj = new List<PhysObj>();
+            foreach (PhysObj physthing in MainWindow.GlobalItems)
+            { currentPhysObj.Add(physthing); }
+            GlobalItems.ItemsSource = currentPhysObj;
+            GlobalItems.DisplayMemberPath = "Name";
+        }
+        private void AssigntoCharacter_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Character selected in CurrentPartyList.SelectedItems)
+            { selected.Inventory.Add(MainWindow.GlobalItems[0]);     }                   //  short term check it has to add the selected item                                                       
+        }
+
+        private void UpdatePartiesListBox()
         {
             List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
             foreach (Party group in MainWindow.Parties)           //was MainWindow.Parties
@@ -110,25 +125,21 @@ namespace JBFantasyGame
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
         }
-       // private void UpdateGlobalItemListBox()                               // actually probably best not to call inv objects items
-        //  {
-        //    List<Item> currentItems = new List<Item>();
-        // foreach (Item discreteItem in MainWindow.GlobalItems )
-        //    { currentItems.Add(discreteItem );  }
-
-       // }
+       
 
         private void GroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GroupList.SelectionChanged += GroupList_SelectionChanged;
             UpdatePartyListBox();
-
         }
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentPartyList.SelectionChanged += CurrentPartyList_SelectionChanged;
         }
-
+        private void GlobalItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GlobalItems.SelectionChanged += GlobalItems_SelectionChanged;
+        }
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
         {
             Party thisparty = new Party();
@@ -147,10 +158,7 @@ namespace JBFantasyGame
          MainWindow.Parties = newpartylist;                                
          foreach (Party thisparty in MainWindow.Parties )
             { thisparty.Name = thisparty[0].PartyName; }         
-          UpdatePartiesListBox();
-           
-
-            
+          UpdatePartiesListBox();                     
         }
         private List<Party>  LoadPartyList()
          {
@@ -171,7 +179,7 @@ namespace JBFantasyGame
             formatter.Serialize(outfile, partysave);
         }
 
-        
+       
     }
     
 }

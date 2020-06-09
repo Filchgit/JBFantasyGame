@@ -14,7 +14,12 @@ namespace JBFantasyGame
             get { return descrPhysObj; }
             set { descrPhysObj = value; }
         }
-
+        protected string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
         public PhysObj() => descrPhysObj = "There seems to be nothing much here.";
         public PhysObj(string newdescrPhysObj) => descrPhysObj = newdescrPhysObj;
     }

@@ -79,7 +79,7 @@
     </Compile>
     <Compile Include="Character.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="Item.cs" />
+    <Compile Include="PhysObj.cs" />
     <Compile Include="Mage.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

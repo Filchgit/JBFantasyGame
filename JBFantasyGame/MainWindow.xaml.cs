@@ -28,8 +28,10 @@ namespace JBFantasyGame
             GlobalItems = new List<PhysObj>();
             PhysObj sword = new PhysObj();
             PhysObj shield = new PhysObj();
-            GlobalItems.Add (sword);
-            GlobalItems.Add(shield);
+            GlobalItems.Add (sword);          // Global Items will be loaded like character and groups at start as will spells
+            GlobalItems.Add(shield);          // Doing stuff here to check functionality
+            sword.Name = "Big sword";
+            shield.Name = "crappy shield.";
             Party = new List<Character>();
             Parties = new List<Party>();
             
