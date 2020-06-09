@@ -15,7 +15,7 @@
         <TextBox x:Name="Nameinput"  HorizontalAlignment="Left" Height="38" Margin="21,65,0,0" TextWrapping="Wrap" Text="Orcs" VerticalAlignment="Top" Width="120" TextInput="Nameinput_TextInput" RenderTransformOrigin="1.167,-0.174" />
         <Button x:Name="CreateNewCharacter" Content="Create New Character" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="120" Click="CreateNewCharacter_Click"/>
         <Button x:Name="CreateNewParty" Content="Create New Party" HorizontalAlignment="Left" Margin="21,123,0,0" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.467,1.8" Click="CreateNewParty_Click"/>
-        <Button x:Name="ListParty" Content="List Parties " HorizontalAlignment="Left" Margin="21,143,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.467,2.2" Click="ListParty_Click" />
+        
         <Button x:Name="ShwCharSht" Content ="Show Char Sheet"  HorizontalAlignment="Left" Margin="348,208,0,0" VerticalAlignment="Top" Width="98" Height="27"  Click="ShwCharSht_Click" />
 
         <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="85" Margin="348,103,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" />

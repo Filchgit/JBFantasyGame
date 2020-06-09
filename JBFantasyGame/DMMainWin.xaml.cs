@@ -77,14 +77,15 @@ namespace JBFantasyGame
             Party thisparty = (Party)GroupList.SelectedItem;                   // choosing the party as per selction on list; need to do something about no party chosen maybe go to default                                                                       
             thisparty.Add(thischaracter);
             thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
+            UpdatePartyListBox();
         }
 
 
-        private void ListParty_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (Party group in MainWindow.Parties)
-            { MessageBox.Show($"{group.Name}"); }
-        }
+        //private void ListParty_Click(object sender, RoutedEventArgs e)            this is extraneous will delete soon
+        //{
+        //    foreach (Party group in MainWindow.Parties)
+        //    { MessageBox.Show($"{group.Name}"); }
+        //}
 
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
         {
@@ -98,13 +99,17 @@ namespace JBFantasyGame
         }
         private void UpdatePartiesButton_Click(object sender, RoutedEventArgs e)
         {
+            UpdatePartiesListBox();
+        }
+        private void UpdatePartiesListBox()
+        {
             List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
             foreach (Party group in MainWindow.Parties)           //was MainWindow.Parties
             { currentParties.Add(group); }
             GroupList.ItemsSource = currentParties;
             GroupList.DisplayMemberPath = "Name";
         }
-        private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
+        private void UpdatePartyListBox()
         {
             List<Character> currentparty = new List<Character>();
             Party thisparty = (Party)GroupList.SelectedItem;         //was MainWindow.Party.Add(thischaracter);                                 
@@ -112,17 +117,22 @@ namespace JBFantasyGame
             { currentparty.Add(charac); }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
-
+        }
+        private void UpdatePartyButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdatePartyListBox();
         }
         private void GroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GroupList.SelectionChanged += GroupList_SelectionChanged;
-            List<Character> currentparty = new List<Character>();
-            Party thisparty = (Party)GroupList.SelectedItem;                        //was MainWindow.Party.Add(thischaracter);                                 
-            foreach (Character charac in thisparty)                                 //was MainWindow.Party
-            { currentparty.Add(charac); }
-            CurrentPartyList.ItemsSource = currentparty;
-            CurrentPartyList.DisplayMemberPath = "Name";
+            UpdatePartyListBox();
+
+       //     List<Character> currentparty = new List<Character>();
+       //     Party thisparty = (Party)GroupList.SelectedItem;                        //was MainWindow.Party.Add(thischaracter);                                 
+       //     foreach (Character charac in thisparty)                                 //was MainWindow.Party
+       //     { currentparty.Add(charac); }
+       //     CurrentPartyList.ItemsSource = currentparty;
+       //     CurrentPartyList.DisplayMemberPath = "Name";
 
         }
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -135,6 +145,7 @@ namespace JBFantasyGame
             Party thisparty = new Party();
             thisparty.Name = Nameinput.Text;
             MainWindow.Parties.Add(thisparty);            // was MainWindow.Parties
+            UpdatePartiesListBox();
         }
 
         private void SaveAll_Click(object sender, RoutedEventArgs e)
@@ -144,9 +155,11 @@ namespace JBFantasyGame
         private void LoadAll_Click(object sender, RoutedEventArgs e)
         {
          List<Party> newpartylist = LoadPartyList();
-         MainWindow.Parties = newpartylist;                               // at this point I could assign each parties name as per the groups name of Member 0! I think, try it 
+         MainWindow.Parties = newpartylist;                                
          foreach (Party thisparty in MainWindow.Parties )
             { thisparty.Name = thisparty[0].PartyName; }
+          //  UpdatePartiesListBox();                         mucks up as nothing is selected
+         //   UpdatePartyListBox();
         }
          private List<Party>  LoadPartyList()
          {
