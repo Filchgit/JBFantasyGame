@@ -22,8 +22,14 @@ namespace JBFantasyGame
     {
         public static List<Character> Party;
         public static List<Party> Parties;
+        public static List<PhysObj> GlobalItems;
         public MainWindow()
         {
+            GlobalItems = new List<PhysObj>();
+            PhysObj sword = new PhysObj();
+            PhysObj shield = new PhysObj();
+            GlobalItems.Add (sword);
+            GlobalItems.Add(shield);
             Party = new List<Character>();
             Parties = new List<Party>();
             

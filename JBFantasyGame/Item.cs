@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace JBFantasyGame
 {
-    public class Item
+    public class PhysObj
     {
-        protected string descrItem;
-        public string DescrItem
+        protected string descrPhysObj;
+        public string DescrPhysObj
         {
-            get { return descrItem; }
-            set { descrItem = value; }
+            get { return descrPhysObj; }
+            set { descrPhysObj = value; }
         }
 
-        public Item() => descrItem = "There seems to be nothing much here.";
-        public Item(string newdescrItem) => descrItem = newdescrItem;
+        public PhysObj() => descrPhysObj = "There seems to be nothing much here.";
+        public PhysObj(string newdescrPhysObj) => descrPhysObj = newdescrPhysObj;
     }
 }

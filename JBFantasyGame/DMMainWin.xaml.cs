@@ -110,6 +110,14 @@ namespace JBFantasyGame
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
         }
+       // private void UpdateGlobalItemListBox()                               // actually probably best not to call inv objects items
+        //  {
+        //    List<Item> currentItems = new List<Item>();
+        // foreach (Item discreteItem in MainWindow.GlobalItems )
+        //    { currentItems.Add(discreteItem );  }
+
+       // }
+
         private void GroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GroupList.SelectionChanged += GroupList_SelectionChanged;

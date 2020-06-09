@@ -121,7 +121,7 @@ namespace JBFantasyGame
                 return Defender.Hp; }
         }
         
-         public List<Item> Inventory = new List<Item>{ };                   // this obviously needs a lot of work kind of a placeholder to 
+         public List<PhysObj > Inventory = new List<PhysObj> { };                   // this obviously needs a lot of work kind of a placeholder to 
           
     }
 }
