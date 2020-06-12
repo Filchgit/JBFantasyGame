@@ -34,6 +34,9 @@ namespace JBFantasyGame
             ShowCharLvl.Text = thischaracter.Lvl.ToString();
             ShowCharExp.Text = thischaracter.Exp.ToString();
             ShowGroup.Text = thischaracter.PartyName.ToString();
+
+            CharInv.ItemsSource = thischaracter.Inventory ;
+            CharInv.DisplayMemberPath = "Name";
         }
     }
 }

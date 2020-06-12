@@ -86,8 +86,6 @@ namespace JBFantasyGame
 
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
         {
-            // Character thischaracter = new Character(Nameinput.Text);             //ok just mucking around to see if I could pass character in this fashion to next window
-            //  ShowCharWin ShowCharWin1 = new ShowCharWin(MainWindow.Party[0] );      // this is temp, will obv. need to change character shown , want to see if it passes
             foreach (Character selected in CurrentPartyList.SelectedItems)
             {
                 ShowCharWin ShowCharWin1 = new ShowCharWin(selected);
@@ -104,8 +102,19 @@ namespace JBFantasyGame
         }
         private void AssigntoCharacter_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Character selected in CurrentPartyList.SelectedItems)
-            { selected.Inventory.Add(MainWindow.GlobalItems[0]);     }                   //  short term check it has to add the selected item                                                       
+            if (CurrentPartyList.SelectedItem is null)
+            { MessageBox.Show("You must pick a character to assign the item to. "); }
+            else if (CurrentPartyList.SelectedItems.Count >1)
+            { MessageBox.Show("You can only assign an item to one character, pick just one character and try again. "); }
+            else
+            { 
+            Character selected = (Character)CurrentPartyList.SelectedItem;     // this will cause a problem with multiple characters selected as the item selected will disappear
+            PhysObj selectedobj = ((PhysObj)GlobalItems.SelectedItem);         // need to put in a if / else cutout I guess or change the allowance for multiple character selection
+            selected.Inventory.Add(selectedobj);
+            int itemind = GlobalItems.SelectedIndex;
+            MainWindow.GlobalItems.RemoveAt(itemind);
+            UpdateGlobalItems();
+             }                                                                      
         }
 
         private void UpdatePartiesListBox()
