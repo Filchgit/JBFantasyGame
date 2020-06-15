@@ -108,15 +108,19 @@ namespace JBFantasyGame
             { MessageBox.Show("You can only assign an item to one character, pick just one character and try again. "); }
             else
             { 
-            Character selected = (Character)CurrentPartyList.SelectedItem;     // this will cause a problem with multiple characters selected as the item selected will disappear
-            PhysObj selectedobj = ((PhysObj)GlobalItems.SelectedItem);         // need to put in a if / else cutout I guess or change the allowance for multiple character selection
+            Character selected = (Character)CurrentPartyList.SelectedItem;    
+            PhysObj selectedobj = ((PhysObj)GlobalItems.SelectedItem);         
             selected.Inventory.Add(selectedobj);
             int itemind = GlobalItems.SelectedIndex;
             MainWindow.GlobalItems.RemoveAt(itemind);
             UpdateGlobalItems();
              }                                                                      
         }
-
+        private void PutinMelee_Click(object sender, RoutedEventArgs e)
+        {
+            // I think I will have a whole new set of party/ group lists to test and refine atacks and trading options etc based on range; this will eventually be superseded by proximities on maps
+        
+        }
         private void UpdatePartiesListBox()
         {
             List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
@@ -128,13 +132,23 @@ namespace JBFantasyGame
         private void UpdatePartyListBox()
         {
             List<Character> currentparty = new List<Character>();
-            Party thisparty = (Party)GroupList.SelectedItem;         //was MainWindow.Party.Add(thischaracter);                                 
-            foreach (Character charac in thisparty)                  //was MainWindow.Party
+            Party thisparty = (Party)GroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
+            foreach (Character charac in thisparty)                       //was MainWindow.Party
             { currentparty.Add(charac); }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
         }
-       
+        private void UpdateTargetFocusGroupListBox()
+        {
+            List<Party> currentParties = new List<Party>();         // need to add update UpdateTargetFocusGroupListBox() in all appropriat places 
+            foreach (Party group in MainWindow.Parties)           
+            { currentParties.Add(group); }
+            TargetFocusGroupList.ItemsSource = currentParties;
+            TargetFocusGroupList.DisplayMemberPath = "Name";
+        }
+
+
+
 
         private void GroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -155,6 +169,7 @@ namespace JBFantasyGame
             thisparty.Name = Nameinput.Text;
             MainWindow.Parties.Add(thisparty);            // was MainWindow.Parties
             UpdatePartiesListBox();
+            UpdateTargetFocusGroupListBox();
         }
 
         private void SaveAll_Click(object sender, RoutedEventArgs e)
@@ -167,7 +182,8 @@ namespace JBFantasyGame
          MainWindow.Parties = newpartylist;                                
          foreach (Party thisparty in MainWindow.Parties )
             { thisparty.Name = thisparty[0].PartyName; }         
-          UpdatePartiesListBox();                     
+          UpdatePartiesListBox();
+          UpdateTargetFocusGroupListBox();
         }
         private List<Party>  LoadPartyList()
          {

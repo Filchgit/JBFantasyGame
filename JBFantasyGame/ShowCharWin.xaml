@@ -25,7 +25,9 @@
         <Label Content="Level" HorizontalAlignment="Left" Margin="330,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold"  />
         <Label Content="Experience Points" HorizontalAlignment="Left" Margin="413,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold"  />
         <Label Content="Member of :" HorizontalAlignment="Left" Margin="628,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" RenderTransformOrigin="1.285,0.739"  />
-        
+        <Label Content="Personal Inventory" HorizontalAlignment="Left" Margin="10,240,0,0" VerticalAlignment="Top" FontSize="15"  RenderTransformOrigin="0.028,2.72"/>
+        <Label Content="Viable Melee Targets" HorizontalAlignment="Left" Margin="473,249,0,0" VerticalAlignment="Top" FontSize="15"  RenderTransformOrigin="0.028,2.72"/>
+
         <TextBlock x:Name="ShowCharStr" Height=" 25" VerticalAlignment ="Top" Margin="115,65,869,0" FontSize="15"  FontWeight="Bold"  />
         <TextBlock x:Name="ShowCharInt" Height=" 25" VerticalAlignment ="Top" Margin="115,95,869,0" FontSize="15" FontWeight="Bold" />
         <TextBlock x:Name="ShowCharWis" Height=" 25" VerticalAlignment ="Top" Margin="115,125,869,0" FontSize="15" FontWeight="Bold" />
@@ -35,7 +37,9 @@
         <TextBlock x:Name="ShowCharLvl" Height=" 25" VerticalAlignment ="Top" Margin="381,65,616,0" FontSize="15" FontWeight="Bold"  />
         <TextBlock x:Name="ShowCharExp" Height=" 25" VerticalAlignment ="Top" Margin="552,65,401,0" FontSize="15" FontWeight="Bold"  />
         <TextBlock x:Name="ShowGroup" Height=" 25" VerticalAlignment ="Top" Margin="730,65,156,0" FontSize="15" FontWeight="Bold" />
-        <ListBox x:Name ="CharInv"  HorizontalAlignment="Left" Height="100" Margin="180,125,0,0" VerticalAlignment="Top" Width="334"/>
+        <ListBox x:Name ="CharInv"  HorizontalAlignment="Left" Height="100" Margin="10,262,0,0" VerticalAlignment="Top" Width="334"/>
+        <ListBox x:Name="ViableMeleeTarget" HorizontalAlignment="Left" Height="69" Margin="473,277,0,0" VerticalAlignment="Top" Width="180"/>
+        <Button x:Name= "MeleeThisEnt"  Content="Melee Attack Selected Target" HorizontalAlignment="Left" Margin="473,347,0,0" VerticalAlignment="Top" Width="180"/>
 
 
 
