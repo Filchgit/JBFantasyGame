@@ -108,6 +108,9 @@ namespace JBFantasyGame
             a_character.AC = 9;
             a_character.exp = 0;
             a_character.hiton20 = 0;
+            a_character.MaxHp = 35;                                        // temporary to test combat
+            a_character.Hp = 35;                                            // ditto
+            
             return a_character;
             
          }

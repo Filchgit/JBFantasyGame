@@ -43,7 +43,7 @@ namespace JBFantasyGame
             set
             {
                // if (value > 0 && value <= 30)
-              //      lvl = value;
+                  lvl = value;
               //  else throw new ArgumentOutOfRangeException();
             }
         }
@@ -54,7 +54,7 @@ namespace JBFantasyGame
             set
             {
               //  if (value <= 1000)
-              //      hp = value;
+                   hp = value;
               //  else throw new ArgumentOutOfRangeException();
 
             }
@@ -66,7 +66,7 @@ namespace JBFantasyGame
             set
             {
                // if (value > 0 && value <= 1000)
-               //     maxHp = value;
+                   maxHp = value;
                // else throw new ArgumentOutOfRangeException();
             }
         }
@@ -76,7 +76,7 @@ namespace JBFantasyGame
             get { return ac; }
             set
             { //if (value > -20 && value < 20)
-              //      ac = value;
+                    ac = value;
               //  else throw new ArgumentOutOfRangeException();
             }
         }
@@ -86,7 +86,7 @@ namespace JBFantasyGame
             get { return hiton20; }
             set
             { // if (value > -50 && value < 50)
-              //      hiton20 = value;
+                   hiton20 = value;
               //  else throw new ArgumentOutOfRangeException();
             }
         }
@@ -108,16 +108,16 @@ namespace JBFantasyGame
                 RollingDie eightsided = new RollingDie(8, 1);
                 damage = eightsided.Roll();
                 Defender.Hp = Defender.Hp - damage;
-                WriteLine($"{name} did  {damage } damage to {Defender.Name}");
+             //   WriteLine($"{name} did  {damage } damage to {Defender.Name}");
                 if (Defender.Hp <= 0)
                 {
-                    WriteLine($"{Defender.Name} has died.");
+                   // WriteLine($"{Defender.Name} has died.");
                     Defender.IsAlive = false;
                 }
                 return Defender.Hp;
             }
             else
-            { WriteLine($"{name} missed!");
+            {// WriteLine($"{name} missed!");
                 return Defender.Hp; }
         }
         

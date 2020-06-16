@@ -25,7 +25,7 @@
         <Button x:Name="LoadAll"  Content="Clear and Load All Characters / Parties" HorizontalAlignment="Left" Margin="146,193,0,0" VerticalAlignment="Top" Width="209" Click="LoadAll_Click" Height="23"/>
         <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="496,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.346" Width="100" Height="33" Background="#FFFBFBFB"/>
         <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="496,188,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.093,-0.35" Height="45" Click="AssigntoCharacter_Click" />
-        <Button x:Name ="PutinMelee"  Content="Put Into Melee" HorizontalAlignment="Left" Margin="649,284,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.547,-0.35" Click="PutinMelee_Click"/>
+        
         <Rectangle x:Name="SecondaryFocusRectangle" Fill="#FFB5EAF0" HorizontalAlignment="Left" Height="242" Margin="638,18,0,0" Stroke="Black" VerticalAlignment="Top" Width="357"/>
         <ListBox x:Name="TargetFocusGroupList" HorizontalAlignment="Left" Height="100" Margin="649,93,0,0" VerticalAlignment="Top" Width="100" SelectedIndex="0" SelectionChanged="TargetFocusGroupList_SelectionChanged"/>
         <Label Name="TargetFocusLabel" Content="Target Focii" HorizontalAlignment="Left" Margin="649,29,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.308" Width="100"/>
@@ -33,6 +33,7 @@
         <ListBox x:Name="TargetFocusCharList" HorizontalAlignment="Left" Height="100" Margin="765,93,0,0" VerticalAlignment="Top" Width="100" SelectedIndex="0" SelectionMode="Extended" SelectionChanged="TargetFocusCharList_SelectionChanged"/>
         <Label x:Name="TargetCharLabel" Content="TargetCharacter" HorizontalAlignment="Left" Margin="765,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.132,0.038" Width="100" Background="#FF77F3F9"/>
         <Button x:Name ="TransfertoNewParty"  Content="Transfer New Party" HorizontalAlignment="Left" Margin="360,218,0,0" VerticalAlignment="Top" Width="110" Click="TransfertoNewParty_Click"/>
+        <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="360,238,0,0" VerticalAlignment="Top" Width="110" Click="Meleethis_Click"/>
 
     </Grid>
 </Window>

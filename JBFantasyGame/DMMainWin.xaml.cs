@@ -74,8 +74,8 @@ namespace JBFantasyGame
             {
                 Character thischaracter = new Character();                                                // might need to add check to exclude names that are identical to any already in party
                 thischaracter.NewCharacter(thischaracter);
-                thischaracter.Name = Nameinput.Text;
-                thischaracter.RerollCharacter(thischaracter);
+                thischaracter.Name = Nameinput.Text;             
+                
                 Party thisparty = (Party)GroupList.SelectedItem;                                                                                          
                 thisparty.Add(thischaracter);
                 thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
@@ -131,10 +131,12 @@ namespace JBFantasyGame
                 UpdateTargetFocusCharListBox();
             }
         }
-        private void PutinMelee_Click(object sender, RoutedEventArgs e)
+        private void Meleethis_Click(object sender, RoutedEventArgs e)
         {
-            // I think I will have a whole new set of party/ group lists to test and refine atacks and trading options etc based on range; this will eventually be superseded by proximities on maps
-        
+            Character attacker = (Character)CurrentPartyList.SelectedItem;
+            Character defender = (Character)TargetFocusCharList.SelectedItem;
+            attacker.MeleeAttack(defender);
+           
         }
         private void UpdatePartiesListBox()
         {
@@ -161,6 +163,7 @@ namespace JBFantasyGame
             TargetFocusGroupList.ItemsSource = currentParties;
             TargetFocusGroupList.DisplayMemberPath = "Name";
         }
+
         private void UpdateTargetFocusCharListBox()
         {
                 List<Character> currentparty = new List<Character>();
@@ -233,7 +236,7 @@ namespace JBFantasyGame
             formatter.Serialize(outfile, partysave);
         }
 
-      
+       
     }
     
 }
