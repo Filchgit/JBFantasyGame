@@ -81,6 +81,7 @@ namespace JBFantasyGame
                 thisparty.Add(thischaracter);
                 thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
                 UpdatePartyListBox();
+                UpdateTargetFocusCharListBox();
             }
         }
 
@@ -124,7 +125,7 @@ namespace JBFantasyGame
         private void UpdatePartiesListBox()
         {
             List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
-            foreach (Party group in MainWindow.Parties)           //was MainWindow.Parties
+            foreach (Party group in MainWindow.Parties)             //was MainWindow.Parties
             { currentParties.Add(group); }
             GroupList.ItemsSource = currentParties;
             GroupList.DisplayMemberPath = "Name";
@@ -146,7 +147,15 @@ namespace JBFantasyGame
             TargetFocusGroupList.ItemsSource = currentParties;
             TargetFocusGroupList.DisplayMemberPath = "Name";
         }
-
+        private void UpdateTargetFocusCharListBox()
+        {
+                List<Character> currentparty = new List<Character>();
+                 Party thisparty = (Party)TargetFocusGroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
+                 foreach (Character charac in thisparty)                                //was MainWindow.Party
+                 { currentparty.Add(charac); }
+                 TargetFocusCharList.ItemsSource = currentparty;
+                TargetFocusCharList.DisplayMemberPath = "Name";
+        }
 
 
 
@@ -155,6 +164,8 @@ namespace JBFantasyGame
             GroupList.SelectionChanged += GroupList_SelectionChanged;
             UpdatePartyListBox();
         }
+
+
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentPartyList.SelectionChanged += CurrentPartyList_SelectionChanged;
@@ -163,6 +174,16 @@ namespace JBFantasyGame
         {
             GlobalItems.SelectionChanged += GlobalItems_SelectionChanged;
         }
+        private void TargetFocusGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TargetFocusGroupList.SelectionChanged += TargetFocusGroupList_SelectionChanged;
+            UpdateTargetFocusCharListBox();
+        }
+        private void TargetFocusCharList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TargetFocusCharList.SelectionChanged += TargetFocusCharList_SelectionChanged;
+        }
+
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
         {
             Party thisparty = new Party();
@@ -184,7 +205,9 @@ namespace JBFantasyGame
             { thisparty.Name = thisparty[0].PartyName; }         
           UpdatePartiesListBox();
           UpdateTargetFocusGroupListBox();
+          UpdateTargetFocusCharListBox();
         }
+
         private List<Party>  LoadPartyList()
          {
           string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";

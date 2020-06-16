@@ -27,9 +27,11 @@
         <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="496,188,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.093,-0.35" Height="45" Click="AssigntoCharacter_Click" />
         <Button x:Name ="PutinMelee"  Content="Put Into Melee" HorizontalAlignment="Left" Margin="649,284,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.547,-0.35" Click="PutinMelee_Click"/>
         <Rectangle x:Name="SecondaryFocusRectangle" Fill="#FFB5EAF0" HorizontalAlignment="Left" Height="242" Margin="638,18,0,0" Stroke="Black" VerticalAlignment="Top" Width="357"/>
-        <ListBox x:Name="TargetFocusGroupList" HorizontalAlignment="Left" Height="100" Margin="649,93,0,0" VerticalAlignment="Top" Width="100"/>
+        <ListBox x:Name="TargetFocusGroupList" HorizontalAlignment="Left" Height="100" Margin="649,93,0,0" VerticalAlignment="Top" Width="100" SelectedIndex="0" SelectionChanged="TargetFocusGroupList_SelectionChanged"/>
         <Label Name="TargetFocusLabel" Content="Target Focii" HorizontalAlignment="Left" Margin="649,29,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.308" Width="100"/>
         <Label x:Name="TargetPartyLabel" Content="Target Party" HorizontalAlignment="Left" Margin="649,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.026,-0.269" Width="100" Background="#FF77F3F9"/>
+        <ListBox x:Name="TargetFocusCharList" HorizontalAlignment="Left" Height="100" Margin="765,93,0,0" VerticalAlignment="Top" Width="100" SelectedIndex="0" SelectionChanged="TargetFocusCharList_SelectionChanged"/>
+        <Label x:Name="TargetCharLabel" Content="TargetCharacter" HorizontalAlignment="Left" Margin="765,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.132,0.038" Width="100" Background="#FF77F3F9"/>
 
     </Grid>
 </Window>
