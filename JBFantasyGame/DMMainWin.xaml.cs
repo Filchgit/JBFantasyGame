@@ -67,7 +67,6 @@ namespace JBFantasyGame
             string var2;
             var2 = Nameinput.Text;
         }
-
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
         { if ((Party)GroupList.SelectedItem is null)
             { MessageBox.Show("You must pick a party to add a new character. "); }
@@ -84,7 +83,6 @@ namespace JBFantasyGame
                 UpdateTargetFocusCharListBox();
             }
         }
-
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
         {
             foreach (Character selected in CurrentPartyList.SelectedItems)
@@ -116,6 +114,22 @@ namespace JBFantasyGame
             MainWindow.GlobalItems.RemoveAt(itemind);
             UpdateGlobalItems();
              }                                                                      
+        }
+        private void TransfertoNewParty_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPartyList.SelectedItem is null)                  // note that this only transfers one character at a time at the moment
+            { MessageBox.Show("You must pick a character to transfer. "); }                  
+            else
+            {
+                Character selected = (Character)CurrentPartyList.SelectedItem;
+                Party toNewParty = (Party)TargetFocusGroupList.SelectedItem;
+                Party oldParty = (Party)GroupList.SelectedItem;
+                int oldInd = CurrentPartyList.SelectedIndex;
+                toNewParty.Add(selected);
+                oldParty.RemoveAt(oldInd);
+                UpdatePartyListBox();
+                UpdateTargetFocusCharListBox();
+            }
         }
         private void PutinMelee_Click(object sender, RoutedEventArgs e)
         {
@@ -156,16 +170,11 @@ namespace JBFantasyGame
                  TargetFocusCharList.ItemsSource = currentparty;
                 TargetFocusCharList.DisplayMemberPath = "Name";
         }
-
-
-
         private void GroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GroupList.SelectionChanged += GroupList_SelectionChanged;
             UpdatePartyListBox();
         }
-
-
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentPartyList.SelectionChanged += CurrentPartyList_SelectionChanged;
@@ -183,7 +192,6 @@ namespace JBFantasyGame
         {
             TargetFocusCharList.SelectionChanged += TargetFocusCharList_SelectionChanged;
         }
-
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
         {
             Party thisparty = new Party();
@@ -192,7 +200,6 @@ namespace JBFantasyGame
             UpdatePartiesListBox();
             UpdateTargetFocusGroupListBox();
         }
-
         private void SaveAll_Click(object sender, RoutedEventArgs e)
         {
             Save(MainWindow.Parties);
@@ -207,8 +214,7 @@ namespace JBFantasyGame
           UpdateTargetFocusGroupListBox();
           UpdateTargetFocusCharListBox();
         }
-
-        private List<Party>  LoadPartyList()
+        private List<Party>  LoadPartyList()                                                           // this seems to fail at the moment when there is already a party/character present
          {
           string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             MainWindow.Parties = new List<Party>();
@@ -227,7 +233,7 @@ namespace JBFantasyGame
             formatter.Serialize(outfile, partysave);
         }
 
-       
+      
     }
     
 }
