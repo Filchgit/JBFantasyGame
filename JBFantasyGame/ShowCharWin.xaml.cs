@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace JBFantasyGame
 {
@@ -19,12 +21,19 @@ namespace JBFantasyGame
     /// </summary>
     public partial class ShowCharWin : Window
     {
+       
         public ShowCharWin(Character thischaracter)
         {
             InitializeComponent();
+   
+            CharacterDetails = thischaracter;
+            DataContext = CharacterDetails;
+
+        
             //TextBlock ShowCharname = new TextBlock() ;
             ShowCharname.Text = thischaracter.Name;
-            HP.Text = thischaracter.Hp.ToString();
+            // HP.Text = thischaracter.Hp.ToString();
+            
             ShowCharStr.Text = thischaracter.Str.ToString();  
             ShowCharInt.Text = thischaracter.Inte.ToString();
             ShowCharWis.Text = thischaracter.Wis.ToString();
@@ -38,5 +47,15 @@ namespace JBFantasyGame
             CharInv.ItemsSource = thischaracter.Inventory ;
             CharInv.DisplayMemberPath = "Name";
         }
+        public Character CharacterDetails
+        {
+            get { return (Character)GetValue(CharacterDetailsProperty); }
+            set { SetValue(CharacterDetailsProperty, value); }
+        }
+        public static readonly DependencyProperty CharacterDetailsProperty = DependencyProperty.Register("CharacterDetails",
+                               typeof(Character),
+                               typeof(ShowCharWin),
+                               new PropertyMetadata(null));
+
     }
 }

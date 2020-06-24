@@ -55,6 +55,7 @@ namespace JBFantasyGame
             {
               //  if (value <= 1000)
                    hp = value;
+
               //  else throw new ArgumentOutOfRangeException();
 
             }
