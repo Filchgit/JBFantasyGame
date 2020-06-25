@@ -48,10 +48,19 @@ namespace JBFantasyGame
             ShowCharLvl.Text = showcharacter.Lvl.ToString();
             ShowCharExp.Text = showcharacter.Exp.ToString();
             ShowGroup.Text = showcharacter.PartyName.ToString();
+            UpdateInvItems();
 
              CharInv.ItemsSource = showcharacter.Inventory ;
              CharInv.DisplayMemberPath = "Name";
 
+        }
+        private void UpdateInvItems()
+        {
+            List<PhysObj> currentPhysObj = new List<PhysObj>();
+            foreach (PhysObj physthing in showcharacter.Inventory )
+            { currentPhysObj.Add(physthing); }
+            CharInv.ItemsSource = currentPhysObj;
+            CharInv.DisplayMemberPath = "Name";
         }
     }
   
