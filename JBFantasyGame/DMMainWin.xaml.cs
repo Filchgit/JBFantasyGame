@@ -136,7 +136,8 @@ namespace JBFantasyGame
             Character attacker = (Character)CurrentPartyList.SelectedItem;
             Character defender = (Character)TargetFocusCharList.SelectedItem;
             attacker.MeleeAttack(defender);
-           
+     
+              
         }
         private void UpdatePartiesListBox()
         {

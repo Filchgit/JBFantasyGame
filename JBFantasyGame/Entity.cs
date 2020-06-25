@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -48,18 +49,16 @@ namespace JBFantasyGame
             }
         }
         protected int hp;
+
+
         public int Hp
         {
             get { return hp; }
-            set
-            {
-              //  if (value <= 1000)
-                   hp = value;
-
-              //  else throw new ArgumentOutOfRangeException();
-
-            }
+            set { hp = value;  }
         }
+
+        
+
         protected int maxHp;
         public int MaxHp
         {

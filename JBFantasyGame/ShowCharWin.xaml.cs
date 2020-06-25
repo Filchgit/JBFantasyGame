@@ -21,41 +21,53 @@ namespace JBFantasyGame
     /// </summary>
     public partial class ShowCharWin : Window
     {
-       
+        private Character showcharacter;
+        private DispatcherTimer dispatcherTimer = null;
+
         public ShowCharWin(Character thischaracter)
         {
             InitializeComponent();
-   
-            CharacterDetails = thischaracter;
-            DataContext = CharacterDetails;
+            showcharacter = thischaracter;
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1.0);
+            dispatcherTimer.Tick += OnTimerTick;
+            dispatcherTimer.Start();
 
-        
-            //TextBlock ShowCharname = new TextBlock() ;
-            ShowCharname.Text = thischaracter.Name;
-            // HP.Text = thischaracter.Hp.ToString();
-            
-            ShowCharStr.Text = thischaracter.Str.ToString();  
-            ShowCharInt.Text = thischaracter.Inte.ToString();
-            ShowCharWis.Text = thischaracter.Wis.ToString();
-            ShowCharDex.Text = thischaracter.Dex.ToString();
-            ShowCharCon.Text = thischaracter.Con.ToString();
-            ShowCharChr.Text = thischaracter.Chr.ToString();
-            ShowCharLvl.Text = thischaracter.Lvl.ToString();
-            ShowCharExp.Text = thischaracter.Exp.ToString();
-            ShowGroup.Text = thischaracter.PartyName.ToString();
-
-            CharInv.ItemsSource = thischaracter.Inventory ;
-            CharInv.DisplayMemberPath = "Name";
+            //
         }
-        public Character CharacterDetails
-        {
-            get { return (Character)GetValue(CharacterDetailsProperty); }
-            set { SetValue(CharacterDetailsProperty, value); }
-        }
-        public static readonly DependencyProperty CharacterDetailsProperty = DependencyProperty.Register("CharacterDetails",
-                               typeof(Character),
-                               typeof(ShowCharWin),
-                               new PropertyMetadata(null));
+        private void OnTimerTick(object sender, EventArgs e)
+        { 
+            ShowCharname.Text = showcharacter.Name.ToString();
+            ShowCharHP.Text = showcharacter.Hp.ToString();
+            ShowCharStr.Text = showcharacter.Str.ToString();  
+            ShowCharInt.Text = showcharacter.Inte.ToString();
+            ShowCharWis.Text = showcharacter.Wis.ToString();
+            ShowCharDex.Text = showcharacter.Dex.ToString();
+            ShowCharCon.Text = showcharacter.Con.ToString();
+            ShowCharChr.Text = showcharacter.Chr.ToString();
+            ShowCharLvl.Text = showcharacter.Lvl.ToString();
+            ShowCharExp.Text = showcharacter.Exp.ToString();
+            ShowGroup.Text = showcharacter.PartyName.ToString();
 
+             CharInv.ItemsSource = showcharacter.Inventory ;
+             CharInv.DisplayMemberPath = "Name";
+
+        }
     }
+  
+    //}
+   // DataContext = CharacterDetails;
+
+     //         public Character CharacterDetails
+    //{
+      //  get { return (Character)GetValue(CharacterDetailsProperty); }
+        //set { SetValue(CharacterDetailsProperty, value); }
+    //}
+    //public static readonly DependencyProperty CharacterDetailsProperty = DependencyProperty.Register("CharacterDetails",
+      //                  typeof(Character),
+        //                typeof(ShowCharWin),
+          //        new PropertyMetadata(null));
+
+
 }
+
