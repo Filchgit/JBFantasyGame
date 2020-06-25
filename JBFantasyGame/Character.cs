@@ -106,13 +106,16 @@ namespace JBFantasyGame
         { 
             RerollCharacter(a_character);
             a_character.isAlive = true;
-            a_character.lvl = 1;
+            
             a_character.AC = 9;
-            a_character.exp = 0;
+            a_character.exp = 120000;
             a_character.hiton20 = 0;                                       // temporary to test combat
-            a_character.MaxHp =35;                                        // temporary to test combat
-            a_character.Hp = 35;                                            // ditto
-            a_character.CharType = "Civilian / Untrained";
+            a_character.MaxHp =8;                                        // temporary to test combat
+            a_character.Hp = 8;                                            // ditto
+            a_character.CharType = "Fighter Test";
+            Character thiscleric = new Character() ;
+
+            thiscleric = Fighter.FighterInitialize(a_character);
             return a_character;
             
          }

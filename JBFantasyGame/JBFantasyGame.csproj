@@ -55,13 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Cleric.cs" />
     <Compile Include="DMMainWin.xaml.cs">
       <DependentUpon>DMMainWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Fighter.cs" />
     <Compile Include="PlayerMain.xaml.cs">
       <DependentUpon>PlayerMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="RollDie.cs" />
+    <Compile Include="Rougue.cs" />
     <Compile Include="ShowCharWin.xaml.cs">
       <DependentUpon>ShowCharWin.xaml</DependentUpon>
     </Compile>

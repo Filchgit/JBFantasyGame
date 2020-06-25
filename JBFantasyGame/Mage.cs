@@ -8,7 +8,7 @@ using static System.Console;
 
 namespace JBFantasyGame
 {
-    public class Mage : Character
+    public class Mage : Character                                                             // these names may change slightly , but they will do for starting classes 
     {
       //  public Mage(string newName) : base(newName) { }
         
