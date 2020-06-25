@@ -12,7 +12,7 @@ namespace JBFantasyGame
     {
       //  public Mage(string newName) : base(newName) { }
         
-        public override int  MeleeAttack(Entity Defender)                                  // just doing this to check override function hiton20  will calculate %chance to hits and euipped weapons + str modifiers will do damage really.
+        public override int  MeleeAttack(Entity Defender)                                  // just did this to check override function hiton20  will calculate %chance to hits and euipped weapons + str modifiers will do damage really.
         {
             RollingDie foursided = new RollingDie(4, 1);
             damage = foursided.Roll();

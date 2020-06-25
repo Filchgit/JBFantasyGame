@@ -55,7 +55,6 @@ namespace JBFantasyGame
                     dex = value;
                 else throw new ArgumentOutOfRangeException();
             }
-
         }
         protected int con;
         public int Con
@@ -67,7 +66,6 @@ namespace JBFantasyGame
                     con = value;
                 else throw new ArgumentOutOfRangeException();
             }
-
         }
         protected int chr;
         public int Chr
@@ -79,8 +77,6 @@ namespace JBFantasyGame
                     chr = value;
                 else throw new ArgumentOutOfRangeException();
             }
-
-
         }
        
         protected int exp;
@@ -89,12 +85,18 @@ namespace JBFantasyGame
             get { return exp; }
             set
             {
-               // if (value > 0 && value <= 1000000)
-               //     exp = value;
-               // else throw new ArgumentOutOfRangeException();
+                exp = value;
             }
         }
-
+        protected String charType;                                  // think I will use type for class of character
+        public String  CharType
+        {
+            get { return charType; }
+            set
+            {
+                charType = value;              
+            }
+        }
 
 
         #endregion
@@ -107,10 +109,10 @@ namespace JBFantasyGame
             a_character.lvl = 1;
             a_character.AC = 9;
             a_character.exp = 0;
-            a_character.hiton20 = 0;
-            a_character.MaxHp = 35;                                        // temporary to test combat
+            a_character.hiton20 = 0;                                       // temporary to test combat
+            a_character.MaxHp =35;                                        // temporary to test combat
             a_character.Hp = 35;                                            // ditto
-            
+            a_character.CharType = "Civilian / Untrained";
             return a_character;
             
          }

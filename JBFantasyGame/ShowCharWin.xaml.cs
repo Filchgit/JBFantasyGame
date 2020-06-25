@@ -36,7 +36,8 @@ namespace JBFantasyGame
             //
         }
         private void OnTimerTick(object sender, EventArgs e)
-        { 
+        {
+            ShowCharClass.Text = showcharacter.CharType.ToString();
             ShowCharname.Text = showcharacter.Name.ToString();
             ShowCharHP.Text = showcharacter.Hp.ToString();
             ShowCharStr.Text = showcharacter.Str.ToString();  

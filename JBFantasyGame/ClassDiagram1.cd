@@ -1,57 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="JBFantasyGame.App">
-    <Position X="7.25" Y="0.75" Width="1.5" />
+  <Class Name="JBFantasyGame.App" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Character">
-    <Position X="3.5" Y="2" Width="1.5" />
+  <Class Name="JBFantasyGame.Character" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQCAAgAAAABQACAAEAAgQAAIAGAACAAgQAAAAEAAgA=</HashCode>
+      <HashCode>AAQCAAgAAAABQACAAEAAgQAAIAGBACAAgQAAAAEAAgA=</HashCode>
       <FileName>Character.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Entity">
-    <Position X="1.5" Y="2" Width="1.5" />
+  <Class Name="JBFantasyGame.DMMainWin" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAQAIAAQAECAgAICAAAAAAMggCEAjQAAAAgIgQAAAA=</HashCode>
+      <FileName>DMMainWin.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.Entity" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EQAAQBAAAAAAgABAAAAAAAQAABAEAAEAAABBEwEAQAE=</HashCode>
       <FileName>Entity.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.PhysObj" Collapsed="true">
-    <Position X="10.75" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Item.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="JBFantasyGame.Mage">
-    <Position X="5.25" Y="3.25" Width="1.5" />
+  <Class Name="JBFantasyGame.Mage" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Mage.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.MainWindow" BaseTypeListCollapsed="true">
-    <Position X="5.25" Y="0.5" Width="1.5" />
+  <Class Name="JBFantasyGame.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAgAACAAAAAAAAAAAAAAAAAAAAgAAAAACAAAAAAAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="JBFantasyGame.Party">
-    <Position X="7" Y="5" Width="1.5" />
+  <Class Name="JBFantasyGame.Party" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAABAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Party.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.PlayerMain" BaseTypeListCollapsed="true">
-    <Position X="10.75" Y="1.75" Width="1.5" />
+  <Class Name="JBFantasyGame.PhysObj" Collapsed="true">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAQAAAAEQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PhysObj.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.PlayerMain" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhAAAA=</HashCode>
       <FileName>PlayerMain.xaml.cs</FileName>
@@ -59,31 +67,31 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="JBFantasyGame.RollingDie" Collapsed="true">
-    <Position X="9" Y="3.75" Width="1.5" />
+    <Position X="8.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAAAEACAABAAAAAwAAAAAAAAAAAAAQAA=</HashCode>
       <FileName>RollDie.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Properties.Resources">
-    <Position X="7.5" Y="2" Width="1.5" />
+  <Class Name="JBFantasyGame.ShowCharWin" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAQAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>ShowCharWin.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.Properties.Resources" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Properties.Settings">
-    <Position X="10.75" Y="3.75" Width="1.5" />
+  <Class Name="JBFantasyGame.Properties.Settings" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
-  </Class>
-  <Class Name="JBFantasyGame.DMMainWin" BaseTypeListCollapsed="true">
-    <Position X="9" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>CAAQAIAAQAAAAgAIAAAAAAAMgACAAhAAAAAgIAAAAAA=</HashCode>
-      <FileName>DMMainWin.xaml.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
