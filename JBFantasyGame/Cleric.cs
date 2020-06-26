@@ -42,12 +42,20 @@ namespace JBFantasyGame
             {  HpConAdj = 1;  }
             else if (a_character.Con >= 16)
             { HpConAdj = 2; }
-            if (a_character.Lvl < 9)
+
+            if (a_character.Lvl <= 9)
             {
                 RollingDie lvl8d = new RollingDie(8, a_character.Lvl);            // this is the same as rolling a eight sided dice times the level and totalling
-                a_character.MaxHp = lvl8d.Roll() + (a_character.Lvl* HpConAdj);   // *RollDie d8 + con adjustments }
+                a_character.MaxHp = lvl8d.Roll() + (a_character.Lvl * HpConAdj) ;   // *RollDie d8 + con adjustments }
                 a_character.Hp = a_character.MaxHp;
             }
+            else
+            {
+                RollingDie lvl8d = new RollingDie(8, a_character.Lvl);            // this is the same as rolling a eight sided dice times the level and totalling
+                a_character.MaxHp = lvl8d.Roll() + (a_character.Lvl * HpConAdj) + (2 * (a_character.Lvl - 9));   // *RollDie d8 + con adjustments }
+                a_character.Hp = a_character.MaxHp;
+            }
+
             ClericRecalcHiton20(a_character);
 
             return a_character;

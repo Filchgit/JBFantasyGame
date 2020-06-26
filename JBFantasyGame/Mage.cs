@@ -57,13 +57,24 @@ namespace JBFantasyGame
             else if (a_character.Con >= 16)
             { HpConAdj = 2; }          
 
-            if (a_character.Lvl < 11)                                                // as above level 11 just add hp I think
+            if (a_character.Lvl <= 11)                                                // as above level 11 just add hp I think
             {
                 RollingDie lvl4d = new RollingDie(4, a_character.Lvl);
                 int BaseHp = lvl4d.Roll();                                         // just cause I wanna watch it clearly
                 a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj);
                 a_character.Hp = a_character.MaxHp;
             }
+            else
+            {
+                RollingDie lvl4d = new RollingDie(4, a_character.Lvl);
+                int BaseHp = lvl4d.Roll();                                         // just cause I wanna watch it clearly
+                a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj) +(a_character.Lvl-11);
+                a_character.Hp = a_character.MaxHp;
+            }
+
+
+
+
             MageRecalcHitOn20(a_character);
             return a_character;
         }

@@ -54,6 +54,14 @@ namespace JBFantasyGame
                 a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj);
                 a_character.Hp = a_character.MaxHp;
             }
+            else
+            {
+                RollingDie lvl6d = new RollingDie(6, a_character.Lvl);
+                int BaseHp = lvl6d.Roll();                                         // just cause I wanna watch it clearly
+                a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj) +(2*(a_character.Lvl-11)) ;
+                a_character.Hp = a_character.MaxHp;
+            }
+
             RogueRecalcHitOn20(a_character);
             return a_character;
         }

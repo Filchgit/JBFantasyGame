@@ -46,13 +46,20 @@ namespace JBFantasyGame
             { HpConAdj = 3; }
             else if (a_character.Con == 18)
             { HpConAdj = 4; }
-            if (a_character.Lvl < 9)                                                // as above level 9 just add hp I think will fix this up in a bit for greater than 9 
+            if (a_character.Lvl <= 9)
             {
-                RollingDie lvl10d = new RollingDie(10, a_character.Lvl);          
+                RollingDie lvl10d = new RollingDie(10, a_character.Lvl);
                 int BaseHp = lvl10d.Roll();                                         // just cause I wanna watch it clearly
-                a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj);         
+                a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj) ;       // now adjusted for levels above 9 
                 a_character.Hp = a_character.MaxHp;
-            }                                                                          
+            }
+            else
+            {
+                RollingDie lvl10d = new RollingDie(10, a_character.Lvl);
+                int BaseHp = lvl10d.Roll();                                         // just cause I wanna watch it clearly
+                a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj) + (3 * (a_character.Lvl - 9));       // now adjusted for levels above 9 
+                a_character.Hp = a_character.MaxHp;
+            }
             FighterRecalcHitOn20(a_character);
             return a_character;
         }

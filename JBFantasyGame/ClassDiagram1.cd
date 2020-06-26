@@ -7,17 +7,17 @@
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Character" Collapsed="true">
+  <Class Name="JBFantasyGame.Character">
     <Position X="3.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQCAAgAAQABQAGAAEAAgQAAIAGAACAAgQAAAAEAAgA=</HashCode>
       <FileName>Character.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Cleric" Collapsed="true">
-    <Position X="5" Y="3.25" Width="1.5" />
+  <Class Name="JBFantasyGame.Cleric">
+    <Position X="5.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Cleric.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -36,17 +36,17 @@
       <FileName>Entity.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Fighter" Collapsed="true">
-    <Position X="2.75" Y="3.25" Width="1.5" />
+  <Class Name="JBFantasyGame.Fighter">
+    <Position X="0.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
       <FileName>Fighter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Mage" Collapsed="true">
-    <Position X="7.25" Y="3.25" Width="1.5" />
+  <Class Name="JBFantasyGame.Mage">
+    <Position X="5.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
       <FileName>Mage.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -58,15 +58,15 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="JBFantasyGame.Party" Collapsed="true">
-    <Position X="15" Y="0.5" Width="1.5" />
+  <Class Name="JBFantasyGame.Party">
+    <Position X="16.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAABAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Party.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.PhysObj" Collapsed="true">
-    <Position X="9.75" Y="1.5" Width="1.5" />
+  <Class Name="JBFantasyGame.PhysObj">
+    <Position X="9" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAQAAAAAAAAAQAAAAEQAAAAAAAAAAAAAA=</HashCode>
       <FileName>PhysObj.cs</FileName>
@@ -80,17 +80,17 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="JBFantasyGame.RollingDie" Collapsed="true">
+  <Class Name="JBFantasyGame.RollingDie">
     <Position X="15" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAAAEACAABAAAAAwAAAAAAAAAAAAAQAA=</HashCode>
       <FileName>RollDie.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JBFantasyGame.Rougue" Collapsed="true">
-    <Position X="0.5" Y="3.25" Width="1.5" />
+  <Class Name="JBFantasyGame.Rougue">
+    <Position X="0.5" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Rougue.cs</FileName>
     </TypeIdentifier>
   </Class>
