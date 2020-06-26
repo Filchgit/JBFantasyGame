@@ -47,8 +47,41 @@ namespace JBFantasyGame
                 RollingDie lvl8d = new RollingDie(8, a_character.Lvl);            // this is the same as rolling a eight sided dice times the level and totalling
                 a_character.MaxHp = lvl8d.Roll() + (a_character.Lvl* HpConAdj);   // *RollDie d8 + con adjustments }
                 a_character.Hp = a_character.MaxHp;
-            }                                                                              
+            }
+            ClericRecalcHiton20(a_character);
+
             return a_character;
-        }    
+        }
+        public static Character ClericRecalcHiton20(Character a_character)
+        {
+            int ToHitStrAdj = 0;                    // + str adj to hit 
+            if (a_character.Str <= 3)
+            { ToHitStrAdj = -3; }
+            else if (a_character.Str <= 5)
+            { ToHitStrAdj = -2; }
+            else if (a_character.Str <= 7)
+            { ToHitStrAdj = -1; }
+            else if (a_character.Str > 17)
+            { ToHitStrAdj = 1; }
+
+            int calcHiton20 = 0;
+            int baseHiton20;
+            if(a_character.Lvl <=3)
+            { baseHiton20 = 0; }
+            else if(a_character.Lvl <= 6)
+            { baseHiton20 = -2; }
+            else if (a_character.Lvl <= 9)
+            { baseHiton20 = -4; }
+            else if (a_character.Lvl <= 12)
+            { baseHiton20 = -6; }
+            else if (a_character.Lvl <= 15)
+            { baseHiton20 = -8; }
+            else if (a_character.Lvl <= 18)
+            { baseHiton20 = -10; }
+            else { baseHiton20 = -11; }
+            calcHiton20 = baseHiton20 - ToHitStrAdj;
+            a_character.HitOn20 = calcHiton20;
+            return a_character;
+        }
     }                                                       
 }

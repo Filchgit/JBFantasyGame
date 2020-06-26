@@ -112,10 +112,10 @@ namespace JBFantasyGame
             a_character.hiton20 = 0;                                       // temporary to test combat
             a_character.MaxHp =8;                                        // temporary to test combat
             a_character.Hp = 8;                                            // ditto
-            a_character.CharType = "Fighter Test";
-            Character thiscleric = new Character() ;
+            a_character.CharType = "Mage Test";
+            Character thismage = new Character() ;
 
-            thiscleric = Fighter.FighterInitialize(a_character);
+            thismage = Mage.MageInitialize(a_character);
             return a_character;
             
          }

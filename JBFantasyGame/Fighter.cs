@@ -10,7 +10,7 @@ namespace JBFantasyGame
     {
         public static Character FighterInitialize(Character a_character)
         {
-            if (a_character.Exp <= 20000)                                  // this are straight from AD&D atm but will change as time goes on, will also have a better
+            if (a_character.Exp <= 2500)                                  // this are straight from AD&D atm but will change as time goes on, will also have a better
             { a_character.Lvl = 1; }                                      // check when going between levels by gaining experience
             else if (a_character.Exp <= 4000)
             { a_character.Lvl = 2; }
@@ -46,17 +46,30 @@ namespace JBFantasyGame
             { HpConAdj = 3; }
             else if (a_character.Con == 18)
             { HpConAdj = 4; }
-            if (a_character.Lvl < 9)
+            if (a_character.Lvl < 9)                                                // as above level 9 just add hp I think will fix this up in a bit for greater than 9 
             {
-                RollingDie lvl10d = new RollingDie(10, a_character.Lvl);            // this is the same as rolling a eight sided dice times the level and totalling
-                int BaseHp = lvl10d.Roll();                                         // just cause I wanna watch it
-                a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj);   // *RollDie d8 + con adjustments }
+                RollingDie lvl10d = new RollingDie(10, a_character.Lvl);          
+                int BaseHp = lvl10d.Roll();                                         // just cause I wanna watch it clearly
+                a_character.MaxHp = BaseHp + (a_character.Lvl * HpConAdj);         
                 a_character.Hp = a_character.MaxHp;
-            }                                                                         // also should do initial THACO here I think 
+            }                                                                          
+            FighterRecalcHitOn20(a_character);
             return a_character;
         }
-        public static Character FighterRecalcThaco(Character a_character)
+        public static Character FighterRecalcHitOn20(Character a_character)           
         {
+            int ToHitStrAdj = 0;                    // + str adj to hit 
+            if (a_character.Str  <= 3)                  
+            { ToHitStrAdj = -3; }                        
+            else if (a_character.Str <= 5)
+            { ToHitStrAdj = -2; }
+            else if (a_character.Str <= 7)
+            { ToHitStrAdj = -1; }
+            else if (a_character.Str > 17)
+            { ToHitStrAdj = 1; }
+                                     
+                int  calcHiton20 = 0 - (a_character.Lvl - 1) - ToHitStrAdj;       //HitOn20 for fighters is 0 at level 1, decreases by 1 per level
+            a_character.HitOn20 = calcHiton20;                                        
             return a_character;
         }
     }
