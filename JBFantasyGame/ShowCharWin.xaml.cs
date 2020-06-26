@@ -32,12 +32,10 @@ namespace JBFantasyGame
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1.0);
             dispatcherTimer.Tick += OnTimerTick;
             dispatcherTimer.Start();
-
-            //
         }
-        private void OnTimerTick(object sender, EventArgs e)
-        {
-            ShowCharClass.Text = showcharacter.CharType.ToString();
+        private void OnTimerTick(object sender, EventArgs e)                 // there was a tip to make sure that lengthy operations
+        {                                                                    // are not done on tick event as it runs on UI thread, and 
+            ShowCharClass.Text = showcharacter.CharType.ToString();          // as such may block UI from responding. Don't think this is lengthy.
             ShowCharname.Text = showcharacter.Name.ToString();
             ShowCharHP.Text = showcharacter.Hp.ToString();
             ShowCharStr.Text = showcharacter.Str.ToString();  

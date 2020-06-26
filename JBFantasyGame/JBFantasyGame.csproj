@@ -60,6 +60,9 @@
       <DependentUpon>DMMainWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Fighter.cs" />
+    <Compile Include="GlobalItemAdd.xaml.cs">
+      <DependentUpon>GlobalItemAdd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlayerMain.xaml.cs">
       <DependentUpon>PlayerMain.xaml</DependentUpon>
     </Compile>
@@ -69,6 +72,10 @@
       <DependentUpon>ShowCharWin.xaml</DependentUpon>
     </Compile>
     <Page Include="DMMainWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalItemAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

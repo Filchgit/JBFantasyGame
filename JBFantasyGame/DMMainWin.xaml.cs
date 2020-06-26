@@ -237,7 +237,11 @@ namespace JBFantasyGame
             formatter.Serialize(outfile, partysave);
         }
 
-       
+        private void QuickCreateObj_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalItemAdd GlobalItemAdd1 = new GlobalItemAdd();
+            GlobalItemAdd1.Show();
+        }
     }
     
 }

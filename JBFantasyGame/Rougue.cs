@@ -77,7 +77,7 @@ namespace JBFantasyGame
             else if (a_character.Str > 17)
             { ToHitStrAdj = 1; }
 
-            int calcHiton20 = 0;
+            int calcHiton20;
             int baseHiton20;
             if (a_character.Lvl <= 4)                            // might end up smoothing these by adding in between HitOn20s 
             { baseHiton20 = 1; }

@@ -34,6 +34,7 @@
         <Label x:Name="TargetCharLabel" Content="TargetCharacter" HorizontalAlignment="Left" Margin="765,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.132,0.038" Width="100" Background="#FF77F3F9"/>
         <Button x:Name ="TransfertoNewParty"  Content="Transfer New Party" HorizontalAlignment="Left" Margin="360,218,0,0" VerticalAlignment="Top" Width="110" Click="TransfertoNewParty_Click"/>
         <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="360,238,0,0" VerticalAlignment="Top" Width="110" Click="Meleethis_Click"/>
+        <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="496,233,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
 
     </Grid>
 </Window>

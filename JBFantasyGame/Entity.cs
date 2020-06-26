@@ -107,8 +107,8 @@ namespace JBFantasyGame
             {
                 RollingDie eightsided = new RollingDie(8, 1);
                 damage = eightsided.Roll();
-                Defender.Hp = Defender.Hp - damage;
-             //   WriteLine($"{name} did  {damage } damage to {Defender.Name}");
+                Defender.Hp -= damage;                          // same as  Defender.Hp = Defender.Hp - damage;
+                                                                             
                 if (Defender.Hp <= 0)
                 {
                    // WriteLine($"{Defender.Name} has died.");

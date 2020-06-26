@@ -113,9 +113,7 @@ namespace JBFantasyGame
             a_character.MaxHp =8;                                        // temporary to test combat
             a_character.Hp = 8;                                            // ditto
             a_character.CharType = "Mage Test";
-            Character thismage = new Character() ;
-
-            thismage = Mage.MageInitialize(a_character);
+            a_character = Mage.MageInitialize(a_character);
             return a_character;
             
          }

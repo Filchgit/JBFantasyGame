@@ -9,17 +9,7 @@ using static System.Console;
 namespace JBFantasyGame
 {
     public class Mage : Character                                                             // these names may change slightly , but they will do for starting classes 
-    {
-      //  public Mage(string newName) : base(newName) { }
-        
-       // public override int  MeleeAttack(Entity Defender)                                  // just did this to check override function hiton20  will calculate %chance to hits and euipped weapons + str modifiers will do damage really.
-       // {
-       //     RollingDie foursided = new RollingDie(4, 1);
-       //     damage = foursided.Roll();
-       //     Defender.Hp = Defender.Hp - damage;
-       //     WriteLine($"{name} did  {damage } damage to {Defender.Name}");
-       //     return Defender.Hp;
-       // }
+    {    
         public static Character MageInitialize(Character a_character)
         {
             if (a_character.Exp <= 2500)                                  // this are straight from AD&D atm but will change as time goes on, will also have a better
@@ -72,9 +62,6 @@ namespace JBFantasyGame
                 a_character.Hp = a_character.MaxHp;
             }
 
-
-
-
             MageRecalcHitOn20(a_character);
             return a_character;
         }
@@ -90,7 +77,7 @@ namespace JBFantasyGame
             else if (a_character.Str > 17)
             { ToHitStrAdj = 1; }
 
-            int calcHiton20 = 0;                                           
+            int calcHiton20;                                           
             int baseHiton20;
             if (a_character.Lvl <= 5)                            // might end up smoothing these by adding in between HitOn20s 
             { baseHiton20 = 1; }
