@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 using System.Runtime.CompilerServices;
 using System.IO.IsolatedStorage;
 using System.ComponentModel.Design.Serialization;
+using Microsoft.Win32;
 
 namespace JBFantasyGame
 {
@@ -187,24 +188,32 @@ namespace JBFantasyGame
             MainWindow.Parties.Add(thisparty);            // was MainWindow.Parties
             UpdatePartiesListBox();
             UpdateTargetFocusGroupListBox();
-        }
-        private void SaveAll_Click(object sender, RoutedEventArgs e)
+        }     
+ 
+        private void LoadAllFileDialog_Click(object sender, RoutedEventArgs e)
         {
-            Save(MainWindow.Parties);
+            string path = "";                                                      //this bit just opens file dialog
+            var openFileDialog = new OpenFileDialog
+            { Filter = "Text documents (.txt)|*.txt|Log files(.log)|*.log" };
+            var dialogResult = openFileDialog.ShowDialog();
+            if (dialogResult== true)
+            {
+               path = openFileDialog.FileName;                                    // and sets path to file that we open in dialog
+            }
+
+            List<Party> newpartylist = LoadPartyList(path);
+
+             MainWindow.Parties = newpartylist;
+             foreach (Party thisparty in MainWindow.Parties )
+                 { thisparty.Name = thisparty[0].PartyName; }         
+               UpdatePartiesListBox();
+               UpdateTargetFocusGroupListBox();
+              UpdateTargetFocusCharListBox();
         }
-        private void LoadAll_Click(object sender, RoutedEventArgs e)
-        {
-         List<Party> newpartylist = LoadPartyList();
-         MainWindow.Parties = newpartylist;                                
-         foreach (Party thisparty in MainWindow.Parties )
-            { thisparty.Name = thisparty[0].PartyName; }         
-          UpdatePartiesListBox();
-          UpdateTargetFocusGroupListBox();
-          UpdateTargetFocusCharListBox();
-        }
-        private List<Party>  LoadPartyList()                                                           // this seems to fail at the moment when there is already a party/character present
+
+        private List<Party> LoadPartyList (string path)
          {
-          string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
+         // string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             MainWindow.Parties = new List<Party>();
            XmlSerializer formatter = new XmlSerializer(MainWindow.Parties.GetType());
          FileStream aFile = new FileStream(path, FileMode.Open);
@@ -213,9 +222,20 @@ namespace JBFantasyGame
             MemoryStream stream = new MemoryStream(buffer);
             return (List<Party> )formatter.Deserialize(stream);           
           }
-        private void Save(List<Party> partysave)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
+        private void SaveAll_Click(object sender, RoutedEventArgs e)
         {
-            string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
+            var saveFileDialog = new SaveFileDialog
+            { Filter = "Text documents (.txt)|*.txt|Log files(.log)|*log" };
+            var dialogResult = saveFileDialog.ShowDialog();
+            if (dialogResult == true)
+            {
+                string path = saveFileDialog.FileName;
+                Save(MainWindow.Parties, path); }
+        }
+
+        private void Save(List<Party> partysave, string path)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
+        {
+            //string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             FileStream outfile = File.Create(path);
             XmlSerializer formatter = new XmlSerializer(partysave.GetType());
             formatter.Serialize(outfile, partysave);
@@ -226,6 +246,8 @@ namespace JBFantasyGame
             GlobalItemAdd GlobalItemAdd1 = new GlobalItemAdd();
             GlobalItemAdd1.Show();
         }
+
+      
     }
     
 }

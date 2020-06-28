@@ -22,7 +22,7 @@
         <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="146,113,0,0" VerticalAlignment="Top" Width="165" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0"/>
         <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="496,103,0,0" VerticalAlignment="Top" Width="100" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
         <Button x:Name="SaveAll"  Content="Save All All Characters / Parties" HorizontalAlignment="Left" Margin="146,216,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
-        <Button x:Name="LoadAll"  Content="Clear and Load All Characters / Parties" HorizontalAlignment="Left" Margin="146,193,0,0" VerticalAlignment="Top" Width="209" Click="LoadAll_Click" Height="23"/>
+       
         <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="496,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.346" Width="100" Height="33" Background="#FFFBFBFB"/>
         <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="496,188,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.093,-0.35" Height="45" Click="AssigntoCharacter_Click" />
         
@@ -35,6 +35,7 @@
         <Button x:Name ="TransfertoNewParty"  Content="Transfer New Party" HorizontalAlignment="Left" Margin="360,218,0,0" VerticalAlignment="Top" Width="110" Click="TransfertoNewParty_Click"/>
         <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="360,238,0,0" VerticalAlignment="Top" Width="110" Click="Meleethis_Click"/>
         <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="496,233,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
+        <Button x:Name="LoadAllFileDialog" Content="Load all using File Dialog" HorizontalAlignment="Left" Margin="146,245,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
 
     </Grid>
 </Window>
