@@ -16,6 +16,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Runtime.CompilerServices;
 using System.IO.IsolatedStorage;
+using System.ComponentModel.Design.Serialization;
 
 namespace JBFantasyGame
 {
@@ -37,34 +38,17 @@ namespace JBFantasyGame
         private void DMRollDiceBtn_Click(object sender, RoutedEventArgs e)
         {
             String diecheck = RollDieDM.Text;
-            string rex = "^([0-9]*)[D-d]([0-9]+)";
-            if (Regex.IsMatch(diecheck, rex) == true)
-            {
-                string[] splitdie = diecheck.Split(new Char[] { 'D', 'd' });
-                int i1;
-                int i2;
-                if (splitdie[0] != "")
-                {
-                    i2 = Int32.Parse(splitdie[0]);
-                    i1 = Int32.Parse(splitdie[1]);
-                }
-                else
-                {
-                    i1 = Int32.Parse(splitdie[1]);
-                    i2 = 1;
-                }
+            (int i1, int i2)= RollingDie.Diecheck(diecheck);
 
+            if (i1 != 0)
+            {
                 RollingDie thisRoll = new RollingDie(i1, i2);
                 MessageBox.Show($"{thisRoll.Roll() } {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
-            }
-            if (Regex.IsMatch(diecheck, rex) == false)
-            {
-                MessageBox.Show($"Not a valid input to roll dice, should be in the form of 3d6 , 4D8, 1d20 or even d20");
             }
         }
         private void Nameinput_TextInput(object sender, TextCompositionEventArgs e)
         {
-            string var2;
+            string var2;                           //I don't think I need this; put in when I was going to error check
             var2 = Nameinput.Text;
         }
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
@@ -91,7 +75,7 @@ namespace JBFantasyGame
                 ShowCharWin1.Show();
             }
         }
-        private void UpdateGlobalItems()
+        public void UpdateGlobalItems()
         {
             List<PhysObj> currentPhysObj = new List<PhysObj>();
             foreach (PhysObj physthing in MainWindow.GlobalItems)

@@ -105,8 +105,19 @@ namespace JBFantasyGame
 
             if (attRoll >= tohit)
             {
-                RollingDie eightsided = new RollingDie(8, 1);
-                damage = eightsided.Roll();
+                int damage = 0;
+                string damagerange;
+                foreach (PhysObj CheckObject in this.Inventory)
+                {
+                    if (CheckObject.IsEquipped = true && CheckObject.ObjType is "Weapon")
+                    { damagerange = CheckObject.Damage; }
+                    else damagerange = "1d1";
+
+
+                    (int i1, int i2) = RollingDie.Diecheck(damagerange);
+                    RollingDie thisRoll = new RollingDie(i1, i2);
+                    damage = thisRoll.Roll();
+                }
                 Defender.Hp -= damage;                          // same as  Defender.Hp = Defender.Hp - damage;
                                                                              
                 if (Defender.Hp <= 0)
