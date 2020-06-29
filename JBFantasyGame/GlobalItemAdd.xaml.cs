@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,25 +20,29 @@ namespace JBFantasyGame
     /// </summary>
     public partial class GlobalItemAdd : Window
     {
+
         public GlobalItemAdd()
         {
+
             InitializeComponent();
+       
         }
         // not positive we need all these blank textInput fields I may leave them so we can error check fields I think
         // thischaracter.Name = Nameinput.Text; 
+        bool isEquip;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             PhysObj anotherPhysObj = new PhysObj();
             anotherPhysObj.Name = GlobalItemNameInput.Text;
             anotherPhysObj.ObjType = GlobalItemObjTypeInput.Text;
-            anotherPhysObj.Damage =  GlobalItemDamageInput.Text;
+            anotherPhysObj.Damage = GlobalItemDamageInput.Text;
             anotherPhysObj.ACEffect = GlobalItemACEffectInput.Text;
-           
-            bool ISequip;
-            string str = GlobalItemIsEquippedInput.Text;    // might make this a choice between two box.
-            ISequip = str == "True";
+            anotherPhysObj.IsEquipped = isEquip;
+            // bool ISequip;
+            //string str = GlobalItemIsEquippedInput.Text;    // might make this a choice between two box.
+            // ISequip = str == "True";
             MainWindow.GlobalItems.Add(anotherPhysObj);     // doesn't actuallly update item list on previous page, ok as this really quick and dirty at this stage 
-            
+
         }
         private void GlobalItemNameInput_TextInput(object sender, TextCompositionEventArgs e)
         {
@@ -63,6 +68,15 @@ namespace JBFantasyGame
 
         }
 
-       
+        private void TrueEquipListBox_Selected(object sender, RoutedEventArgs e)
+        {
+            isEquip = true;
+        }
+
+        private void FalseEquipListBox_Selected(object sender, RoutedEventArgs e)
+        {
+            isEquip = false;
+        }
+                       
     }
 }

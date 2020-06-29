@@ -16,16 +16,16 @@
         <Button x:Name="CreateNewCharacter" Content="Create New Character" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="120" Click="CreateNewCharacter_Click"/>
         <Button x:Name="CreateNewParty" Content="Create New Party" HorizontalAlignment="Left" Margin="21,123,0,0" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.467,1.8" Click="CreateNewParty_Click"/>
         <Button x:Name="ShwCharSht" Content ="Show Char Sheet"  HorizontalAlignment="Left" Margin="360,193,0,0" VerticalAlignment="Top" Width="110" Height="27"  Click="ShwCharSht_Click" RenderTransformOrigin="0.52,0.037" />
-        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="85" Margin="360,108,0,0" VerticalAlignment="Top" Width="110" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" SelectedIndex="0" />
+        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="85" Margin="360,108,0,0" VerticalAlignment="Top" Width="110" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" SelectedIndex="0" SourceUpdated="CurrentPartyList_SourceUpdated" />
         <Label x:Name="CurrentPartyLabel" Content="Current Party" HorizontalAlignment="Left" Margin="360,75,0,0" VerticalAlignment="Top" Width="110" Height="33" Background="#FFF9F9F9"/>
         <Label Name="PartiesAvailable" Content="Available Parties" HorizontalAlignment="Left" Margin="146,80,0,0" VerticalAlignment="Top" Width="104" Background="#FFF7EEEE" Height="33"/>
         <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="146,113,0,0" VerticalAlignment="Top" Width="165" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0"/>
         <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="496,103,0,0" VerticalAlignment="Top" Width="100" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
-        <Button x:Name="SaveAll"  Content="Save All All Characters / Parties" HorizontalAlignment="Left" Margin="146,216,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
-       
+        <Button x:Name="SaveAll"  Content="Save All All Characters / Parties" HorizontalAlignment="Left" Margin="146,193,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
+
         <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="496,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.346" Width="100" Height="33" Background="#FFFBFBFB"/>
         <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="496,188,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.093,-0.35" Height="45" Click="AssigntoCharacter_Click" />
-        
+
         <Rectangle x:Name="SecondaryFocusRectangle" Fill="#FFB5EAF0" HorizontalAlignment="Left" Height="242" Margin="638,18,0,0" Stroke="Black" VerticalAlignment="Top" Width="357"/>
         <ListBox x:Name="TargetFocusGroupList" HorizontalAlignment="Left" Height="100" Margin="649,93,0,0" VerticalAlignment="Top" Width="100" SelectedIndex="0" SelectionChanged="TargetFocusGroupList_SelectionChanged"/>
         <Label Name="TargetFocusLabel" Content="Target Focii" HorizontalAlignment="Left" Margin="649,29,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.308" Width="100"/>
@@ -35,7 +35,9 @@
         <Button x:Name ="TransfertoNewParty"  Content="Transfer New Party" HorizontalAlignment="Left" Margin="360,218,0,0" VerticalAlignment="Top" Width="110" Click="TransfertoNewParty_Click"/>
         <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="360,238,0,0" VerticalAlignment="Top" Width="110" Click="Meleethis_Click"/>
         <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="496,233,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
-        <Button x:Name="LoadAllFileDialog" Content="Load all using File Dialog" HorizontalAlignment="Left" Margin="146,245,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
+        <Button x:Name="LoadAllFileDialog" Content="Load all using File Dialog" HorizontalAlignment="Left" Margin="146,213,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
+
+        <Button x:Name="DmAdjustChar" Content="DM Quick Adj Character" HorizontalAlignment="Left" Margin="156,258,0,0" VerticalAlignment="Top" Width="183" Click="DmAdjustChar_Click"/>
 
     </Grid>
 </Window>

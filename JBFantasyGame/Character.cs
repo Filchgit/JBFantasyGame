@@ -118,7 +118,7 @@ namespace JBFantasyGame
             return a_character;
 
         }
-        public Character RerollCharacter(Character chartoreroll)
+        public static Character RerollCharacter(Character chartoreroll)
 
         {
             RollingDie three6d = new RollingDie(6, 3);       // this is the same as rolling a six sided dice three times and totalling

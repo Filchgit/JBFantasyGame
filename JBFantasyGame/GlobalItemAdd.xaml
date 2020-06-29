@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:JBFantasyGame"
         mc:Ignorable="d"
         Title="Global Item Add" Height="450" Width="800">
-    <Grid Background="#FFD3F5F4">
+    <Grid Background="#FFD3F5F4" >
+        <Grid.DataContext>
+            <local:PhysObj/>
+        </Grid.DataContext>
         <StackPanel HorizontalAlignment="Left" Height="226" Margin="10,10,0,0" VerticalAlignment="Top" Width="75">
             <TextBlock TextWrapping="Wrap" Text="Name" Height="30"/>
             <TextBlock TextWrapping="Wrap" Text="ObjectType objType" Height="30"/>
@@ -15,11 +18,16 @@
             <TextBlock TextWrapping="Wrap" Text="ACEffect" Height="30"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Left" Height="135" Margin="90,10,0,0" VerticalAlignment="Top" Width="135">
-            <TextBox x:Name="GlobalItemNameInput" TextWrapping="Wrap" Text="Name" Height="27" TextInput="GlobalItemNameInput_TextInput"/>
+            <TextBox x:Name="GlobalItemNameInput" TextWrapping="Wrap" Text="Name" Height="27" TextInput="GlobalItemNameInput_TextInput">
+            </TextBox>
             <TextBox x:Name="GlobalItemObjTypeInput" TextWrapping="Wrap" Text="Misc" Height="27" TextInput="GlobalItemObjTypeInput_TextInput"/>
-            <TextBox x:Name="GlobalItemIsEquippedInput" TextWrapping="Wrap" Text="True" Height="25" TextInput="GlobalItemIsEquippedInput_TextInput"/>
+            <ListBox AllowDrop="False" Height="31" SelectionMode="Single"  RenderTransformOrigin="0.496,0.938"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedIndex="0" IsSynchronizedWithCurrentItem="False"   >
+                <ListBoxItem x:Name="TrueEquipListBox" Content="True" Selected="TrueEquipListBox_Selected"  />
+                <ListBoxItem x:Name="FalseEquipListBox" Content="False" Selected="FalseEquipListBox_Selected"  />
+            </ListBox>
+
             <TextBox x:Name="GlobalItemDamageInput"  TextWrapping="Wrap" Text="0" Height="30" TextInput="GlobalItemDamageInput_TextInput"/>
-            <TextBox x:Name="GlobalItemACEffectInput" TextWrapping="Wrap" Text="0" Height="30" TextInput="GlobalItemACEffectInput_TextInput"/>
+            <TextBox x:Name="GlobalItemACEffectInput" TextWrapping="Wrap" Text="0" Height="30"  TextInput="GlobalItemACEffectInput_TextInput"/>
 
         </StackPanel>
         <Button Content="Quick Add Global Item" HorizontalAlignment="Left" Margin="306,23,0,0" VerticalAlignment="Top" Width="138" RenderTransformOrigin="0.14,-0.327" Height="39" Click="Button_Click"/>

@@ -1,0 +1,42 @@
+﻿<Window x:Class="JBFantasyGame.DMUpdateChar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JBFantasyGame"
+        mc:Ignorable="d"
+        Title="DMUpdateChar" Height="450" Width="800">
+    <Grid Background="#FFD3F5F4" >
+        <StackPanel x:Name="DMUpdateCharLabels" HorizontalAlignment="Left" Height="368" Margin="27,25,0,0" VerticalAlignment="Top" Width="94">
+            <Label Content="Name" Height="30" />
+            <Label Content="CharType" Height="30" />
+            <Label Content="Experience" Height="30" />
+            <Label Content="MaxHP" Height="30" />
+            <Label Content="Str" Height="30" />
+            <Label Content="Int" Height="30" />
+            <Label Content="Wis" Height="30" />
+            <Label Content="Dex" Height="30" />
+            <Label Content="Con" Height="30" />
+            <Label Content="Chr" Height="30" />
+            <Label Content="Party Name" Height="30" />
+
+
+        </StackPanel>
+        <StackPanel x:Name="DMUpdateCharTextBoxes" HorizontalAlignment="Left" Height="372" Margin="121,25,0,0" VerticalAlignment="Top" Width="94" RenderTransformOrigin="0.5,0.5" >
+            <TextBox x:Name ="DMUpdateCharName"  Height="30" TextWrapping="Wrap" Text="Name"    />
+            <TextBox x:Name = "DMUpdateCharType"  Height="30" TextWrapping="Wrap" Text="Char Type" />
+            <TextBox Height="30" x:Name="DMUpdateCharExp" TextWrapping="Wrap" Text="Exp" />
+            <TextBox Height="30" x:Name="DMUpdateCharMaxHp" TextWrapping="Wrap" Text="MaxHp"/>
+            <TextBox Height="30" x:Name="DMUpdateCharStr" TextWrapping="Wrap" Text="Str"/>
+            <TextBox Height="30" x:Name="DMUpdateCharInte" TextWrapping="Wrap" Text="Int"/>
+            <TextBox Height="30" x:Name="DMUpdateCharWis" TextWrapping="Wrap" Text="Wis"/>
+            <TextBox Height="30" x:Name="DMUpdateCharDex" TextWrapping="Wrap" Text="Dex"/>
+            <TextBox Height="30" x:Name="DMUpdateCharCon" TextWrapping="Wrap" Text="Con"/>
+            <TextBox Height="30" x:Name="DMUpdateCharChr" TextWrapping="Wrap" Text="Chr"/>
+            <TextBox Height="30" x:Name="DMUpdateCharPartyName" TextWrapping="Wrap" Text="Party"/>
+            
+            
+        </StackPanel>
+        <Button x:Name="UpdateChar" Content="Update This Character" HorizontalAlignment="Left" Margin="483,48,0,0" VerticalAlignment="Top" Width="144" Click="UpdateChar_Click"/>
+    </Grid>
+</Window>

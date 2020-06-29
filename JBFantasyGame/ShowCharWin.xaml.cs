@@ -62,20 +62,5 @@ namespace JBFantasyGame
             CharInv.DisplayMemberPath = "Name";
         }
     }
-  
-    //}
-   // DataContext = CharacterDetails;
-
-     //         public Character CharacterDetails
-    //{
-      //  get { return (Character)GetValue(CharacterDetailsProperty); }
-        //set { SetValue(CharacterDetailsProperty, value); }
-    //}
-    //public static readonly DependencyProperty CharacterDetailsProperty = DependencyProperty.Register("CharacterDetails",
-      //                  typeof(Character),
-        //                typeof(ShowCharWin),
-          //        new PropertyMetadata(null));
-
-
 }
 

@@ -25,11 +25,13 @@ namespace JBFantasyGame
     /// Interaction logic for DMMainWin.xaml
     /// </summary>
     public partial class DMMainWin : Window
-    {
+    {    
+
         public DMMainWin()
         {
             InitializeComponent();
             UpdateGlobalItems();
+            
         }
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
         {
@@ -59,8 +61,8 @@ namespace JBFantasyGame
             {
                 Character thischaracter = new Character();                                                // might need to add check to exclude names that are identical to any already in party
                 thischaracter.NewCharacter(thischaracter);
-                thischaracter.Name = Nameinput.Text;             
-                
+                thischaracter.Name = Nameinput.Text;
+               
                 Party thisparty = (Party)GroupList.SelectedItem;                                                                                          
                 thisparty.Add(thischaracter);
                 thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
@@ -124,7 +126,7 @@ namespace JBFantasyGame
      
               
         }
-        private void UpdatePartiesListBox()
+        public void UpdatePartiesListBox()
         {
             List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
             foreach (Party group in MainWindow.Parties)             //was MainWindow.Parties
@@ -132,7 +134,7 @@ namespace JBFantasyGame
             GroupList.ItemsSource = currentParties;
             GroupList.DisplayMemberPath = "Name";
         }
-        private void UpdatePartyListBox()
+        public void UpdatePartyListBox()
         {
             List<Character> currentparty = new List<Character>();
             Party thisparty = (Party)GroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
@@ -167,6 +169,9 @@ namespace JBFantasyGame
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentPartyList.SelectionChanged += CurrentPartyList_SelectionChanged;
+            MainWindow.characterSelected = (Character)CurrentPartyList.SelectedItem;
+            UpdatePartyListBox();
+
         }
         private void GlobalItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -247,7 +252,17 @@ namespace JBFantasyGame
             GlobalItemAdd1.Show();
         }
 
-      
+        private void DmAdjustChar_Click(object sender, RoutedEventArgs e)
+        {
+            
+                    DMUpdateChar DMUpdateChar1 = new DMUpdateChar();
+                    DMUpdateChar1.Show();                             
+        }
+
+        private void CurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            UpdatePartyListBox();
+        }
     }
     
 }

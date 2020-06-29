@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace JBFantasyGame
 {
-    public class Rougue : Character
+    public class Rogue : Character
     {
-
-
         public static Character RogueInitialize(Character a_character)
         {
             if (a_character.Exp <= 1250)                                  // this are straight from AD&D atm but will change as time goes on, will also have a better

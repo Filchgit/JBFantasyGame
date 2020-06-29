@@ -23,6 +23,7 @@ namespace JBFantasyGame
         public static List<Character> Party;
         public static List<Party> Parties;
         public static List<PhysObj> GlobalItems;
+        public static Character characterSelected;
         public MainWindow()
         {
             GlobalItems = new List<PhysObj>();
@@ -30,11 +31,26 @@ namespace JBFantasyGame
             PhysObj shield = new PhysObj();
             GlobalItems.Add (sword);          // Global Items will be loaded like character and groups at start as will spells
             GlobalItems.Add(shield);          // Doing stuff here to check functionality
-            sword.Name = "Big sword";
-            shield.Name = "crappy shield.";
+            
             Party = new List<Character>();
             Parties = new List<Party>();
+            characterSelected = new Character();
+            characterSelected.Name = "Default";
+            characterSelected.IsAlive = true;
+            characterSelected.CharType = "Fighter";
+            characterSelected.AC = 9;
+            characterSelected.Str = 3;
+            characterSelected.Inte = 3;
+            characterSelected.Wis = 3;
+            characterSelected.Con = 3;
+            characterSelected.Dex = 3;
+            characterSelected.Chr = 3;
+            characterSelected.Exp = 3;
+            characterSelected.HitOn20 = 10;
+            characterSelected.MaxHp = 1;
+            characterSelected.PartyName = "Default";
             
+
             InitializeComponent();
             
         }
