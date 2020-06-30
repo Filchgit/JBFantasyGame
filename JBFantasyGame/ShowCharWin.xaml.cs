@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace JBFantasyGame
 {
@@ -21,15 +22,16 @@ namespace JBFantasyGame
     /// </summary>
     public partial class ShowCharWin : Window
     {
-        private Character showcharacter;
+        private Character showcharacter;                              //seeing if I can use an object model - data grid  
         private DispatcherTimer dispatcherTimer = null;
 
         public ShowCharWin(Character thischaracter)
         {
             InitializeComponent();
             showcharacter = thischaracter;
+                                                                        // currently updating character sheets on a timer might see if I can do this from a global event later 
             dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(1.0);
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(3.0);
             dispatcherTimer.Tick += OnTimerTick;
             dispatcherTimer.Start();
         }
@@ -47,20 +49,41 @@ namespace JBFantasyGame
             ShowCharLvl.Text = showcharacter.Lvl.ToString();
             ShowCharExp.Text = showcharacter.Exp.ToString();
             ShowGroup.Text = showcharacter.PartyName.ToString();
-            UpdateInvItems();
+            ShowCharHiton20.Text = showcharacter.HitOn20.ToString();
+            ShowCharAC.Text = showcharacter.AC.ToString();
 
-             CharInv.ItemsSource = showcharacter.Inventory ;
-             CharInv.DisplayMemberPath = "Name";
-
+            PhysObjects = new ObservableCollection<PhysObj>               //all this bit is databinding my inventory grid to 
+            { };                                                          // the PhysObjects ObservableCollection
+             foreach (PhysObj physthing in showcharacter.Inventory)       //  can't make binding to way to source ; at least
+             {                                                            //I can't work out how to atm; so updating time atm.
+              if (PhysObjects.Contains(physthing))
+            { continue; }
+            else 
+                 { PhysObjects.Add(physthing); }
+            }
+            PersonalInventory.ItemsSource = PhysObjects;
         }
-        private void UpdateInvItems()
+        public ObservableCollection<PhysObj> PhysObjects
         {
-            List<PhysObj> currentPhysObj = new List<PhysObj>();
-            foreach (PhysObj physthing in showcharacter.Inventory )
-            { currentPhysObj.Add(physthing); }
-            CharInv.ItemsSource = currentPhysObj;
-            CharInv.DisplayMemberPath = "Name";
+            get { return (ObservableCollection<PhysObj>)GetValue(PhysObjectsProperty); }
+            set { SetValue(PhysObjectsProperty, value); }
         }
+        public static readonly DependencyProperty PhysObjectsProperty =
+            DependencyProperty.Register("PhysObjects",
+                     typeof(ObservableCollection<PhysObj>),
+                     typeof(JBFantasyGame.ShowCharWin),
+                     new PropertyMetadata(null));
+ 
+        private void PersonalInventory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           PersonalInventory.SelectionChanged += PersonalInventory_SelectionChanged;       
+        }
+
+        private void Delete1st_Click(object sender, RoutedEventArgs e)
+        {
+            showcharacter.Inventory.RemoveAt (0);
+        }
+
     }
 }
 

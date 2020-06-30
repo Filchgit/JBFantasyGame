@@ -72,7 +72,7 @@ namespace JBFantasyGame
             { ToHitStrAdj = -2; }
             else if (a_character.Str <= 7)
             { ToHitStrAdj = -1; }
-            else if (a_character.Str > 17)
+            else if (a_character.Str >= 17)
             { ToHitStrAdj = 1; }
                                      
                 int  calcHiton20 = 0 - (a_character.Lvl - 1) - ToHitStrAdj;       //HitOn20 for fighters is 0 at level 1, decreases by 1 per level

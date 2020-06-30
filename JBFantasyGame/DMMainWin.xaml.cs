@@ -51,7 +51,7 @@ namespace JBFantasyGame
         }
         private void Nameinput_TextInput(object sender, TextCompositionEventArgs e)
         {
-            string var2;                           //I don't think I need this; put in when I was going to error check
+            string var2;                      //I don't think I need this; put in when I was going to error check
             var2 = Nameinput.Text;
         }
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
@@ -59,7 +59,7 @@ namespace JBFantasyGame
             { MessageBox.Show("You must pick a party to add a new character. "); }
             else
             {
-                Character thischaracter = new Character();                                                // might need to add check to exclude names that are identical to any already in party
+                Character thischaracter = new Character();             // might need to add check to exclude names that are identical to any already in party
                 thischaracter.NewCharacter(thischaracter);
                 thischaracter.Name = Nameinput.Text;
                
