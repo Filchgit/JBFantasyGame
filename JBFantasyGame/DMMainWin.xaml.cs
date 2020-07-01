@@ -41,12 +41,13 @@ namespace JBFantasyGame
         private void DMRollDiceBtn_Click(object sender, RoutedEventArgs e)
         {
             String diecheck = RollDieDM.Text;
-            (int i1, int i2)= RollingDie.Diecheck(diecheck);
+            (int i1, int i2, int i3)= RollingDie.Diecheck(diecheck);
 
             if (i1 != 0)
             {
-                RollingDie thisRoll = new RollingDie(i1, i2);
-                MessageBox.Show($"{thisRoll.Roll() } {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
+                RollingDie thisRoll = new RollingDie(i1, i2, i3);
+                string rollexp = thisRoll.ToString();  
+                MessageBox.Show($"{thisRoll.Roll() } {rollexp}  {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
             }
         }
         private void Nameinput_TextInput(object sender, TextCompositionEventArgs e)

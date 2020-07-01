@@ -35,8 +35,13 @@ namespace JBFantasyGame
             dispatcherTimer.Tick += OnTimerTick;
             dispatcherTimer.Start();
         }
+
+
         private void OnTimerTick(object sender, EventArgs e)                 // there was a tip to make sure that lengthy operations
-        {                                                                    // are not done on tick event as it runs on UI thread, and 
+              { UpdateShowCharWin(); }
+        public void UpdateShowCharWin()
+             { 
+                                                                              // are not done on tick event as it runs on UI thread, and 
             ShowCharClass.Text = showcharacter.CharType.ToString();          // as such may block UI from responding. Don't think this is lengthy.
             ShowCharname.Text = showcharacter.Name.ToString();
             ShowCharHP.Text = showcharacter.Hp.ToString();
@@ -81,9 +86,19 @@ namespace JBFantasyGame
 
         private void Delete1st_Click(object sender, RoutedEventArgs e)
         {
-            showcharacter.Inventory.RemoveAt (0);
+            PhysObj removethis =(PhysObj)PersonalInventory.SelectedItem;
+            showcharacter.Inventory.Remove(removethis);
+            UpdateShowCharWin();
         }
 
+        private void EquipThisButt_Click(object sender, RoutedEventArgs e)          // Obviously can put a lot of type checking in here and then conditions
+        {
+            PhysObj equipthis = (PhysObj)PersonalInventory.SelectedItem;
+            if (equipthis.IsEquipped == true  )
+              { equipthis.IsEquipped = false; }
+            else { equipthis.IsEquipped = true; }
+            UpdateShowCharWin();
+        }
     }
 }
 

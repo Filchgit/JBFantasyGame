@@ -150,7 +150,7 @@ namespace JBFantasyGame
                     if (CheckObject.IsEquipped = true && CheckObject.ObjType is "Weapon")     // this was just a rough first concept check  
                     {
                         damagerange = CheckObject.Damage;                                      // need to allow for two handed etc etc etc 
-                        (int i1, int i2) = RollingDie.Diecheck(damagerange);
+                        (int i1, int i2, int i3) = RollingDie.Diecheck(damagerange);
                         RollingDie thisRoll = new RollingDie(i1, i2);
                         damage = thisRoll.Roll();
                     }
