@@ -31,7 +31,7 @@ namespace JBFantasyGame
             showcharacter = thischaracter;
                                                                         // currently updating character sheets on a timer might see if I can do this from a global event later 
             dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(3.0);
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(5.0);
             dispatcherTimer.Tick += OnTimerTick;
             dispatcherTimer.Start();
         }
@@ -55,18 +55,21 @@ namespace JBFantasyGame
             ShowCharExp.Text = showcharacter.Exp.ToString();
             ShowGroup.Text = showcharacter.PartyName.ToString();
             ShowCharHiton20.Text = showcharacter.HitOn20.ToString();
-            ShowCharAC.Text = showcharacter.AC.ToString();
 
+           
             PhysObjects = new ObservableCollection<PhysObj>               //all this bit is databinding my inventory grid to 
             { };                                                          // the PhysObjects ObservableCollection
              foreach (PhysObj physthing in showcharacter.Inventory)       //  can't make binding to way to source ; at least
              {                                                            //I can't work out how to atm; so updating time atm.
-              if (PhysObjects.Contains(physthing))
-            { continue; }
-            else 
-                 { PhysObjects.Add(physthing); }
+               // if (PhysObjects.Contains(physthing))
+          //  { continue; }
+           // else 
+                  PhysObjects.Add(physthing); 
             }
+             
             PersonalInventory.ItemsSource = PhysObjects;
+            showcharacter.AC = showcharacter.ACRecalc(showcharacter);    
+            ShowCharAC.Text = showcharacter.AC.ToString();
         }
         public ObservableCollection<PhysObj> PhysObjects
         {
@@ -96,9 +99,11 @@ namespace JBFantasyGame
             PhysObj equipthis = (PhysObj)PersonalInventory.SelectedItem;
             if (equipthis.IsEquipped == true  )
               { equipthis.IsEquipped = false; }
-            else { equipthis.IsEquipped = true; }
-            UpdateShowCharWin();
+            else { equipthis.IsEquipped = true; }                    
+           UpdateShowCharWin(); 
         }
+
+       
     }
 }
 

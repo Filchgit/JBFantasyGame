@@ -78,18 +78,18 @@ namespace JBFantasyGame
             int calcHiton20;
             int baseHiton20;
             if (a_character.Lvl <= 4)                            // might end up smoothing these by adding in between HitOn20s 
-            { baseHiton20 = 1; }
+            { baseHiton20 = 9; }
             else if (a_character.Lvl <= 8)
-            { baseHiton20 = -1; }
+            { baseHiton20 = 11; }
             else if (a_character.Lvl <= 12)
-            { baseHiton20 = -4; }
+            { baseHiton20 = 14; }
             else if (a_character.Lvl <= 16)
-            { baseHiton20 = -6; }
+            { baseHiton20 = 16; }
             else if (a_character.Lvl <= 20)
-            { baseHiton20 = -8; }
-            else { baseHiton20 = -10; }
+            { baseHiton20 = 18; }
+            else { baseHiton20 = 20; }
 
-            calcHiton20 = baseHiton20 - ToHitStrAdj;
+            calcHiton20 = baseHiton20 + ToHitStrAdj;
             a_character.HitOn20 = calcHiton20;
             return a_character;
 

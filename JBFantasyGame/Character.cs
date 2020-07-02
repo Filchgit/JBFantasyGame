@@ -108,12 +108,12 @@ namespace JBFantasyGame
             RerollCharacter(a_character);
             a_character.isAlive = true;
 
-            a_character.AC = 9;
+            a_character.AC =0;
             a_character.exp = 120000;
             a_character.hiton20 = 0;                                       // temporary to test combat
             a_character.MaxHp = 8;                                        // temporary to test combat
             a_character.Hp = 8;                                            // ditto
-            a_character.CharType = "Mage Test";
+            a_character.CharType = "Fighter";
             a_character = Fighter.FighterInitialize(a_character);
             return a_character;
 
@@ -130,15 +130,41 @@ namespace JBFantasyGame
             chartoreroll.Chr = three6d.Roll();
             return chartoreroll;
         }
+            public int ACRecalc(Character characterIn )
+           {
+            AC = 0;
+            int DexACAdj = 0;
+            if(characterIn.Dex ==15)
+            { DexACAdj = 1; }
+            else if (characterIn.Dex == 16)
+            { DexACAdj = 2; }
+            else if (characterIn.Dex == 17)
+            { DexACAdj = 3; }
+            else if (characterIn.Dex == 18)
+            { DexACAdj = 4; }
+
+            foreach (PhysObj CheckObject in characterIn.Inventory)
+            {
+                if (CheckObject.IsEquipped == true && CheckObject.ObjType is "Armour")     // this was just a rough first concept check  
+                {
+                    AC = AC + CheckObject.ACEffect;
+                }
+            }
+            AC = AC + DexACAdj;
+            return AC ;
+            }
         public virtual int MeleeAttack(Character Defender)
-        {
+        {   
+            Defender.AC = 0; 
+            Defender.AC = ACRecalc(Defender);
+
             RollingDie twentyside = new RollingDie(20, 1);
             int tohit;
             int attRoll = twentyside.Roll();
-            if (Defender.ac > hiton20)
-            { tohit = (20 - (hiton20 + Defender.ac)); }
-            else if (Defender.ac < (hiton20 - 5))
-            { tohit = 20 - (hiton20 + (Defender.ac + 5)); }
+            if (Defender.AC < hiton20)
+            { tohit =20 - (hiton20 - Defender.ac); }
+            else if (Defender.AC >= (hiton20 + 5))
+            { tohit = 20 +  ((Defender.AC-hiton20 ) - 5); }
             else tohit = 20;
 
             if (attRoll >= tohit)
@@ -147,12 +173,13 @@ namespace JBFantasyGame
                 string damagerange ="";
                 foreach (PhysObj CheckObject in this.Inventory)
                 {
-                    if (CheckObject.IsEquipped = true && CheckObject.ObjType is "Weapon")     // this was just a rough first concept check  
+                    if (CheckObject.IsEquipped == true && CheckObject.ObjType is "Weapon")     // this was just a rough first concept check  
                     {
                         damagerange = CheckObject.Damage;                                      // need to allow for two handed etc etc etc 
                         (int i1, int i2, int i3) = RollingDie.Diecheck(damagerange);
-                        RollingDie thisRoll = new RollingDie(i1, i2);
+                        RollingDie thisRoll = new RollingDie(i1, i2, i3);
                         damage = thisRoll.Roll();
+
                     }
                 }
                 int DamStrAdj = 0;                    // + str adj to damage
@@ -162,9 +189,10 @@ namespace JBFantasyGame
                 { DamStrAdj = 1; }
                 else if (this.Str >= 18)
                 { DamStrAdj = 2; }
-
-                if (damage > 0)
-                { damage = damage + DamStrAdj; }
+               
+                 damage = damage + DamStrAdj; 
+                 if (damage <1)
+                { damage = 1; }                   
 
                 Defender.Hp -= damage;                          // same as  Defender.Hp = Defender.Hp - damage;                                                                             
                 if (Defender.Hp <= 0)                                  // will change this to proper level for unconsciouness

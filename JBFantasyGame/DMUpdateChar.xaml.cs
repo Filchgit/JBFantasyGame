@@ -91,6 +91,7 @@ namespace JBFantasyGame
                 // MainWindow.characterSelected = characterUpdated;
                 Close();
             }
+            Close();
         }
     }
 }

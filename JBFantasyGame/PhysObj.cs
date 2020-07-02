@@ -32,9 +32,9 @@ namespace JBFantasyGame
             get { return isEquipped; }
             set { isEquipped = value; }
         }
-        protected string aCEffect;                       // Effect on AC if equipped 
+        protected int  aCEffect;                       // Effect on AC if equipped 
        
-         public string ACEffect
+         public int  ACEffect
         {
             get { return aCEffect; }
             set { aCEffect = value; }

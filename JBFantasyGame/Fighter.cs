@@ -75,8 +75,8 @@ namespace JBFantasyGame
             else if (a_character.Str >= 17)
             { ToHitStrAdj = 1; }
                                      
-                int  calcHiton20 = 0 - (a_character.Lvl - 1) - ToHitStrAdj;       //HitOn20 for fighters is 0 at level 1, decreases by 1 per level
-            a_character.HitOn20 = calcHiton20;                                        
+                int  calcHiton20 = 10 + (a_character.Lvl - 1) + ToHitStrAdj;       //HitOn20 for fighters is 10 at level 1, Increases by 1 per level
+            a_character.HitOn20 = calcHiton20;                                    // better AC is positive, starts at AC:0 for unarmoured.    
             return a_character;
         }
     }

@@ -35,14 +35,13 @@ namespace JBFantasyGame
             PhysObj anotherPhysObj = new PhysObj();
             anotherPhysObj.Name = GlobalItemNameInput.Text;
             anotherPhysObj.ObjType = GlobalItemObjTypeInput.Text;
-            anotherPhysObj.Damage = GlobalItemDamageInput.Text;
-            anotherPhysObj.ACEffect = GlobalItemACEffectInput.Text;
+            anotherPhysObj.Damage = GlobalItemDamageInput.Text;               
+            String ACEffect =  GlobalItemACEffectInput.Text ;
+            anotherPhysObj.ACEffect = Int32.Parse(ACEffect);
             anotherPhysObj.IsEquipped = isEquip;
-            // bool ISequip;
-            //string str = GlobalItemIsEquippedInput.Text;    // might make this a choice between two box.
-            // ISequip = str == "True";
+            anotherPhysObj.DescrPhysObj = GlobalItemDescrInput.Text;
             MainWindow.GlobalItems.Add(anotherPhysObj);     // doesn't actuallly update item list on previous page, ok as this really quick and dirty at this stage 
-
+            
         }
         private void GlobalItemNameInput_TextInput(object sender, TextCompositionEventArgs e)
         {
@@ -77,6 +76,7 @@ namespace JBFantasyGame
         {
             isEquip = false;
         }
-                       
+
+    
     }
 }

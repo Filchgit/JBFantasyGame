@@ -16,8 +16,9 @@
             <TextBlock TextWrapping="Wrap" Text="IsEquipped" Height="30"/>
             <TextBlock TextWrapping="Wrap" Text="Damage" Height="30"/>
             <TextBlock TextWrapping="Wrap" Text="ACEffect" Height="30"/>
+            <TextBlock TextWrapping="Wrap" Text="Description" Height="30"/>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Left" Height="135" Margin="90,10,0,0" VerticalAlignment="Top" Width="135">
+        <StackPanel HorizontalAlignment="Left" Height="226" Margin="90,10,0,0" VerticalAlignment="Top" Width="135">
             <TextBox x:Name="GlobalItemNameInput" TextWrapping="Wrap" Text="Name" Height="27" TextInput="GlobalItemNameInput_TextInput">
             </TextBox>
             <TextBox x:Name="GlobalItemObjTypeInput" TextWrapping="Wrap" Text="Misc" Height="27" TextInput="GlobalItemObjTypeInput_TextInput"/>
@@ -28,7 +29,7 @@
 
             <TextBox x:Name="GlobalItemDamageInput"  TextWrapping="Wrap" Text="0" Height="30" TextInput="GlobalItemDamageInput_TextInput"/>
             <TextBox x:Name="GlobalItemACEffectInput" TextWrapping="Wrap" Text="0" Height="30"  TextInput="GlobalItemACEffectInput_TextInput"/>
-
+            <TextBox x:Name="GlobalItemDescrInput" TextWrapping="Wrap" Text="Description" Height="30"  />
         </StackPanel>
         <Button Content="Quick Add Global Item" HorizontalAlignment="Left" Margin="306,23,0,0" VerticalAlignment="Top" Width="138" RenderTransformOrigin="0.14,-0.327" Height="39" Click="Button_Click"/>
 

@@ -26,12 +26,10 @@ namespace JBFantasyGame
     /// </summary>
     public partial class DMMainWin : Window
     {    
-
         public DMMainWin()
         {
             InitializeComponent();
-            UpdateGlobalItems();
-            
+            UpdateGlobalItems();           
         }
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
         {
@@ -42,7 +40,6 @@ namespace JBFantasyGame
         {
             String diecheck = RollDieDM.Text;
             (int i1, int i2, int i3)= RollingDie.Diecheck(diecheck);
-
             if (i1 != 0)
             {
                 RollingDie thisRoll = new RollingDie(i1, i2, i3);
@@ -123,9 +120,7 @@ namespace JBFantasyGame
         {
             Character attacker = (Character)CurrentPartyList.SelectedItem;
             Character defender = (Character)TargetFocusCharList.SelectedItem;
-            attacker.MeleeAttack(defender);
-     
-              
+            attacker.MeleeAttack(defender);             
         }
         public void UpdatePartiesListBox()
         {
@@ -152,7 +147,6 @@ namespace JBFantasyGame
             TargetFocusGroupList.ItemsSource = currentParties;
             TargetFocusGroupList.DisplayMemberPath = "Name";
         }
-
         private void UpdateTargetFocusCharListBox()
         {
                 List<Character> currentparty = new List<Character>();
@@ -195,7 +189,6 @@ namespace JBFantasyGame
             UpdatePartiesListBox();
             UpdateTargetFocusGroupListBox();
         }     
- 
         private void LoadAllFileDialog_Click(object sender, RoutedEventArgs e)
         {
             string path = "";                                                      //this bit just opens file dialog
@@ -206,9 +199,7 @@ namespace JBFantasyGame
             {
                path = openFileDialog.FileName;                                    // and sets path to file that we open in dialog
             }
-
             List<Party> newpartylist = LoadPartyList(path);
-
              MainWindow.Parties = newpartylist;
              foreach (Party thisparty in MainWindow.Parties )
                  { thisparty.Name = thisparty[0].PartyName; }         
@@ -216,7 +207,6 @@ namespace JBFantasyGame
                UpdateTargetFocusGroupListBox();
               UpdateTargetFocusCharListBox();
         }
-
         private List<Party> LoadPartyList (string path)
          {
          // string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
@@ -238,7 +228,6 @@ namespace JBFantasyGame
                 string path = saveFileDialog.FileName;
                 Save(MainWindow.Parties, path); }
         }
-
         private void Save(List<Party> partysave, string path)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
         {
             //string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
@@ -263,6 +252,11 @@ namespace JBFantasyGame
         private void CurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             UpdatePartyListBox();
+        }
+
+        private void ItemUpdateGlobals_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateGlobalItems();
         }
     }
     

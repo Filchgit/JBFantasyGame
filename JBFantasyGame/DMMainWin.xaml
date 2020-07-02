@@ -38,6 +38,7 @@
         <Button x:Name="LoadAllFileDialog" Content="Load all using File Dialog" HorizontalAlignment="Left" Margin="146,213,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
 
         <Button x:Name="DmAdjustChar" Content="DM Quick Adj Character" HorizontalAlignment="Left" Margin="156,258,0,0" VerticalAlignment="Top" Width="183" Click="DmAdjustChar_Click"/>
+        <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="496,258,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
 
     </Grid>
 </Window>
