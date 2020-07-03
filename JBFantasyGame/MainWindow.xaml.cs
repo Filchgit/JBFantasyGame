@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,13 +21,17 @@ namespace JBFantasyGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static List<Character> CharParty;
+        public static List<CharParty> CharParties;
         public static List<Entity> Party;
         public static List<Party> Parties;
         public static List<PhysObj> GlobalItems;
         public static Entity characterSelected;
         public MainWindow()
         {
-            GlobalItems = new List<PhysObj>();            
+            GlobalItems = new List<PhysObj>();
+            CharParty = new List<Character>();
+            CharParties = new List <CharParty>();
             Party = new List<Entity>();
             Parties = new List<Party>();
             characterSelected = new Entity();

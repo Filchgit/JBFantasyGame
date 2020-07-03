@@ -53,7 +53,7 @@ namespace JBFantasyGame
             var2 = Nameinput.Text;
         }
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
-        { if ((Party)GroupList.SelectedItem is null)
+        { if ((CharParty)GroupList.SelectedItem is null)
             { MessageBox.Show("You must pick a party to add a new character. "); }
             else
             {
@@ -61,7 +61,7 @@ namespace JBFantasyGame
                 thischaracter.NewCharacter(thischaracter);
                 thischaracter.Name = Nameinput.Text;
                
-                Party thisparty = (Party)GroupList.SelectedItem;                                                                                          
+                CharParty thisparty = (CharParty)GroupList.SelectedItem;                                                                                          
                 thisparty.Add(thischaracter);
                 thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
                 UpdatePartyListBox();
@@ -113,13 +113,13 @@ namespace JBFantasyGame
                 Party toNewParty = (Party)TargetFocusGroupList.SelectedItem;
                 Party oldParty = (Party)GroupList.SelectedItem;
                 int oldInd = CurrentPartyList.SelectedIndex;
-                toNewParty.Add(selected);      // whyis this saying it must be converted??
+                toNewParty.Add(selected);      
                 oldParty.RemoveAt(oldInd);
                 UpdatePartyListBox();
                 UpdateTargetFocusCharListBox();
             }
         }
-        private void Meleethis_Click(object sender, RoutedEventArgs e)
+        private void Meleethis_Click(object sender, RoutedEventArgs e)              // this was a temp test only works for characters 
         {
             Character attacker = (Character)CurrentPartyList.SelectedItem;
             Character defender = (Character)TargetFocusCharList.SelectedItem;
@@ -127,16 +127,16 @@ namespace JBFantasyGame
         }
         public void UpdatePartiesListBox()
         {
-            List<Party> currentParties = new List<Party>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
-            foreach (Party group in MainWindow.Parties)             //was MainWindow.Parties
-            { currentParties.Add(group); }
-            GroupList.ItemsSource = currentParties;
+            List<CharParty> currentCharParties = new List<CharParty>();         // I think both this and update party button could actually be rigged to happen when characters or parties were added or selected in the appropriate spots but this will do for now 
+            foreach (CharParty group in MainWindow.CharParties)             //was MainWindow.Parties
+            { currentCharParties.Add(group); }
+            GroupList.ItemsSource = currentCharParties;
             GroupList.DisplayMemberPath = "Name";
         }
         public void UpdatePartyListBox()
         {
             List<Entity> currentparty = new List<Entity>();
-            Party thisparty = (Party)GroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
+            CharParty thisparty = (CharParty)GroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
             foreach (Entity charac in thisparty)                       //was MainWindow.Party
             { currentparty.Add(charac); }
             CurrentPartyList.ItemsSource = currentparty;
@@ -144,8 +144,8 @@ namespace JBFantasyGame
         }
         private void UpdateTargetFocusGroupListBox()
         {
-            List<Party> currentParties = new List<Party>();         // need to add update UpdateTargetFocusGroupListBox() in all appropriat places 
-            foreach (Party group in MainWindow.Parties)           
+            List<CharParty> currentParties = new List<CharParty>();         // need to add update UpdateTargetFocusGroupListBox() in all appropriat places 
+            foreach (CharParty group in MainWindow.CharParties)           
             { currentParties.Add(group); }
             TargetFocusGroupList.ItemsSource = currentParties;
             TargetFocusGroupList.DisplayMemberPath = "Name";
@@ -153,7 +153,7 @@ namespace JBFantasyGame
         private void UpdateTargetFocusCharListBox()
         {
                 List<Entity> currentparty = new List<Entity>();
-                 Party thisparty = (Party)TargetFocusGroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
+                 CharParty thisparty = (CharParty)TargetFocusGroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
                  foreach (Entity charac in thisparty)                                //was MainWindow.Party
                  { currentparty.Add(charac); }
                  TargetFocusCharList.ItemsSource = currentparty;
@@ -186,9 +186,9 @@ namespace JBFantasyGame
         }
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
         {
-            Party thisparty = new Party();
+            CharParty thisparty = new CharParty();
             thisparty.Name = Nameinput.Text;
-            MainWindow.Parties.Add(thisparty);            // was MainWindow.Parties
+            MainWindow.CharParties.Add(thisparty);            // was MainWindow.Parties
             UpdatePartiesListBox();
             UpdateTargetFocusGroupListBox();
         }     
@@ -201,25 +201,25 @@ namespace JBFantasyGame
             if (dialogResult== true)
             {
                path = openFileDialog.FileName;                                    // and sets path to file that we open in dialog
-            }
-            List<Party> newpartylist = LoadPartyList(path);
-             MainWindow.Parties = newpartylist;
-             foreach (Party thisparty in MainWindow.Parties )
+            }                                                                     // this will only save one class!!!!
+            List<CharParty> newpartylist = LoadPartyList(path);                   // in this case lists of CharParties which are lists of Characters 
+             MainWindow.CharParties = newpartylist;
+             foreach (CharParty thisparty in MainWindow.CharParties )
                  { thisparty.Name = thisparty[0].PartyName; }         
                UpdatePartiesListBox();
                UpdateTargetFocusGroupListBox();
               UpdateTargetFocusCharListBox();
         }
-        private List<Party> LoadPartyList (string path)
+        private List<CharParty> LoadPartyList (string path)
          {
          // string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
-            MainWindow.Parties = new List<Party>();
-           XmlSerializer formatter = new XmlSerializer(MainWindow.Parties.GetType());
+            MainWindow.CharParties = new List<CharParty>();
+           XmlSerializer formatter = new XmlSerializer(MainWindow.CharParties.GetType());
          FileStream aFile = new FileStream(path, FileMode.Open);
            byte[] buffer = new byte[aFile.Length];
                aFile.Read(buffer, 0, (int) aFile.Length);
             MemoryStream stream = new MemoryStream(buffer);
-            return (List<Party> )formatter.Deserialize(stream);           
+            return (List<CharParty> )formatter.Deserialize(stream);           
           }
         private void SaveAll_Click(object sender, RoutedEventArgs e)
         {
@@ -229,9 +229,9 @@ namespace JBFantasyGame
             if (dialogResult == true)
             {
                 string path = saveFileDialog.FileName;
-                Save(MainWindow.Parties, path); }
+                Save(MainWindow.CharParties, path); }
         }
-        private void Save(List<Party> partysave, string path)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
+        private void Save(List<CharParty> partysave, string path)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
         {
             //string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             FileStream outfile = File.Create(path);
@@ -267,7 +267,7 @@ namespace JBFantasyGame
            
             foreach (Entity thisEntity in Defparty)
             {
-                partycombat.Add((Character)thisEntity);   
+                partycombat.Add(thisEntity);   
             }
             foreach (Entity thisEntity in partycombat)
             {

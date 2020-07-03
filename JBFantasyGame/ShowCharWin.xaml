@@ -31,7 +31,7 @@
         <Label Content="Experience Points" HorizontalAlignment="Left" Margin="440,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold"  />
         <Label Content="Member of :" HorizontalAlignment="Left" Margin="655,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" RenderTransformOrigin="1.285,0.739"  />
 
-        <Label Content="Viable Melee Targets" HorizontalAlignment="Left" Margin="836,69,0,0" VerticalAlignment="Top" FontSize="15"  RenderTransformOrigin="0.028,2.72"/>
+        <Label Content="Viable Melee Targets" HorizontalAlignment="Left" Margin="394,115,0,0" VerticalAlignment="Top" FontSize="15"  RenderTransformOrigin="0.028,2.72"/>
 
         <TextBlock x:Name="ShowCharClass" Height=" 25" VerticalAlignment ="Top" Margin="205,65,669,0" FontSize="15"  FontWeight="Bold" />
         <TextBlock x:Name="ShowCharStr" Height=" 25" VerticalAlignment ="Top" Margin="103,65,881,0" FontSize="15"  FontWeight="Bold"  />
@@ -44,10 +44,10 @@
         <TextBlock x:Name="ShowCharExp" Height=" 25" VerticalAlignment ="Top" Margin="579,65,374,0" FontSize="15" FontWeight="Bold"  />
         <TextBlock x:Name="ShowGroup" Height=" 25" VerticalAlignment ="Top" Margin="757,65,129,0" FontSize="15" FontWeight="Bold" />
 
-        <ListBox x:Name="ViableMeleeTarget" HorizontalAlignment="Left" Height="69" Margin="834,95,0,0" VerticalAlignment="Top" Width="180"/>
-        <Button x:Name= "MeleeThisEnt" Content="Melee Attack Selected Target" HorizontalAlignment="Left" Margin="834,169,0,0" VerticalAlignment="Top" Width="180"/>
 
-        <DataGrid x:Name="PersonalInventory" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="100" Margin="57,259,0,0" VerticalAlignment="Top" Width="573" SelectionChanged="PersonalInventory_SelectionChanged" >
+        <Button x:Name= "MeleeThisEnt" Content="Melee Attack Selected Target" HorizontalAlignment="Left" Margin="579,180,0,0" VerticalAlignment="Top" Width="180"/>
+
+        <DataGrid x:Name="PersonalInventory" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="100" Margin="57,259,0,0" VerticalAlignment="Top" Width="573" SelectionChanged="PersonalInventory_SelectionChanged" >
 
             <DataGrid.Columns >
                 <DataGridTextColumn Header=" Name" Binding ="{Binding Name}"/>
@@ -62,7 +62,9 @@
         </DataGrid>
         <Button x:Name="Delete1st" Content="Delete Item" HorizontalAlignment="Left" Margin="717,259,0,0" VerticalAlignment="Top" Width="114" Click="Delete1st_Click"/>
         <Button x:Name="EquipThisButt" Content="Equip/UnEquip" HorizontalAlignment="Left" Margin="717,284,0,0" VerticalAlignment="Top" Width="114" Click="EquipThisButt_Click"/>
-        
+
+        <DataGrid x:Name ="ViableMeleeTargets" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="100" Margin="183,150,0,0" VerticalAlignment="Top" Width="391"/>
+
 
 
     </Grid>

@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CharParty.cs" />
     <Compile Include="Cleric.cs" />
     <Compile Include="DMMainWin.xaml.cs">
       <DependentUpon>DMMainWin.xaml</DependentUpon>
