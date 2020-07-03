@@ -35,8 +35,6 @@ namespace JBFantasyGame
             dispatcherTimer.Tick += OnTimerTick;
             dispatcherTimer.Start();
         }
-
-
         private void OnTimerTick(object sender, EventArgs e)                 // there was a tip to make sure that lengthy operations
               { UpdateShowCharWin(); }
         public void UpdateShowCharWin()

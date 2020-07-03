@@ -82,6 +82,16 @@ namespace JBFantasyGame
               //  else throw new ArgumentOutOfRangeException();
             }
         }
+        protected int initRoll;
+        public int InitRoll
+        {
+            get { return initRoll; }
+            set
+            { 
+                initRoll = value;
+                //  else throw new ArgumentOutOfRangeException();
+            }
+        }
 
         public int damage;
       

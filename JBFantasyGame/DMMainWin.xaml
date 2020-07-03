@@ -33,12 +33,14 @@
         <ListBox x:Name="TargetFocusCharList" HorizontalAlignment="Left" Height="100" Margin="765,93,0,0" VerticalAlignment="Top" Width="100" SelectedIndex="0" SelectionMode="Extended" SelectionChanged="TargetFocusCharList_SelectionChanged"/>
         <Label x:Name="TargetCharLabel" Content="TargetCharacter" HorizontalAlignment="Left" Margin="765,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.132,0.038" Width="100" Background="#FF77F3F9"/>
         <Button x:Name ="TransfertoNewParty"  Content="Transfer New Party" HorizontalAlignment="Left" Margin="360,218,0,0" VerticalAlignment="Top" Width="110" Click="TransfertoNewParty_Click"/>
-        <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="360,238,0,0" VerticalAlignment="Top" Width="110" Click="Meleethis_Click"/>
+        <Button x:Name="Meleethis" Content="Melee Attack Target Character" HorizontalAlignment="Left" Margin="360,292,0,0" VerticalAlignment="Top" Width="175" Click="Meleethis_Click"/>
         <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="496,233,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
         <Button x:Name="LoadAllFileDialog" Content="Load all using File Dialog" HorizontalAlignment="Left" Margin="146,213,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
 
         <Button x:Name="DmAdjustChar" Content="DM Quick Adj Character" HorizontalAlignment="Left" Margin="156,258,0,0" VerticalAlignment="Top" Width="183" Click="DmAdjustChar_Click"/>
         <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="496,258,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
+ 
+        <Button x:Name="GroupCombat" Content="Initiate Group Combat" HorizontalAlignment="Left" Margin="360,312,0,0" VerticalAlignment="Top" Width="175" Click="GroupCombat_Click"/>
 
     </Grid>
 </Window>

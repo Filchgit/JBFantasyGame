@@ -7,7 +7,7 @@ using static System.Console;
 
 namespace JBFantasyGame
 {
-    public class Party : List<Character>
+    public class Party : List<Entity>
     {
         protected string name;
         public string Name
@@ -16,11 +16,7 @@ namespace JBFantasyGame
             set { name = value; }
         }
         public Party() => name = "The Party has no name.";
-       // public Party(string newName) => name = newName;
-        
-
-        //this is the place to play with all the changes you make to methods classes etc 
-        // script to add new player character to the party 
+      
         public Party  Partynew( Party myParty)
         {
             bool addchar = true;

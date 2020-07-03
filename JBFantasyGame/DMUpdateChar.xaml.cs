@@ -25,7 +25,7 @@ namespace JBFantasyGame
         {
 
             InitializeComponent();
-            characterUpdated = MainWindow.characterSelected;
+            characterUpdated = (Character)MainWindow.characterSelected;
             DMUpdateCharName.Text = characterUpdated.Name;
             DMUpdateCharType.Text = characterUpdated.CharType;
             DMUpdateCharExp.Text = characterUpdated.Exp.ToString();

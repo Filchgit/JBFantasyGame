@@ -70,10 +70,13 @@ namespace JBFantasyGame
         }
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Character selected in CurrentPartyList.SelectedItems)
-            {
-                ShowCharWin ShowCharWin1 = new ShowCharWin(selected);
-                ShowCharWin1.Show();
+            foreach (Entity selected in CurrentPartyList.SelectedItems)
+            {   if (selected is Character)
+                {
+                    ShowCharWin ShowCharWin1 = new ShowCharWin((Character)selected);
+                    ShowCharWin1.Show();
+                }
+                else;//  stub for putting in a monster char sheet 
             }
         }
         public void UpdateGlobalItems()
@@ -92,7 +95,7 @@ namespace JBFantasyGame
             { MessageBox.Show("You can only assign an item to one character, pick just one character and try again. "); }
             else
             { 
-            Character selected = (Character)CurrentPartyList.SelectedItem;    
+            Entity selected = (Entity)CurrentPartyList.SelectedItem;    
             PhysObj selectedobj = ((PhysObj)GlobalItems.SelectedItem);         
             selected.Inventory.Add(selectedobj);
             int itemind = GlobalItems.SelectedIndex;
@@ -103,14 +106,14 @@ namespace JBFantasyGame
         private void TransfertoNewParty_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentPartyList.SelectedItem is null)                  // note that this only transfers one character at a time at the moment
-            { MessageBox.Show("You must pick a character to transfer. "); }                  
+            { MessageBox.Show("You must pick an Entity to transfer. "); }       // only works for character not entitys at present           
             else
             {
-                Character selected = (Character)CurrentPartyList.SelectedItem;
+                Entity selected = (Entity)CurrentPartyList.SelectedItem;
                 Party toNewParty = (Party)TargetFocusGroupList.SelectedItem;
                 Party oldParty = (Party)GroupList.SelectedItem;
                 int oldInd = CurrentPartyList.SelectedIndex;
-                toNewParty.Add(selected);
+                toNewParty.Add(selected);      // whyis this saying it must be converted??
                 oldParty.RemoveAt(oldInd);
                 UpdatePartyListBox();
                 UpdateTargetFocusCharListBox();
@@ -132,9 +135,9 @@ namespace JBFantasyGame
         }
         public void UpdatePartyListBox()
         {
-            List<Character> currentparty = new List<Character>();
+            List<Entity> currentparty = new List<Entity>();
             Party thisparty = (Party)GroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
-            foreach (Character charac in thisparty)                       //was MainWindow.Party
+            foreach (Entity charac in thisparty)                       //was MainWindow.Party
             { currentparty.Add(charac); }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
@@ -149,9 +152,9 @@ namespace JBFantasyGame
         }
         private void UpdateTargetFocusCharListBox()
         {
-                List<Character> currentparty = new List<Character>();
+                List<Entity> currentparty = new List<Entity>();
                  Party thisparty = (Party)TargetFocusGroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
-                 foreach (Character charac in thisparty)                                //was MainWindow.Party
+                 foreach (Entity charac in thisparty)                                //was MainWindow.Party
                  { currentparty.Add(charac); }
                  TargetFocusCharList.ItemsSource = currentparty;
                 TargetFocusCharList.DisplayMemberPath = "Name";
@@ -164,7 +167,7 @@ namespace JBFantasyGame
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentPartyList.SelectionChanged += CurrentPartyList_SelectionChanged;
-            MainWindow.characterSelected = (Character)CurrentPartyList.SelectedItem;
+            MainWindow.characterSelected = (Entity)CurrentPartyList.SelectedItem;
             UpdatePartyListBox();
 
         }
@@ -235,28 +238,52 @@ namespace JBFantasyGame
             XmlSerializer formatter = new XmlSerializer(partysave.GetType());
             formatter.Serialize(outfile, partysave);
         }
-
         private void QuickCreateObj_Click(object sender, RoutedEventArgs e)
         {
             GlobalItemAdd GlobalItemAdd1 = new GlobalItemAdd();
             GlobalItemAdd1.Show();
         }
-
         private void DmAdjustChar_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {           
                     DMUpdateChar DMUpdateChar1 = new DMUpdateChar();
                     DMUpdateChar1.Show();                             
         }
-
         private void CurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             UpdatePartyListBox();
         }
-
         private void ItemUpdateGlobals_Click(object sender, RoutedEventArgs e)
         {
             UpdateGlobalItems();
+        }
+        private void GroupCombat_Click(object sender, RoutedEventArgs e)
+        {
+            GroupCombatSequence();
+        }
+         public void GroupCombatSequence()
+        {
+            Party partycombat = (Party)GroupList.SelectedItem;
+            Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
+           
+            foreach (Entity thisEntity in Defparty)
+            {
+                partycombat.Add((Character)thisEntity);   
+            }
+            foreach (Entity thisEntity in partycombat)
+            {
+                RollingDie d60 = new RollingDie(60, 1);
+                thisEntity.InitRoll = d60.Roll();                //can put individual adjustments in at this point later 
+            }      
+            partycombat.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
+            var initiativeDeclare = "";
+ 
+            foreach (Entity thisEntity in partycombat)
+            {
+                string thisEntityName = thisEntity.Name.ToString();
+                string initRoll = thisEntity.InitRoll.ToString();
+                initiativeDeclare += (thisEntityName + " " + initRoll + " ");
+            }
+            MessageBox.Show(initiativeDeclare);
         }
     }
     
