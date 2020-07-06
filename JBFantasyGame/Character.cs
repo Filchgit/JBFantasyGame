@@ -153,24 +153,30 @@ namespace JBFantasyGame
             AC = AC + DexACAdj;
             return AC ;
             }
-        public virtual int MeleeAttack(Character Defender)
-        {   
-            Defender.AC = 0; 
-            Defender.AC = ACRecalc(Defender);
 
+
+        public override int MeleeAttack(Entity Defender)
+        {
+            Entity EntityattackCalc = new Entity();
+            EntityattackCalc = Defender;
+            return Defender.Hp = characterAttackCalc(EntityattackCalc);         
+            
+        }
+        public int characterAttackCalc(Entity Defender)
+        {
             RollingDie twentyside = new RollingDie(20, 1);
             int tohit;
             int attRoll = twentyside.Roll();
             if (Defender.AC < hiton20)
-            { tohit =20 - (hiton20 - Defender.ac); }
+            { tohit = 20 - (hiton20 - Defender.AC); }
             else if (Defender.AC >= (hiton20 + 5))
-            { tohit = 20 +  ((Defender.AC-hiton20 ) - 5); }
+            { tohit = 20 + ((Defender.AC - hiton20) - 5); }
             else tohit = 20;
 
             if (attRoll >= tohit)
             {
                 int damage = 0;
-                string damagerange ="";
+                string damagerange = "";
                 foreach (PhysObj CheckObject in this.Inventory)
                 {
                     if (CheckObject.IsEquipped == true && CheckObject.ObjType is "Weapon")     // this was just a rough first concept check  
@@ -185,14 +191,14 @@ namespace JBFantasyGame
                 int DamStrAdj = 0;                    // + str adj to damage
                 if (this.Str <= 5)
                 { DamStrAdj = -1; }
-                else if (this.Str == 16||this.Str==17)
+                else if (this.Str == 16 || this.Str == 17)
                 { DamStrAdj = 1; }
                 else if (this.Str >= 18)
                 { DamStrAdj = 2; }
-               
-                 damage = damage + DamStrAdj; 
-                 if (damage <1)
-                { damage = 1; }                   
+
+                damage = damage + DamStrAdj;
+                if (damage < 1)
+                { damage = 1; }
 
                 Defender.Hp -= damage;                          // same as  Defender.Hp = Defender.Hp - damage;                                                                             
                 if (Defender.Hp <= 0)                                  // will change this to proper level for unconsciouness
@@ -206,6 +212,16 @@ namespace JBFantasyGame
             {// WriteLine($"{name} missed!");
                 return Defender.Hp;
             }
+        }
+
+        public override int  MeleeAttack(Character Defender)
+        {          
+                Defender.AC = 0;
+                Defender.AC = ACRecalc(Defender);
+  
+            Entity EntityattackCalc = new Entity();
+            EntityattackCalc =(Entity)Defender;
+            return Defender.Hp = characterAttackCalc(EntityattackCalc);
 
         }
     }

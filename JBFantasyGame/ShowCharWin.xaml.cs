@@ -59,15 +59,20 @@ namespace JBFantasyGame
             { };                                                          // the PhysObjects ObservableCollection
              foreach (PhysObj physthing in showcharacter.Inventory)       //  can't make binding to way to source ; at least
              {                                                            //I can't work out how to atm; so updating time atm.
-               // if (PhysObjects.Contains(physthing))
-          //  { continue; }
-           // else 
                   PhysObjects.Add(physthing); 
-            }
+             }
              
             PersonalInventory.ItemsSource = PhysObjects;
             showcharacter.AC = showcharacter.ACRecalc(showcharacter);    
             ShowCharAC.Text = showcharacter.AC.ToString();
+
+            MeleeTargets = new ObservableCollection<Target >
+            { };
+            foreach (Target _aTarget in showcharacter.MeleeTargets )
+            {
+                MeleeTargets.Add(_aTarget);
+            }
+            ViableMeleeTargets.ItemsSource = MeleeTargets;
         }
         public ObservableCollection<PhysObj> PhysObjects
         {
@@ -84,7 +89,20 @@ namespace JBFantasyGame
         {
            PersonalInventory.SelectionChanged += PersonalInventory_SelectionChanged;       
         }
-
+        public ObservableCollection <Target> MeleeTargets
+        {
+            get { return (ObservableCollection<Target>)GetValue(MeleeTargetsProperty);}
+            set { SetValue(MeleeTargetsProperty, value); }
+        }
+        public static readonly DependencyProperty MeleeTargetsProperty =
+            DependencyProperty.Register("MeleeTargets",
+            typeof(ObservableCollection<Target>),
+            typeof(JBFantasyGame.ShowCharWin),
+            new PropertyMetadata(null));
+        private void ViableMeleeTargets_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViableMeleeTargets.SelectionChanged += ViableMeleeTargets_SelectionChanged; 
+        }
         private void Delete1st_Click(object sender, RoutedEventArgs e)
         {
             PhysObj removethis =(PhysObj)PersonalInventory.SelectedItem;
@@ -101,7 +119,12 @@ namespace JBFantasyGame
            UpdateShowCharWin(); 
         }
 
-       
+        private void MeleeThisEnt_Click(object sender, RoutedEventArgs e)
+        {
+            Target thisTargetAttack = (Target)ViableMeleeTargets.SelectedItem;
+            showcharacter.MyTargetParty = thisTargetAttack.PartyName;
+            showcharacter.MyTargetEnt = thisTargetAttack.Name;
+        }
     }
 }
 

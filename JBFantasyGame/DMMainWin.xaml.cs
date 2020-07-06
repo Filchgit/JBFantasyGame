@@ -256,34 +256,86 @@ namespace JBFantasyGame
         {
             UpdateGlobalItems();
         }
-        private void GroupCombat_Click(object sender, RoutedEventArgs e)
+        private void GroupsIntoCombat_Click(object sender, RoutedEventArgs e)
         {
             GroupCombatSequence();
         }
          public void GroupCombatSequence()
         {
-            Party partycombat = (Party)GroupList.SelectedItem;
-            Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
-           
+            CharParty partycombat = (CharParty)GroupList.SelectedItem;
+            CharParty Defparty = (CharParty)TargetFocusGroupList.SelectedItem;
+
             foreach (Entity thisEntity in Defparty)
             {
-                partycombat.Add(thisEntity);   
+                foreach (Entity AttEntity in partycombat)
+                {
+                    Target Targetnew = new Target();
+                    Targetnew.Name = AttEntity.Name;
+                    Targetnew.Hp = AttEntity.Hp;
+                    Targetnew.PartyName = AttEntity.PartyName;  
+                    thisEntity.MeleeTargets.Add(Targetnew);
+                }
             }
-            foreach (Entity thisEntity in partycombat)
+            foreach (Entity thisEntity in partycombat )
+            {
+                foreach (Entity DefEntity in Defparty)
+                {
+                    Target Targetnew = new Target();
+                    Targetnew.Name = DefEntity.Name;
+                    Targetnew.Hp = DefEntity.Hp;
+                    Targetnew.PartyName = DefEntity.PartyName;  
+                    thisEntity.MeleeTargets.Add(Targetnew);
+                }
+            }
+            Party Meleegroup = new Party();
+
+            foreach (Entity thisEntity in Defparty)
+            {
+                Meleegroup.Add(thisEntity);   
+            }
+            foreach (Entity thisEntity in partycombat )
+            {
+                Meleegroup.Add(thisEntity);
+            }
+            // need to split this off into a combat round sequence. and save this list to main window.
+
+            foreach (Entity thisEntity in Meleegroup )
             {
                 RollingDie d60 = new RollingDie(60, 1);
                 thisEntity.InitRoll = d60.Roll();                //can put individual adjustments in at this point later 
             }      
-            partycombat.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
-            var initiativeDeclare = "";
- 
-            foreach (Entity thisEntity in partycombat)
+            Meleegroup.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
+            foreach (Entity thisEntity in Meleegroup)
             {
-                string thisEntityName = thisEntity.Name.ToString();
-                string initRoll = thisEntity.InitRoll.ToString();
-                initiativeDeclare += (thisEntityName + " " + initRoll + " ");
+                if (thisEntity.MyTargetParty != null)
+                {
+                    string targetParty = thisEntity.MyTargetParty;
+                    string targetEntity = thisEntity.MyTargetEnt;
+                    foreach (Entity entitytobeattacked in Meleegroup)
+                    {
+                        if (entitytobeattacked.PartyName == targetParty && entitytobeattacked.Name == targetEntity)
+                        {
+                            if (entitytobeattacked is Character)
+                            {
+                                Character attackasCharacter = new Character();
+                                attackasCharacter = (Character)entitytobeattacked;
+                                thisEntity.MeleeAttack(attackasCharacter);
+                            }
+                            else
+
+                            { thisEntity.MeleeAttack(entitytobeattacked); }
+                        }
+                    }
+                }
             }
-            MessageBox.Show(initiativeDeclare);
+            //  var initiativeDeclare = "";
+            // foreach (Entity thisEntity in Meleegroup)                       judt a test to see if the initiative roll sequence works may need again later 
+            //  {
+            //     string thisEntityName = thisEntity.Name.ToString();
+            //     string initRoll = thisEntity.InitRoll.ToString();
+            //    initiativeDeclare += (thisEntityName + " " + initRoll + " ");
+            //  }
+            //  MessageBox.Show(initiativeDeclare);
         }
     }
     

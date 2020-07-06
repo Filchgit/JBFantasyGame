@@ -75,6 +75,7 @@
     <Compile Include="ShowCharWin.xaml.cs">
       <DependentUpon>ShowCharWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Target.cs" />
     <Page Include="DMMainWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

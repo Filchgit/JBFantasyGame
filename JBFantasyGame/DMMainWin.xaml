@@ -39,8 +39,8 @@
 
         <Button x:Name="DmAdjustChar" Content="DM Quick Adj Character" HorizontalAlignment="Left" Margin="156,258,0,0" VerticalAlignment="Top" Width="183" Click="DmAdjustChar_Click"/>
         <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="496,258,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
- 
-        <Button x:Name="GroupCombat" Content="Initiate Group Combat" HorizontalAlignment="Left" Margin="360,312,0,0" VerticalAlignment="Top" Width="175" Click="GroupCombat_Click"/>
+
+        <Button x:Name="GroupsIntoCombat" Content="Put groups into Combat" HorizontalAlignment="Left" Margin="360,312,0,0" VerticalAlignment="Top" Width="175" Click="GroupsIntoCombat_Click"/>
 
     </Grid>
 </Window>

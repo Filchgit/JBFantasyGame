@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using static System.Console;
 
 namespace JBFantasyGame
@@ -92,11 +93,108 @@ namespace JBFantasyGame
                 //  else throw new ArgumentOutOfRangeException();
             }
         }
+        protected bool myTurn;
+        public bool MyTurn
+        {
+            get { return myTurn; }
+            set
+            {
+                myTurn = value;
+                //  else throw new ArgumentOutOfRangeException();
+            }
+        }
+        protected string myTargetEnt;
+        public string MyTargetEnt
+        {
+            get { return myTargetEnt; }
+            set
+            {
+                myTargetEnt = value;
+                //  else throw new ArgumentOutOfRangeException();
+            }
+        }
+        protected string myTargetParty;
+        public string MyTargetParty
+        {
+            get { return myTargetParty; }
+            set
+            {
+                myTargetParty = value;
+                //  else throw new ArgumentOutOfRangeException();
+            }
+        }
+        public virtual int MeleeAttack(Entity Defender)
+        {
+            RollingDie twentyside = new RollingDie(20, 1);
+            int tohit;
+            int attRoll = twentyside.Roll();
+            if (Defender.AC < hiton20)
+            { tohit = 20 - (hiton20 - Defender.AC); }
+            else if (Defender.AC >= (hiton20 + 5))
+            { tohit = 20 + ((Defender.AC - hiton20) - 5); }
+            else tohit = 20;
+
+            if (attRoll >= tohit)
+            {
+                   int damage = 8;                    //placeholder for damage 
+                    Defender.Hp -= damage;
+            }
+
+            // same as  Defender.Hp = Defender.Hp - damage;                                                                             
+            if (Defender.Hp <= 0)                                  // will change this to proper level for unconsciouness
+            {
+                // WriteLine($"{Defender.Name} has died.");
+                Defender.IsAlive = false;
+
+                return Defender.Hp;
+            }
+            
+            else
+            {// WriteLine($"{name} missed!");
+                return Defender.Hp;
+            }
+}
+        public virtual int MeleeAttack(Character Defender)
+        {
+            Defender.AC = 0;
+            Character recalcACObject = new Character();
+            Defender.AC= recalcACObject.ACRecalc(recalcACObject);          
+            RollingDie twentyside = new RollingDie(20, 1);
+            int tohit;
+            int attRoll = twentyside.Roll();
+            if (Defender.AC < hiton20)
+            { tohit = 20 - (hiton20 - Defender.AC); }
+            else if (Defender.AC >= (hiton20 + 5))
+            { tohit = 20 + ((Defender.AC - hiton20) - 5); }
+            else tohit = 20;
+
+                               
+              //  string damagerange = "";
+            
+             // if (damagerange is null)
+             int  damage = 8;
+
+            if (attRoll >= tohit)
+            {   Defender.Hp -= damage;                          // same as  Defender.Hp = Defender.Hp - damage;                                                                             
+                if (Defender.Hp <= 0)                                  // will change this to proper level for unconsciouness
+                {
+                    // WriteLine($"{Defender.Name} has died.");
+                    Defender.IsAlive = false;
+                }
+                return Defender.Hp;
+            }
+            else
+            {// WriteLine($"{name} missed!");
+                return Defender.Hp;
+            }
+        }
+
+
 
         public int damage;
       
          public List<PhysObj > Inventory = new List<PhysObj> { };
-         public List<Entity> MeleeTargets = new List<Entity> { };
-         public List<Entity> TargetsAtRange = new List<Entity> { };
+        public List<Target> MeleeTargets = new List<Target> { };     // or it may be better to add range as an attribute to Target 
+        public List<Target > TargetsAtRange = new List<Target> { };
     }
 }
