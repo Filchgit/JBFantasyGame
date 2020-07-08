@@ -21,23 +21,25 @@ namespace JBFantasyGame
     public partial class DMUpdateChar : Window
     {
         public Character characterUpdated;
+       
         public DMUpdateChar()
         {
 
             InitializeComponent();
-            characterUpdated = (Character)MainWindow.characterSelected;
-            DMUpdateCharName.Text = characterUpdated.Name;
-            DMUpdateCharType.Text = characterUpdated.CharType;
-            DMUpdateCharExp.Text = characterUpdated.Exp.ToString();
-            DMUpdateCharStr.Text = characterUpdated.Str.ToString();
-            DMUpdateCharInte.Text = characterUpdated.Inte.ToString();
-            DMUpdateCharWis.Text = characterUpdated.Wis.ToString();
-            DMUpdateCharCon.Text = characterUpdated.Con.ToString();
-            DMUpdateCharDex.Text = characterUpdated.Dex.ToString();
-            DMUpdateCharChr.Text = characterUpdated.Chr.ToString();
-            DMUpdateCharPartyName.Text = characterUpdated.PartyName.ToString();
-            DMUpdateCharMaxHp.Text = characterUpdated.MaxHp.ToString();                  // this gets overidden on recalculate
-
+          
+                characterUpdated = (Character)MainWindow.entitySelected;
+                DMUpdateCharName.Text = characterUpdated.Name;
+                DMUpdateCharType.Text = characterUpdated.CharType;
+                DMUpdateCharExp.Text = characterUpdated.Exp.ToString();
+                DMUpdateCharStr.Text = characterUpdated.Str.ToString();
+                DMUpdateCharInte.Text = characterUpdated.Inte.ToString();
+                DMUpdateCharWis.Text = characterUpdated.Wis.ToString();
+                DMUpdateCharCon.Text = characterUpdated.Con.ToString();
+                DMUpdateCharDex.Text = characterUpdated.Dex.ToString();
+                DMUpdateCharChr.Text = characterUpdated.Chr.ToString();
+                DMUpdateCharPartyName.Text = characterUpdated.PartyName.ToString();
+                DMUpdateCharMaxHp.Text = characterUpdated.MaxHp.ToString();                  // this gets overidden on recalculate
+       
         }
 
         private void UpdateChar_Click(object sender, RoutedEventArgs e)

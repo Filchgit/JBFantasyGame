@@ -130,11 +130,41 @@ namespace JBFantasyGame
             chartoreroll.Chr = three6d.Roll();
             return chartoreroll;
         }
+        public int InitRecalc(Character characterIn)
+        {
+            InitMod = 0;
+            if (characterIn.Dex == 3)
+            { InitMod = 16; }
+            if (characterIn.Dex == 4)
+            { InitMod = 12; }
+            if (characterIn.Dex == 5)
+            { InitMod = 8; }
+            if (characterIn.Dex == 6)
+            { InitMod = 4; }
+            if (characterIn.Dex == 15)
+            { InitMod = -4; }
+            else if (characterIn.Dex == 16)
+            { InitMod = -8; }
+            else if (characterIn.Dex == 17)
+            { InitMod = -12; }
+            else if (characterIn.Dex == 18)
+            { InitMod = -16; }
+            return InitMod; 
+        }
+
             public int ACRecalc(Character characterIn )
            {
             AC = 0;
             int DexACAdj = 0;
-            if(characterIn.Dex ==15)
+            if (characterIn.Dex == 3)
+            { DexACAdj = -4; }
+            if (characterIn.Dex == 4)
+            { DexACAdj = -3; }
+            if (characterIn.Dex == 5)
+            { DexACAdj = -2; }
+            if (characterIn.Dex==6)
+            { DexACAdj = -1; }
+            if (characterIn.Dex ==15)
             { DexACAdj = 1; }
             else if (characterIn.Dex == 16)
             { DexACAdj = 2; }
@@ -196,9 +226,11 @@ namespace JBFantasyGame
                 else if (this.Str >= 18)
                 { DamStrAdj = 2; }
 
-                damage = damage + DamStrAdj;
+                damage = (damage + DamStrAdj);
                 if (damage < 1)
                 { damage = 1; }
+
+
 
                 Defender.Hp -= damage;                          // same as  Defender.Hp = Defender.Hp - damage;                                                                             
                 if (Defender.Hp <= 0)                                  // will change this to proper level for unconsciouness

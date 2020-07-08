@@ -93,6 +93,16 @@ namespace JBFantasyGame
                 //  else throw new ArgumentOutOfRangeException();
             }
         }
+        protected int initMod;
+        public int InitMod
+        {
+            get { return initMod; }
+            set
+            {
+                initMod = value;
+                //  else throw new ArgumentOutOfRangeException();
+            }
+        }
         protected bool myTurn;
         public bool MyTurn
         {
@@ -123,6 +133,8 @@ namespace JBFantasyGame
                 //  else throw new ArgumentOutOfRangeException();
             }
         }
+
+
         public virtual int MeleeAttack(Entity Defender)
         {
             RollingDie twentyside = new RollingDie(20, 1);
@@ -191,7 +203,7 @@ namespace JBFantasyGame
 
 
 
-        public int damage;
+       // public int damage;
       
          public List<PhysObj > Inventory = new List<PhysObj> { };
         public List<Target> MeleeTargets = new List<Target> { };     // or it may be better to add range as an attribute to Target 

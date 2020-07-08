@@ -21,11 +21,15 @@ using Microsoft.Win32;
 
 namespace JBFantasyGame
 {
+    
     /// <summary>
     /// Interaction logic for DMMainWin.xaml
     /// </summary>
     public partial class DMMainWin : Window
-    {    
+    {
+        Party Meleegroup = new Party();
+         
+
         public DMMainWin()
         {
             InitializeComponent();
@@ -53,19 +57,45 @@ namespace JBFantasyGame
             var2 = Nameinput.Text;
         }
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
-        { if ((CharParty)GroupList.SelectedItem is null)
+        { if ((Party)EntGroupList.SelectedItem is null)                         // if ((CharParty)GroupList.SelectedItem is null)
             { MessageBox.Show("You must pick a party to add a new character. "); }
             else
             {
                 Character thischaracter = new Character();             // might need to add check to exclude names that are identical to any already in party
                 thischaracter.NewCharacter(thischaracter);
-                thischaracter.Name = Nameinput.Text;
-               
-                CharParty thisparty = (CharParty)GroupList.SelectedItem;                                                                                          
-                thisparty.Add(thischaracter);
+                thischaracter.Name = Nameinput.Text;           
+                Party thisparty = (Party)EntGroupList.SelectedItem;
+                int index = EntGroupList.SelectedIndex;
+                CharParty charpartythis = MainWindow.CharParties[index];
+                //CharParty charpartythis = (CharParty)GroupList.SelectedItem;      // this works but have to manually change it there
                 thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
+                charpartythis.Add(thischaracter);
+                thisparty.Add(thischaracter);
                 UpdatePartyListBox();
                 UpdateTargetFocusCharListBox();
+                // going to try and add simultaneously to an Entity party
+
+                  UpdateEntPartyListBox();
+            }
+        }
+        private void QuickCreateMonster_Click(object sender, RoutedEventArgs e)
+        {
+            if ((Party)EntGroupList.SelectedItem is null)
+            { MessageBox.Show("You must pick a party to add a new Monster. "); }
+            else
+            {
+                Monster thisMonster = new Monster();             // might need to add check to exclude names that are identical to any already in party
+                thisMonster.Name = Nameinput.Text;
+                Party thisparty = (Party)EntGroupList.SelectedItem;
+                int index = EntGroupList.SelectedIndex;
+                MonsterParty monstPartyThis = MainWindow.MonsterParties[index];  
+                
+                thisMonster.PartyName = thisparty.Name;        // on adding a character to a party change the character PartyName to selected party's name 
+                thisparty.Add(thisMonster);
+                monstPartyThis.Add(thisMonster);
+                UpdateMonstPartyListBox();
+                UpdateEntPartyListBox();
+                //  UpdateTargetFocusCharListBox();
             }
         }
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
@@ -137,25 +167,62 @@ namespace JBFantasyGame
         {
             List<Entity> currentparty = new List<Entity>();
             CharParty thisparty = (CharParty)GroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
-            foreach (Entity charac in thisparty)                       //was MainWindow.Party
-            { currentparty.Add(charac); }
+            foreach (Entity ent in thisparty)                       //was MainWindow.Party
+            { currentparty.Add(ent); }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
         }
+        private void UpdateMonstPartiesListBox()
+        {
+            List<MonsterParty> currentMonstParties = new List<MonsterParty>();
+            foreach (MonsterParty group in MainWindow.MonsterParties)
+            { currentMonstParties.Add(group); }
+            MonstGroupList.ItemsSource = currentMonstParties;
+            MonstGroupList.DisplayMemberPath = "Name";
+        }
+        private void UpdateMonstPartyListBox()
+        {
+            List<Entity> currentparty = new List<Entity>();
+            MonsterParty thisparty = (MonsterParty)MonstGroupList.SelectedItem;
+            foreach (Entity ent in thisparty)
+            { currentparty.Add(ent); }
+            MonstCurrentPartyList.ItemsSource = currentparty;
+            MonstCurrentPartyList.DisplayMemberPath = "Name";
+        }
+        private void UpdateEntPartyListBox()
+        {
+            List<Entity> currentparty = new List<Entity>();
+            Party thisparty = (Party)EntGroupList.SelectedItem;
+            foreach (Entity ent in thisparty)
+            { currentparty.Add(ent); }
+            EntCurrentPartyList.ItemsSource = currentparty;
+            EntCurrentPartyList.DisplayMemberPath = "Name";
+        }
+        private void UpdateEntPartiesListBox()
+        {
+            List<Party> currentEntParties = new List<Party>();
+            foreach (Party group in MainWindow.Parties)
+            {if (group.Name != null )
+                currentEntParties.Add(group); }
+            EntGroupList.ItemsSource = currentEntParties;
+            EntGroupList.DisplayMemberPath = "Name";
+
+        }
         private void UpdateTargetFocusGroupListBox()
         {
-            List<CharParty> currentParties = new List<CharParty>();         // need to add update UpdateTargetFocusGroupListBox() in all appropriat places 
-            foreach (CharParty group in MainWindow.CharParties)           
-            { currentParties.Add(group); }
+            List<Party> currentParties = new List<Party>();        
+            foreach (Party group in MainWindow.Parties)           
+            { if (group.Name != null)
+             currentParties.Add(group); }
             TargetFocusGroupList.ItemsSource = currentParties;
             TargetFocusGroupList.DisplayMemberPath = "Name";
         }
         private void UpdateTargetFocusCharListBox()
         {
                 List<Entity> currentparty = new List<Entity>();
-                 CharParty thisparty = (CharParty)TargetFocusGroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
-                 foreach (Entity charac in thisparty)                                //was MainWindow.Party
-                 { currentparty.Add(charac); }
+                 Party thisparty = (Party)TargetFocusGroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
+                 foreach (Entity entThis in thisparty)                                //was MainWindow.Party
+                 { currentparty.Add(entThis); }
                  TargetFocusCharList.ItemsSource = currentparty;
                 TargetFocusCharList.DisplayMemberPath = "Name";
         }
@@ -167,7 +234,7 @@ namespace JBFantasyGame
         private void CurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentPartyList.SelectionChanged += CurrentPartyList_SelectionChanged;
-            MainWindow.characterSelected = (Entity)CurrentPartyList.SelectedItem;
+            MainWindow.entitySelected = (Entity)CurrentPartyList.SelectedItem;
             UpdatePartyListBox();
 
         }
@@ -186,34 +253,92 @@ namespace JBFantasyGame
         }
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
         {
-            CharParty thisparty = new CharParty();
-            thisparty.Name = Nameinput.Text;
-            MainWindow.CharParties.Add(thisparty);            // was MainWindow.Parties
+            CharParty charPartyThis = new CharParty();
+            Party entPartyThis = new Party();
+            MonsterParty monsterPartyThis = new MonsterParty();
+            charPartyThis.Name = Nameinput.Text;
+            entPartyThis.Name = Nameinput.Text;
+            monsterPartyThis.Name = Nameinput.Text; 
+            MainWindow.CharParties.Add(charPartyThis);
+            MainWindow.Parties.Add(entPartyThis);
+            MainWindow.MonsterParties.Add(monsterPartyThis);         
             UpdatePartiesListBox();
+            UpdateEntPartiesListBox();
+            UpdateMonstPartiesListBox();
             UpdateTargetFocusGroupListBox();
         }     
         private void LoadAllFileDialog_Click(object sender, RoutedEventArgs e)
         {
-            string path = "";                                                      //this bit just opens file dialog
+            string path = "";
+            string monstpath = "";            //this bit just opens file dialog
             var openFileDialog = new OpenFileDialog
             { Filter = "Text documents (.txt)|*.txt|Log files(.log)|*.log" };
             var dialogResult = openFileDialog.ShowDialog();
             if (dialogResult== true)
-            {
-               path = openFileDialog.FileName;                                    // and sets path to file that we open in dialog
-            }                                                                     // this will only save one class!!!!
-            List<CharParty> newpartylist = LoadPartyList(path);                   // in this case lists of CharParties which are lists of Characters 
+            {  
+              monstpath = openFileDialog.FileName;
+                path = openFileDialog.FileName;                                    
+              char[] MyCharc = { '.', 't', 'x', 't' };
+                string newString = path.TrimEnd(MyCharc);   
+                path = newString  + " Char.txt";
+            }                                                                    
+            List<CharParty> newpartylist = LoadPartyList(path);                  
              MainWindow.CharParties = newpartylist;
              foreach (CharParty thisparty in MainWindow.CharParties )
-                 { thisparty.Name = thisparty[0].PartyName; }         
-               UpdatePartiesListBox();
-               UpdateTargetFocusGroupListBox();
-              UpdateTargetFocusCharListBox();
+                 {if (thisparty.Count !=0  )                                //actually need a placeholder maybe in case no member exists in mixed party
+               thisparty.Name = thisparty[0].PartyName; }         
+                        
+            List<MonsterParty> newmonsterList = LoadMonstPartyList(monstpath);
+            MainWindow.MonsterParties = newmonsterList;
+           foreach (MonsterParty thisparty in MainWindow.MonsterParties)
+            
+                { if (thisparty.Count != 0)
+                       thisparty.Name = thisparty[0].PartyName; }
+            UpdateMonstPartiesListBox();
+            UpdatePartiesListBox();
+
+            foreach (CharParty thisCharParty in MainWindow.CharParties)
+            {
+                string partyNameToCheck = "";
+                partyNameToCheck = thisCharParty.Name;
+                Party thisNewParty = new Party();
+                thisNewParty.Name = partyNameToCheck;
+                MainWindow.Parties.Add(thisNewParty);
+  
+                foreach (Entity charEntity in thisCharParty  )
+                { thisNewParty.Add(charEntity);  }
+                foreach (MonsterParty thisMonsterParty in MainWindow.MonsterParties )
+                { if (thisMonsterParty.Name == partyNameToCheck)
+                    { foreach (Entity thisMonsterEnt in thisMonsterParty)
+                        thisNewParty.Add(thisMonsterEnt); }
+                }                            
+            }
+
+            foreach (MonsterParty thisMonsterParty in MainWindow.MonsterParties)
+            { string MonstPartyNametoCheck = thisMonsterParty.Name;
+                List <Party >CheckParties = new List<Party>();
+                CheckParties = MainWindow.Parties;
+                bool exists = CheckParties.Any(p => p.Name == MonstPartyNametoCheck);
+                if (exists ==false)
+                {
+                    Party thisNewParty = new Party();
+                    thisNewParty.Name = MonstPartyNametoCheck;
+                    MainWindow.Parties.Add(thisNewParty);
+                    foreach(Entity thisMonsterEnt in thisMonsterParty)
+                    { thisNewParty.Add(thisMonsterEnt); }
+                }
+             }       
+            // I need to write a bit here to give parties a name based on EntGroup name in no party name exists
+
+            UpdateEntPartiesListBox();
+            UpdateEntPartyListBox();
+            UpdateTargetFocusGroupListBox();
+            UpdateTargetFocusCharListBox();
         }
         private List<CharParty> LoadPartyList (string path)
          {
          // string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
-            MainWindow.CharParties = new List<CharParty>();
+            MainWindow.CharParties = new List<CharParty>();                                 
            XmlSerializer formatter = new XmlSerializer(MainWindow.CharParties.GetType());
          FileStream aFile = new FileStream(path, FileMode.Open);
            byte[] buffer = new byte[aFile.Length];
@@ -221,6 +346,16 @@ namespace JBFantasyGame
             MemoryStream stream = new MemoryStream(buffer);
             return (List<CharParty> )formatter.Deserialize(stream);           
           }
+        private List<MonsterParty> LoadMonstPartyList (string monstpath)
+        {
+            MainWindow.MonsterParties = new List<MonsterParty>();
+            XmlSerializer formatter = new XmlSerializer(MainWindow.MonsterParties.GetType());
+            FileStream aFile = new FileStream(monstpath, FileMode.Open);
+            byte[] buffer = new byte[aFile.Length];
+            aFile.Read(buffer, 0, (int)aFile.Length);
+            MemoryStream stream = new MemoryStream(buffer);
+            return (List<MonsterParty>)formatter.Deserialize(stream);
+        }
         private void SaveAll_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog
@@ -229,24 +364,53 @@ namespace JBFantasyGame
             if (dialogResult == true)
             {
                 string path = saveFileDialog.FileName;
-                Save(MainWindow.CharParties, path); }
+                string monstpath  = saveFileDialog.FileName;
+                char[] MyCharc = { '.', 't', 'x', 't' };
+                string newString = path.TrimEnd(MyCharc);   
+                path = newString  + " Char.txt";
+                Save(MainWindow.CharParties, path);
+                MonstSave(MainWindow.MonsterParties, monstpath);
+            }
         }
-        private void Save(List<CharParty> partysave, string path)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
+            private void Save(List<CharParty> partysave, string path)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
         {
             //string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             FileStream outfile = File.Create(path);
             XmlSerializer formatter = new XmlSerializer(partysave.GetType());
             formatter.Serialize(outfile, partysave);
         }
+        private void MonstSave(List<MonsterParty> partysave, string monstpath)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
+        {
+            //string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
+            FileStream outfile = File.Create(monstpath);
+            XmlSerializer formatter = new XmlSerializer(partysave.GetType());
+            formatter.Serialize(outfile, partysave);
+        }
+      //  private void MonstSaveAll_Click(object sender, RoutedEventArgs e)
+      //  {
+      //      var saveFileDialog = new SaveFileDialog
+      //      { Filter = "Text documents (.txt)|*.txt|Log files(.log)|*log" };
+       //     var dialogResult = saveFileDialog.ShowDialog();
+        //    if (dialogResult == true)
+        //    {
+       //         string path = saveFileDialog.FileName;
+        //        MonstSave(MainWindow.MonsterParties, path);
+        //    }
+       // }
+
         private void QuickCreateObj_Click(object sender, RoutedEventArgs e)
         {
             GlobalItemAdd GlobalItemAdd1 = new GlobalItemAdd();
             GlobalItemAdd1.Show();
         }
         private void DmAdjustChar_Click(object sender, RoutedEventArgs e)
-        {           
-                    DMUpdateChar DMUpdateChar1 = new DMUpdateChar();
-                    DMUpdateChar1.Show();                             
+        {
+            Entity entitySel = MainWindow.entitySelected;
+            if (entitySel is Character)
+            {
+                DMUpdateChar DMUpdateChar1 = new DMUpdateChar();
+                DMUpdateChar1.Show();
+            }    
         }
         private void CurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
@@ -258,9 +422,9 @@ namespace JBFantasyGame
         }
         private void GroupsIntoCombat_Click(object sender, RoutedEventArgs e)
         {
-            GroupCombatSequence();
+            PutTwoGroupsinCombat();
         }
-         public void GroupCombatSequence()
+         public void PutTwoGroupsinCombat()       // ok again this only works on characters so need to fix all of this 
         {
             CharParty partycombat = (CharParty)GroupList.SelectedItem;
             CharParty Defparty = (CharParty)TargetFocusGroupList.SelectedItem;
@@ -287,25 +451,32 @@ namespace JBFantasyGame
                     thisEntity.MeleeTargets.Add(Targetnew);
                 }
             }
-            Party Meleegroup = new Party();
-
+           
             foreach (Entity thisEntity in Defparty)
             {
-                Meleegroup.Add(thisEntity);   
+               Meleegroup.Add(thisEntity);   
             }
             foreach (Entity thisEntity in partycombat )
             {
                 Meleegroup.Add(thisEntity);
             }
-            // need to split this off into a combat round sequence. and save this list to main window.
-
-            foreach (Entity thisEntity in Meleegroup )
-            {
-                RollingDie d60 = new RollingDie(60, 1);
-                thisEntity.InitRoll = d60.Roll();                //can put individual adjustments in at this point later 
-            }      
-            Meleegroup.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
+            
+         }
+        private void NextCombatRound_Click(object sender, RoutedEventArgs e)
+        {
             foreach (Entity thisEntity in Meleegroup)
+            {  if (thisEntity is Character) 
+                { Character characterthis = new Character();
+                    characterthis =(Character)thisEntity;
+                    characterthis.InitRecalc(characterthis);
+                    thisEntity.InitMod = characterthis.InitMod;   
+                }
+
+                RollingDie d60 = new RollingDie(60, 1);
+                thisEntity.InitRoll = (d60.Roll()+ thisEntity.InitMod ) ;                //can put individual adjustments in at this point later 
+            }
+            Meleegroup.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
+            foreach (Entity thisEntity in Meleegroup)                      // lower is better on init roll
             {
                 if (thisEntity.MyTargetParty != null)
                 {
@@ -328,15 +499,46 @@ namespace JBFantasyGame
                     }
                 }
             }
-            //  var initiativeDeclare = "";
-            // foreach (Entity thisEntity in Meleegroup)                       judt a test to see if the initiative roll sequence works may need again later 
-            //  {
-            //     string thisEntityName = thisEntity.Name.ToString();
-            //     string initRoll = thisEntity.InitRoll.ToString();
-            //    initiativeDeclare += (thisEntityName + " " + initRoll + " ");
-            //  }
-            //  MessageBox.Show(initiativeDeclare);
+            
+        }       
+        private void MonstGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MonstGroupList.SelectionChanged += MonstGroupList_SelectionChanged;
+            UpdateMonstPartyListBox();     
+
         }
+
+        private void MonstCurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MonstCurrentPartyList.SelectionChanged += MonstCurrentPartyList_SelectionChanged;
+            MainWindow.entitySelected = (Monster)CurrentPartyList.SelectedItem;
+            UpdateMonstPartyListBox();
+        }
+
+        private void MonstCurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            UpdateMonstPartyListBox();
+        }
+
+        private void EntCurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EntCurrentPartyList.SelectionChanged += EntCurrentPartyList_SelectionChanged;
+            MainWindow.entitySelected = (Entity)EntCurrentPartyList.SelectedItem;
+            UpdateEntPartyListBox();
+        }
+        private void EntCurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            UpdateEntPartyListBox();
+        }
+
+        private void EntGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EntGroupList.SelectionChanged += EntGroupList_SelectionChanged;
+            
+            UpdateEntPartyListBox();
+        }
+
+ 
     }
     
 }

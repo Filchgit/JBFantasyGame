@@ -23,23 +23,27 @@ namespace JBFantasyGame
     {
         public static List<Character> CharParty;
         public static List<CharParty> CharParties;
+        public static List<Monster> MonsterParty;
+        public static List<MonsterParty> MonsterParties;
         public static List<Entity> Party;
         public static List<Party> Parties;
         public static List<PhysObj> GlobalItems;
-        public static Entity characterSelected;
+        public static Entity entitySelected;
         public MainWindow()
         {
             GlobalItems = new List<PhysObj>();
             CharParty = new List<Character>();
             CharParties = new List <CharParty>();
+            MonsterParty = new List<Monster>();
+            MonsterParties = new List<MonsterParty>();
             Party = new List<Entity>();
             Parties = new List<Party>();
-            characterSelected = new Entity();
-            characterSelected.Name = "Default";
-            characterSelected.IsAlive = true;         
-            characterSelected.HitOn20 = 10;
-            characterSelected.MaxHp = 1;
-            characterSelected.PartyName = "Default";
+            entitySelected = new Entity();
+            entitySelected.Name = "Default";
+            entitySelected.IsAlive = true;
+            entitySelected.HitOn20 = 10;
+            entitySelected.MaxHp = 1;
+            entitySelected.PartyName = "Default";
  
             InitializeComponent();
             
