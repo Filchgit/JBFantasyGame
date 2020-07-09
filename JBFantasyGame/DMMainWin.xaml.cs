@@ -100,7 +100,7 @@ namespace JBFantasyGame
         }
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Entity selected in CurrentPartyList.SelectedItems)
+            foreach (Entity selected in EntCurrentPartyList.SelectedItems)
             {   if (selected is Character)
                 {
                     ShowCharWin ShowCharWin1 = new ShowCharWin((Character)selected);
@@ -135,24 +135,59 @@ namespace JBFantasyGame
         }
         private void TransfertoNewParty_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentPartyList.SelectedItem is null)                  // note that this only transfers one character at a time at the moment
-            { MessageBox.Show("You must pick an Entity to transfer. "); }       // only works for character not entitys at present           
+            if (EntCurrentPartyList.SelectedItem is null)                  // note that this only transfers one character at a time at the moment
+            { MessageBox.Show("You must pick an Entity to transfer. "); }                  
             else
             {
-                Entity selected = (Entity)CurrentPartyList.SelectedItem;
+                Entity selected = (Entity)EntCurrentPartyList.SelectedItem;
                 Party toNewParty = (Party)TargetFocusGroupList.SelectedItem;
-                Party oldParty = (Party)GroupList.SelectedItem;
-                int oldInd = CurrentPartyList.SelectedIndex;
-                toNewParty.Add(selected);      
-                oldParty.RemoveAt(oldInd);
+                //    Party oldParty = (Party)EntGroupList.SelectedItem;
+                //  int oldInd = EntCurrentPartyList.SelectedIndex; 
+                string oldPartyName = selected.PartyName;
+                string newPartyName = toNewParty.Name;
+                selected.PartyName = newPartyName;
+                if (selected is Monster)
+                {
+                    foreach (MonsterParty monsterPartyThis in MainWindow.MonsterParties)
+                    {
+                        if (monsterPartyThis.Name == oldPartyName)
+                            monsterPartyThis.Remove((Monster)selected);
+                    }
+                }
+                if (selected is Character)
+                {
+                    foreach (CharParty charPartythis in MainWindow.CharParties)
+                    {
+                        if (charPartythis.Name == oldPartyName)
+                            charPartythis.Remove((Character)selected);
+                    }
+                }
+                    foreach (Party entParty in MainWindow.Parties )
+                {  if (entParty.Name == oldPartyName)
+                        entParty.Remove((Entity)selected);  }
+
+                if (selected is Monster)                                                 
+                { foreach (MonsterParty monsterPartyThis in MainWindow.MonsterParties)
+                        if (monsterPartyThis.Name == newPartyName)
+                            monsterPartyThis.Add((Monster)selected);   }
+                if (selected is Character)
+                { foreach (CharParty charPartyThis in MainWindow.CharParties)
+                        if (charPartyThis.Name == newPartyName)
+                            charPartyThis.Add((Character)selected);
+                }
+                toNewParty.Add(selected);                                
+                //oldParty.RemoveAt(oldInd);                         
                 UpdatePartyListBox();
+                UpdateEntPartyListBox();
+                UpdateMonstPartyListBox();
                 UpdateTargetFocusCharListBox();
+                
             }
         }
-        private void Meleethis_Click(object sender, RoutedEventArgs e)              // this was a temp test only works for characters 
+        private void Meleethis_Click(object sender, RoutedEventArgs e)              // this was a temp test 
         {
-            Character attacker = (Character)CurrentPartyList.SelectedItem;
-            Character defender = (Character)TargetFocusCharList.SelectedItem;
+            Entity attacker = (Entity)EntCurrentPartyList.SelectedItem;
+            Entity defender = (Entity)TargetFocusCharList.SelectedItem;
             attacker.MeleeAttack(defender);             
         }
         public void UpdatePartiesListBox()
@@ -166,8 +201,8 @@ namespace JBFantasyGame
         public void UpdatePartyListBox()
         {
             List<Entity> currentparty = new List<Entity>();
-            CharParty thisparty = (CharParty)GroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
-            foreach (Entity ent in thisparty)                       //was MainWindow.Party
+            CharParty thisparty = (CharParty)GroupList.SelectedItem;                                              
+            foreach (Entity ent in thisparty)                       
             { currentparty.Add(ent); }
             CurrentPartyList.ItemsSource = currentparty;
             CurrentPartyList.DisplayMemberPath = "Name";
@@ -296,7 +331,26 @@ namespace JBFantasyGame
                        thisparty.Name = thisparty[0].PartyName; }
             UpdateMonstPartiesListBox();
             UpdatePartiesListBox();
-
+            foreach (CharParty nameCheckParty in MainWindow.CharParties)
+            {
+                bool charPartyNameExists = nameCheckParty.Any(p => p.Name != null);
+                if (charPartyNameExists == false)
+                {
+                    int indexNoName = MainWindow.CharParties.IndexOf(nameCheckParty);
+                    string nameToAssign = MainWindow.MonsterParties[indexNoName].Name;
+                    nameCheckParty.Name = nameToAssign;
+                }
+            }
+            foreach (MonsterParty nameCheckParty in MainWindow.MonsterParties)
+            {
+                bool charPartyNameExists = nameCheckParty.Any(p => p.Name != null);
+                if (charPartyNameExists == false)
+                {
+                    int indexNoName = MainWindow.MonsterParties.IndexOf(nameCheckParty);
+                    string nameToAssign = MainWindow.CharParties[indexNoName].Name;
+                    nameCheckParty.Name = nameToAssign;
+                }
+            }
             foreach (CharParty thisCharParty in MainWindow.CharParties)
             {
                 string partyNameToCheck = "";
@@ -313,27 +367,13 @@ namespace JBFantasyGame
                         thisNewParty.Add(thisMonsterEnt); }
                 }                            
             }
-
-            foreach (MonsterParty thisMonsterParty in MainWindow.MonsterParties)
-            { string MonstPartyNametoCheck = thisMonsterParty.Name;
-                List <Party >CheckParties = new List<Party>();
-                CheckParties = MainWindow.Parties;
-                bool exists = CheckParties.Any(p => p.Name == MonstPartyNametoCheck);
-                if (exists ==false)
-                {
-                    Party thisNewParty = new Party();
-                    thisNewParty.Name = MonstPartyNametoCheck;
-                    MainWindow.Parties.Add(thisNewParty);
-                    foreach(Entity thisMonsterEnt in thisMonsterParty)
-                    { thisNewParty.Add(thisMonsterEnt); }
-                }
-             }       
-            // I need to write a bit here to give parties a name based on EntGroup name in no party name exists
-
+   
+           
             UpdateEntPartiesListBox();
             UpdateEntPartyListBox();
             UpdateTargetFocusGroupListBox();
             UpdateTargetFocusCharListBox();
+           
         }
         private List<CharParty> LoadPartyList (string path)
          {
@@ -397,7 +437,6 @@ namespace JBFantasyGame
         //        MonstSave(MainWindow.MonsterParties, path);
         //    }
        // }
-
         private void QuickCreateObj_Click(object sender, RoutedEventArgs e)
         {
             GlobalItemAdd GlobalItemAdd1 = new GlobalItemAdd();
@@ -410,12 +449,20 @@ namespace JBFantasyGame
             {
                 DMUpdateChar DMUpdateChar1 = new DMUpdateChar();
                 DMUpdateChar1.Show();
-            }    
+            }
+            UpdateEntPartiesListBox();
+            UpdateEntPartyListBox();
+            
+
+            UpdateTargetFocusGroupListBox();
+            UpdateTargetFocusCharListBox();
+
         }
         private void CurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             UpdatePartyListBox();
         }
+        
         private void ItemUpdateGlobals_Click(object sender, RoutedEventArgs e)
         {
             UpdateGlobalItems();
@@ -426,8 +473,8 @@ namespace JBFantasyGame
         }
          public void PutTwoGroupsinCombat()       // ok again this only works on characters so need to fix all of this 
         {
-            CharParty partycombat = (CharParty)GroupList.SelectedItem;
-            CharParty Defparty = (CharParty)TargetFocusGroupList.SelectedItem;
+            Party partycombat = (Party)EntGroupList.SelectedItem;
+            Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
 
             foreach (Entity thisEntity in Defparty)
             {
@@ -507,19 +554,16 @@ namespace JBFantasyGame
             UpdateMonstPartyListBox();     
 
         }
-
         private void MonstCurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MonstCurrentPartyList.SelectionChanged += MonstCurrentPartyList_SelectionChanged;
             MainWindow.entitySelected = (Monster)CurrentPartyList.SelectedItem;
             UpdateMonstPartyListBox();
         }
-
         private void MonstCurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             UpdateMonstPartyListBox();
         }
-
         private void EntCurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EntCurrentPartyList.SelectionChanged += EntCurrentPartyList_SelectionChanged;
@@ -530,15 +574,16 @@ namespace JBFantasyGame
         {
             UpdateEntPartyListBox();
         }
-
         private void EntGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EntGroupList.SelectionChanged += EntGroupList_SelectionChanged;
-            
+            EntGroupList.SelectionChanged += EntGroupList_SelectionChanged;          
             UpdateEntPartyListBox();
         }
 
- 
+        private void EntGroupList_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            UpdateEntPartyListBox();
+        }
     }
     
 }

@@ -187,7 +187,7 @@ namespace JBFantasyGame
 
         public override int MeleeAttack(Entity Defender)
         {
-            Entity EntityattackCalc = new Entity();
+            Entity EntityattackCalc = new Entity();         
             EntityattackCalc = Defender;
             return Defender.Hp = characterAttackCalc(EntityattackCalc);         
             
