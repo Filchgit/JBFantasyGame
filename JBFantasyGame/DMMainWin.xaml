@@ -35,15 +35,17 @@
         <ListBox x:Name="TargetFocusCharList" HorizontalAlignment="Left" Height="100" Margin="749,65,0,0" VerticalAlignment="Top" Width="187" SelectedIndex="0" SelectionMode="Extended" SelectionChanged="TargetFocusCharList_SelectionChanged"/>
         <Label x:Name="TargetCharLabel" Content="TargetCharacter" HorizontalAlignment="Left" Margin="754,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.132,0.038" Width="182" Background="#FF77F3F9"/>
         <Button x:Name ="TransfertoNewParty"  Content="Transfer New Party" HorizontalAlignment="Left" Margin="341,192,0,0" VerticalAlignment="Top" Width="110" Click="TransfertoNewParty_Click"/>
-        <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="530,205,0,0" VerticalAlignment="Top" Width="175" Click="Meleethis_Click"/>
+        <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="530,225,0,0" VerticalAlignment="Top" Width="175" Click="Meleethis_Click"/>
         <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="468,265,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
         <Button x:Name="LoadAllFileDialog" Content="Load all using File Dialog" HorizontalAlignment="Left" Margin="400,10,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
 
         <Button x:Name="DmAdjustChar" Content="DM Quick Adjust" HorizontalAlignment="Left" Margin="341,212,0,0" VerticalAlignment="Top" Width="110" Click="DmAdjustChar_Click"/>
         <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="468,290,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
 
-        <Button x:Name="GroupsIntoCombat" Content="Put groups into Combat" HorizontalAlignment="Left" Margin="530,165,0,0" VerticalAlignment="Top" Width="175" Click="GroupsIntoCombat_Click"/>
-        <Button x:Name="NextCombatRound" Content="New Combat Round" HorizontalAlignment="Left" Margin="530,185,0,0" VerticalAlignment="Top" Width="175" Click="NextCombatRound_Click"/>
+        <Button x:Name="GroupsIntoCombat" Content="Put groups into Combat Range" HorizontalAlignment="Left" Margin="530,165,0,0" VerticalAlignment="Top" Width="175" Click="GroupsIntoCombat_Click"/>
+        <Button x:Name="GroupsOutOfCombat" Content="Take groups out of Range" HorizontalAlignment="Left" Margin="530,185,0,0" VerticalAlignment="Top" Width="175" Click="GroupsOutOfCombat_Click"/>
+
+        <Button x:Name="NextCombatRound" Content="New Combat Round" HorizontalAlignment="Left" Margin="530,205,0,0" VerticalAlignment="Top" Width="175" Click="NextCombatRound_Click"/>
         <Button x:Name="QuickCreateMonster" Content="Quick Create Monster" HorizontalAlignment="Left" Margin="21,143,0,0" VerticalAlignment="Top" Width="131" Click="QuickCreateMonster_Click"/>
 
         <Label Content="Available Monster Parties" HorizontalAlignment="Left" Margin="229,385,0,0" VerticalAlignment="Top" Width="155" Background="#FFF7EEEE"  />

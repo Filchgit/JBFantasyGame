@@ -28,7 +28,7 @@ namespace JBFantasyGame
     public partial class DMMainWin : Window
     {
         Party Meleegroup = new Party();
-         
+        Party outofMeleeGroup = new Party(); 
 
         public DMMainWin()
         {
@@ -119,13 +119,13 @@ namespace JBFantasyGame
         }
         private void AssigntoCharacter_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentPartyList.SelectedItem is null)
+            if (EntCurrentPartyList.SelectedItem is null)
             { MessageBox.Show("You must pick a character to assign the item to. "); }
-            else if (CurrentPartyList.SelectedItems.Count >1)
+            else if (EntCurrentPartyList.SelectedItems.Count >1)
             { MessageBox.Show("You can only assign an item to one character, pick just one character and try again. "); }
             else
             { 
-            Entity selected = (Entity)CurrentPartyList.SelectedItem;    
+            Entity selected = (Entity)EntCurrentPartyList.SelectedItem;    
             PhysObj selectedobj = ((PhysObj)GlobalItems.SelectedItem);         
             selected.Inventory.Add(selectedobj);
             int itemind = GlobalItems.SelectedIndex;
@@ -412,7 +412,7 @@ namespace JBFantasyGame
                 MonstSave(MainWindow.MonsterParties, monstpath);
             }
         }
-            private void Save(List<CharParty> partysave, string path)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
+        private void Save(List<CharParty> partysave, string path)                       //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
         {
             //string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             FileStream outfile = File.Create(path);
@@ -426,17 +426,6 @@ namespace JBFantasyGame
             XmlSerializer formatter = new XmlSerializer(partysave.GetType());
             formatter.Serialize(outfile, partysave);
         }
-      //  private void MonstSaveAll_Click(object sender, RoutedEventArgs e)
-      //  {
-      //      var saveFileDialog = new SaveFileDialog
-      //      { Filter = "Text documents (.txt)|*.txt|Log files(.log)|*log" };
-       //     var dialogResult = saveFileDialog.ShowDialog();
-        //    if (dialogResult == true)
-        //    {
-       //         string path = saveFileDialog.FileName;
-        //        MonstSave(MainWindow.MonsterParties, path);
-        //    }
-       // }
         private void QuickCreateObj_Click(object sender, RoutedEventArgs e)
         {
             GlobalItemAdd GlobalItemAdd1 = new GlobalItemAdd();
@@ -461,8 +450,7 @@ namespace JBFantasyGame
         private void CurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             UpdatePartyListBox();
-        }
-        
+        }       
         private void ItemUpdateGlobals_Click(object sender, RoutedEventArgs e)
         {
             UpdateGlobalItems();
@@ -471,7 +459,7 @@ namespace JBFantasyGame
         {
             PutTwoGroupsinCombat();
         }
-         public void PutTwoGroupsinCombat()       // ok again this only works on characters so need to fix all of this 
+         public void PutTwoGroupsinCombat()        
         {
             Party partycombat = (Party)EntGroupList.SelectedItem;
             Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
@@ -498,7 +486,7 @@ namespace JBFantasyGame
                     thisEntity.MeleeTargets.Add(Targetnew);
                 }
             }
-           
+                       
             foreach (Entity thisEntity in Defparty)
             {
                Meleegroup.Add(thisEntity);   
@@ -506,13 +494,29 @@ namespace JBFantasyGame
             foreach (Entity thisEntity in partycombat )
             {
                 Meleegroup.Add(thisEntity);
-            }
-            
+            }          
          }
+        private void GroupsOutOfCombat_Click(object sender, RoutedEventArgs e)
+        {
+            PutTwoGroupsOutOfCombat();
+        }
+        private void PutTwoGroupsOutOfCombat()
+        {
+            Party partycombat = (Party)EntGroupList.SelectedItem;
+            Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
+            foreach (Entity thisEntity in Defparty)
+            { foreach (Entity AttEntity in partycombat)
+             {thisEntity.MeleeTargets.Clear();}
+            }
+            foreach (Entity thisEntity in partycombat)
+            {foreach (Entity DefEntity in Defparty)
+               { thisEntity.MeleeTargets.Clear();}
+            }
+        }
         private void NextCombatRound_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Entity thisEntity in Meleegroup)
-            {  if (thisEntity is Character) 
+            foreach (Entity thisEntity in Meleegroup)                   // note there is no function to clear melee group as yet, though that is easy 
+            {  if (thisEntity is Character)                             // although I can put people out of range
                 { Character characterthis = new Character();
                     characterthis =(Character)thisEntity;
                     characterthis.InitRecalc(characterthis);
@@ -584,6 +588,8 @@ namespace JBFantasyGame
         {
             UpdateEntPartyListBox();
         }
+
+   
     }
     
 }
