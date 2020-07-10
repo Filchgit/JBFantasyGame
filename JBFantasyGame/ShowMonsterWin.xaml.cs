@@ -37,8 +37,21 @@ namespace JBFantasyGame
         { UpdateShowMonsterWin(); }
         private void UpdateShowMonsterWin()
         {
-            // ShowMonsterType.Text = showmonster.MonsterType.ToString();
-            ShowMonsterName.Text = showmonster.Name.ToString();
+            ShowMonsterType.Text = showmonster.MonsterType.ToString(); 
+            TBPartyName.Text = showmonster.PartyName;
+
+            ShowMonsterName.Text = showmonster.Name;
+            TBLevel.Text = showmonster.Lvl.ToString() ;
+            TBAC.Text = showmonster.AC.ToString();
+            TBHitDie.Text = showmonster.AC.ToString();
+            TBMaxHP.Text = showmonster.MaxHp.ToString();
+            TBHP.Text = showmonster.Hp.ToString();
+            TBHitOn20.Text = showmonster.HitOn20.ToString();
+            TBInitMod.Text = showmonster.InitMod.ToString(); 
+            TBNoOfAtt.Text = showmonster.NoOfAtt.ToString();  
+
+
+
 
             PhysObjects = new ObservableCollection<PhysObj>               //all this bit is databinding my inventory grid to 
             { };                                                          // the PhysObjects ObservableCollection
@@ -113,7 +126,24 @@ namespace JBFantasyGame
         {dispatcherTimer.Stop();}
 
         private void UpdateRestartTimer_Click(object sender, RoutedEventArgs e)
-        {showmonster.Name = ShowMonsterName.Text;
-         dispatcherTimer.Start();}
+        {
+            showmonster.Name = ShowMonsterName.Text;
+
+            showmonster.MonsterType = ShowMonsterType.Text;    //for now will change to dropdownbox
+                                                               // PartyName not to change from here TBPartyName.Text = showmonster.PartyName;
+
+            showmonster.Name = ShowMonsterName.Text;
+            showmonster.Lvl= Int32.Parse(TBLevel.Text);
+            showmonster.AC = Int32.Parse(TBAC.Text);
+            showmonster.HitDie = TBHitDie.Text;
+            showmonster.MaxHp = Int32.Parse(TBMaxHP.Text); 
+            TBHP.Text = showmonster.Hp.ToString();
+            TBHitOn20.Text = showmonster.HitOn20.ToString();
+            TBInitMod.Text = showmonster.InitMod.ToString();
+            TBNoOfAtt.Text = showmonster.NoOfAtt.ToString();
+
+
+
+            dispatcherTimer.Start();}
     }
 }

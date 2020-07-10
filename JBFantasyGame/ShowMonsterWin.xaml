@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ShowMonsterWin" Height="450" Width="800" Background="BlanchedAlmond" >
     <Grid>
-        <Button x:Name= "MeleeThisEnt" Content="Melee Attack Selected Target" HorizontalAlignment="Left" Margin="579,180,0,0" VerticalAlignment="Top" Width="180" Click="MeleeThisEnt_Click"/>
+        <Button x:Name= "MeleeThisEnt" Content="Melee Attack Selected Target" HorizontalAlignment="Left" Margin="565,125,0,0" VerticalAlignment="Top" Width="180" Click="MeleeThisEnt_Click"/>
 
         <DataGrid x:Name="PersonalInventory" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="100" Margin="67,281,0,0" VerticalAlignment="Top" Width="573" SelectionChanged="PersonalInventory_SelectionChanged" >
 
@@ -25,25 +25,37 @@
         <Button x:Name="Delete1st" Content="Delete Item" HorizontalAlignment="Left" Margin="645,259,0,0" VerticalAlignment="Top" Width="114" Click="Delete1st_Click"/>
         <Button x:Name="EquipThisButt" Content="Equip/UnEquip" HorizontalAlignment="Left" Margin="645,284,0,0" VerticalAlignment="Top" Width="114" Click="EquipThisButt_Click"/>
 
-        <DataGrid x:Name ="ViableMeleeTargets" IsReadOnly="True" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="100" Margin="183,150,0,0" VerticalAlignment="Top" Width="391" SelectionChanged="ViableMeleeTargets_SelectionChanged"/>
+        <DataGrid x:Name ="ViableMeleeTargets" IsReadOnly="True" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="100" Margin="354,145,0,0" VerticalAlignment="Top" Width="391" SelectionChanged="ViableMeleeTargets_SelectionChanged"/>
         <TextBox x:Name ="ShowMonsterName"   HorizontalAlignment="Left" Height="23" Margin="313,7,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="130" />
 
         <TextBox x:Name ="ShowMonsterType"   HorizontalAlignment="Left" Height="26" Margin="121,4,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="140" />
         <Button x:Name ="StopTimerUpdate"  Content="Stop Timed Update" HorizontalAlignment="Left" Margin="645,69,0,0" VerticalAlignment="Top" Width="126" Click="StopTimerUpdate_Click"/>
         <Button x:Name="UpdateRestartTimer"   Content="Update /Restart Timer" HorizontalAlignment="Left" Margin="645,89,0,0" VerticalAlignment="Top" Width="126" Click="UpdateRestartTimer_Click"/>
-        <StackPanel HorizontalAlignment="Left" Height="227" Margin="17,43,0,0" VerticalAlignment="Top" Width="100">
-            <Label Content="Level:" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
-            <Label Content="A.C:" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
-            <Label Content="Hit Die:" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="57"/>
-            <Label Content="Max.Hp:" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
-            <Label Content="Hit Pts:" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
-            <Label Content="Hit on 20:" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
-            <Label Content="Init. Mod." HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
-            <Label Content="No Of Attacks:" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+        <StackPanel HorizontalAlignment="Left" Height="227" Margin="17,43,0,0" VerticalAlignment="Top" Width="92">
+            <Label Content="Level:" Height="25"  HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="A.C:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="Hit Die:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="57"/>
+            <Label Content="Max.Hp:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="Hit Pts:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="Hit on 20:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="Init. Mod." Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="No Of Attacks:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
         </StackPanel>
+
+
         <Label Content="Monster Type" HorizontalAlignment="Left" FontWeight="Bold" Margin="22,4,0,0" VerticalAlignment="Top"  Width="99"/>
         <Label Content="Name:" HorizontalAlignment="Left" FontWeight="Bold" Margin="261,4,0,0" VerticalAlignment="Top"  Width="52" RenderTransformOrigin="0.868,0.939"/>
         <Label Content="Group Name:" HorizontalAlignment="Left" FontWeight="Bold" Margin="443,4,0,0" VerticalAlignment="Top"  Width="99"/>
-
+        <StackPanel HorizontalAlignment="Left" Height="214" Margin="109,43,0,0" VerticalAlignment="Top" Width="105">
+            <TextBox x:Name="TBLevel" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBAC" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBHitDie" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBMaxHP" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBHP" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBHitOn20" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBInitMod" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBNoOfAtt" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+        </StackPanel>
+        <TextBlock x:Name="TBPartyName"  HorizontalAlignment="Left" Margin="530,8,0,0" TextWrapping="Wrap" Text="Group Name" VerticalAlignment="Top" Width="133" Height="19"/>
     </Grid>
 </Window>
