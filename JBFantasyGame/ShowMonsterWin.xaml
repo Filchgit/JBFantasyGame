@@ -1,0 +1,36 @@
+﻿<Window x:Class="JBFantasyGame.ShowMonsterWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JBFantasyGame"
+        mc:Ignorable="d"
+        Title="Monster Sheet" Height="450" Width="800">
+    <Grid Background="NavajoWhite"  >
+        
+        <TextBlock x:Name="ShowMonsterType" Height=" 25" VerticalAlignment ="Top" Margin="97,26,540,0" FontSize="15"  FontWeight="Bold" />
+       
+ <TextBlock x:Name="ShowMonsterName" Height=" 25" VerticalAlignment ="Top" Margin="273,26,364,0" FontSize="15"  FontWeight="Bold" />
+
+        <DataGrid x:Name="PersonalInventory" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="100" Margin="167,286,0,0" VerticalAlignment="Top" Width="489" SelectionChanged="PersonalInventory_SelectionChanged" >
+
+            <DataGrid.Columns >
+                <DataGridTextColumn Header=" Name" Binding ="{Binding Name}"/>
+                <DataGridTextColumn Header=" Type" Binding ="{Binding ObjType}"/>
+                <DataGridTextColumn Header=" Equipped" Binding ="{Binding IsEquipped, Mode=TwoWay}"/>
+                <DataGridTextColumn Header=" Base Damage" Binding ="{Binding Damage}"/>
+                <DataGridTextColumn Header=" Effect on AC " Binding ="{Binding ACEffect}"/>
+                <DataGridTextColumn Header=" Description" Binding ="{Binding DescrPhysObj}"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <DataGrid x:Name ="ViableMeleeTargets" IsReadOnly="True" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="100" Margin="188,164,0,0" VerticalAlignment="Top" Width="391" SelectionChanged="ViableMeleeTargets_SelectionChanged"/>
+        <Button x:Name= "MeleeThisEnt" Content="Melee Attack Selected Target" HorizontalAlignment="Left" Margin="579,180,0,0" VerticalAlignment="Top" Width="180" Click="MeleeThisEnt_Click"/>
+        <Button x:Name="Delete1st" Content="Delete Item" HorizontalAlignment="Left" Margin="661,289,0,0" VerticalAlignment="Top" Width="114" Click="Delete1st_Click"/>
+        <Button x:Name="EquipThisButt" Content="Equip/UnEquip" HorizontalAlignment="Left" Margin="661,325,0,0" VerticalAlignment="Top" Width="114" Click="EquipThisButt_Click"/>
+
+
+    </Grid>
+</Window>

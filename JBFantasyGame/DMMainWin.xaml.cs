@@ -85,6 +85,7 @@ namespace JBFantasyGame
             else
             {
                 Monster thisMonster = new Monster();             // might need to add check to exclude names that are identical to any already in party
+                thisMonster.NewMonster(thisMonster);  
                 thisMonster.Name = Nameinput.Text;
                 Party thisparty = (Party)EntGroupList.SelectedItem;
                 int index = EntGroupList.SelectedIndex;
@@ -589,7 +590,27 @@ namespace JBFantasyGame
             UpdateEntPartyListBox();
         }
 
-   
+        private void DeleteEntity_Click(object sender, RoutedEventArgs e)
+        {
+            Entity selected = MainWindow.entitySelected; ;
+            string removeFromGroup = selected.PartyName;           
+            if (selected is Character)
+            { foreach (CharParty thisCharParty in MainWindow.CharParties)
+                if(thisCharParty.Name == removeFromGroup)
+                    { thisCharParty.Remove((Character)selected );  }}
+            if (selected is Monster)
+            {foreach (MonsterParty thisMonstParty in MainWindow.MonsterParties)
+                    if (thisMonstParty.Name == removeFromGroup)
+                    { thisMonstParty.Remove((Monster)selected); }
+            }
+            foreach (Party thisEntParty in MainWindow.Parties)
+                if (thisEntParty.Name == removeFromGroup)
+                { thisEntParty.Remove(selected); }
+            UpdateEntPartiesListBox();
+            UpdateEntPartyListBox();
+            UpdateTargetFocusGroupListBox();
+            UpdateTargetFocusCharListBox();
+        }
     }
     
 }

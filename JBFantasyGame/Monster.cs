@@ -31,6 +31,23 @@ namespace JBFantasyGame
                 monsterType = value;
             }
         }
+        public virtual Monster NewMonster(Monster a_monster)
+        {
 
+            a_monster.isAlive = true;           
+            a_monster.Name = "Default";
+            a_monster.PartyName= "Default";
+            a_monster.Lvl = 1;
+            a_monster.Hp = 4;
+            a_monster.MaxHp = 4;
+            a_monster.AC = 0;
+            a_monster.HitOn20 = 10;
+            a_monster.InitMod = 0;
+            a_monster.HitDie= "1d8";
+            a_monster.NoOfAtt = 1;
+            a_monster.MonsterType = "Gobbo!"; 
+            return a_monster;
+
+        }
     }                                        
 }
