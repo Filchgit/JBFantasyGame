@@ -77,6 +77,9 @@
     <Compile Include="ShowCharWin.xaml.cs">
       <DependentUpon>ShowCharWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ShowMonsterWin.xaml.cs">
+      <DependentUpon>ShowMonsterWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Target.cs" />
     <Compile Include="Troll.cs" />
     <Page Include="DMMainWin.xaml">
@@ -112,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ShowCharWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowMonsterWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

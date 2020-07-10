@@ -107,7 +107,11 @@ namespace JBFantasyGame
                     ShowCharWin ShowCharWin1 = new ShowCharWin((Character)selected);
                     ShowCharWin1.Show();
                 }
-                else;//  stub for putting in a monster char sheet 
+                if (selected is Monster)
+                {
+                    ShowMonsterWin ShowMonsterWin1 = new ShowMonsterWin((Monster)selected);
+                    ShowMonsterWin1.Show();
+                }     //  stub for putting in a monster char sheet 
             }
         }
         public void UpdateGlobalItems()
@@ -440,10 +444,9 @@ namespace JBFantasyGame
                 DMUpdateChar DMUpdateChar1 = new DMUpdateChar();
                 DMUpdateChar1.Show();
             }
-            UpdateEntPartiesListBox();
+ 
+            UpdateEntPartiesListBox();                          // should probably have a update all listboxes function
             UpdateEntPartyListBox();
-            
-
             UpdateTargetFocusGroupListBox();
             UpdateTargetFocusCharListBox();
 
@@ -505,14 +508,10 @@ namespace JBFantasyGame
         {
             Party partycombat = (Party)EntGroupList.SelectedItem;
             Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
-            foreach (Entity thisEntity in Defparty)
-            { foreach (Entity AttEntity in partycombat)
-             {thisEntity.MeleeTargets.Clear();}
-            }
-            foreach (Entity thisEntity in partycombat)
-            {foreach (Entity DefEntity in Defparty)
-               { thisEntity.MeleeTargets.Clear();}
-            }
+            foreach (Entity thisEntity in Defparty)          
+             {thisEntity.MeleeTargets.Clear();}           
+            foreach (Entity thisEntity in partycombat)        
+               { thisEntity.MeleeTargets.Clear();}           
         }
         private void NextCombatRound_Click(object sender, RoutedEventArgs e)
         {
@@ -584,12 +583,10 @@ namespace JBFantasyGame
             EntGroupList.SelectionChanged += EntGroupList_SelectionChanged;          
             UpdateEntPartyListBox();
         }
-
         private void EntGroupList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             UpdateEntPartyListBox();
         }
-
         private void DeleteEntity_Click(object sender, RoutedEventArgs e)
         {
             Entity selected = MainWindow.entitySelected; ;

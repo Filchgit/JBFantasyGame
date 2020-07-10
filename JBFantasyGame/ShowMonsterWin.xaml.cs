@@ -37,9 +37,8 @@ namespace JBFantasyGame
         { UpdateShowMonsterWin(); }
         private void UpdateShowMonsterWin()
         {
-           // ShowMonsterType.Text = showmonster.MonsterType.ToString();
+            // ShowMonsterType.Text = showmonster.MonsterType.ToString();
             ShowMonsterName.Text = showmonster.Name.ToString();
-            
 
             PhysObjects = new ObservableCollection<PhysObj>               //all this bit is databinding my inventory grid to 
             { };                                                          // the PhysObjects ObservableCollection
@@ -109,5 +108,12 @@ namespace JBFantasyGame
         {
             PersonalInventory.SelectionChanged += PersonalInventory_SelectionChanged;
         }
+
+        private void StopTimerUpdate_Click(object sender, RoutedEventArgs e)
+        {dispatcherTimer.Stop();}
+
+        private void UpdateRestartTimer_Click(object sender, RoutedEventArgs e)
+        {showmonster.Name = ShowMonsterName.Text;
+         dispatcherTimer.Start();}
     }
 }
