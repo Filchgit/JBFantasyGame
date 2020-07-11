@@ -475,6 +475,7 @@ namespace JBFantasyGame
                     Target Targetnew = new Target();
                     Targetnew.Name = AttEntity.Name;
                     Targetnew.Hp = AttEntity.Hp;
+                    Targetnew.MaxHp = AttEntity.MaxHp; 
                     Targetnew.PartyName = AttEntity.PartyName;  
                     thisEntity.MeleeTargets.Add(Targetnew);
                 }
@@ -486,6 +487,7 @@ namespace JBFantasyGame
                     Target Targetnew = new Target();
                     Targetnew.Name = DefEntity.Name;
                     Targetnew.Hp = DefEntity.Hp;
+                    Targetnew.MaxHp = DefEntity.MaxHp; 
                     Targetnew.PartyName = DefEntity.PartyName;  
                     thisEntity.MeleeTargets.Add(Targetnew);
                 }

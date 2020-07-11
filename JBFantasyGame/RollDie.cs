@@ -33,8 +33,8 @@ namespace JBFantasyGame
         {
             dtot = 0;
             for (int i = 0; i < timesRoll; i++)
-            { dtot = faceup.Next(1, sidesCount + 1) + dtot; }
-            return dtot + modifier;
+            { dtot = faceup.Next(1, sidesCount + 1) + dtot + modifier; }
+            return dtot ;
         }
 
         public override string ToString()

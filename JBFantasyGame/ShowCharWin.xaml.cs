@@ -29,7 +29,7 @@ namespace JBFantasyGame
         {
             InitializeComponent();
             showcharacter = thischaracter;
-                                                                        // currently updating character sheets on a timer might see if I can do this from a global event later 
+            UpdateShowCharWin();                                                            // currently updating character sheets on a timer might see if I can do this from a global event later 
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5.0);
             dispatcherTimer.Tick += OnTimerTick;
@@ -43,6 +43,7 @@ namespace JBFantasyGame
             ShowCharClass.Text = showcharacter.CharType.ToString();          // as such may block UI from responding. Don't think this is lengthy.
             ShowCharname.Text = showcharacter.Name.ToString();
             ShowCharHP.Text = showcharacter.Hp.ToString();
+            ShowCharMaxHP.Text = showcharacter.MaxHp.ToString(); 
             ShowCharStr.Text = showcharacter.Str.ToString();  
             ShowCharInt.Text = showcharacter.Inte.ToString();
             ShowCharWis.Text = showcharacter.Wis.ToString();

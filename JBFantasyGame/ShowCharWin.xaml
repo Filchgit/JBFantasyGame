@@ -8,15 +8,7 @@
         Title="Character Sheet
         " Height="450" Width="1031.657">
     <Grid Background="#FFD3F5F4" >
-
-
-        <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="41,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="360" FontSize="32" RenderTransformOrigin="0.012,-0.624"/>
-        <Label  x:Name="HpLabel"  Content="Hit Points " HorizontalAlignment="Left" Margin="406,10,0,0" VerticalAlignment="Top" FontSize ="25"  Height="42" Width="118"/>
-        <TextBlock x:Name="ShowCharHP" HorizontalAlignment="Left" Margin="529,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="101" FontSize="25" />
-        <Label  x:Name="HitOn20label"  Content="Hit on 20:" HorizontalAlignment="Left" Margin="635,10,0,0" VerticalAlignment="Top" FontSize ="25"  Height="42" Width="111" />
-        <TextBlock x:Name="ShowCharHiton20" HorizontalAlignment="Left" Margin="757,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="74" FontSize="25" />
-        <Label  x:Name="AClabel"  Content="AC" HorizontalAlignment="Left" Margin="836,10,0,0" VerticalAlignment="Top" FontSize ="25"  Height="42" Width="46" />
-        <TextBlock x:Name="ShowCharAC" HorizontalAlignment="Left" Margin="882,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="74" FontSize="25" />
+        <TextBlock x:Name="ShowCharMaxHP" HorizontalAlignment="Left" Margin="490,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="76" FontSize="25" />
 
 
         <Label Content="Strength " Height="30" VerticalAlignment ="Top" Margin="5,60,900,0" FontSize="15"  FontWeight="Bold"           />
@@ -27,8 +19,8 @@
         <Label Content="Charisma"  Height=" 30"  VerticalAlignment ="Top"  Margin="5,210,900,0"  FontSize="15"  FontWeight="Bold"       />
         <Label Content="Class" HorizontalAlignment="Left" Margin="143,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" RenderTransformOrigin="-0.006,0.606" />
 
-        <Label Content="Level" HorizontalAlignment="Left" Margin="355,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" RenderTransformOrigin="0.502,-0.271"  />
-        <Label Content="Experience Points" HorizontalAlignment="Left" Margin="440,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold"  />
+        <Label Content="Level:" HorizontalAlignment="Left" Margin="355,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" RenderTransformOrigin="0.502,-0.271"  />
+        <Label Content="Experience Points:" HorizontalAlignment="Left" Margin="440,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold"  />
         <Label Content="Member of :" HorizontalAlignment="Left" Margin="655,60,0,0" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" RenderTransformOrigin="1.285,0.739"  />
 
         <Label Content="Viable Melee Targets" HorizontalAlignment="Left" Margin="394,115,0,0" VerticalAlignment="Top" FontSize="15"  RenderTransformOrigin="0.028,2.72"/>
@@ -64,6 +56,17 @@
         <Button x:Name="EquipThisButt" Content="Equip/UnEquip" HorizontalAlignment="Left" Margin="717,284,0,0" VerticalAlignment="Top" Width="114" Click="EquipThisButt_Click"/>
 
         <DataGrid x:Name ="ViableMeleeTargets" IsReadOnly="True" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="100" Margin="183,150,0,0" VerticalAlignment="Top" Width="391" SelectionChanged="ViableMeleeTargets_SelectionChanged"/>
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"  Height="52" Margin="10,0,0,0" VerticalAlignment="Top" Width="1004">
+            <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center" Height="42" Width="340" FontSize="32" />
+            <Label  x:Name="MaxHpLabel"  Content="Max HP: " HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" FontSize ="25"  Height="42" Width="104" />
+            <TextBlock x:Name="ShowCharMaxHP_Copy" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center" Height="42" Width="76" FontSize="25" />
+            <Label  x:Name="HpLabel"  Content="HP: " HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" FontSize ="25"  Height="42" Width="53"/>
+            <TextBlock x:Name="ShowCharHP" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center" Height="42" Width="76" FontSize="25" />
+            <Label  x:Name="HitOn20label"  Content="Hit on 20:" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize ="25"  Height="42" Width="122" Margin="0,0,0,0" />
+            <TextBlock x:Name="ShowCharHiton20" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center"  Height="42" Width="58" FontSize="25"  />
+            <Label  x:Name="AClabel"  Content="AC:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"   FontSize ="25"  Height="42" Width="46" />
+            <TextBlock x:Name="ShowCharAC" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center"  Height="42" Width="74" FontSize="25" />
+        </StackPanel>
 
 
 

@@ -89,7 +89,7 @@ namespace JBFantasyGame
                 exp = value;
             }
         }
-        protected String charType;                                  // think I will use type for class of character
+        protected String charType;                                  
         public String CharType
         {
             get { return charType; }
@@ -184,14 +184,11 @@ namespace JBFantasyGame
             return AC ;
             }
 
-
         public override int MeleeAttack(Entity Defender)
-        {
-            Entity EntityattackCalc = new Entity();         
-            EntityattackCalc = Defender;
-            return Defender.Hp = characterAttackCalc(EntityattackCalc);         
-            
+        {          
+            return Defender.Hp = characterAttackCalc(Defender);                   
         }
+
         public int characterAttackCalc(Entity Defender)
         {
             RollingDie twentyside = new RollingDie(20, 1);
@@ -245,15 +242,11 @@ namespace JBFantasyGame
                 return Defender.Hp;
             }
         }
-
         public override int  MeleeAttack(Character Defender)
         {          
                 Defender.AC = 0;
                 Defender.AC = ACRecalc(Defender);
-  
-            Entity EntityattackCalc = new Entity();
-            EntityattackCalc =(Entity)Defender;
-            return Defender.Hp = characterAttackCalc(EntityattackCalc);
+            return Defender.Hp = characterAttackCalc(Defender);
 
         }
     }

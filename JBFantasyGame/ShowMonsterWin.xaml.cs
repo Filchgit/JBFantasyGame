@@ -27,7 +27,7 @@ namespace JBFantasyGame
         {
             InitializeComponent();
             showmonster = thismonster;
-
+            UpdateShowMonsterWin();
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5.0);
             dispatcherTimer.Tick += OnTimerTick;
@@ -43,7 +43,7 @@ namespace JBFantasyGame
             ShowMonsterName.Text = showmonster.Name;
             TBLevel.Text = showmonster.Lvl.ToString() ;
             TBAC.Text = showmonster.AC.ToString();
-            TBHitDie.Text = showmonster.AC.ToString();
+            TBHitDie.Text = showmonster.HitDie.ToString();
             TBMaxHP.Text = showmonster.MaxHp.ToString();
             TBHP.Text = showmonster.Hp.ToString();
             TBHitOn20.Text = showmonster.HitOn20.ToString();
@@ -128,19 +128,33 @@ namespace JBFantasyGame
         private void UpdateRestartTimer_Click(object sender, RoutedEventArgs e)
         {
             showmonster.Name = ShowMonsterName.Text;
+            showmonster.Lvl = Int32.Parse(TBLevel.Text);
 
-            showmonster.MonsterType = ShowMonsterType.Text;    //for now will change to dropdownbox
-                                                               // PartyName not to change from here TBPartyName.Text = showmonster.PartyName;
+            if (showmonster.MonsterType != ShowMonsterType.Text)   //for now will change to dropdownbox
+            {
+                if (ShowMonsterType.Text == "Troll")
+                { Troll.TrollInitialize(showmonster); }
+
+                TBLevel.Text = showmonster.Lvl.ToString();             // need to put to textboxes etc the values that have been changed, otherwise they will change back
+                showmonster.MonsterType = ShowMonsterType.Text;
+                TBAC.Text = showmonster.AC.ToString();
+                TBHitDie.Text = showmonster.HitDie.ToString();
+                TBMaxHP.Text = showmonster.MaxHp.ToString();
+                TBHP.Text = showmonster.Hp.ToString();
+                TBHitOn20.Text = showmonster.HitOn20.ToString();
+                TBInitMod.Text = showmonster.InitMod.ToString();
+                TBNoOfAtt.Text = showmonster.NoOfAtt.ToString();   
+            }                                                       // PartyName not to change from here TBPartyName.Text = showmonster.PartyName;
 
             showmonster.Name = ShowMonsterName.Text;
             showmonster.Lvl= Int32.Parse(TBLevel.Text);
             showmonster.AC = Int32.Parse(TBAC.Text);
             showmonster.HitDie = TBHitDie.Text;
-            showmonster.MaxHp = Int32.Parse(TBMaxHP.Text); 
-            TBHP.Text = showmonster.Hp.ToString();
-            TBHitOn20.Text = showmonster.HitOn20.ToString();
-            TBInitMod.Text = showmonster.InitMod.ToString();
-            TBNoOfAtt.Text = showmonster.NoOfAtt.ToString();
+            showmonster.MaxHp = Int32.Parse(TBMaxHP.Text);
+            showmonster.Hp = Int32.Parse(TBHP.Text);
+            showmonster.HitOn20 = Int32.Parse(TBHitOn20.Text);
+            showmonster.InitMod = Int32.Parse(TBInitMod.Text);
+            showmonster.NoOfAtt = Int32.Parse(TBNoOfAtt.Text);
 
 
 

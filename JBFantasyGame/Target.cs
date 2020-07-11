@@ -39,12 +39,7 @@ namespace JBFantasyGame
         public int MaxHp
         {
             get { return maxHp; }
-            set
-            {
-                // if (value > 0 && value <= 1000)
-                maxHp = value;
-                // else throw new ArgumentOutOfRangeException();
-            }
+            set {maxHp = value;}
         }
     }
     }

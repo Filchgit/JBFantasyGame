@@ -13,6 +13,7 @@ namespace JBFantasyGame
             {
                 get { return name; }
                 set { name = value; }
-            }       
+            }
+        public MonsterParty() => name = "The Party has no name.";
     }
 }
