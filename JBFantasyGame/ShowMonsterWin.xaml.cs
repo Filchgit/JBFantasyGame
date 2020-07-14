@@ -48,7 +48,10 @@ namespace JBFantasyGame
             TBHP.Text = showmonster.Hp.ToString();
             TBHitOn20.Text = showmonster.HitOn20.ToString();
             TBInitMod.Text = showmonster.InitMod.ToString(); 
-            TBNoOfAtt.Text = showmonster.NoOfAtt.ToString();  
+            TBNoOfAtt.Text = showmonster.NoOfAtt.ToString();
+            AttDam1.Text = showmonster.DamPerAtt1;
+            AttDam2.Text = showmonster.DamPerAtt2;
+            AttDam3.Text = showmonster.DamPerAtt3;
 
 
 
@@ -143,7 +146,10 @@ namespace JBFantasyGame
                 TBHP.Text = showmonster.Hp.ToString();
                 TBHitOn20.Text = showmonster.HitOn20.ToString();
                 TBInitMod.Text = showmonster.InitMod.ToString();
-                TBNoOfAtt.Text = showmonster.NoOfAtt.ToString();   
+                TBNoOfAtt.Text = showmonster.NoOfAtt.ToString();
+                AttDam1.Text = showmonster.DamPerAtt1;
+                AttDam2.Text = showmonster.DamPerAtt2;
+                AttDam3.Text = showmonster.DamPerAtt3;
             }                                                       // PartyName not to change from here TBPartyName.Text = showmonster.PartyName;
 
             showmonster.Name = ShowMonsterName.Text;
@@ -155,7 +161,9 @@ namespace JBFantasyGame
             showmonster.HitOn20 = Int32.Parse(TBHitOn20.Text);
             showmonster.InitMod = Int32.Parse(TBInitMod.Text);
             showmonster.NoOfAtt = Int32.Parse(TBNoOfAtt.Text);
-
+            showmonster.DamPerAtt1 = AttDam1.Text;
+            showmonster.DamPerAtt2 = AttDam2.Text;
+            showmonster.DamPerAtt3 = AttDam3.Text;
 
 
             dispatcherTimer.Start();}
