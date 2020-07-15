@@ -8,7 +8,7 @@
         Title="Global Item Add" Height="450" Width="800">
     <Grid Background="#FFD3F5F4" >
         <Grid.DataContext>
-            <local:PhysObj/>
+            <local:PhysObj />
         </Grid.DataContext>
         <StackPanel HorizontalAlignment="Left" Height="226" Margin="10,10,0,0" VerticalAlignment="Top" Width="75">
             <TextBlock TextWrapping="Wrap" Text="Name" Height="30"/>

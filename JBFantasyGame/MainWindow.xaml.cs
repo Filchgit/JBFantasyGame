@@ -25,20 +25,20 @@ namespace JBFantasyGame
         public static List<CharParty> CharParties;
         public static List<Monster> MonsterParty;
         public static List<MonsterParty> MonsterParties;
-        public static List<Entity> Party;
+        public static List<Fant_Entity> Party;
         public static List<Party> Parties;
-        public static List<PhysObj> GlobalItems;
-        public static Entity entitySelected;
+        public static List<PhysObj > GlobalItems;
+        public static Fant_Entity entitySelected;
         public MainWindow()
         {
-            GlobalItems = new List<PhysObj>();
+            GlobalItems = new List<PhysObj >();
             CharParty = new List<Character>();
             CharParties = new List <CharParty>();
             MonsterParty = new List<Monster>();
             MonsterParties = new List<MonsterParty>();
-            Party = new List<Entity>();
+            Party = new List<Fant_Entity>();
             Parties = new List<Party>();
-            entitySelected = new Entity();
+            entitySelected = new Fant_Entity();
             entitySelected.Name = "Default";
             entitySelected.IsAlive = true;
             entitySelected.HitOn20 = 10;

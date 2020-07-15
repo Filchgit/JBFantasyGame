@@ -103,7 +103,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Character.cs" />
-    <Compile Include="Entity.cs" />
+    <Compile Include="Fant_Entity.cs" />
     <Compile Include="PhysObj.cs" />
     <Compile Include="Mage.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -143,7 +143,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

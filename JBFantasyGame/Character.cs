@@ -9,7 +9,7 @@ using static System.Console;
 
 namespace JBFantasyGame
 {
-    public class Character : Entity
+    public class Character : Fant_Entity
     #region Character Stats
     {
         protected int str;
@@ -110,7 +110,7 @@ namespace JBFantasyGame
 
             a_character.AC =0;
             a_character.exp = 120000;
-            a_character.hiton20 = 0;                                       // temporary to test combat
+            a_character.hitOn20 = 0;                                       // temporary to test combat
             a_character.MaxHp = 8;                                        // temporary to test combat
             a_character.Hp = 8;                                            // ditto
             a_character.CharType = "Fighter";
@@ -173,7 +173,7 @@ namespace JBFantasyGame
             else if (characterIn.Dex == 18)
             { DexACAdj = 4; }
 
-            foreach (PhysObj CheckObject in characterIn.Inventory)
+            foreach (PhysObj  CheckObject in characterIn.Inventory)
             {
                 if (CheckObject.IsEquipped == true && CheckObject.ObjType is "Armour")     // this was just a rough first concept check  
                 {
@@ -184,27 +184,27 @@ namespace JBFantasyGame
             return AC ;
             }
 
-        public override int MeleeAttack(Entity Defender)
+        public override int MeleeAttack(Fant_Entity Defender)
         {          
             return Defender.Hp = characterAttackCalc(Defender);                   
         }
 
-        public int characterAttackCalc(Entity Defender)
+        public int characterAttackCalc(Fant_Entity Defender)
         {
             RollingDie twentyside = new RollingDie(20, 1);
             int tohit;
             int attRoll = twentyside.Roll();
-            if (Defender.AC < hiton20)
-            { tohit = 20 - (hiton20 - Defender.AC); }
-            else if (Defender.AC >= (hiton20 + 5))
-            { tohit = 20 + ((Defender.AC - hiton20) - 5); }
+            if (Defender.AC < hitOn20)
+            { tohit = 20 - (hitOn20 - Defender.AC); }
+            else if (Defender.AC >= (hitOn20 + 5))
+            { tohit = 20 + ((Defender.AC - hitOn20) - 5); }
             else tohit = 20;
 
             if (attRoll >= tohit)
             {
                 int damage = 0;
                 string damagerange = "";
-                foreach (PhysObj CheckObject in this.Inventory)
+                foreach (PhysObj  CheckObject in this.Inventory)
                 {
                     if (CheckObject.IsEquipped == true && CheckObject.ObjType is "Weapon")     // this was just a rough first concept check  
                     {

@@ -20,8 +20,8 @@ namespace JBFantasyGame
             get { return name; }
             set { name = value; }
         }
-        // public Entity() => name = "The entity has no name.";
-        // public Entity(string newName) => name = newName;
+        // public Fant_Entity() => name = "The entity has no name.";
+        // public Fant_Entity(string newName) => name = newName;
 
         protected string partyName;
         public string PartyName

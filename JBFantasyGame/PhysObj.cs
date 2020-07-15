@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JBFantasyGame
 {
-    public class PhysObj
+    public class PhysObj    
     {
         protected string descrPhysObj;
         public string DescrPhysObj
@@ -48,7 +48,7 @@ namespace JBFantasyGame
         }
 
 
-        public PhysObj() => descrPhysObj = "There seems to be nothing much here.";
-        public PhysObj(string newdescrPhysObj) => descrPhysObj = newdescrPhysObj;
+        public PhysObj () => descrPhysObj = "There seems to be nothing much here.";
+        public PhysObj (string newdescrPhysObj) => descrPhysObj = newdescrPhysObj;
     }
 }

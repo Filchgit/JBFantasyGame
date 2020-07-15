@@ -32,7 +32,7 @@ namespace JBFantasyGame
         bool isEquip;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            PhysObj anotherPhysObj = new PhysObj();
+            PhysObj  anotherPhysObj = new PhysObj ();
             anotherPhysObj.Name = GlobalItemNameInput.Text;
             anotherPhysObj.ObjType = GlobalItemObjTypeInput.Text;
             anotherPhysObj.Damage = GlobalItemDamageInput.Text;               

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JBFantasyGame
 {
-    public class Monster : Entity
+    public class Monster : Fant_Entity
     {
         // might end up having a field for type of monster to facilitate quick data sheets etc 
         // for now just want to see if I can easily make groups and lists with monsters and characters 
@@ -50,7 +50,7 @@ namespace JBFantasyGame
                 monsterType = value;
             }
         }
-        public override int MeleeAttack(Entity Defender)
+        public override int MeleeAttack(Fant_Entity Defender)
         {
             return Defender.Hp = monsterAttackCalc(Defender);
         }
@@ -63,16 +63,16 @@ namespace JBFantasyGame
             Defender.Hp = monsterAttackCalc(thisDefender);
             return Defender.Hp;
         }
-          public int monsterAttackCalc(Entity Defender)
+          public int monsterAttackCalc(Fant_Entity Defender)
         {
             int cumDamage = 0;
            
             RollingDie twentyside = new RollingDie(20, 1);
             int tohit;
-             if (Defender.AC < hiton20)
-            { tohit = 20 - (hiton20 - Defender.AC); }
-            else if (Defender.AC >= (hiton20 + 5))
-            { tohit = 20 + ((Defender.AC - hiton20) - 5); }
+             if (Defender.AC < hitOn20)
+            { tohit = 20 - (hitOn20 - Defender.AC); }
+            else if (Defender.AC >= (hitOn20 + 5))
+            { tohit = 20 + ((Defender.AC - hitOn20) - 5); }
             else tohit = 20;
 
             int attRoll = twentyside.Roll();

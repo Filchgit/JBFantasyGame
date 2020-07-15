@@ -58,6 +58,7 @@
         <Label Content="Available Parties" HorizontalAlignment="Left" Margin="161,38,0,0" VerticalAlignment="Top" Width="180" Height="27"  Background="#FFF7EEEE"         />
         <Label Content="Party Members" HorizontalAlignment="Left" Margin="341,38,0,0" VerticalAlignment="Top" Width="189" Background="#FFF7EEEE"  />
         <Button x:Name="DeleteEntity"  Content="Permanent Delete Entity" HorizontalAlignment="Left" Margin="341,230,0,0" VerticalAlignment="Top" Width="142" Click="DeleteEntity_Click"/>
+        <Button x:Name="SQLSave" Content="Save to SQL" HorizontalAlignment="Left" Margin="60,212,0,0" VerticalAlignment="Top" Width="103" Click="SQLSave_Click" />
 
     </Grid>
 </Window>

@@ -7,7 +7,7 @@ using static System.Console;
 
 namespace JBFantasyGame
 {
-    public class Party : List<Entity>
+    public class Party : List<Fant_Entity>
     {
         protected string name;
         public string Name

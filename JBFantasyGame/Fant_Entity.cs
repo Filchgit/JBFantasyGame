@@ -11,7 +11,7 @@ using static System.Console;
 
 namespace JBFantasyGame
 {
-    public class Entity
+    public class Fant_Entity
     {
         protected bool isAlive;
         public bool IsAlive
@@ -25,8 +25,8 @@ namespace JBFantasyGame
             get { return name; }
             set { name = value; }
         }
-        // public Entity() => name = "The entity has no name.";
-        // public Entity(string newName) => name = newName;
+        // public Fant_Entity() => name = "The entity has no name.";
+        // public Fant_Entity(string newName) => name = newName;
 
         protected string partyName;
         public string PartyName
@@ -73,13 +73,13 @@ namespace JBFantasyGame
               //  else throw new ArgumentOutOfRangeException();
             }
         }
-        protected int hiton20;
+        protected int hitOn20;
         public int HitOn20
         {
-            get { return hiton20; }
+            get { return hitOn20; }
             set
             { // if (value > -50 && value < 50)
-                   hiton20 = value;
+                   hitOn20 = value;
               //  else throw new ArgumentOutOfRangeException();
             }
         }
@@ -135,15 +135,15 @@ namespace JBFantasyGame
         }
 
 
-        public virtual int MeleeAttack(Entity Defender)
+        public virtual int MeleeAttack(Fant_Entity Defender)
         {
             RollingDie twentyside = new RollingDie(20, 1);
             int tohit;
             int attRoll = twentyside.Roll();
-            if (Defender.AC < hiton20)
-            { tohit = 20 - (hiton20 - Defender.AC); }
-            else if (Defender.AC >= (hiton20 + 5))
-            { tohit = 20 + ((Defender.AC - hiton20) - 5); }
+            if (Defender.AC < hitOn20)
+            { tohit = 20 - (hitOn20 - Defender.AC); }
+            else if (Defender.AC >= (hitOn20 + 5))
+            { tohit = 20 + ((Defender.AC - hitOn20) - 5); }
             else tohit = 20;
 
             if (attRoll >= tohit)
@@ -174,10 +174,10 @@ namespace JBFantasyGame
             RollingDie twentyside = new RollingDie(20, 1);
             int tohit;
             int attRoll = twentyside.Roll();
-            if (Defender.AC < hiton20)
-            { tohit = 20 - (hiton20 - Defender.AC); }
-            else if (Defender.AC >= (hiton20 + 5))
-            { tohit = 20 + ((Defender.AC - hiton20) - 5); }
+            if (Defender.AC < hitOn20)
+            { tohit = 20 - (hitOn20 - Defender.AC); }
+            else if (Defender.AC >= (hitOn20 + 5))
+            { tohit = 20 + ((Defender.AC - hitOn20) - 5); }
             else tohit = 20;
 
                                
@@ -205,7 +205,7 @@ namespace JBFantasyGame
 
        // public int damage;
       
-         public List<PhysObj > Inventory = new List<PhysObj> { };
+         public List<PhysObj > Inventory = new List<PhysObj > { };
         public List<Target> MeleeTargets = new List<Target> { };     // or it may be better to add range as an attribute to Target 
         public List<Target > TargetsAtRange = new List<Target> { };
     }

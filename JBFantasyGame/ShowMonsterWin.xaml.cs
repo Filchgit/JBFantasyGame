@@ -56,9 +56,9 @@ namespace JBFantasyGame
 
 
 
-            PhysObjects = new ObservableCollection<PhysObj>               //all this bit is databinding my inventory grid to 
+            PhysObjects = new ObservableCollection<PhysObj >               //all this bit is databinding my inventory grid to 
             { };                                                          // the PhysObjects ObservableCollection
-            foreach (PhysObj physthing in showmonster.Inventory)       //  can't make binding to way to source ; at least
+            foreach (PhysObj  physthing in showmonster.Inventory)       //  can't make binding to way to source ; at least
             {                                                            //I can't work out how to atm; so updating time atm.
                 PhysObjects.Add(physthing);
             }
@@ -75,14 +75,14 @@ namespace JBFantasyGame
             }
             ViableMeleeTargets.ItemsSource = MeleeTargets;
         }
-        public ObservableCollection<PhysObj> PhysObjects
+        public ObservableCollection<PhysObj > PhysObjects
         {
-            get { return (ObservableCollection<PhysObj>)GetValue(PhysObjectsProperty); }
+            get { return (ObservableCollection<PhysObj >)GetValue(PhysObjectsProperty); }
             set { SetValue(PhysObjectsProperty, value); }
         }
         public static readonly DependencyProperty PhysObjectsProperty =
             DependencyProperty.Register("PhysObjects",
-                     typeof(ObservableCollection<PhysObj>),
+                     typeof(ObservableCollection<PhysObj >),
                      typeof(JBFantasyGame.ShowMonsterWin),
                      new PropertyMetadata(null));
 
@@ -108,13 +108,13 @@ namespace JBFantasyGame
         }
         private void Delete1st_Click(object sender, RoutedEventArgs e)
         {
-            PhysObj removethis = (PhysObj)PersonalInventory.SelectedItem;
+            PhysObj  removethis = (PhysObj )PersonalInventory.SelectedItem;
             showmonster.Inventory.Remove(removethis);
             UpdateShowMonsterWin();
         }
         private void EquipThisButt_Click(object sender, RoutedEventArgs e)          // Obviously can put a lot of type checking in here and then conditions
         {
-            PhysObj equipthis = (PhysObj)PersonalInventory.SelectedItem;
+            PhysObj equipthis = (PhysObj )PersonalInventory.SelectedItem;
             if (equipthis.IsEquipped == true)
             { equipthis.IsEquipped = false; }
             else { equipthis.IsEquipped = true; }
