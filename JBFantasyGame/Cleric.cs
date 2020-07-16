@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace JBFantasyGame
 {
+    
     public class Cleric :Character
     {
         public static Character ClericInitialize(Character a_character)

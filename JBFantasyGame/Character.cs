@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using static System.Console;
+using System.Data.Linq; 
 
 namespace JBFantasyGame
 {
+     
     public class Character : Fant_Entity
     #region Character Stats
     {

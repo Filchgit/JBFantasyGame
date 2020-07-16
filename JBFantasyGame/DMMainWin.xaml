@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:JBFantasyGame"
         mc:Ignorable="d"
         Title="DMMainWin" Height="800" Width="1200" WindowStartupLocation="CenterScreen">
-    <Grid Background= "LightBlue">
+    <Grid Background= "LightBlue" Margin="0,0,0,-94">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -22,11 +22,11 @@
         <Label Name="PartiesAvailable" Content="Available Character Parties" HorizontalAlignment="Left" Margin="602,378,0,0" VerticalAlignment="Top" Width="166" Background="#FFF7EEEE" Height="33"/>
         <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="602,416,0,0" VerticalAlignment="Top" Width="181" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0"/>
 
-        <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="189,265,0,0" VerticalAlignment="Top" Width="279" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
-        <Button x:Name="SaveAll"  Content="Save All Parties" HorizontalAlignment="Left" Margin="203,10,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
+        <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="761,253,0,0" VerticalAlignment="Top" Width="279" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
+        <Button x:Name="SaveAll"  Content="Save All Parties (XML)" HorizontalAlignment="Left" Margin="203,10,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
 
-        <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="189,232,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.346" Width="100" Height="33" Background="#FFFBFBFB"/>
-        <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="468,310,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.093,-0.35" Height="45" Click="AssigntoCharacter_Click" />
+        <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="761,220,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.346" Width="100" Height="33" Background="#FFFBFBFB"/>
+        <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="1040,293,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.093,-0.35" Height="45" Click="AssigntoCharacter_Click" />
 
         <Rectangle x:Name="SecondaryFocusRectangle" Fill="#FFB5EAF0" HorizontalAlignment="Left" Height="128" Margin="530,37,0,0" Stroke="Black" VerticalAlignment="Top" Width="406" RenderTransformOrigin="0.577,0.517"/>
         <ListBox x:Name="TargetFocusGroupList" HorizontalAlignment="Left" Height="100" Margin="530,65,0,0" VerticalAlignment="Top" Width="219" SelectedIndex="0" SelectionChanged="TargetFocusGroupList_SelectionChanged"/>
@@ -36,11 +36,11 @@
         <Label x:Name="TargetCharLabel" Content="TargetCharacter" HorizontalAlignment="Left" Margin="754,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.132,0.038" Width="182" Background="#FF77F3F9"/>
         <Button x:Name ="TransfertoNewParty"  Content="Transfer New Party" HorizontalAlignment="Left" Margin="341,192,0,0" VerticalAlignment="Top" Width="142" Click="TransfertoNewParty_Click"/>
         <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="530,225,0,0" VerticalAlignment="Top" Width="175" Click="Meleethis_Click"/>
-        <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="468,265,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
-        <Button x:Name="LoadAllFileDialog" Content="Load all using File Dialog" HorizontalAlignment="Left" Margin="400,10,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
+        <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="1040,248,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
+        <Button x:Name="LoadAllFileDialog" Content="Load all Parties (XML)" HorizontalAlignment="Left" Margin="400,10,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
 
         <Button x:Name="DmAdjustChar" Content="DM Quick Adjust" HorizontalAlignment="Left" Margin="341,212,0,0" VerticalAlignment="Top" Width="142" Click="DmAdjustChar_Click"/>
-        <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="468,290,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
+        <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="1040,273,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
 
         <Button x:Name="GroupsIntoCombat" Content="Put groups into Combat Range" HorizontalAlignment="Left" Margin="530,165,0,0" VerticalAlignment="Top" Width="175" Click="GroupsIntoCombat_Click"/>
         <Button x:Name="GroupsOutOfCombat" Content="Take groups out of Range" HorizontalAlignment="Left" Margin="530,185,0,0" VerticalAlignment="Top" Width="175" Click="GroupsOutOfCombat_Click"/>
@@ -58,7 +58,8 @@
         <Label Content="Available Parties" HorizontalAlignment="Left" Margin="161,38,0,0" VerticalAlignment="Top" Width="180" Height="27"  Background="#FFF7EEEE"         />
         <Label Content="Party Members" HorizontalAlignment="Left" Margin="341,38,0,0" VerticalAlignment="Top" Width="189" Background="#FFF7EEEE"  />
         <Button x:Name="DeleteEntity"  Content="Permanent Delete Entity" HorizontalAlignment="Left" Margin="341,230,0,0" VerticalAlignment="Top" Width="142" Click="DeleteEntity_Click"/>
-        <Button x:Name="SQLSave" Content="Save to SQL" HorizontalAlignment="Left" Margin="60,212,0,0" VerticalAlignment="Top" Width="103" Click="SQLSave_Click" />
+        <Button x:Name="SQLSave" Content="Save to SQL as (new) Entity" HorizontalAlignment="Left" Margin="341,258,0,0" VerticalAlignment="Top" Width="178" Click="SQLSave_Click" />
+        <Button x:Name="CharacterSaveSQL" Content="Save to SQL as (new) Character" HorizontalAlignment="Left" Margin="341,278,0,0" VerticalAlignment="Top" Width="178" Click="CharacterSaveSQL_Click"/>
 
     </Grid>
 </Window>
