@@ -391,8 +391,6 @@ namespace JBFantasyGame
                     }
                 }
             }
-
-
             UpdateEntPartiesListBox();
             UpdateEntPartyListBox();
             UpdateTargetFocusGroupListBox();
@@ -401,7 +399,6 @@ namespace JBFantasyGame
         }
         private List<CharParty> LoadPartyList(string path)
         {
-            // string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             MainWindow.CharParties = new List<CharParty>();
             XmlSerializer formatter = new XmlSerializer(MainWindow.CharParties.GetType());
             FileStream aFile = new FileStream(path, FileMode.Open);
@@ -511,7 +508,6 @@ namespace JBFantasyGame
                     thisEntity.MeleeTargets.Add(Targetnew);
                 }
             }
-
             foreach (Fant_Entity thisEntity in Defparty)
             {
                 Meleegroup.Add(thisEntity);
@@ -567,13 +563,11 @@ namespace JBFantasyGame
                                 thisEntity.MeleeAttack(attackasCharacter);
                             }
                             else
-
                             { thisEntity.MeleeAttack(entitytobeattacked); }
                         }
                     }
                 }
             }
-
         }
         private void MonstGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -635,73 +629,181 @@ namespace JBFantasyGame
             UpdateTargetFocusCharListBox();
         }
 
-        private void SQLSave_Click(object sender, RoutedEventArgs e)           // this is a non LINQ version to save a FantEntity
+        private void SQLSave_Click(object sender, RoutedEventArgs e)         
         {
             // does NOT check for entity of same/name group combo
             Fant_Entity selected = MainWindow.entitySelected;
-            SQLSaveFantEntity(selected);
+            bool entExists = DoesEntExistInSQL(selected);
+            if (entExists == true)
+            { SQLUpdateFantEntity(selected); }
+            else if (entExists == false)
+            { SQLSaveFantEntity(selected); }
         }
-        private void SQLSaveFantEntity(Fant_Entity selected)
+        private void ExistinSQL_Click(object sender, RoutedEventArgs e)
+        {
+            Fant_Entity selected = MainWindow.entitySelected;
+            bool entExists = DoesEntExistInSQL(selected);
+            if (entExists==true)
+            {
+               MessageBox.Show($"{selected.Name} in {selected.PartyName} already exists in the database; " +
+                 $"I think you meant to update it.");
+              con.Open();
+                SqlCommand updateSQlFile = new SqlCommand("update Fant_Character set MyTurn=0 " +
+                   "where Name = @selectedName and PartyName= @selectedPartyName", con);
+            updateSQlFile.Parameters.AddWithValue("@selectedName", selected.Name);
+            updateSQlFile.Parameters.AddWithValue("@selectedPartyName", selected.PartyName);
+
+                updateSQlFile.ExecuteNonQuery();
+           con.Close();
+             }
+
+        }
+
+        private bool DoesEntExistInSQL(Fant_Entity selected)
+        { bool entExists = false;
+            string entPartyNameToCheck = selected.PartyName;
+            string entNameToCheck = selected.Name;  
+            con.Open();
+            SqlCommand cmdthis;
+            SqlDataReader dataReader;
+            string sql, Output = "";
+              // if (selected is Character)
+            sql = "select Name, PartyName from Fant_Character";        //should default to this, change on Monster 
+            if (selected is Monster)
+            { sql = "select Name, PartyName from monster"; }
+            cmdthis = new SqlCommand(sql, con);
+            dataReader = cmdthis.ExecuteReader();
+            while (dataReader.Read())
+            { Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "\n";
+              if (entPartyNameToCheck==(string)dataReader.GetValue(1) && entNameToCheck ==(string) dataReader.GetValue(0))
+                { entExists = true; }
+            }
+           // MessageBox.Show(Output);
+            con.Close();
+            return entExists;
+        }
+        private void SQLUpdateFantEntity(Fant_Entity selected)
         {
             con.Open();
-            SqlCommand cmd = new SqlCommand("insert into Fantasy_Entity (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName,MyTargetEnt, MyTargetParty)" +
-                " values  (@AC,@HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @Lvl, @MaxHp,  @MyTurn,@Name, @PartyName, @MyTargetEnt, @MyTargetParty)", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
-            cmd.Parameters.AddWithValue("@AC", selected.AC);
-            cmd.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
-            cmd.Parameters.AddWithValue("@Hp", selected.Hp);
-            cmd.Parameters.AddWithValue("@InitMod", selected.InitMod);
-            cmd.Parameters.AddWithValue("@InitRoll", selected.InitRoll);
-            int? IsAlive = null;
-            if (selected.IsAlive == true)
-            { IsAlive = 1; }
-            if (selected.IsAlive == false)
-            { IsAlive = 0; }
-            cmd.Parameters.AddWithValue("@IsAlive", IsAlive);
-            cmd.Parameters.AddWithValue("@Lvl", selected.Lvl);
-            cmd.Parameters.AddWithValue("@MaxHp", selected.MaxHp);
-            if (selected.MyTargetEnt != null)
-            { cmd.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
-              cmd.Parameters.AddWithValue("@MyTargetParty", selected.MyTargetParty);
-            }
-            else
-            {
-                cmd.Parameters.AddWithValue("@MyTargetEnt", "");
-                cmd.Parameters.AddWithValue("@MyTargetParty", "");
-            }
-            int? MyTurn = null;
-            if (selected.MyTurn == true)
-            { MyTurn = 1; }
-            if (selected.MyTurn  == false)
-            { MyTurn  = 0; }
-            cmd.Parameters.AddWithValue("@MyTurn", MyTurn);
-            cmd.Parameters.AddWithValue("@Name", selected.Name );
-            cmd.Parameters.AddWithValue("@PartyName", selected.PartyName);
-            cmd.ExecuteNonQuery();
+            // for the inventory and target items, even for update process I think it will be safest to clear all owned items
+            // and targets from SQL DB and then reinsert them from Fant_entity in question
+            SqlCommand cmdDelObj = new SqlCommand("Delete from PhysObj " +
+                       "where OwnersName = @selectedName and OwnersPartyName= @selectedPartyName", con);    //deletes this Fant_Ent's items
+            cmdDelObj.Parameters.AddWithValue("@selectedName", selected.Name);
+            cmdDelObj.Parameters.AddWithValue("@selectedPartyName", selected.PartyName);
+            cmdDelObj.ExecuteNonQuery();
+            con.Close();
+            insertObjInSQLInv(selected);         //inserts this Fant_Ent's Items
+            con.Open();
+            SqlCommand cmdDelTarg = new SqlCommand("Delete from Target " +
+                       "where OwnersName = @selectedName and OwnersPartyName= @selectedPartyName", con);
+            cmdDelTarg.Parameters.AddWithValue("@selectedName", selected.Name);
+            cmdDelTarg.Parameters.AddWithValue("@selectedPartyName", selected.PartyName);
+            cmdDelTarg.ExecuteNonQuery();
+            con.Close();
+            insertTargetsSQLTargets(selected);      //inserts this Fant_Ent's Targets
 
-            foreach (PhysObj thisPhysObj in selected.Inventory )
+            if (selected is Character)
             {
-              SqlCommand cmdObj = new SqlCommand("insert into PhysObj (OwnersGroupName,OwnersName,ACEffect,Damage,IsEquipped,Name,ObjType,DescrPhysObj) " +
-                  "values  (@OwnersGroupName, @OwnersName, @ACEffect, @Damage, @IsEquipped, @Name, @ObjType, @DescrPhysObj)", con);
-                cmdObj.Parameters.AddWithValue("@OwnersGroupName", selected.PartyName);
-                cmdObj.Parameters.AddWithValue("@OwnersName", selected.Name);
-                cmdObj.Parameters.AddWithValue("@ACEffect", thisPhysObj.ACEffect);
-                cmdObj.Parameters.AddWithValue("@Damage", thisPhysObj.Damage);
-                int? isEquipped = null;
-                if (thisPhysObj.IsEquipped ==true)
-                { isEquipped = 1; }
-                if (thisPhysObj.IsEquipped == false)
-                { isEquipped = 0; }
-                cmdObj.Parameters.AddWithValue("IsEquipped",isEquipped);
-                cmdObj.Parameters.AddWithValue("@Name", thisPhysObj.Name );
-                cmdObj.Parameters.AddWithValue("@ObjType", thisPhysObj.ObjType );
-                cmdObj.Parameters.AddWithValue("@DescrPhysObj", thisPhysObj.DescrPhysObj);
-                cmdObj.ExecuteNonQuery(); 
+                con.Open();
+                Character charSelected = (Character)selected;
+                //selected.MyTurn = true;    //temp just to see the issue
+                SqlCommand cmd2 = new SqlCommand("update Fant_Character set AC = @AC, HitOn20 =@HitOn20, Hp=@Hp, InitMod =@InitMod," +
+                    " InitRoll=@InitRoll, IsAlive=@IsAlive, Lvl=@Lvl, MaxHp=@MaxHp, MyTurn=@MyTurn, " +
+                    "CharType=@CharType, Chr=@Chr, Con=@Con, Dex=@Dex, Exp=@Exp, Inte=@Inte, Str=@Str, Wis=@Wis," +
+                    "MyTargetEnt=@MyTargetEnt, MyTargetParty=@MyTargetParty " +
+                    "where Name = @Name and PartyName= @PartyName", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
+                cmd2.Parameters.AddWithValue("@AC", selected.AC);
+                cmd2.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
+                cmd2.Parameters.AddWithValue("@Hp", selected.Hp);
+                cmd2.Parameters.AddWithValue("@InitMod", selected.InitMod);
+                cmd2.Parameters.AddWithValue("@InitRoll", selected.InitRoll);
+                int? CharIsAlive = null;
+                if (selected.IsAlive == true)
+                { CharIsAlive = 1; }
+                if (selected.IsAlive == false)
+                { CharIsAlive = 0; }
+                cmd2.Parameters.AddWithValue("@IsAlive", CharIsAlive);
+                cmd2.Parameters.AddWithValue("@Lvl", selected.Lvl);
+                cmd2.Parameters.AddWithValue("@MaxHp", selected.MaxHp);
+                int? CharMyTurn = null;
+                if (selected.MyTurn == true)
+                { CharMyTurn = 1; }
+                if (selected.MyTurn == false)
+                { CharMyTurn = 0; }
+                cmd2.Parameters.AddWithValue("@MyTurn", CharMyTurn);
+                cmd2.Parameters.AddWithValue("@Name", selected.Name);
+                cmd2.Parameters.AddWithValue("@PartyName", selected.PartyName);
+                //new unique values for character
+                cmd2.Parameters.AddWithValue("@CharType", charSelected.CharType);
+                cmd2.Parameters.AddWithValue("@Chr", charSelected.Chr);
+                cmd2.Parameters.AddWithValue("@Con", charSelected.Con);
+                cmd2.Parameters.AddWithValue("@Dex", charSelected.Dex);
+                cmd2.Parameters.AddWithValue("@Exp", charSelected.Exp);
+                cmd2.Parameters.AddWithValue("@Inte", charSelected.Inte);
+                cmd2.Parameters.AddWithValue("@Str", charSelected.Str);
+                cmd2.Parameters.AddWithValue("@Wis", charSelected.Wis);
+                if (selected.MyTargetEnt != null)
+                {
+                    cmd2.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
+                    cmd2.Parameters.AddWithValue("@MyTargetParty", selected.MyTargetParty);
+                }
+                else
+                {
+                    cmd2.Parameters.AddWithValue("@MyTargetEnt", "");
+                    cmd2.Parameters.AddWithValue("@MyTargetParty", "");
+                }
+                cmd2.ExecuteNonQuery();
+                con.Close();
             }
+            if (selected is Monster)
+            {
+                con.Open();
+                Monster monstSelected = (Monster)selected;
+                SqlCommand cmd3 = new SqlCommand("update Monster set AC=@AC, MonsterType =@MonsterType, HitOn20=@HitOn20," +
+                    " Hp=@Hp, InitMod=@InitMod, InitRoll=@InitRoll, IsAlive=@IsAlive," +
+                    " MaxHp=@MaxHp, MyTargetEnt=@MyTargetEnt, MyTargetParty=@MyTargetParty, MyTurn=@MyTurn, Lvl=@Lvl," +
+                    " NoOfAtt=@NoOfAtt, DamPerAtt1=@DamPerAtt1, DamPerAtt2=@DamPerAtt2, DamPerAtt3=@DamPerAtt3, HitDie=@HitDie" +
+                    " where Name = @Name and PartyName = @PartyName", con);
+                cmd3.Parameters.AddWithValue("@AC", monstSelected.AC);
+                cmd3.Parameters.AddWithValue("@MonsterType", monstSelected.MonsterType);
+                cmd3.Parameters.AddWithValue("@HitOn20", monstSelected.HitOn20);
+                cmd3.Parameters.AddWithValue("@Hp", monstSelected.Hp);
+                cmd3.Parameters.AddWithValue("@InitMod", monstSelected.InitMod);
+                cmd3.Parameters.AddWithValue("@InitRoll", monstSelected.InitRoll);
+                cmd3.Parameters.AddWithValue("@IsAlive", monstSelected.IsAlive);
+                cmd3.Parameters.AddWithValue("@MaxHp", monstSelected.MaxHp);
+                if (monstSelected.MyTargetEnt != null)
+                {
+                    cmd3.Parameters.AddWithValue("@MyTargetEnt", monstSelected.MyTargetEnt);
+                    cmd3.Parameters.AddWithValue("@MyTargetParty", monstSelected.MyTargetParty);
+                }
+                else
+                {
+                    cmd3.Parameters.AddWithValue("@MyTargetEnt", "");
+                    cmd3.Parameters.AddWithValue("@MyTargetParty", "");
+                }
+                cmd3.Parameters.AddWithValue("@MyTurn", monstSelected.MyTurn);
+                cmd3.Parameters.AddWithValue("@Name", monstSelected.Name);
+                cmd3.Parameters.AddWithValue("@PartyName", monstSelected.PartyName);
+                cmd3.Parameters.AddWithValue("@Lvl", monstSelected.Lvl);
+                cmd3.Parameters.AddWithValue("@NoOfAtt", monstSelected.NoOfAtt);
+                cmd3.Parameters.AddWithValue("@DamPerAtt1", monstSelected.DamPerAtt1);
+                cmd3.Parameters.AddWithValue("@DamPerAtt2", monstSelected.DamPerAtt2);
+                cmd3.Parameters.AddWithValue("@DamPerAtt3", monstSelected.DamPerAtt3);
+                cmd3.Parameters.AddWithValue("@HitDie", monstSelected.HitDie);
+                cmd3.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        private void insertTargetsSQLTargets(Fant_Entity selected)
+        {
+            con.Open();
             foreach (Target thisTarget in selected.MeleeTargets)
             {
-                SqlCommand cmdTarget = new SqlCommand("insert into Target (OwnersGroupName,OwnersName,IsAlive,Name,PartyName,Hp,MaxHp )" +
-                    " values (@OwnersGroupName,@OwnersName,@IsAlive,@Name,@PartyName,@Hp,@MaxHp)", con);
-                cmdTarget.Parameters.AddWithValue("@OwnersGroupName", selected.PartyName);
+                SqlCommand cmdTarget = new SqlCommand("insert into Target (OwnersPartyName,OwnersName,IsAlive,Name,PartyName,Hp,MaxHp )" +
+                    " values (@OwnersPartyName,@OwnersName,@IsAlive,@Name,@PartyName,@Hp,@MaxHp)", con);
+                cmdTarget.Parameters.AddWithValue("@OwnersPartyName", selected.PartyName);
                 cmdTarget.Parameters.AddWithValue("@OwnersName", selected.Name);
                 int? targetIsAlive = null;
                 if (thisTarget.IsAlive == true)
@@ -710,12 +812,80 @@ namespace JBFantasyGame
                 { targetIsAlive = 0; }
                 cmdTarget.Parameters.AddWithValue("@IsAlive", targetIsAlive);
                 cmdTarget.Parameters.AddWithValue("@Name", thisTarget.Name);
-                cmdTarget.Parameters.AddWithValue("@PartyName", thisTarget.PartyName );
+                cmdTarget.Parameters.AddWithValue("@PartyName", thisTarget.PartyName);
                 cmdTarget.Parameters.AddWithValue("@Hp", thisTarget.Hp);
-                cmdTarget.Parameters.AddWithValue("@MaxHp",thisTarget.MaxHp);
+                cmdTarget.Parameters.AddWithValue("@MaxHp", thisTarget.MaxHp);
                 cmdTarget.ExecuteNonQuery();
             }
+            con.Close();
+        }
+        private void insertObjInSQLInv(Fant_Entity selected)
+        {
+            foreach (PhysObj thisPhysObj in selected.Inventory)
+            {
+                con.Open();
+                SqlCommand cmdObj = new SqlCommand("insert into PhysObj (OwnersPartyName,OwnersName,ACEffect,Damage,IsEquipped,Name,ObjType,DescrPhysObj) " +
+                    "values  (@OwnersPartyName, @OwnersName, @ACEffect, @Damage, @IsEquipped, @Name, @ObjType, @DescrPhysObj)", con);
+                cmdObj.Parameters.AddWithValue("@OwnersPartyName", selected.PartyName);
+                cmdObj.Parameters.AddWithValue("@OwnersName", selected.Name);
+                cmdObj.Parameters.AddWithValue("@ACEffect", thisPhysObj.ACEffect);
+                cmdObj.Parameters.AddWithValue("@Damage", thisPhysObj.Damage);
+                int? isEquipped = null;
+                if (thisPhysObj.IsEquipped == true)
+                { isEquipped = 1; }
+                if (thisPhysObj.IsEquipped == false)
+                { isEquipped = 0; }
+                cmdObj.Parameters.AddWithValue("IsEquipped", isEquipped);
+                cmdObj.Parameters.AddWithValue("@Name", thisPhysObj.Name);
+                cmdObj.Parameters.AddWithValue("@ObjType", thisPhysObj.ObjType);
+                cmdObj.Parameters.AddWithValue("@DescrPhysObj", thisPhysObj.DescrPhysObj);
+                cmdObj.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        private void SQLSaveFantEntity(Fant_Entity selected)
+        {   //?? is it better to do this as a Using or just make sure I close the connection?
+            //crap I really don't need an Entity DB at all, everything is going to be a Monster or Character or something else at this stage
+            // will save here since I wrote it for debug purposes
+            #region EntityDBsave
+            //          SqlCommand cmd = new SqlCommand("insert into Fantasy_Entity (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName,MyTargetEnt, MyTargetParty)" +
+            //              " values  (@AC,@HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @Lvl, @MaxHp,  @MyTurn,@Name, @PartyName, @MyTargetEnt, @MyTargetParty)", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
+            //           cmd.Parameters.AddWithValue("@AC", selected.AC);
+            //           cmd.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
+            //           cmd.Parameters.AddWithValue("@Hp", selected.Hp);
+            //           cmd.Parameters.AddWithValue("@InitMod", selected.InitMod);
+            //           cmd.Parameters.AddWithValue("@InitRoll", selected.InitRoll);
+            //           int? IsAlive = null;
+            //           if (selected.IsAlive == true)
+            //           { IsAlive = 1; }
+            //           if (selected.IsAlive == false)
+            //           { IsAlive = 0; }
+            //           cmd.Parameters.AddWithValue("@IsAlive", IsAlive);
+            //           cmd.Parameters.AddWithValue("@Lvl", selected.Lvl);
+            //           cmd.Parameters.AddWithValue("@MaxHp", selected.MaxHp);
+            //           if (selected.MyTargetEnt != null)
+            //           { cmd.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
+            //             cmd.Parameters.AddWithValue("@MyTargetParty", selected.MyTargetParty);
+            //           }
+            //           else
+            //           {
+            //               cmd.Parameters.AddWithValue("@MyTargetEnt", "");
+            //               cmd.Parameters.AddWithValue("@MyTargetParty", "");
+            //           }
+            //           int? MyTurn = null;
+            //           if (selected.MyTurn == true)
+            //           { MyTurn = 1; }
+            //           if (selected.MyTurn  == false)
+            //           { MyTurn  = 0; }
+            //           cmd.Parameters.AddWithValue("@MyTurn", MyTurn);
+            //           cmd.Parameters.AddWithValue("@Name", selected.Name );
+            //            cmd.Parameters.AddWithValue("@PartyName", selected.PartyName);
+            //           cmd.ExecuteNonQuery();
+            #endregion EntityDBsave
+            insertObjInSQLInv(selected);
 
+            insertTargetsSQLTargets(selected);
+            con.Open();
             if (selected is Character)
             { Character charSelected = (Character)selected;  
               SqlCommand cmd2 = new SqlCommand("insert into Fant_Character (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName, " +
@@ -759,17 +929,54 @@ namespace JBFantasyGame
                 }
                 else
                 {
-                    cmd.Parameters.AddWithValue("@MyTargetEnt", "");
-                    cmd.Parameters.AddWithValue("@MyTargetParty", "");
+                    cmd2.Parameters.AddWithValue("@MyTargetEnt", "");
+                    cmd2.Parameters.AddWithValue("@MyTargetParty", "");
                 }
                 cmd2.ExecuteNonQuery();
+            }
+            if (selected is Monster)
+            {
+                Monster monstSelected = (Monster)selected;
+                SqlCommand cmd3 = new SqlCommand("insert into Monster (AC, MonsterType, HitOn20, Hp, InitMod, InitRoll, IsAlive," +
+                    " MaxHp, MyTargetEnt, MyTargetParty,MyTurn,Name, PartyName, Lvl, NoOfAtt, DamPerAtt1, DamPerAtt2, DamPerAtt3, HitDie)" +
+                    " values (@AC, @MonsterType, @HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @MaxHp, @MyTargetEnt,@MyTargetParty," +
+                    "@MyTurn,@Name,@PartyName, @Lvl,@NoOfAtt, @DamPerAtt1, @DamPerAtt2, @DamPerAtt3, @HitDie )", con);
+                cmd3.Parameters.AddWithValue("@AC", monstSelected.AC);
+                cmd3.Parameters.AddWithValue("@MonsterType", monstSelected.MonsterType);
+                cmd3.Parameters.AddWithValue("@HitOn20", monstSelected.HitOn20);
+                cmd3.Parameters.AddWithValue("@Hp", monstSelected.Hp);
+                cmd3.Parameters.AddWithValue("@InitMod", monstSelected.InitMod);
+                cmd3.Parameters.AddWithValue("@InitRoll", monstSelected.InitRoll);
+                cmd3.Parameters.AddWithValue("@IsAlive", monstSelected.IsAlive);
+                cmd3.Parameters.AddWithValue("@MaxHp", monstSelected.MaxHp);              
+                if (monstSelected.MyTargetEnt != null)
+                {
+                    cmd3.Parameters.AddWithValue("@MyTargetEnt", monstSelected.MyTargetEnt);
+                    cmd3.Parameters.AddWithValue("@MyTargetParty",monstSelected.MyTargetParty);
+                }
+                else
+                {
+                    cmd3.Parameters.AddWithValue("@MyTargetEnt", "");
+                    cmd3.Parameters.AddWithValue("@MyTargetParty", "");
+                }         
+                cmd3.Parameters.AddWithValue("@MyTurn", monstSelected.MyTurn);
+                cmd3.Parameters.AddWithValue("@Name", monstSelected.Name);
+                cmd3.Parameters.AddWithValue("@PartyName", monstSelected.PartyName);
+                cmd3.Parameters.AddWithValue("@Lvl", monstSelected.Lvl);
+                cmd3.Parameters.AddWithValue("@NoOfAtt", monstSelected.NoOfAtt);
+                cmd3.Parameters.AddWithValue("@DamPerAtt1", monstSelected.DamPerAtt1);
+                cmd3.Parameters.AddWithValue("@DamPerAtt2", monstSelected.DamPerAtt2);
+                cmd3.Parameters.AddWithValue("@DamPerAtt3", monstSelected.DamPerAtt3);
+                cmd3.Parameters.AddWithValue("@HitDie", monstSelected.HitDie);
+                cmd3.ExecuteNonQuery();
             }
             con.Close();
         }
 
-        private void CharacterSaveSQL_Click(object sender, RoutedEventArgs e)
+        private void UpdateInSQL_Click(object sender, RoutedEventArgs e)
         {
-
+            Fant_Entity selected = MainWindow.entitySelected;
+            SQLUpdateFantEntity(selected);
         }
     }
 }

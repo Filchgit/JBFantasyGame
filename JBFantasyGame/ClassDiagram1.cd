@@ -8,7 +8,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JBFantasyGame.Character">
-    <Position X="2.5" Y="1" Width="1.5" />
+    <Position X="7.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAQCAAgAAQABQAGAAEAAgQAAIQGACCAAoQAAAAEAAgA=</HashCode>
       <FileName>Character.cs</FileName>
@@ -81,8 +81,8 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="JBFantasyGame.Monster" Collapsed="true">
-    <Position X="9.25" Y="0.5" Width="1.5" />
+  <Class Name="JBFantasyGame.Monster">
+    <Position X="2.5" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EABwAAAAAQAAAAEQBABwEAAAAAAAAAEABAAEAAAAAAA=</HashCode>
       <FileName>Monster.cs</FileName>

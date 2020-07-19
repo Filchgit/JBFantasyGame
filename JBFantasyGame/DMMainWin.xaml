@@ -57,9 +57,10 @@
         <Label Content="Monster Party Members" HorizontalAlignment="Left" Margin="389,385,0,0" VerticalAlignment="Top" Width="178" Background="#FFF7EEEE" />
         <Label Content="Available Parties" HorizontalAlignment="Left" Margin="161,38,0,0" VerticalAlignment="Top" Width="180" Height="27"  Background="#FFF7EEEE"         />
         <Label Content="Party Members" HorizontalAlignment="Left" Margin="341,38,0,0" VerticalAlignment="Top" Width="189" Background="#FFF7EEEE"  />
-        <Button x:Name="DeleteEntity"  Content="Permanent Delete Entity" HorizontalAlignment="Left" Margin="341,230,0,0" VerticalAlignment="Top" Width="142" Click="DeleteEntity_Click"/>
-        <Button x:Name="SQLSave" Content="Save to SQL as (new) Entity" HorizontalAlignment="Left" Margin="341,258,0,0" VerticalAlignment="Top" Width="178" Click="SQLSave_Click" />
-        <Button x:Name="CharacterSaveSQL" Content="Save to SQL as (new) Character" HorizontalAlignment="Left" Margin="341,278,0,0" VerticalAlignment="Top" Width="178" Click="CharacterSaveSQL_Click"/>
+        <Button x:Name="DeleteEntity"  Content="Delete Entity" HorizontalAlignment="Left" Margin="341,230,0,0" VerticalAlignment="Top" Width="142" Click="DeleteEntity_Click"/>
+        <Button x:Name="SQLSave" Content="Save/Update to SQL" HorizontalAlignment="Left" Margin="341,258,0,0" VerticalAlignment="Top" Width="178" Click="SQLSave_Click" />
+        <Button x:Name="ExistinSQL" Content="Check in SQL" HorizontalAlignment="Left" Margin="341,293,0,0" VerticalAlignment="Top" Width="75" Click="ExistinSQL_Click"/>
+        <Button x:Name="UpdateInSQL" Content="Update Entity in SQL" HorizontalAlignment="Left" Margin="341,338,0,0" VerticalAlignment="Top" Width="142" Click="UpdateInSQL_Click"/>
 
     </Grid>
 </Window>
