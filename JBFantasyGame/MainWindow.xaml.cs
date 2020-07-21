@@ -29,6 +29,7 @@ namespace JBFantasyGame
         public static List<Party> Parties;
         public static List<PhysObj > GlobalItems;
         public static Fant_Entity entitySelected;
+        //public static Fant_Entity sqlEntitySelected;
         public MainWindow()
         {
             GlobalItems = new List<PhysObj >();
@@ -44,7 +45,12 @@ namespace JBFantasyGame
             entitySelected.HitOn20 = 10;
             entitySelected.MaxHp = 1;
             entitySelected.PartyName = "Default";
- 
+           // sqlEntitySelected = new Fant_Entity();
+           // sqlEntitySelected.Name = "Default";
+           // sqlEntitySelected.PartyName= "Default";
+           // sqlEntitySelected.Lvl = 1;
+
+
             InitializeComponent();
             
         }

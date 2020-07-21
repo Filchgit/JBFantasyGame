@@ -24,12 +24,19 @@ namespace JBFantasyGame
     {
         private Character showcharacter;                              //seeing if I can use an object model - data grid  
         private DispatcherTimer dispatcherTimer = null;
-
+       
         public ShowCharWin(Character thischaracter)
         {
             InitializeComponent();
-            showcharacter = thischaracter;
-            UpdateShowCharWin();                                                            // currently updating character sheets on a timer might see if I can do this from a global event later 
+            DMMainWin thisWin = new DMMainWin();
+            bool entExists=  thisWin.DoesEntExistInSQL(thischaracter);
+            if (entExists == true)
+            { MessageBox.Show("I will upload from SQL");
+                showcharacter = thischaracter;
+            }//load character from SQL}
+            else
+            { showcharacter = thischaracter; }
+            UpdateShowCharWin();                                      // currently updating character sheets on a timer might see if I can do this from a global event later 
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5.0);
             dispatcherTimer.Tick += OnTimerTick;

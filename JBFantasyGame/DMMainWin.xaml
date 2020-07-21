@@ -16,11 +16,11 @@
         <Button x:Name="CreateNewCharacter" Content="Create New Character" HorizontalAlignment="Left" Margin="21,123,0,0" VerticalAlignment="Top" Width="131" Click="CreateNewCharacter_Click"/>
         <Button x:Name="CreateNewParty" Content="Create New Party" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="131"  RenderTransformOrigin="0.467,1.8" Click="CreateNewParty_Click"/>
         <Button x:Name="ShwCharSht" Content ="Show Char Sheet"  HorizontalAlignment="Left" Margin="341,165,0,0" VerticalAlignment="Top" Width="142" Height="27"  Click="ShwCharSht_Click" RenderTransformOrigin="0.52,0.037" />
-        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="785,416,0,0" VerticalAlignment="Top" Width="183" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" SelectedIndex="0" SourceUpdated="CurrentPartyList_SourceUpdated" />
-        <Label x:Name="CurrentPartyLabel" Content="Current Party Characters" HorizontalAlignment="Left" Margin="785,378,0,0" VerticalAlignment="Top" Width="183" Height="33" Background="#FFF9F9F9"/>
+        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="678,505,0,0" VerticalAlignment="Top" Width="183" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" SelectedIndex="0" SourceUpdated="CurrentPartyList_SourceUpdated" />
+        <Label x:Name="CurrentPartyLabel" Content="Current Party Characters" HorizontalAlignment="Left" Margin="678,471,0,0" VerticalAlignment="Top" Width="183" Height="33" Background="#FFF9F9F9"/>
 
-        <Label Name="PartiesAvailable" Content="Available Character Parties" HorizontalAlignment="Left" Margin="602,378,0,0" VerticalAlignment="Top" Width="166" Background="#FFF7EEEE" Height="33"/>
-        <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="602,416,0,0" VerticalAlignment="Top" Width="181" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0"/>
+        <Label Name="PartiesAvailable" Content="Available Character Parties" HorizontalAlignment="Left" Margin="488,471,0,0" VerticalAlignment="Top" Width="166" Background="#FFF7EEEE" Height="33"/>
+        <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="488,505,0,0" VerticalAlignment="Top" Width="181" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0" RenderTransformOrigin="0.453,0.65"/>
 
         <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="761,253,0,0" VerticalAlignment="Top" Width="279" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
         <Button x:Name="SaveAll"  Content="Save All Parties (XML)" HorizontalAlignment="Left" Margin="203,10,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
@@ -48,19 +48,30 @@
         <Button x:Name="NextCombatRound" Content="New Combat Round" HorizontalAlignment="Left" Margin="530,205,0,0" VerticalAlignment="Top" Width="175" Click="NextCombatRound_Click"/>
         <Button x:Name="QuickCreateMonster" Content="Quick Create Monster" HorizontalAlignment="Left" Margin="21,143,0,0" VerticalAlignment="Top" Width="131" Click="QuickCreateMonster_Click"/>
 
-        <Label Content="Available Monster Parties" HorizontalAlignment="Left" Margin="229,385,0,0" VerticalAlignment="Top" Width="155" Background="#FFF7EEEE"  />
-        <ListBox x:Name="MonstGroupList"  HorizontalAlignment="Left" Height="80" Margin="229,416,0,0" VerticalAlignment="Top" Width="155" SelectedIndex="0" SelectionChanged="MonstGroupList_SelectionChanged"/>
-        <ListBox x:Name="MonstCurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="389,416,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="MonstCurrentPartyList_SelectionChanged" SourceUpdated="MonstCurrentPartyList_SourceUpdated"/>
+        <Label Content="Available Monster Parties" HorizontalAlignment="Left" Margin="96,479,0,0" VerticalAlignment="Top" Width="155" Background="#FFF7EEEE"  />
+        <ListBox x:Name="MonstGroupList"  HorizontalAlignment="Left" Height="80" Margin="96,505,0,0" VerticalAlignment="Top" Width="155" SelectedIndex="0" SelectionChanged="MonstGroupList_SelectionChanged"/>
+        <ListBox x:Name="MonstCurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="269,505,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="MonstCurrentPartyList_SelectionChanged" SourceUpdated="MonstCurrentPartyList_SourceUpdated"/>
 
         <ListBox x:Name="EntGroupList"  HorizontalAlignment="Left" Height="100" Margin="157,65,0,0" VerticalAlignment="Top" Width="184"  SelectionChanged="EntGroupList_SelectionChanged" SelectedIndex="0" SourceUpdated="EntGroupList_SourceUpdated"/>
         <ListBox x:Name="EntCurrentPartyList"  HorizontalAlignment="Left" Height="100" Margin="341,65,0,0" VerticalAlignment="Top" Width="189" SelectionMode="Single" SourceUpdated="EntCurrentPartyList_SourceUpdated" SelectionChanged="EntCurrentPartyList_SelectionChanged" SelectedIndex="0"  />
-        <Label Content="Monster Party Members" HorizontalAlignment="Left" Margin="389,385,0,0" VerticalAlignment="Top" Width="178" Background="#FFF7EEEE" />
+        <Label Content="Monster Party Members" HorizontalAlignment="Left" Margin="269,478,0,0" VerticalAlignment="Top" Width="178" Background="#FFF7EEEE" />
         <Label Content="Available Parties" HorizontalAlignment="Left" Margin="161,38,0,0" VerticalAlignment="Top" Width="180" Height="27"  Background="#FFF7EEEE"         />
         <Label Content="Party Members" HorizontalAlignment="Left" Margin="341,38,0,0" VerticalAlignment="Top" Width="189" Background="#FFF7EEEE"  />
         <Button x:Name="DeleteEntity"  Content="Delete Entity" HorizontalAlignment="Left" Margin="341,230,0,0" VerticalAlignment="Top" Width="142" Click="DeleteEntity_Click"/>
-        <Button x:Name="SQLSave" Content="Save/Update to SQL" HorizontalAlignment="Left" Margin="341,258,0,0" VerticalAlignment="Top" Width="178" Click="SQLSave_Click" />
-        <Button x:Name="ExistinSQL" Content="Check in SQL" HorizontalAlignment="Left" Margin="341,293,0,0" VerticalAlignment="Top" Width="75" Click="ExistinSQL_Click"/>
-        <Button x:Name="UpdateInSQL" Content="Update Entity in SQL" HorizontalAlignment="Left" Margin="341,338,0,0" VerticalAlignment="Top" Width="142" Click="UpdateInSQL_Click"/>
+        <Button x:Name="SQLSave" Content="Save/Update Ent to SQL" HorizontalAlignment="Left" Margin="583,392,0,0" VerticalAlignment="Top" Width="178" Click="SQLSave_Click" />
+        <Button x:Name="ExistinSQL" Content="Check in SQL" HorizontalAlignment="Left" Margin="320,392,0,0" VerticalAlignment="Top" Width="75" Click="ExistinSQL_Click"/>
+        <Button x:Name="UpdateInSQL" Content="Update Entity in SQL" HorizontalAlignment="Left" Margin="173,392,0,0" VerticalAlignment="Top" Width="142" Click="UpdateInSQL_Click"/>
+        <Button x:Name="SQLLoad" Content="Load/Update Ent from SQL" HorizontalAlignment="Left" Margin="400,392,0,0" VerticalAlignment="Top" Width="178" Click="SQLLoad_Click"/>
 
+        <DataGrid x:Name="Fant_Ents_inSQL" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="100" Margin="64,273,0,0" VerticalAlignment="Top" Width="302" SelectionChanged="Fant_Ents_inSQL_SelectionChanged" SelectedIndex="0">
+            <DataGrid.Columns >
+                <DataGridTextColumn Header=" Name" Binding ="{Binding Name}"/>
+                <DataGridTextColumn Header=" Party Name" Binding ="{Binding PartyName}"/>
+                <DataGridTextColumn Header=" Level " Binding ="{Binding Lvl}"/>
+     
+
+            </DataGrid.Columns>
+
+        </DataGrid>
     </Grid>
 </Window>

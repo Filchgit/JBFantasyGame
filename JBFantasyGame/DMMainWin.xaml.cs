@@ -19,6 +19,8 @@ using System.IO.IsolatedStorage;
 using System.ComponentModel.Design.Serialization;
 using Microsoft.Win32;
 using System.Data.SqlClient;
+using System.Data;
+using System.Collections.ObjectModel;
 
 namespace JBFantasyGame
 {
@@ -26,16 +28,66 @@ namespace JBFantasyGame
     /// Interaction logic for DMMainWin.xaml
     /// </summary>
     public partial class DMMainWin : Window
-    {     // ovbviously will have option to chnage connection for other people
+    {     // ovbviously will have option to change connection for other people
         SqlConnection con = new SqlConnection(@"Data Source = JBLAPTOP\SQLEXPRESS; Initial Catalog = FantasyGame; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
         Party Meleegroup = new Party();
         Party outofMeleeGroup = new Party();
-
+        public Character checkCharacter = new Character();
         public DMMainWin()
         {
             InitializeComponent();
             UpdateGlobalItems();
+            UpdateSQLList();
         }
+         public void UpdateSQLList()
+        {
+            Fant_Entities = new ObservableCollection<Fant_Entity>      // this is a shortened Fat_Entity (type) list to save memory
+            { };
+            con.Open();
+            SqlCommand cmdthis;
+            SqlDataReader dataReader;
+            string sql;                        //  Output = "";    don't care about Ouput form here
+            
+            sql = "select Name, PartyName,Lvl from Fant_Character";                 
+            cmdthis = new SqlCommand(sql, con);
+            dataReader = cmdthis.ExecuteReader();
+            while (dataReader.Read())
+            { Character addCharacter = new Character();
+                 addCharacter.Name = (string)dataReader.GetValue(0);
+                addCharacter.PartyName = (string)dataReader.GetValue(1);                
+                addCharacter.Lvl = dataReader.GetByte(2);             //  this is using an implict cast Byte to Int
+                Fant_Entities.Add(addCharacter);
+            }
+            con.Close();
+            con.Open();
+            sql = "select Name, PartyName,Lvl from monster";
+            cmdthis = new SqlCommand(sql, con);
+            dataReader = cmdthis.ExecuteReader();
+            while (dataReader.Read())
+            {
+                Monster addMonster = new Monster();
+                 addMonster.Name = (string)dataReader.GetValue(0);
+                addMonster.PartyName = (string)dataReader.GetValue(1);
+                addMonster.Lvl = dataReader.GetByte(2);
+                Fant_Entities.Add(addMonster);
+            }
+
+            Fant_Ents_inSQL.ItemsSource = Fant_Entities;
+            con.Close();
+           
+        
+        }
+        public ObservableCollection<Fant_Entity> Fant_Entities
+        {
+            get { return (ObservableCollection<Fant_Entity>)GetValue(Fant_EntityProperty); }
+            set { SetValue(Fant_EntityProperty, value); }
+        }
+        public static readonly DependencyProperty Fant_EntityProperty =
+            DependencyProperty.Register("Fant_Entities",
+                     typeof(ObservableCollection<Fant_Entity>),
+                     typeof(JBFantasyGame.DMMainWin),
+                     new PropertyMetadata(null));
+
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
         {
             string var;
@@ -114,13 +166,13 @@ namespace JBFantasyGame
                 {
                     ShowMonsterWin ShowMonsterWin1 = new ShowMonsterWin((Monster)selected);
                     ShowMonsterWin1.Show();
-                }     //  stub for putting in a monster char sheet 
+                }     
             }
         }
         public void UpdateGlobalItems()
         {
-            List<PhysObj > currentPhysObj = new List<PhysObj >();
-            foreach (PhysObj  physthing in MainWindow.GlobalItems)
+            List<PhysObj> currentPhysObj = new List<PhysObj>();
+            foreach (PhysObj physthing in MainWindow.GlobalItems)
             { currentPhysObj.Add(physthing); }
             GlobalItems.ItemsSource = currentPhysObj;
             GlobalItems.DisplayMemberPath = "Name";
@@ -134,7 +186,7 @@ namespace JBFantasyGame
             else
             {
                 Fant_Entity selected = (Fant_Entity)EntCurrentPartyList.SelectedItem;
-                PhysObj  selectedobj = ((PhysObj )GlobalItems.SelectedItem);
+                PhysObj selectedobj = ((PhysObj)GlobalItems.SelectedItem);
                 selected.Inventory.Add(selectedobj);
                 int itemind = GlobalItems.SelectedIndex;
                 MainWindow.GlobalItems.RemoveAt(itemind);
@@ -305,19 +357,23 @@ namespace JBFantasyGame
         }
         private void CreateNewParty_Click(object sender, RoutedEventArgs e)
         {
-            CharParty charPartyThis = new CharParty();
-            Party entPartyThis = new Party();
-            MonsterParty monsterPartyThis = new MonsterParty();
-            charPartyThis.Name = Nameinput.Text;
-            entPartyThis.Name = Nameinput.Text;
-            monsterPartyThis.Name = Nameinput.Text;
-            MainWindow.CharParties.Add(charPartyThis);
-            MainWindow.Parties.Add(entPartyThis);
-            MainWindow.MonsterParties.Add(monsterPartyThis);
-            UpdatePartiesListBox();
-            UpdateEntPartiesListBox();
-            UpdateMonstPartiesListBox();
-            UpdateTargetFocusGroupListBox();
+            bool partyExists = DoesPartyExistinSQL(Nameinput.Text);
+            if (partyExists == false)
+            {
+                CharParty charPartyThis = new CharParty();
+                Party entPartyThis = new Party();
+                MonsterParty monsterPartyThis = new MonsterParty();
+                charPartyThis.Name = Nameinput.Text;
+                entPartyThis.Name = Nameinput.Text;
+                monsterPartyThis.Name = Nameinput.Text;
+                MainWindow.CharParties.Add(charPartyThis);
+                MainWindow.Parties.Add(entPartyThis);
+                MainWindow.MonsterParties.Add(monsterPartyThis);
+                UpdatePartiesListBox();
+                UpdateEntPartiesListBox();
+                UpdateMonstPartiesListBox();
+                UpdateTargetFocusGroupListBox();
+            }
         }
         private void LoadAllFileDialog_Click(object sender, RoutedEventArgs e)
         {
@@ -628,8 +684,7 @@ namespace JBFantasyGame
             UpdateTargetFocusGroupListBox();
             UpdateTargetFocusCharListBox();
         }
-
-        private void SQLSave_Click(object sender, RoutedEventArgs e)         
+        private void SQLSave_Click(object sender, RoutedEventArgs e)
         {
             // does NOT check for entity of same/name group combo
             Fant_Entity selected = MainWindow.entitySelected;
@@ -639,27 +694,95 @@ namespace JBFantasyGame
             else if (entExists == false)
             { SQLSaveFantEntity(selected); }
         }
+        private void SQLLoad_Click(object sender, RoutedEventArgs e)
+        { Fant_Entity entThis = new Fant_Entity();
+            entThis = (Fant_Entity)Fant_Ents_inSQL.SelectedItem;
+            MessageBox.Show($"I am about to load from SQL for {entThis.Name }");//stub for loading from SQL Database; actually I think I will make a reader and display first 
+            var (fantExists, isChar) =  ExistinCurrentLists(entThis);
+            
+        }
+        private static (bool Fant_exists, bool isChar)  ExistinCurrentLists(Fant_Entity checkThisOne)
+        {   bool isChar = false;
+            bool Fant_Exists = false;
+            foreach (CharParty listCheckParty in MainWindow.CharParties)
+             {
+                CharParty CheckParty = listCheckParty;
+                foreach (Character checkChar in CheckParty )
+                { if (checkChar.Name == checkThisOne.Name && checkChar.PartyName == checkThisOne.PartyName)
+                    { Fant_Exists = true;
+                        isChar = true;}
+                }
+              }
+            foreach (MonsterParty listCheckParty in MainWindow.MonsterParties)
+            {
+                MonsterParty checkParty = listCheckParty;
+                foreach (Monster checkMonst in checkParty)
+                    if (checkMonst.Name == checkThisOne.Name && checkMonst.PartyName == checkThisOne.PartyName)
+                    {
+                        Fant_Exists = true;
+                    }
+            }
+            return (Fant_Exists,isChar) ;
+        }
         private void ExistinSQL_Click(object sender, RoutedEventArgs e)
         {
             Fant_Entity selected = MainWindow.entitySelected;
             bool entExists = DoesEntExistInSQL(selected);
-            if (entExists==true)
+            if (entExists == true)
             {
-               MessageBox.Show($"{selected.Name} in {selected.PartyName} already exists in the database; " +
-                 $"I think you meant to update it.");
-              con.Open();
+                MessageBox.Show($"{selected.Name} in {selected.PartyName} already exists in the database; " +
+                  $"I think you meant to update it.");
+                con.Open();
                 SqlCommand updateSQlFile = new SqlCommand("update Fant_Character set MyTurn=0 " +
                    "where Name = @selectedName and PartyName= @selectedPartyName", con);
-            updateSQlFile.Parameters.AddWithValue("@selectedName", selected.Name);
-            updateSQlFile.Parameters.AddWithValue("@selectedPartyName", selected.PartyName);
+                updateSQlFile.Parameters.AddWithValue("@selectedName", selected.Name);
+                updateSQlFile.Parameters.AddWithValue("@selectedPartyName", selected.PartyName);
 
                 updateSQlFile.ExecuteNonQuery();
-           con.Close();
-             }
-
+                con.Close();
+            }
         }
+        private bool DoesPartyExistinSQL(string checkPartyName)
+        {
+            bool monstPartyExists = false;
+            bool partyExists = false;
+            con.Open();
+            SqlCommand cmdPartyCheck;
+            SqlDataReader dataReader;
+            string sql;
+            sql = "select PartyName from Fant_Character";
+            cmdPartyCheck = new SqlCommand(sql, con);
+            dataReader = cmdPartyCheck.ExecuteReader();
+            while (dataReader.Read())
+            { if ((string)dataReader.GetValue(0) == checkPartyName)
+                { partyExists = true;
+                }
+            }
+            con.Close();
+            if (partyExists == true)
+            { MessageBox.Show($"{checkPartyName} already exists in this Database, with Character members."); }
 
-        private bool DoesEntExistInSQL(Fant_Entity selected)
+            con.Open();
+            SqlCommand cmdMonstPartyCheck;
+            SqlDataReader dataReaderMonst;
+            string sqlMonst;
+            sqlMonst = "select partyName from Monster";
+            cmdMonstPartyCheck = new SqlCommand(sqlMonst, con);
+            dataReaderMonst = cmdMonstPartyCheck.ExecuteReader();
+            while (dataReaderMonst.Read())
+            {
+                if ((string)dataReaderMonst.GetValue(0) == checkPartyName)
+                {
+                    monstPartyExists = true;
+                    partyExists = true; }
+            }
+            con.Close();
+            if (monstPartyExists == true)
+            { MessageBox.Show($"{checkPartyName} already exists in this Database, with Monster members."); }
+            return partyExists;
+        }
+   
+        public bool DoesEntExistInSQL(Fant_Entity selected)
         { bool entExists = false;
             string entPartyNameToCheck = selected.PartyName;
             string entNameToCheck = selected.Name;  
@@ -971,12 +1094,19 @@ namespace JBFantasyGame
                 cmd3.ExecuteNonQuery();
             }
             con.Close();
+            UpdateSQLList();
         }
 
         private void UpdateInSQL_Click(object sender, RoutedEventArgs e)
         {
             Fant_Entity selected = MainWindow.entitySelected;
             SQLUpdateFantEntity(selected);
+        }
+
+        private void Fant_Ents_inSQL_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Fant_Ents_inSQL.SelectionChanged += Fant_Ents_inSQL_SelectionChanged;
+       
         }
     }
 }
