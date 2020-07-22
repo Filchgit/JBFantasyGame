@@ -41,12 +41,12 @@ namespace JBFantasyGame
         }
          public void UpdateSQLList()
         {
-            Fant_Entities = new ObservableCollection<Fant_Entity>      // this is a shortened Fat_Entity (type) list to save memory
+            Fant_Entities = new ObservableCollection<Fant_Entity>      // this is a shortened Fant_Entity (type) list to save memory
             { };
             con.Open();
             SqlCommand cmdthis;
             SqlDataReader dataReader;
-            string sql;                        //  Output = "";    don't care about Ouput form here
+            string sql;                        //  Output = "";    don't care about Ouput from here
             
             sql = "select Name, PartyName,Lvl from Fant_Character";                 
             cmdthis = new SqlCommand(sql, con);
@@ -697,9 +697,55 @@ namespace JBFantasyGame
         private void SQLLoad_Click(object sender, RoutedEventArgs e)
         { Fant_Entity entThis = new Fant_Entity();
             entThis = (Fant_Entity)Fant_Ents_inSQL.SelectedItem;
+
             MessageBox.Show($"I am about to load from SQL for {entThis.Name }");//stub for loading from SQL Database; actually I think I will make a reader and display first 
             var (fantExists, isChar) =  ExistinCurrentLists(entThis);
-            
+             if (fantExists==false)   
+            {
+                Character UpLoadedChar = new Character();
+                con.Open();
+                SqlCommand cmdPartyUpload;
+                SqlDataReader dataReader;
+                string sql, Output="";
+                sql = "select AC, HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTargetEnt, MyTargetParty, MyTurn," +
+                    "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str,Wis from Fant_Character ";                      //add the rest here
+                sql = sql + $"where PartyName = '{entThis.PartyName}' and Name = '{entThis.Name}' ";
+                cmdPartyUpload = new SqlCommand(sql, con);
+                
+                dataReader = cmdPartyUpload.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    UpLoadedChar.AC = dataReader.GetByte(0);
+                    UpLoadedChar.HitOn20 = dataReader.GetByte(1);
+                    UpLoadedChar.Hp = dataReader.GetInt16(2);
+                    UpLoadedChar.InitMod = dataReader.GetByte(3);
+                    UpLoadedChar.InitRoll = dataReader.GetByte(4);
+                   
+                    UpLoadedChar.IsAlive = dataReader.GetBoolean(5);
+                 
+                    UpLoadedChar.Lvl = dataReader.GetByte(6);
+                    UpLoadedChar.MaxHp = dataReader.GetInt16(7);
+                    UpLoadedChar.MyTargetEnt = dataReader.GetString(8);
+                    UpLoadedChar.MyTargetParty = dataReader.GetString(9);
+                    UpLoadedChar.MyTurn = dataReader.GetBoolean(10);
+                   
+                    UpLoadedChar.Name = dataReader.GetString(11);
+                    UpLoadedChar.PartyName = dataReader.GetString(12);
+                    UpLoadedChar.CharType = dataReader.GetString(13);
+                    UpLoadedChar.Chr = dataReader.GetByte(14);
+                    UpLoadedChar.Con = dataReader.GetByte(15);
+                    UpLoadedChar.Dex = dataReader.GetByte(16);
+                    UpLoadedChar.Exp = (int)dataReader.GetInt64(17);
+                    UpLoadedChar.Inte = dataReader.GetByte(18);
+                    UpLoadedChar.Str = dataReader.GetByte(19);
+                    UpLoadedChar.Wis = dataReader.GetByte(20);
+                    // ok this bit seems to have sucessfully loaded basic character need to add inventory items
+                }
+                con.Close();
+                ShowCharWin showCharWin2 = new ShowCharWin(UpLoadedChar);
+                showCharWin2.Show();
+
+            }
         }
         private static (bool Fant_exists, bool isChar)  ExistinCurrentLists(Fant_Entity checkThisOne)
         {   bool isChar = false;

@@ -8,7 +8,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JBFantasyGame.Character">
-    <Position X="7.25" Y="0.75" Width="1.5" />
+    <Position X="4.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAQCAAgAAQABQAGAAEAAgQAAIQGACCAAoQAAAAEAAgA=</HashCode>
       <FileName>Character.cs</FileName>
@@ -31,7 +31,7 @@
   <Class Name="JBFantasyGame.DMMainWin" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="15.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>DAwQA4EERAECYgAYSAABCcQMgkCEEDWAIAAgIwYAgIg=</HashCode>
+      <HashCode>DAwUA5kExAECYgAYSAABDcAMgmCEELWEIAAgIwYAwIg=</HashCode>
       <FileName>DMMainWin.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -125,7 +125,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JBFantasyGame.Rogue" Collapsed="true">
-    <Position X="5.75" Y="5.75" Width="1.5" />
+    <Position X="7.25" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Rougue.cs</FileName>
