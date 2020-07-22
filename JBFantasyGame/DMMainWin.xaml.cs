@@ -706,7 +706,7 @@ namespace JBFantasyGame
                 con.Open();
                 SqlCommand cmdPartyUpload;
                 SqlDataReader dataReader;
-                string sql, Output="";
+                string sql;               //, Output="";
                 sql = "select AC, HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTargetEnt, MyTargetParty, MyTurn," +
                     "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str,Wis from Fant_Character ";                      //add the rest here
                 sql = sql + $"where PartyName = '{entThis.PartyName}' and Name = '{entThis.Name}' ";
@@ -719,16 +719,13 @@ namespace JBFantasyGame
                     UpLoadedChar.HitOn20 = dataReader.GetByte(1);
                     UpLoadedChar.Hp = dataReader.GetInt16(2);
                     UpLoadedChar.InitMod = dataReader.GetByte(3);
-                    UpLoadedChar.InitRoll = dataReader.GetByte(4);
-                   
+                    UpLoadedChar.InitRoll = dataReader.GetByte(4);                  
                     UpLoadedChar.IsAlive = dataReader.GetBoolean(5);
-                 
                     UpLoadedChar.Lvl = dataReader.GetByte(6);
                     UpLoadedChar.MaxHp = dataReader.GetInt16(7);
                     UpLoadedChar.MyTargetEnt = dataReader.GetString(8);
                     UpLoadedChar.MyTargetParty = dataReader.GetString(9);
-                    UpLoadedChar.MyTurn = dataReader.GetBoolean(10);
-                   
+                    UpLoadedChar.MyTurn = dataReader.GetBoolean(10);                   
                     UpLoadedChar.Name = dataReader.GetString(11);
                     UpLoadedChar.PartyName = dataReader.GetString(12);
                     UpLoadedChar.CharType = dataReader.GetString(13);
@@ -742,7 +739,28 @@ namespace JBFantasyGame
                     // ok this bit seems to have sucessfully loaded basic character need to add inventory items
                 }
                 con.Close();
-                ShowCharWin showCharWin2 = new ShowCharWin(UpLoadedChar);
+                con.Open();                                // I think this bit can be split off as same for Monsters and Characters
+                SqlCommand cmdPartyUpload2;
+                SqlDataReader dataReader2;
+                string sql2;                      //, Output2 = "";
+                sql2 = "select ACEffect, Damage, IsEquipped, Name, ObjType, DescrPhysObj " +
+                      " from PhysObj ";                      //add the rest here
+                sql2 = sql2 + $"where OwnersPartyName = '{entThis.PartyName}' and OwnersName = '{entThis.Name}' ";
+                cmdPartyUpload2 = new SqlCommand(sql2, con);
+                dataReader2 = cmdPartyUpload2.ExecuteReader();
+                while (dataReader2.Read())
+                { PhysObj addPhysObj = new PhysObj();
+                    addPhysObj.ACEffect = dataReader2.GetInt16(0);
+                    addPhysObj.Damage = dataReader2.GetString(1);
+                    addPhysObj.IsEquipped = dataReader2.GetBoolean(2);
+                    addPhysObj.Name = dataReader2.GetString(3);
+                    addPhysObj.ObjType = dataReader2.GetString(4);
+                    addPhysObj.DescrPhysObj = dataReader2.GetString(5);
+                    UpLoadedChar.Inventory.Add(addPhysObj);
+                }
+                con.Close();
+
+                    ShowCharWin showCharWin2 = new ShowCharWin(UpLoadedChar);
                 showCharWin2.Show();
 
             }
