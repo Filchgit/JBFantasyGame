@@ -73,5 +73,6 @@
             </DataGrid.Columns>
 
         </DataGrid>
+        <Button x:Name="SqlDataGridUpdate" Content="Update SQL data " HorizontalAlignment="Left" Margin="64,373,0,0" VerticalAlignment="Top" Width="130" Click="SqlDataGridUpdate_Click"/>
     </Grid>
 </Window>

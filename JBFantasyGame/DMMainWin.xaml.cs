@@ -37,7 +37,7 @@ namespace JBFantasyGame
         {
             InitializeComponent();
             UpdateGlobalItems();
-            UpdateSQLList();
+         //   UpdateSQLList();       //might move these last two items elsewhere so I can call this page without this happenning.
         }
          public void UpdateSQLList()
         {
@@ -702,6 +702,7 @@ namespace JBFantasyGame
             var (fantExists, isChar) =  ExistinCurrentLists(entThis);
              if (fantExists==false)   
             {
+                Monster UpLoadedMonst = new Monster();
                 Character UpLoadedChar = new Character();
                 con.Open();
                 SqlCommand cmdPartyUpload;
@@ -739,7 +740,41 @@ namespace JBFantasyGame
                     // ok this bit seems to have sucessfully loaded basic character need to add inventory items
                 }
                 con.Close();
-                con.Open();                                // I think this bit can be split off as same for Monsters and Characters
+                con.Open();
+                SqlCommand cmdPartyUpload4;
+                SqlDataReader dataReader4;
+                string sql4;               //, Output="";
+                sql4 = "select AC, HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTargetEnt, MyTargetParty, MyTurn," +
+                    "Name, PartyName,MonsterType, NoOfAtt, DamPerAtt1, DamPerAtt2, DamPerAtt3, HitDie from Monster ";                      //add the rest here
+                sql4 = sql4 + $"where PartyName = '{entThis.PartyName}' and Name = '{entThis.Name}' ";
+                cmdPartyUpload4 = new SqlCommand(sql4, con);
+
+                dataReader4 = cmdPartyUpload4.ExecuteReader();
+                while (dataReader4.Read())
+                {
+                    UpLoadedMonst.AC = dataReader4.GetByte(0);
+                    UpLoadedMonst.HitOn20 = dataReader4.GetByte(1);
+                    UpLoadedMonst.Hp = dataReader4.GetInt16(2);
+                    UpLoadedMonst.InitMod = dataReader4.GetByte(3);
+                    UpLoadedMonst.InitRoll = dataReader4.GetByte(4);
+                    UpLoadedMonst.IsAlive = dataReader4.GetBoolean(5);
+                    UpLoadedMonst.Lvl = dataReader4.GetByte(6);
+                    UpLoadedMonst.MaxHp = dataReader4.GetInt16(7);
+                    UpLoadedMonst.MyTargetEnt = dataReader4.GetString(8);
+                    UpLoadedMonst.MyTargetParty = dataReader4.GetString(9);
+                    UpLoadedMonst.MyTurn = dataReader4.GetBoolean(10);
+                    UpLoadedMonst.Name = dataReader4.GetString(11);
+                    UpLoadedMonst.PartyName = dataReader4.GetString(12);
+                    UpLoadedMonst.MonsterType = dataReader4.GetString(13);
+                    UpLoadedMonst.NoOfAtt = dataReader4.GetByte(14);
+                    UpLoadedMonst.DamPerAtt1 = dataReader4.GetString(15);
+                    UpLoadedMonst.DamPerAtt2 = dataReader4.GetString(16);
+                    UpLoadedMonst.DamPerAtt3 = dataReader4.GetString(17);
+                    UpLoadedMonst.HitDie = dataReader4.GetString(18);                   
+                 
+                }
+                con.Close();
+                con.Open();                               
                 SqlCommand cmdPartyUpload2;
                 SqlDataReader dataReader2;
                 string sql2;                      //, Output2 = "";
@@ -756,13 +791,44 @@ namespace JBFantasyGame
                     addPhysObj.Name = dataReader2.GetString(3);
                     addPhysObj.ObjType = dataReader2.GetString(4);
                     addPhysObj.DescrPhysObj = dataReader2.GetString(5);
-                    UpLoadedChar.Inventory.Add(addPhysObj);
+                    if (UpLoadedMonst.Name != null)
+                    { UpLoadedMonst.Inventory.Add(addPhysObj); }
+                    if (UpLoadedChar.Name != null)
+                    { UpLoadedChar.Inventory.Add(addPhysObj); }
                 }
                 con.Close();
-
+                con.Open();
+                SqlCommand cmdPartyUpload3;
+                SqlDataReader dataReader3;
+                string sql3;                      //, Output2 = "";
+                sql3 = "select IsAlive, Name, Hp, MaxHp, PartyName " +
+                      " from Target ";                      //add the rest here
+                sql3 = sql3 + $"where OwnersPartyName = '{entThis.PartyName}' and OwnersName = '{entThis.Name}' ";
+                cmdPartyUpload3= new SqlCommand(sql3, con);
+                dataReader3 = cmdPartyUpload3.ExecuteReader();
+                while (dataReader3.Read())
+                { Target addTarget = new Target();
+                    addTarget.IsAlive = dataReader3.GetBoolean(0);
+                    addTarget.Name = dataReader3.GetString(1);
+                    addTarget.Hp = dataReader3.GetInt16(2);
+                    addTarget.MaxHp = dataReader3.GetInt16(3);
+                    addTarget.PartyName = dataReader3.GetString(4);
+                    if (UpLoadedMonst.Name != null)
+                    { UpLoadedMonst.MeleeTargets.Add(addTarget); }
+                    if (UpLoadedChar.Name != null)
+                    { UpLoadedChar.MeleeTargets.Add(addTarget); }
+                }
+                con.Close();
+                if (UpLoadedChar.Name != null)
+                {
                     ShowCharWin showCharWin2 = new ShowCharWin(UpLoadedChar);
-                showCharWin2.Show();
-
+                    showCharWin2.Show();
+                }
+                if (UpLoadedMonst.Name != null)
+                {
+                    ShowMonsterWin ShowMonsterWin1 = new ShowMonsterWin((Monster)UpLoadedMonst);
+                    ShowMonsterWin1.Show();
+                }
             }
         }
         private static (bool Fant_exists, bool isChar)  ExistinCurrentLists(Fant_Entity checkThisOne)
@@ -1171,6 +1237,11 @@ namespace JBFantasyGame
         {
             Fant_Ents_inSQL.SelectionChanged += Fant_Ents_inSQL_SelectionChanged;
        
+        }
+
+        private void SqlDataGridUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateSQLList();
         }
     }
 }

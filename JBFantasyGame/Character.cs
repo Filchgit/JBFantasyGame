@@ -109,7 +109,7 @@ namespace JBFantasyGame
         {
             RerollCharacter(a_character);
             a_character.isAlive = true;
-
+            a_character.Name = "Default";
             a_character.AC =0;
             a_character.exp = 120000;
             a_character.hitOn20 = 0;                                       // temporary to test combat
