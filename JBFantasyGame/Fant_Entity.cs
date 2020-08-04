@@ -135,7 +135,8 @@ namespace JBFantasyGame
         }
 
 
-        public virtual int MeleeAttack(Fant_Entity Defender)
+
+        public virtual int MeleeAttack(Fant_Entity Defender)    //this should be currently overridden for both monsters and charac
         {
             RollingDie twentyside = new RollingDie(20, 1);
             int tohit;
@@ -168,7 +169,7 @@ namespace JBFantasyGame
 }
         public virtual int MeleeAttack(Character Defender)
         {
-            Defender.AC = 0;
+            Defender.AC = 0;                                   //this should be currently overridden for both monsters and characters
             Character recalcACObject = new Character();
             Defender.AC= recalcACObject.ACRecalc(recalcACObject);          
             RollingDie twentyside = new RollingDie(20, 1);
@@ -203,9 +204,9 @@ namespace JBFantasyGame
 
 
 
-       // public int damage;
+       
       
-         public List<PhysObj > Inventory = new List<PhysObj > { };
+        public List<PhysObj > Inventory = new List<PhysObj > { };
         public List<Target> MeleeTargets = new List<Target> { };     // or it may be better to add range as an attribute to Target 
         public List<Target > TargetsAtRange = new List<Target> { };
     }

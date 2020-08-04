@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.ObjectModel;
+using System.Security.Policy;
 
 namespace JBFantasyGame
 {
@@ -39,55 +40,7 @@ namespace JBFantasyGame
             UpdateGlobalItems();
          //   UpdateSQLList();       //might move these last two items elsewhere so I can call this page without this happenning.
         }
-         public void UpdateSQLList()
-        {
-            Fant_Entities = new ObservableCollection<Fant_Entity>      // this is a shortened Fant_Entity (type) list to save memory
-            { };
-            con.Open();
-            SqlCommand cmdthis;
-            SqlDataReader dataReader;
-            string sql;                        //  Output = "";    don't care about Ouput from here
-            
-            sql = "select Name, PartyName,Lvl from Fant_Character";                 
-            cmdthis = new SqlCommand(sql, con);
-            dataReader = cmdthis.ExecuteReader();
-            while (dataReader.Read())
-            { Character addCharacter = new Character();
-                 addCharacter.Name = (string)dataReader.GetValue(0);
-                addCharacter.PartyName = (string)dataReader.GetValue(1);                
-                addCharacter.Lvl = dataReader.GetByte(2);             //  this is using an implict cast Byte to Int
-                Fant_Entities.Add(addCharacter);
-            }
-            con.Close();
-            con.Open();
-            sql = "select Name, PartyName,Lvl from monster";
-            cmdthis = new SqlCommand(sql, con);
-            dataReader = cmdthis.ExecuteReader();
-            while (dataReader.Read())
-            {
-                Monster addMonster = new Monster();
-                 addMonster.Name = (string)dataReader.GetValue(0);
-                addMonster.PartyName = (string)dataReader.GetValue(1);
-                addMonster.Lvl = dataReader.GetByte(2);
-                Fant_Entities.Add(addMonster);
-            }
-
-            Fant_Ents_inSQL.ItemsSource = Fant_Entities;
-            con.Close();
-           
-        
-        }
-        public ObservableCollection<Fant_Entity> Fant_Entities
-        {
-            get { return (ObservableCollection<Fant_Entity>)GetValue(Fant_EntityProperty); }
-            set { SetValue(Fant_EntityProperty, value); }
-        }
-        public static readonly DependencyProperty Fant_EntityProperty =
-            DependencyProperty.Register("Fant_Entities",
-                     typeof(ObservableCollection<Fant_Entity>),
-                     typeof(JBFantasyGame.DMMainWin),
-                     new PropertyMetadata(null));
-
+     
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
         {
             string var;
@@ -150,7 +103,7 @@ namespace JBFantasyGame
                 monstPartyThis.Add(thisMonster);
                 UpdateMonstPartyListBox();
                 UpdateEntPartyListBox();
-                //  UpdateTargetFocusCharListBox();
+                //  UpdateTargetFocusCharListBox();              maybe I should just do an updateAllListBoxes 
             }
         }
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
@@ -241,12 +194,7 @@ namespace JBFantasyGame
                             charPartyThis.Add((Character)selected);
                 }
                 toNewParty.Add(selected);
-                //oldParty.RemoveAt(oldInd);                         
-                UpdatePartyListBox();
-                UpdateEntPartyListBox();
-                UpdateMonstPartyListBox();
-                UpdateTargetFocusCharListBox();
-
+                UpdateAllListBoxes(); 
             }
         }
         private void Meleethis_Click(object sender, RoutedEventArgs e)              // this was a temp test 
@@ -267,10 +215,13 @@ namespace JBFantasyGame
         {
             List<Fant_Entity> currentparty = new List<Fant_Entity>();
             CharParty thisparty = (CharParty)GroupList.SelectedItem;
-            foreach (Fant_Entity ent in thisparty)
-            { currentparty.Add(ent); }
-            CurrentPartyList.ItemsSource = currentparty;
-            CurrentPartyList.DisplayMemberPath = "Name";
+            if (thisparty != null)
+            {
+                foreach (Fant_Entity ent in thisparty)
+                { currentparty.Add(ent); }
+                CurrentPartyList.ItemsSource = currentparty;
+                CurrentPartyList.DisplayMemberPath = "Name";
+            }
         }
         private void UpdateMonstPartiesListBox()
         {
@@ -284,10 +235,13 @@ namespace JBFantasyGame
         {
             List<Fant_Entity> currentparty = new List<Fant_Entity>();
             MonsterParty thisparty = (MonsterParty)MonstGroupList.SelectedItem;
-            foreach (Fant_Entity ent in thisparty)
-            { currentparty.Add(ent); }
-            MonstCurrentPartyList.ItemsSource = currentparty;
-            MonstCurrentPartyList.DisplayMemberPath = "Name";
+            if (thisparty != null)
+            {
+                foreach (Fant_Entity ent in thisparty)
+                { currentparty.Add(ent); }
+                MonstCurrentPartyList.ItemsSource = currentparty;
+                MonstCurrentPartyList.DisplayMemberPath = "Name";
+            }
         }
         private void UpdateEntPartyListBox()
         {
@@ -369,12 +323,11 @@ namespace JBFantasyGame
                 MainWindow.CharParties.Add(charPartyThis);
                 MainWindow.Parties.Add(entPartyThis);
                 MainWindow.MonsterParties.Add(monsterPartyThis);
-                UpdatePartiesListBox();
-                UpdateEntPartiesListBox();
-                UpdateMonstPartiesListBox();
-                UpdateTargetFocusGroupListBox();
+                UpdateAllListBoxes();
+
             }
         }
+        #region XML Save and Load
         private void LoadAllFileDialog_Click(object sender, RoutedEventArgs e)
         {
             string path = "";
@@ -447,11 +400,7 @@ namespace JBFantasyGame
                     }
                 }
             }
-            UpdateEntPartiesListBox();
-            UpdateEntPartyListBox();
-            UpdateTargetFocusGroupListBox();
-            UpdateTargetFocusCharListBox();
-
+            UpdateAllListBoxes();
         }
         private List<CharParty> LoadPartyList(string path)
         {
@@ -491,18 +440,19 @@ namespace JBFantasyGame
         }
         private void Save(List<CharParty> partysave, string path)          //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
         {
-            //string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
             FileStream outfile = File.Create(path);
             XmlSerializer formatter = new XmlSerializer(partysave.GetType());
             formatter.Serialize(outfile, partysave);
         }
         private void MonstSave(List<MonsterParty> partysave, string monstpath)          //saving and loading in XML format at the moment only to allow very fast iteration, will implement an SQL load /save at a later time to show I can do and also for ease of organization if data gets huge
         {
-            //string path = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\NewFantTest.txt";
+
             FileStream outfile = File.Create(monstpath);
             XmlSerializer formatter = new XmlSerializer(partysave.GetType());
             formatter.Serialize(outfile, partysave);
         }
+        #endregion XML Load and Save
+
         private void QuickCreateObj_Click(object sender, RoutedEventArgs e)
         {
             GlobalItemAdd GlobalItemAdd1 = new GlobalItemAdd();
@@ -516,12 +466,7 @@ namespace JBFantasyGame
                 DMUpdateChar DMUpdateChar1 = new DMUpdateChar();
                 DMUpdateChar1.Show();
             }
-
-            UpdateEntPartiesListBox();                          // should probably have a update all listboxes function
-            UpdateEntPartyListBox();
-            UpdateTargetFocusGroupListBox();
-            UpdateTargetFocusCharListBox();
-
+            UpdateAllListBoxes();
         }
         private void CurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
@@ -531,6 +476,7 @@ namespace JBFantasyGame
         {
             UpdateGlobalItems();
         }
+        #region combatRounds
         private void GroupsIntoCombat_Click(object sender, RoutedEventArgs e)
         {
             PutTwoGroupsinCombat();
@@ -540,7 +486,7 @@ namespace JBFantasyGame
             Party partycombat = (Party)EntGroupList.SelectedItem;
             Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
 
-            foreach (Fant_Entity thisEntity in Defparty)
+            foreach (Fant_Entity thisEntity in Defparty)    // might have to change this so you can target own party with spells
             {
                 foreach (Fant_Entity AttEntity in partycombat)
                 {
@@ -582,15 +528,18 @@ namespace JBFantasyGame
             Party partycombat = (Party)EntGroupList.SelectedItem;
             Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
             foreach (Fant_Entity thisEntity in Defparty)
-            { thisEntity.MeleeTargets.Clear(); }
+            { thisEntity.MeleeTargets.Clear();
+                Meleegroup.Remove(thisEntity); }
             foreach (Fant_Entity thisEntity in partycombat)
-            { thisEntity.MeleeTargets.Clear(); }
+            { thisEntity.MeleeTargets.Clear();
+                Meleegroup.Remove(thisEntity);
+            }
         }
         private void NextCombatRound_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Fant_Entity thisEntity in Meleegroup)                   // note there is no function to clear melee group as yet, though that is easy 
+            foreach (Fant_Entity thisEntity in Meleegroup)                  
             {
-                if (thisEntity is Character)                             // although I can put people out of range
+                if (thisEntity is Character)                             
                 {
                     Character characterthis = new Character();
                     characterthis = (Character)thisEntity;
@@ -625,6 +574,7 @@ namespace JBFantasyGame
                 }
             }
         }
+        #endregion combatRounds
         private void MonstGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MonstGroupList.SelectionChanged += MonstGroupList_SelectionChanged;
@@ -634,8 +584,11 @@ namespace JBFantasyGame
         private void MonstCurrentPartyList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MonstCurrentPartyList.SelectionChanged += MonstCurrentPartyList_SelectionChanged;
-            MainWindow.entitySelected = (Monster)CurrentPartyList.SelectedItem;
-            UpdateMonstPartyListBox();
+            if (MainWindow.entitySelected is Monster)
+            {
+                MainWindow.entitySelected = (Monster)CurrentPartyList.SelectedItem;
+                UpdateMonstPartyListBox();
+            }
         }
         private void MonstCurrentPartyList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
@@ -679,14 +632,64 @@ namespace JBFantasyGame
             foreach (Party thisEntParty in MainWindow.Parties)
                 if (thisEntParty.Name == removeFromGroup)
                 { thisEntParty.Remove(selected); }
-            UpdateEntPartiesListBox();
-            UpdateEntPartyListBox();
-            UpdateTargetFocusGroupListBox();
-            UpdateTargetFocusCharListBox();
+
+            UpdateAllListBoxes(); 
+         
         }
+        #region SQL Save and Load
+        public void UpdateSQLList()
+        {
+            Fant_Entities = new ObservableCollection<Fant_Entity>      // this is a shortened Fant_Entity (type) list to save memory
+            { };
+            con.Open();
+            SqlCommand cmdthis;
+            SqlDataReader dataReader;
+            string sql;                        //  Output = "";    don't care about Ouput from here
+
+            sql = "select Name, PartyName,Lvl from Fant_Character";
+            cmdthis = new SqlCommand(sql, con);
+            dataReader = cmdthis.ExecuteReader();
+            while (dataReader.Read())
+            {
+                Character addCharacter = new Character();
+                addCharacter.Name = (string)dataReader.GetValue(0);
+                addCharacter.PartyName = (string)dataReader.GetValue(1);
+                addCharacter.Lvl = dataReader.GetByte(2);             //  this is using an implict cast Byte to Int
+                Fant_Entities.Add(addCharacter);
+            }
+            con.Close();
+            con.Open();
+            sql = "select Name, PartyName,Lvl from monster";
+            cmdthis = new SqlCommand(sql, con);
+            dataReader = cmdthis.ExecuteReader();
+            while (dataReader.Read())
+            {
+                Monster addMonster = new Monster();
+                addMonster.Name = (string)dataReader.GetValue(0);
+                addMonster.PartyName = (string)dataReader.GetValue(1);
+                addMonster.Lvl = dataReader.GetByte(2);
+                Fant_Entities.Add(addMonster);
+            }
+
+            Fant_Ents_inSQL.ItemsSource = Fant_Entities;
+            con.Close();
+
+
+        }
+        public ObservableCollection<Fant_Entity> Fant_Entities
+        {
+            get { return (ObservableCollection<Fant_Entity>)GetValue(Fant_EntityProperty); }
+            set { SetValue(Fant_EntityProperty, value); }
+        }
+        public static readonly DependencyProperty Fant_EntityProperty =
+            DependencyProperty.Register("Fant_Entities",
+                     typeof(ObservableCollection<Fant_Entity>),
+                     typeof(JBFantasyGame.DMMainWin),
+                     new PropertyMetadata(null));
+
         private void SQLSave_Click(object sender, RoutedEventArgs e)
         {
-            // does NOT check for entity of same/name group combo
+
             Fant_Entity selected = MainWindow.entitySelected;
             bool entExists = DoesEntExistInSQL(selected);
             if (entExists == true)
@@ -697,11 +700,15 @@ namespace JBFantasyGame
         private void SQLLoad_Click(object sender, RoutedEventArgs e)
         { Fant_Entity entThis = new Fant_Entity();
             entThis = (Fant_Entity)Fant_Ents_inSQL.SelectedItem;
+            SQLLoadEnt(entThis);
+        }
 
-            MessageBox.Show($"I am about to load from SQL for {entThis.Name }");//stub for loading from SQL Database; actually I think I will make a reader and display first 
-            var (fantExists, isChar) =  ExistinCurrentLists(entThis);
-             if (fantExists==false)   
-            {
+        private void SQLLoadEnt (Fant_Entity entThis)
+        { 
+            //MessageBox.Show($"I am about to load from SQL for {entThis.Name }");//stub for loading from SQL Database; actually I think I will make a reader and display first 
+           // var (fantExists, isChar) =  ExistinCurrentLists(entThis);            as I always want this to upload from SQl as Definitive
+           ///  if (fantExists==false)   
+           // {
                 Monster UpLoadedMonst = new Monster();
                 Character UpLoadedChar = new Character();
                 con.Open();
@@ -719,7 +726,7 @@ namespace JBFantasyGame
                     UpLoadedChar.AC = dataReader.GetByte(0);
                     UpLoadedChar.HitOn20 = dataReader.GetByte(1);
                     UpLoadedChar.Hp = dataReader.GetInt16(2);
-                    UpLoadedChar.InitMod = dataReader.GetByte(3);
+                    UpLoadedChar.InitMod = dataReader.GetInt16(3);
                     UpLoadedChar.InitRoll = dataReader.GetByte(4);                  
                     UpLoadedChar.IsAlive = dataReader.GetBoolean(5);
                     UpLoadedChar.Lvl = dataReader.GetByte(6);
@@ -755,7 +762,7 @@ namespace JBFantasyGame
                     UpLoadedMonst.AC = dataReader4.GetByte(0);
                     UpLoadedMonst.HitOn20 = dataReader4.GetByte(1);
                     UpLoadedMonst.Hp = dataReader4.GetInt16(2);
-                    UpLoadedMonst.InitMod = dataReader4.GetByte(3);
+                    UpLoadedMonst.InitMod = dataReader4.GetInt16(3);
                     UpLoadedMonst.InitRoll = dataReader4.GetByte(4);
                     UpLoadedMonst.IsAlive = dataReader4.GetBoolean(5);
                     UpLoadedMonst.Lvl = dataReader4.GetByte(6);
@@ -785,7 +792,7 @@ namespace JBFantasyGame
                 dataReader2 = cmdPartyUpload2.ExecuteReader();
                 while (dataReader2.Read())
                 { PhysObj addPhysObj = new PhysObj();
-                    addPhysObj.ACEffect = dataReader2.GetInt16(0);
+                    addPhysObj.ACEffect = dataReader2.GetByte(0);
                     addPhysObj.Damage = dataReader2.GetString(1);
                     addPhysObj.IsEquipped = dataReader2.GetBoolean(2);
                     addPhysObj.Name = dataReader2.GetString(3);
@@ -819,17 +826,118 @@ namespace JBFantasyGame
                     { UpLoadedChar.MeleeTargets.Add(addTarget); }
                 }
                 con.Close();
-                if (UpLoadedChar.Name != null)
+
+            bool entPartyExist = false;
+            foreach (Party checkParty in MainWindow.Parties)
+            {
+                if (checkParty.Name == entThis.PartyName)
+                { entPartyExist = true; }
+            }
+            if (entPartyExist == false)          // only checking EntityParty List as the other two should only exist in tandem with this one
+            {
+             Party newEntParty = new Party();
+             CharParty newCharParty = new CharParty();
+             MonsterParty newMonsterParty = new MonsterParty();
+             newEntParty.Name = entThis.PartyName;
+             newCharParty.Name = entThis.PartyName;
+             newMonsterParty.Name = entThis.PartyName;
+              if (UpLoadedChar.Name != null)
                 {
-                    ShowCharWin showCharWin2 = new ShowCharWin(UpLoadedChar);
-                    showCharWin2.Show();
+                newEntParty.Add(UpLoadedChar);
+                newCharParty.Add(UpLoadedChar);
+              }
+              if (UpLoadedMonst.Name != null)
+               {
+                newEntParty.Add(UpLoadedMonst);
+               newMonsterParty.Add(UpLoadedMonst);
                 }
-                if (UpLoadedMonst.Name != null)
+             MainWindow.Parties.Add(newEntParty);
+             MainWindow.CharParties.Add(newCharParty);
+             MainWindow.MonsterParties.Add(newMonsterParty);
+            }
+            if (entPartyExist == true && UpLoadedChar.Name != null)
+            { foreach (Party addToThisParty in MainWindow.Parties)
+                { if (addToThisParty.Name == entThis.PartyName)            // need to have something here to check if character is already here
+                    { int index=0;
+                        bool checkEntExists = false;
+                        foreach(Fant_Entity check_Ent in addToThisParty )
+                        { if (check_Ent.Name ==entThis.Name)
+                            { checkEntExists = true;
+                                index = addToThisParty.IndexOf(check_Ent);
+                            } 
+                        }   
+                        if (checkEntExists == false)
+                        { addToThisParty.Add(UpLoadedChar); }
+                         if(checkEntExists==true)
+                        { addToThisParty[index] = UpLoadedChar; }                        
+                    }
+                }
+                foreach (CharParty addToCharParty in MainWindow.CharParties)
                 {
-                    ShowMonsterWin ShowMonsterWin1 = new ShowMonsterWin((Monster)UpLoadedMonst);
-                    ShowMonsterWin1.Show();
+                    if (addToCharParty.Name == entThis.PartyName)
+                    {
+                        int index = 0;
+                        bool checkCharExists = false;
+                        foreach (Character check_Char in addToCharParty)
+                        {
+                            if (check_Char.Name == entThis.Name)
+                            {
+                                checkCharExists = true;
+                                index = addToCharParty.IndexOf(check_Char);
+                            }
+                        }
+                        if (checkCharExists == false)
+                        { addToCharParty.Add(UpLoadedChar); }
+                        if (checkCharExists == true)
+                        { addToCharParty[index] = UpLoadedChar; }
+                    }
+                }                     
+            }
+            if (entPartyExist == true && UpLoadedMonst.Name != null)
+            {
+                foreach (Party addToThisParty in MainWindow.Parties)
+                {
+                    if (addToThisParty.Name == entThis.PartyName)
+                    {
+                        int index = 0;
+                        bool checkEntExists = false;
+                        foreach (Fant_Entity check_Ent in addToThisParty)
+                        {
+                            if (check_Ent.Name == entThis.Name)
+                            {
+                                checkEntExists = true;
+                                index = addToThisParty.IndexOf(check_Ent);
+                            }
+                        }
+                        if (checkEntExists == false)
+                        { addToThisParty.Add(UpLoadedMonst); }
+                        if (checkEntExists == true)
+                        { addToThisParty[index] = UpLoadedMonst; }
+                    }
+                }
+                foreach (MonsterParty addToMonstParty in MainWindow.MonsterParties)
+                {
+                    if (addToMonstParty.Name == entThis.PartyName)
+                    {
+                        int index = 0;
+                        bool checkMonstExists = false;
+                        foreach (Monster checkMonst in addToMonstParty)
+                        {
+                            if (checkMonst.Name == entThis.Name)
+                            {
+                                checkMonstExists = true;
+                                index = addToMonstParty.IndexOf(checkMonst);
+                            }
+                        }
+                        if (checkMonstExists == false)
+                        { addToMonstParty.Add(UpLoadedMonst); }
+                        if(checkMonstExists==true)
+                        { addToMonstParty[index] = UpLoadedMonst; }
+                    }
                 }
             }
+     
+            UpdateAllListBoxes();   
         }
         private static (bool Fant_exists, bool isChar)  ExistinCurrentLists(Fant_Entity checkThisOne)
         {   bool isChar = false;
@@ -1098,46 +1206,11 @@ namespace JBFantasyGame
         }
         private void SQLSaveFantEntity(Fant_Entity selected)
         {   //?? is it better to do this as a Using or just make sure I close the connection?
-            //crap I really don't need an Entity DB at all, everything is going to be a Monster or Character or something else at this stage
-            // will save here since I wrote it for debug purposes
-            #region EntityDBsave
-            //          SqlCommand cmd = new SqlCommand("insert into Fantasy_Entity (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName,MyTargetEnt, MyTargetParty)" +
-            //              " values  (@AC,@HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @Lvl, @MaxHp,  @MyTurn,@Name, @PartyName, @MyTargetEnt, @MyTargetParty)", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
-            //           cmd.Parameters.AddWithValue("@AC", selected.AC);
-            //           cmd.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
-            //           cmd.Parameters.AddWithValue("@Hp", selected.Hp);
-            //           cmd.Parameters.AddWithValue("@InitMod", selected.InitMod);
-            //           cmd.Parameters.AddWithValue("@InitRoll", selected.InitRoll);
-            //           int? IsAlive = null;
-            //           if (selected.IsAlive == true)
-            //           { IsAlive = 1; }
-            //           if (selected.IsAlive == false)
-            //           { IsAlive = 0; }
-            //           cmd.Parameters.AddWithValue("@IsAlive", IsAlive);
-            //           cmd.Parameters.AddWithValue("@Lvl", selected.Lvl);
-            //           cmd.Parameters.AddWithValue("@MaxHp", selected.MaxHp);
-            //           if (selected.MyTargetEnt != null)
-            //           { cmd.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
-            //             cmd.Parameters.AddWithValue("@MyTargetParty", selected.MyTargetParty);
-            //           }
-            //           else
-            //           {
-            //               cmd.Parameters.AddWithValue("@MyTargetEnt", "");
-            //               cmd.Parameters.AddWithValue("@MyTargetParty", "");
-            //           }
-            //           int? MyTurn = null;
-            //           if (selected.MyTurn == true)
-            //           { MyTurn = 1; }
-            //           if (selected.MyTurn  == false)
-            //           { MyTurn  = 0; }
-            //           cmd.Parameters.AddWithValue("@MyTurn", MyTurn);
-            //           cmd.Parameters.AddWithValue("@Name", selected.Name );
-            //            cmd.Parameters.AddWithValue("@PartyName", selected.PartyName);
-            //           cmd.ExecuteNonQuery();
-            #endregion EntityDBsave
-            insertObjInSQLInv(selected);
 
-            insertTargetsSQLTargets(selected);
+           insertObjInSQLInv(selected);
+
+           insertTargetsSQLTargets(selected);
+
             con.Open();
             if (selected is Character)
             { Character charSelected = (Character)selected;  
@@ -1242,6 +1315,19 @@ namespace JBFantasyGame
         private void SqlDataGridUpdate_Click(object sender, RoutedEventArgs e)
         {
             UpdateSQLList();
+        }
+        #endregion SQL Load and Save
+        private void UpdateAllListBoxes()
+        {
+            UpdatePartyListBox();           
+            UpdateMonstPartyListBox();
+            UpdateEntPartiesListBox();
+            UpdateEntPartyListBox();
+            UpdateTargetFocusGroupListBox();
+            UpdateTargetFocusCharListBox();
+            UpdateMonstPartiesListBox();
+            UpdatePartiesListBox();
+           
         }
     }
 }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Character Sheet
         " Height="450" Width="1031.657">
-    <Grid Background="#FFD3F5F4" >
+    <Grid Background="#FFD3F5F4" Margin="0,0,0,-176" >
         <TextBlock x:Name="ShowCharMaxHP" HorizontalAlignment="Left" Margin="490,10,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Height="42" Width="76" FontSize="25" />
 
 

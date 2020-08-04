@@ -42,15 +42,15 @@
         <Button x:Name="DmAdjustChar" Content="DM Quick Adjust" HorizontalAlignment="Left" Margin="341,212,0,0" VerticalAlignment="Top" Width="142" Click="DmAdjustChar_Click"/>
         <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="1040,273,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
 
-        <Button x:Name="GroupsIntoCombat" Content="Put groups into Combat Range" HorizontalAlignment="Left" Margin="530,165,0,0" VerticalAlignment="Top" Width="175" Click="GroupsIntoCombat_Click"/>
-        <Button x:Name="GroupsOutOfCombat" Content="Take groups out of Range" HorizontalAlignment="Left" Margin="530,185,0,0" VerticalAlignment="Top" Width="175" Click="GroupsOutOfCombat_Click"/>
+        <Button x:Name="GroupsIntoCombat" Content="Put groups into Combat" HorizontalAlignment="Left" Margin="530,165,0,0" VerticalAlignment="Top" Width="175" Click="GroupsIntoCombat_Click"/>
+        <Button x:Name="GroupsOutOfCombat" Content="Take groups out of Combat" HorizontalAlignment="Left" Margin="530,185,0,0" VerticalAlignment="Top" Width="175" Click="GroupsOutOfCombat_Click"/>
 
         <Button x:Name="NextCombatRound" Content="New Combat Round" HorizontalAlignment="Left" Margin="530,205,0,0" VerticalAlignment="Top" Width="175" Click="NextCombatRound_Click"/>
         <Button x:Name="QuickCreateMonster" Content="Quick Create Monster" HorizontalAlignment="Left" Margin="21,143,0,0" VerticalAlignment="Top" Width="131" Click="QuickCreateMonster_Click"/>
 
         <Label Content="Available Monster Parties" HorizontalAlignment="Left" Margin="96,479,0,0" VerticalAlignment="Top" Width="155" Background="#FFF7EEEE"  />
         <ListBox x:Name="MonstGroupList"  HorizontalAlignment="Left" Height="80" Margin="96,505,0,0" VerticalAlignment="Top" Width="155" SelectedIndex="0" SelectionChanged="MonstGroupList_SelectionChanged"/>
-        <ListBox x:Name="MonstCurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="269,505,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="MonstCurrentPartyList_SelectionChanged" SourceUpdated="MonstCurrentPartyList_SourceUpdated"/>
+        <ListBox x:Name="MonstCurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="269,505,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="MonstCurrentPartyList_SelectionChanged" SourceUpdated="MonstCurrentPartyList_SourceUpdated" SelectedIndex="0"/>
 
         <ListBox x:Name="EntGroupList"  HorizontalAlignment="Left" Height="100" Margin="157,65,0,0" VerticalAlignment="Top" Width="184"  SelectionChanged="EntGroupList_SelectionChanged" SelectedIndex="0" SourceUpdated="EntGroupList_SourceUpdated"/>
         <ListBox x:Name="EntCurrentPartyList"  HorizontalAlignment="Left" Height="100" Margin="341,65,0,0" VerticalAlignment="Top" Width="189" SelectionMode="Single" SourceUpdated="EntCurrentPartyList_SourceUpdated" SelectionChanged="EntCurrentPartyList_SelectionChanged" SelectedIndex="0"  />

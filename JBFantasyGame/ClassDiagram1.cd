@@ -31,7 +31,7 @@
   <Class Name="JBFantasyGame.DMMainWin" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="15.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>DAwUA5kExAECYgAYSAABDcAMgmCEELWEIAAgIwYAwIg=</HashCode>
+      <HashCode>DAwUA5kExIECYgAYSAAFDcAMgmCEELWEIAAgIwcAwIg=</HashCode>
       <FileName>DMMainWin.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
