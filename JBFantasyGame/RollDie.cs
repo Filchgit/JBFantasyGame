@@ -58,7 +58,7 @@ namespace JBFantasyGame
                 if (splitdie[0] != "")
                 {
                     i2 = Int32.Parse(splitdie[0]);
-                    i1 = Int32.Parse(splitdie[1]);                             // need to have a check for someting is put after the 3d6 like 3d10Fred                 
+                    i1 = Int32.Parse(splitdie[1]);                             // need to have a check for something is put after the 3d6 like 3d10Fred                 
                     string modifier = (splitdie[2]);
                     if (modifier != "")
                     { i3 = Int32.Parse(modifier); }

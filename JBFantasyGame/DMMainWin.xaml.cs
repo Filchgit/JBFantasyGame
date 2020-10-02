@@ -487,6 +487,8 @@ namespace JBFantasyGame
             Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
 
             foreach (Fant_Entity thisEntity in Defparty)    // might have to change this so you can target own party with spells
+                                      // alternatively always have own party as valid target may be better
+                                      // both will eventually have to take into account range
             {
                 foreach (Fant_Entity AttEntity in partycombat)
                 {
@@ -552,8 +554,9 @@ namespace JBFantasyGame
             }
             Meleegroup.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
             foreach (Fant_Entity thisEntity in Meleegroup)                      // lower is better on init roll
+                                                                                // at this point want special abilities to fire, have Duration based and new ones
             {
-                if (thisEntity.MyTargetParty != null)
+                if (thisEntity.MyTargetParty != null)                        // so this bit takes care of thisEntity's melee attack is applicable,
                 {
                     string targetParty = thisEntity.MyTargetParty;
                     string targetEntity = thisEntity.MyTargetEnt;
@@ -570,6 +573,30 @@ namespace JBFantasyGame
                             else
                             { thisEntity.MeleeAttack(entitytobeattacked); }
                         }
+                    }
+                }
+                foreach (Ability checkAbility in thisEntity.Abilities)
+                {
+                    if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round
+                    {
+                      thisEntity.CurrentMana -= checkAbility.ManaCost;
+                      thisEntity.ManaRegen -= checkAbility.ManaRegenCost;
+                      thisEntity.Hp -= checkAbility.HpCost;                          // so takes off costs for ability activated
+                        checkAbility.AbilIsActive = false;
+                    }
+                    if (checkAbility.DurationMax > checkAbility.DurationElapsed)
+                    { if (checkAbility.Abil_Name == "MageThrow")
+                        { string mageThrowTarget = checkAbility.TargetEntitiesAffected;
+                            string[] splitTarget = mageThrowTarget.Split(new Char[] { '|' });
+                            string targetName = splitTarget[0];
+                            string targetPartyName = splitTarget[1];
+                            foreach (Fant_Entity entityToBeAffected in Meleegroup)
+                            { if (entityToBeAffected.PartyName == targetPartyName && entityToBeAffected.Name == targetName)
+                                { MessageBox.Show ($"{thisEntity.Name} fires MageThrow at {entityToBeAffected.Name} ");                        //do something 
+                                } 
+                            }
+
+                        }                                                          // need to have upgradeable way for multiple targets 
                     }
                 }
             }
@@ -716,7 +743,7 @@ namespace JBFantasyGame
                 SqlDataReader dataReader;
                 string sql;               //, Output="";
                 sql = "select AC, HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTargetEnt, MyTargetParty, MyTurn," +
-                    "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str,Wis from Fant_Character ";                      //add the rest here
+                    "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str, Wis, MaxMana, CurrentMana, MaxManaRegen,ManaRegen from Fant_Character ";                      //add the rest here
                 sql = sql + $"where PartyName = '{entThis.PartyName}' and Name = '{entThis.Name}' ";
                 cmdPartyUpload = new SqlCommand(sql, con);
                 
@@ -744,6 +771,11 @@ namespace JBFantasyGame
                     UpLoadedChar.Inte = dataReader.GetByte(18);
                     UpLoadedChar.Str = dataReader.GetByte(19);
                     UpLoadedChar.Wis = dataReader.GetByte(20);
+
+                    UpLoadedChar.MaxMana = dataReader.GetDouble(21);              
+                    UpLoadedChar.CurrentMana = dataReader.GetDouble(22);
+                    UpLoadedChar.MaxManaRegen = dataReader.GetDouble(23);
+                    UpLoadedChar.ManaRegen = dataReader.GetDouble(24);
                     // ok this bit seems to have sucessfully loaded basic character need to add inventory items
                 }
                 con.Close();
@@ -777,7 +809,11 @@ namespace JBFantasyGame
                     UpLoadedMonst.DamPerAtt1 = dataReader4.GetString(15);
                     UpLoadedMonst.DamPerAtt2 = dataReader4.GetString(16);
                     UpLoadedMonst.DamPerAtt3 = dataReader4.GetString(17);
-                    UpLoadedMonst.HitDie = dataReader4.GetString(18);                   
+                    UpLoadedMonst.HitDie = dataReader4.GetString(18);
+                UpLoadedMonst.MaxMana = dataReader4.GetDouble(19);
+                UpLoadedMonst.CurrentMana = dataReader4.GetDouble(20);
+                UpLoadedMonst.MaxManaRegen = dataReader4.GetDouble(21);
+                UpLoadedMonst.ManaRegen = dataReader4.GetDouble(22);
                  
                 }
                 con.Close();
@@ -804,6 +840,42 @@ namespace JBFantasyGame
                     { UpLoadedChar.Inventory.Add(addPhysObj); }
                 }
                 con.Close();
+
+                con.Open();
+            SqlCommand cmdPartyUpload5;
+            SqlDataReader dataReader5;
+            string sql5;
+            sql5 = "select Abil_Name, Abil_Level, DescrOfAbility, AbilIsActive, ManaCost, ManaRegenCost, HpCost, DurationMax, DurationElapsed," +
+                " NoOfEntitiesAffectedMax, TargetEntitiesAffected, HpEffect, TargetRange, SaveType" +
+                " from Ability ";
+            sql5 = sql5 + $"where OwnersPartyName = '{entThis.PartyName}' and OwnersName = '{entThis.Name}' ";
+            cmdPartyUpload5 = new SqlCommand(sql5, con);
+            dataReader5 = cmdPartyUpload5.ExecuteReader();
+            while (dataReader5.Read() )
+            { Ability addAbility = new Ability();
+                addAbility.Abil_Name = dataReader5.GetString(0);
+                addAbility.Abil_Level = dataReader5.GetByte(1);
+                addAbility.DescrOfAbility = dataReader5.GetString(2);
+                addAbility.AbilIsActive = dataReader5.GetBoolean(3);
+                addAbility.ManaCost = dataReader5.GetDouble(4);
+                addAbility.ManaRegenCost = dataReader5.GetDouble(5);
+                addAbility.HpCost = dataReader5.GetInt16(6);
+                addAbility.DurationMax = dataReader5.GetInt16(7);
+                addAbility.DurationElapsed = dataReader5.GetInt16(8);
+                addAbility.NoOfEntitiesAffectedMax = dataReader5.GetByte(9);
+                addAbility.TargetEntitiesAffected = dataReader5.GetString(10);
+                addAbility.HpEffect = dataReader5.GetString(11);
+                addAbility.TargetRange = dataReader5.GetDouble(12);
+                addAbility.SaveType = dataReader5.GetString(13);
+
+                if (UpLoadedMonst.Name != null)
+                { UpLoadedMonst.Abilities.Add(addAbility); }
+                if (UpLoadedChar.Name != null)
+                { UpLoadedChar.Abilities.Add(addAbility); }
+            }
+
+
+            con.Close();
                 con.Open();
                 SqlCommand cmdPartyUpload3;
                 SqlDataReader dataReader3;
@@ -1054,7 +1126,8 @@ namespace JBFantasyGame
             cmdDelObj.Parameters.AddWithValue("@selectedPartyName", selected.PartyName);
             cmdDelObj.ExecuteNonQuery();
             con.Close();
-            insertObjInSQLInv(selected);         //inserts this Fant_Ent's Items
+            InsertObjInSQLInv(selected);         //inserts this Fant_Ent's Items
+           
             con.Open();
             SqlCommand cmdDelTarg = new SqlCommand("Delete from Target " +
                        "where OwnersName = @selectedName and OwnersPartyName= @selectedPartyName", con);
@@ -1062,7 +1135,16 @@ namespace JBFantasyGame
             cmdDelTarg.Parameters.AddWithValue("@selectedPartyName", selected.PartyName);
             cmdDelTarg.ExecuteNonQuery();
             con.Close();
-            insertTargetsSQLTargets(selected);      //inserts this Fant_Ent's Targets
+            InsertTargetsSQLTargets(selected);      //inserts this Fant_Ent's Targets
+
+            con.Open();
+            SqlCommand cmdDelAbil = new SqlCommand("Delete from Ability " +
+                    "where OwnersName = @selectedName and OwnersPartyName= @selectedPartyName", con);    //deletes this Fant_Ent's Abilities
+            cmdDelAbil.Parameters.AddWithValue("@selectedName", selected.Name);
+            cmdDelAbil.Parameters.AddWithValue("@selectedPartyName", selected.PartyName);
+            cmdDelAbil.ExecuteNonQuery();
+            con.Close();
+            InsertAbilitiesSQLAbility(selected);
 
             if (selected is Character)
             {
@@ -1072,7 +1154,8 @@ namespace JBFantasyGame
                 SqlCommand cmd2 = new SqlCommand("update Fant_Character set AC = @AC, HitOn20 =@HitOn20, Hp=@Hp, InitMod =@InitMod," +
                     " InitRoll=@InitRoll, IsAlive=@IsAlive, Lvl=@Lvl, MaxHp=@MaxHp, MyTurn=@MyTurn, " +
                     "CharType=@CharType, Chr=@Chr, Con=@Con, Dex=@Dex, Exp=@Exp, Inte=@Inte, Str=@Str, Wis=@Wis," +
-                    "MyTargetEnt=@MyTargetEnt, MyTargetParty=@MyTargetParty " +
+                    "MyTargetEnt=@MyTargetEnt, MyTargetParty=@MyTargetParty," +
+                    "MaxMana=@MaxMana, CurrentMana=@CurrentMana, MaxManaRegen=@MaxManaRegen, ManaRegen=@ManaRegen " +
                     "where Name = @Name and PartyName= @PartyName", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
                 cmd2.Parameters.AddWithValue("@AC", selected.AC);
                 cmd2.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
@@ -1104,6 +1187,10 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@Inte", charSelected.Inte);
                 cmd2.Parameters.AddWithValue("@Str", charSelected.Str);
                 cmd2.Parameters.AddWithValue("@Wis", charSelected.Wis);
+                cmd2.Parameters.AddWithValue("@MaxMana", charSelected.MaxMana);
+                cmd2.Parameters.AddWithValue("@CurrentMana", charSelected.CurrentMana);
+                cmd2.Parameters.AddWithValue("@MaxManaRegen", charSelected.MaxManaRegen);
+                cmd2.Parameters.AddWithValue("@ManaRegen", charSelected.ManaRegen);
                 if (selected.MyTargetEnt != null)
                 {
                     cmd2.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
@@ -1124,7 +1211,8 @@ namespace JBFantasyGame
                 SqlCommand cmd3 = new SqlCommand("update Monster set AC=@AC, MonsterType =@MonsterType, HitOn20=@HitOn20," +
                     " Hp=@Hp, InitMod=@InitMod, InitRoll=@InitRoll, IsAlive=@IsAlive," +
                     " MaxHp=@MaxHp, MyTargetEnt=@MyTargetEnt, MyTargetParty=@MyTargetParty, MyTurn=@MyTurn, Lvl=@Lvl," +
-                    " NoOfAtt=@NoOfAtt, DamPerAtt1=@DamPerAtt1, DamPerAtt2=@DamPerAtt2, DamPerAtt3=@DamPerAtt3, HitDie=@HitDie" +
+                    " NoOfAtt=@NoOfAtt, DamPerAtt1=@DamPerAtt1, DamPerAtt2=@DamPerAtt2, DamPerAtt3=@DamPerAtt3, HitDie=@HitDie," +
+                    "MaxMana=@MaxMana, CurrentMana=@CurrentMana, MaxManaRegen=@MaxManaRegen, ManaRegen=@ManaRegen" +
                     " where Name = @Name and PartyName = @PartyName", con);
                 cmd3.Parameters.AddWithValue("@AC", monstSelected.AC);
                 cmd3.Parameters.AddWithValue("@MonsterType", monstSelected.MonsterType);
@@ -1153,16 +1241,20 @@ namespace JBFantasyGame
                 cmd3.Parameters.AddWithValue("@DamPerAtt2", monstSelected.DamPerAtt2);
                 cmd3.Parameters.AddWithValue("@DamPerAtt3", monstSelected.DamPerAtt3);
                 cmd3.Parameters.AddWithValue("@HitDie", monstSelected.HitDie);
+                cmd3.Parameters.AddWithValue("@MaxMana", monstSelected.MaxMana);
+                cmd3.Parameters.AddWithValue("@CurrentMana", monstSelected.CurrentMana);
+                cmd3.Parameters.AddWithValue("@MaxManaRegen", monstSelected.MaxManaRegen);
+                cmd3.Parameters.AddWithValue("@ManaRegen", monstSelected.ManaRegen);
                 cmd3.ExecuteNonQuery();
                 con.Close();
             }
         }
-        private void insertTargetsSQLTargets(Fant_Entity selected)
+        private void InsertTargetsSQLTargets(Fant_Entity selected)
         {
             con.Open();
             foreach (Target thisTarget in selected.MeleeTargets)
             {
-                SqlCommand cmdTarget = new SqlCommand("insert into Target (OwnersPartyName,OwnersName,IsAlive,Name,PartyName,Hp,MaxHp )" +
+                SqlCommand cmdTarget = new SqlCommand("Insert into Target (OwnersPartyName,OwnersName,IsAlive,Name,PartyName,Hp,MaxHp )" +
                     " values (@OwnersPartyName,@OwnersName,@IsAlive,@Name,@PartyName,@Hp,@MaxHp)", con);
                 cmdTarget.Parameters.AddWithValue("@OwnersPartyName", selected.PartyName);
                 cmdTarget.Parameters.AddWithValue("@OwnersName", selected.Name);
@@ -1180,12 +1272,12 @@ namespace JBFantasyGame
             }
             con.Close();
         }
-        private void insertObjInSQLInv(Fant_Entity selected)
+        private void InsertObjInSQLInv(Fant_Entity selected)
         {
             foreach (PhysObj thisPhysObj in selected.Inventory)
             {
                 con.Open();
-                SqlCommand cmdObj = new SqlCommand("insert into PhysObj (OwnersPartyName,OwnersName,ACEffect,Damage,IsEquipped,Name,ObjType,DescrPhysObj) " +
+                SqlCommand cmdObj = new SqlCommand("Insert into PhysObj (OwnersPartyName,OwnersName,ACEffect,Damage,IsEquipped,Name,ObjType,DescrPhysObj) " +
                     "values  (@OwnersPartyName, @OwnersName, @ACEffect, @Damage, @IsEquipped, @Name, @ObjType, @DescrPhysObj)", con);
                 cmdObj.Parameters.AddWithValue("@OwnersPartyName", selected.PartyName);
                 cmdObj.Parameters.AddWithValue("@OwnersName", selected.Name);
@@ -1204,20 +1296,60 @@ namespace JBFantasyGame
                 con.Close();
             }
         }
+        private void InsertAbilitiesSQLAbility (Fant_Entity selected)
+        { foreach (Ability thisAbility in selected.Abilities)
+            { con.Open();
+                SqlCommand cmdAbil = new SqlCommand("Insert into Ability (OwnersPartyName, OwnersName, Abil_Name, Abil_Level, DescrOfAbility," +
+                    " AbilIsActive, ManaCost, ManaRegenCost, HpCost, DurationMax, DurationElapsed, NoOfEntitiesAffectedMax," +
+                    " TargetEntitiesAffected, HpEffect, TargetRange, SaveType" +
+                    ") values (@OwnersPartyName, @OwnersName, @Abil_Name, @Abil_Level, @DescrOfAbility, " +
+                    " @AbilIsActive, @ManaCost, @ManaRegenCost, @HpCost, @DurationMax, @DurationElapsed, @NoOfEntitiesAffectedMax," +
+                    " @TargetEntitiesAffected, @HpEffect, @TargetRange, @SaveType)", con);
+                cmdAbil.Parameters.AddWithValue("@OwnersPartyName", selected.PartyName);
+                cmdAbil.Parameters.AddWithValue("@OwnersName", selected.Name);
+                cmdAbil.Parameters.AddWithValue("@Abil_Name", thisAbility.Abil_Name);
+                cmdAbil.Parameters.AddWithValue("@Abil_Level", thisAbility.Abil_Level);
+                cmdAbil.Parameters.AddWithValue("@DescrOfAbility", thisAbility.DescrOfAbility);
+                int? abilIsActive = null;
+                if (thisAbility.AbilIsActive == true)
+                { abilIsActive = 1; }
+                if (thisAbility.AbilIsActive == false)
+                { abilIsActive = 0; }
+                cmdAbil.Parameters.AddWithValue("@AbilIsActive", abilIsActive);
+                cmdAbil.Parameters.AddWithValue("@ManaCost", thisAbility.ManaCost);
+                cmdAbil.Parameters.AddWithValue("@ManaRegenCost", thisAbility.ManaRegenCost);
+                cmdAbil.Parameters.AddWithValue("@HpCost", thisAbility.HpCost);
+                cmdAbil.Parameters.AddWithValue("@DurationMax", thisAbility.DurationMax);
+                cmdAbil.Parameters.AddWithValue("@DurationElapsed", thisAbility.DurationElapsed);
+                cmdAbil.Parameters.AddWithValue("@NoOfEntitiesAffectedMax", thisAbility.NoOfEntitiesAffectedMax);
+                cmdAbil.Parameters.AddWithValue("@TargetEntitiesAffected", thisAbility.TargetEntitiesAffected);
+                cmdAbil.Parameters.AddWithValue("@HpEffect", thisAbility.HpEffect);
+                cmdAbil.Parameters.AddWithValue("@TargetRange", thisAbility.TargetRange);
+                cmdAbil.Parameters.AddWithValue("@SaveType", thisAbility.SaveType);
+                cmdAbil.ExecuteNonQuery();
+                con.Close();
+
+            }
+        }
+        
         private void SQLSaveFantEntity(Fant_Entity selected)
         {   //?? is it better to do this as a Using or just make sure I close the connection?
 
-           insertObjInSQLInv(selected);
+           InsertObjInSQLInv(selected);
 
-           insertTargetsSQLTargets(selected);
+           InsertTargetsSQLTargets(selected);
+
+           InsertAbilitiesSQLAbility(selected);
 
             con.Open();
             if (selected is Character)
             { Character charSelected = (Character)selected;  
-              SqlCommand cmd2 = new SqlCommand("insert into Fant_Character (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName, " +
-                    "CharType, Chr, Con, Dex, Exp, Inte, Str, Wis, MyTargetEnt, MyTargetParty) " +
+              SqlCommand cmd2 = new SqlCommand("Insert into Fant_Character (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName, " +
+                    "CharType, Chr, Con, Dex, Exp, Inte, Str, Wis, MyTargetEnt, MyTargetParty," +
+                    "MaxMana, CurrentMana, MaxManaRegen, ManaRegen) " +
                     "values  (@AC,@HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @Lvl, @MaxHp,  @MyTurn,@Name, @PartyName," +
-                    "@CharType, @Chr, @Con, @Dex, @Exp, @Inte, @Str, @Wis, @MyTargetEnt, @MyTargetParty)", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
+                    "@CharType, @Chr, @Con, @Dex, @Exp, @Inte, @Str, @Wis, @MyTargetEnt, @MyTargetParty," +
+                    "@MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen )", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
                 cmd2.Parameters.AddWithValue("@AC", selected.AC);
                 cmd2.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
                 cmd2.Parameters.AddWithValue("@Hp", selected.Hp);
@@ -1248,6 +1380,10 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@Inte", charSelected.Inte);
                 cmd2.Parameters.AddWithValue("@Str", charSelected.Str);
                 cmd2.Parameters.AddWithValue("@Wis", charSelected.Wis);
+                cmd2.Parameters.AddWithValue("@MaxMana", charSelected.MaxMana);
+                cmd2.Parameters.AddWithValue("@CurrentMana", charSelected.CurrentMana);
+                cmd2.Parameters.AddWithValue("@MaxManaRegen", charSelected.MaxManaRegen);
+                cmd2.Parameters.AddWithValue("@ManaRegen", charSelected.ManaRegen);
                 if (selected.MyTargetEnt != null)
                 {
                 cmd2.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
@@ -1263,10 +1399,12 @@ namespace JBFantasyGame
             if (selected is Monster)
             {
                 Monster monstSelected = (Monster)selected;
-                SqlCommand cmd3 = new SqlCommand("insert into Monster (AC, MonsterType, HitOn20, Hp, InitMod, InitRoll, IsAlive," +
-                    " MaxHp, MyTargetEnt, MyTargetParty,MyTurn,Name, PartyName, Lvl, NoOfAtt, DamPerAtt1, DamPerAtt2, DamPerAtt3, HitDie)" +
+                SqlCommand cmd3 = new SqlCommand("Insert into Monster (AC, MonsterType, HitOn20, Hp, InitMod, InitRoll, IsAlive," +
+                    " MaxHp, MyTargetEnt, MyTargetParty,MyTurn,Name, PartyName, Lvl, NoOfAtt, DamPerAtt1, DamPerAtt2, DamPerAtt3, HitDie," +
+                    " MaxMana, CurrentMana, MaxManaRegen, ManaRegen)" +
                     " values (@AC, @MonsterType, @HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @MaxHp, @MyTargetEnt,@MyTargetParty," +
-                    "@MyTurn,@Name,@PartyName, @Lvl,@NoOfAtt, @DamPerAtt1, @DamPerAtt2, @DamPerAtt3, @HitDie )", con);
+                    "@MyTurn,@Name,@PartyName, @Lvl,@NoOfAtt, @DamPerAtt1, @DamPerAtt2, @DamPerAtt3, @HitDie," +
+                    " @MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen)", con);
                 cmd3.Parameters.AddWithValue("@AC", monstSelected.AC);
                 cmd3.Parameters.AddWithValue("@MonsterType", monstSelected.MonsterType);
                 cmd3.Parameters.AddWithValue("@HitOn20", monstSelected.HitOn20);
@@ -1294,6 +1432,11 @@ namespace JBFantasyGame
                 cmd3.Parameters.AddWithValue("@DamPerAtt2", monstSelected.DamPerAtt2);
                 cmd3.Parameters.AddWithValue("@DamPerAtt3", monstSelected.DamPerAtt3);
                 cmd3.Parameters.AddWithValue("@HitDie", monstSelected.HitDie);
+                cmd3.Parameters.AddWithValue("@MaxMana", monstSelected.MaxMana);
+                cmd3.Parameters.AddWithValue("@CurrentMana", monstSelected.CurrentMana);
+                cmd3.Parameters.AddWithValue("@MaxManaRegen", monstSelected.MaxManaRegen);
+                cmd3.Parameters.AddWithValue("@ManaRegen", monstSelected.ManaRegen);
+
                 cmd3.ExecuteNonQuery();
             }
             con.Close();

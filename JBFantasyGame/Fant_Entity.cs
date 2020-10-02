@@ -32,8 +32,8 @@ namespace JBFantasyGame
         public string PartyName
         {
             get { return partyName; }
-            set { partyName = value;  }
-        }        
+            set { partyName = value; }
+        }
         public void Poke() => WriteLine($"{name} has been poked!");
         protected int lvl;
         public int Lvl
@@ -41,16 +41,16 @@ namespace JBFantasyGame
             get { return lvl; }
             set
             {
-               // if (value > 0 && value <= 30)
-                  lvl = value;
-              //  else throw new ArgumentOutOfRangeException();
+                // if (value > 0 && value <= 30)
+                lvl = value;
+                //  else throw new ArgumentOutOfRangeException();
             }
         }
         protected int hp;
         public int Hp
         {
             get { return hp; }
-            set { hp = value;  }
+            set { hp = value; }
         }
         protected int maxHp;
         public int MaxHp
@@ -58,9 +58,9 @@ namespace JBFantasyGame
             get { return maxHp; }
             set
             {
-               // if (value > 0 && value <= 1000)
-                   maxHp = value;
-               // else throw new ArgumentOutOfRangeException();
+                // if (value > 0 && value <= 1000)
+                maxHp = value;
+                // else throw new ArgumentOutOfRangeException();
             }
         }
         protected int ac;                // armour class
@@ -69,8 +69,8 @@ namespace JBFantasyGame
             get { return ac; }
             set
             { //if (value > -20 && value < 20)
-                    ac = value;
-              //  else throw new ArgumentOutOfRangeException();
+                ac = value;
+                //  else throw new ArgumentOutOfRangeException();
             }
         }
         protected int hitOn20;
@@ -79,8 +79,8 @@ namespace JBFantasyGame
             get { return hitOn20; }
             set
             { // if (value > -50 && value < 50)
-                   hitOn20 = value;
-              //  else throw new ArgumentOutOfRangeException();
+                hitOn20 = value;
+                //  else throw new ArgumentOutOfRangeException();
             }
         }
         protected int initRoll;
@@ -88,7 +88,7 @@ namespace JBFantasyGame
         {
             get { return initRoll; }
             set
-            { 
+            {
                 initRoll = value;
                 //  else throw new ArgumentOutOfRangeException();
             }
@@ -133,8 +133,28 @@ namespace JBFantasyGame
                 //  else throw new ArgumentOutOfRangeException();
             }
         }
+        protected double maxMana;
+        public double MaxMana                   // having this as a double as we will be using fractions quite a lot with mana calcs
+        { get { return maxMana; }               // double == float for all intents and purposes in SQL  
+            set { maxMana = value; }
+        }
+        protected double currentMana;
+        public double CurrentMana
+        { get { return currentMana; }
+            set { currentMana = value; }
+        }
+        protected double maxManaRegen;            //the intention is to have use of higher levels spells burn down mana regen 
+        public double MaxManaRegen                // as well as have a mana cost
+        {
+            get { return maxManaRegen; }
+            set { maxManaRegen = value; }
+        }
 
-
+        protected double manaRegen;                   
+        public double ManaRegen
+        { get { return manaRegen; }
+            set { manaRegen = value; }
+        }
 
         public virtual int MeleeAttack(Fant_Entity Defender)    //this should be currently overridden for both monsters and charac
         {
@@ -207,7 +227,8 @@ namespace JBFantasyGame
        
       
         public List<PhysObj > Inventory = new List<PhysObj > { };
-        public List<Target> MeleeTargets = new List<Target> { };     // or it may be better to add range as an attribute to Target 
-        public List<Target > TargetsAtRange = new List<Target> { };
+        public List<Target> MeleeTargets = new List<Target> { };      
+        public List<Target > TargetsAtRange = new List<Target> { };  // or it may be better to add range as an attribute to Target
+        public List<Ability> Abilities = new List<Ability> { };
     }
 }

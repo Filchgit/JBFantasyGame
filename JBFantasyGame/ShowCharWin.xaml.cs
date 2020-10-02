@@ -24,17 +24,12 @@ namespace JBFantasyGame
     {
         private Character showcharacter;                              //seeing if I can use an object model - data grid  
         private DispatcherTimer dispatcherTimer = null;
-       
+        private string nextRound = "";
+
         public ShowCharWin(Character thischaracter)
         {
             InitializeComponent();
-            //DMMainWin thisWin = new DMMainWin();
-           // bool entExists=  thisWin.DoesEntExistInSQL(thischaracter);
-           // if (entExists == true)
-           // { MessageBox.Show("I will upload from SQL");
-            //    showcharacter = thischaracter;
-           // }//load character from SQL}
-           // else
+    
              showcharacter = thischaracter;                     //}
             UpdateShowCharWin();                                      // currently updating character sheets on a timer might see if I can do this from a global event later 
             dispatcherTimer = new DispatcherTimer();
@@ -61,6 +56,7 @@ namespace JBFantasyGame
             ShowCharExp.Text = showcharacter.Exp.ToString();
             ShowGroup.Text = showcharacter.PartyName.ToString();
             ShowCharHiton20.Text = showcharacter.HitOn20.ToString();
+            ShowCharNextRound.Text = nextRound;
 
            
             PhysObjects = new ObservableCollection<PhysObj >               //all this bit is databinding my inventory grid to 
@@ -71,8 +67,17 @@ namespace JBFantasyGame
              }
              
             PersonalInventory.ItemsSource = PhysObjects;
+            Abilities = new ObservableCollection<Ability>
+            { };
+
+            foreach (Ability thisAbility in showcharacter.Abilities)
+            {
+                Abilities.Add(thisAbility);
+            }
+
             showcharacter.AC = showcharacter.ACRecalc(showcharacter);    
             ShowCharAC.Text = showcharacter.AC.ToString();
+            SpecialActions.ItemsSource = Abilities;
 
             MeleeTargets = new ObservableCollection<Target >
             { };
@@ -93,6 +98,15 @@ namespace JBFantasyGame
                      typeof(JBFantasyGame.ShowCharWin),
                      new PropertyMetadata(null));
  
+        public ObservableCollection<Ability> Abilities
+        { get { return (ObservableCollection<Ability>)GetValue(AbilitiesProperty); }
+          set { SetValue(AbilitiesProperty, value);}
+        }
+        public static readonly DependencyProperty AbilitiesProperty =
+            DependencyProperty.Register("Abilities",
+                typeof(ObservableCollection<Ability>),
+                typeof(JBFantasyGame.ShowCharWin),
+                new PropertyMetadata(null));
         private void PersonalInventory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
            PersonalInventory.SelectionChanged += PersonalInventory_SelectionChanged;       
@@ -107,6 +121,14 @@ namespace JBFantasyGame
             typeof(ObservableCollection<Target>),
             typeof(JBFantasyGame.ShowCharWin),
             new PropertyMetadata(null));
+        private void SpecialActions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SpecialActions.SelectionChanged += SpecialActions_SelectionChanged;
+        }
+
+
+
+
         private void ViableMeleeTargets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ViableMeleeTargets.SelectionChanged += ViableMeleeTargets_SelectionChanged; 
@@ -129,9 +151,31 @@ namespace JBFantasyGame
 
         private void MeleeThisEnt_Click(object sender, RoutedEventArgs e)
         {
+            nextRound = "";
+            foreach (Ability nullAbility in showcharacter.Abilities)                     // as you can only attack or use Special ability
+            { nullAbility.AbilIsActive = false; }
             Target thisTargetAttack = (Target)ViableMeleeTargets.SelectedItem;
             showcharacter.MyTargetParty = thisTargetAttack.PartyName;
             showcharacter.MyTargetEnt = thisTargetAttack.Name;
+            nextRound = $"{showcharacter.Name} plans to attack {thisTargetAttack.Name} next round.";      //can add detail later as to equipped weapons etc 
+        }
+
+        private void UseAbility_Click(object sender, RoutedEventArgs e)
+        {
+            showcharacter.MyTargetParty = null;
+            showcharacter.MyTargetEnt = null;
+            //maybe I should have a new field that is for AbilityUsethisRound as a string and let that fire in the combat round.
+            //showcharacter.CurrentMana = 100;        // quick hack as I don't want to calc mana yet 
+            foreach (Ability nullAbility in showcharacter.Abilities)
+            { nullAbility.AbilIsActive = false; }
+            Ability useThisAbility = (Ability)SpecialActions.SelectedItem;
+            useThisAbility.AbilIsActive = true;
+            nextRound = $"{showcharacter.Name} intends to use {useThisAbility.Abil_Name} next round";
+            if (useThisAbility.Abil_Name== "MageThrow")
+            { Target thisAbilityTarget = (Target)ViableMeleeTargets.SelectedItem;
+              useThisAbility.TargetEntitiesAffected =  thisAbilityTarget.Name + "|" + thisAbilityTarget.PartyName + "|";
+            }
+            UpdateShowCharWin();
         }
     }
 }
