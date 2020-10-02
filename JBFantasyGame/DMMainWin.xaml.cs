@@ -577,14 +577,15 @@ namespace JBFantasyGame
                 }
                 foreach (Ability checkAbility in thisEntity.Abilities)
                 {
-                    if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round
+                    if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round, actually will be better to check duration instead
                     {
                       thisEntity.CurrentMana -= checkAbility.ManaCost;
                       thisEntity.ManaRegen -= checkAbility.ManaRegenCost;
                       thisEntity.Hp -= checkAbility.HpCost;                          // so takes off costs for ability activated
+                        checkAbility.DurationElapsed = 0;
                         checkAbility.AbilIsActive = false;
                     }
-                    if (checkAbility.DurationMax > checkAbility.DurationElapsed)
+                    if (checkAbility.DurationMax > checkAbility.DurationElapsed)                     // and this bit checks if ability is still ongoing
                     { if (checkAbility.Abil_Name == "MageThrow")
                         { string mageThrowTarget = checkAbility.TargetEntitiesAffected;
                             string[] splitTarget = mageThrowTarget.Split(new Char[] { '|' });
@@ -593,7 +594,29 @@ namespace JBFantasyGame
                             foreach (Fant_Entity entityToBeAffected in Meleegroup)
                             { if (entityToBeAffected.PartyName == targetPartyName && entityToBeAffected.Name == targetName)
                                 { MessageBox.Show ($"{thisEntity.Name} fires MageThrow at {entityToBeAffected.Name} ");                        //do something 
-                                } 
+                                    RollingDie twentyside = new RollingDie(20, 1);
+                                    int tohit;
+                                    int assHitOn20;
+                                    assHitOn20 = thisEntity.HitOn20 + 10;                    // so this give a bonus to hit of plus 10 on normal hit tables; not a guaranteed hit
+                                    int attRoll = twentyside.Roll();
+                                    if (entityToBeAffected.AC < assHitOn20)
+                                    { tohit = 20 - (assHitOn20 - entityToBeAffected.AC); }
+                                    else if (entityToBeAffected.AC >= (assHitOn20 + 5))
+                                    { tohit = 20 + ((entityToBeAffected.AC - assHitOn20) - 5); }
+                                    else tohit = 20;
+
+                                    if (attRoll >= tohit)
+                                    {
+                                        int damage;
+                                        string damagerange;
+                                        damagerange = checkAbility.HpEffect;                                      // need to allow for two handed etc etc etc 
+                                        (int i1, int i2, int i3) = RollingDie.Diecheck(damagerange);
+                                        RollingDie thisRoll = new RollingDie(i1, i2, i3);
+                                        damage = thisRoll.Roll();
+                                        entityToBeAffected.Hp -= damage;
+                                    }
+                                    checkAbility.DurationElapsed += 1;
+                                 } 
                             }
 
                         }                                                          // need to have upgradeable way for multiple targets 

@@ -52,6 +52,8 @@ namespace JBFantasyGame
             ShowCharDex.Text = showcharacter.Dex.ToString();
             ShowCharCon.Text = showcharacter.Con.ToString();
             ShowCharChr.Text = showcharacter.Chr.ToString();
+            ShowCharMaxMana.Text = showcharacter.MaxMana.ToString();
+            ShowCharMaxManaRegen.Text = showcharacter.MaxManaRegen.ToString();
             ShowCharLvl.Text = showcharacter.Lvl.ToString();
             ShowCharExp.Text = showcharacter.Exp.ToString();
             ShowGroup.Text = showcharacter.PartyName.ToString();
@@ -166,14 +168,15 @@ namespace JBFantasyGame
             showcharacter.MyTargetEnt = null;
             //maybe I should have a new field that is for AbilityUsethisRound as a string and let that fire in the combat round.
             //showcharacter.CurrentMana = 100;        // quick hack as I don't want to calc mana yet 
-            foreach (Ability nullAbility in showcharacter.Abilities)
+            foreach (Ability nullAbility in showcharacter.Abilities)            // quick thing to null abilities, for changing mind
             { nullAbility.AbilIsActive = false; }
             Ability useThisAbility = (Ability)SpecialActions.SelectedItem;
             useThisAbility.AbilIsActive = true;
-            nextRound = $"{showcharacter.Name} intends to use {useThisAbility.Abil_Name} next round";
+            
             if (useThisAbility.Abil_Name== "MageThrow")
             { Target thisAbilityTarget = (Target)ViableMeleeTargets.SelectedItem;
               useThisAbility.TargetEntitiesAffected =  thisAbilityTarget.Name + "|" + thisAbilityTarget.PartyName + "|";
+             nextRound = $"{showcharacter.Name} intends to use {useThisAbility.Abil_Name} next round versus {thisAbilityTarget.Name}" ;
             }
             UpdateShowCharWin();
         }
