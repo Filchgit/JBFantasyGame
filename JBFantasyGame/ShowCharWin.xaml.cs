@@ -167,8 +167,7 @@ namespace JBFantasyGame
         {
             showcharacter.MyTargetParty = null;
             showcharacter.MyTargetEnt = null;
-            //maybe I should have a new field that is for AbilityUsethisRound as a string and let that fire in the combat round.
-            //showcharacter.CurrentMana = 100;        // quick hack as I don't want to calc mana yet 
+
             foreach (Ability nullAbility in showcharacter.Abilities)            // quick thing to null abilities, for changing mind
             { nullAbility.AbilIsActive = false; }
             Ability useThisAbility = (Ability)SpecialActions.SelectedItem;
@@ -180,43 +179,41 @@ namespace JBFantasyGame
 
             for (int i = 0; i < checkNoOfItems; i++)
             {
-                if (checkNoOfItems > i && useThisAbility.NoOfEntitiesAffectedMax > i)    // should be able to make this into a neat loop
+                if (checkNoOfItems > i && useThisAbility.NoOfEntitiesAffectedMax > i)    
                 {
                     Targets.Add((Target)ViableMeleeTargets.SelectedItems[i]);
                     targetList += Targets[i].Name + "|" + Targets[i].PartyName + "|";
-
                 }
             }
             string listOfTargets = "";
-            if (checkNoOfItems == 1)
+            if (checkNoOfItems == 1 || useThisAbility.NoOfEntitiesAffectedMax ==1)
             { listOfTargets = $"{Targets[0].Name}"; }
-            if (checkNoOfItems >= 2)
+            if (checkNoOfItems >= 2 && useThisAbility.NoOfEntitiesAffectedMax >=2)
             { listOfTargets = $"{Targets[0].Name} and {Targets[1].Name}"; }
-            if (checkNoOfItems > 2)
+            if (checkNoOfItems > 2 && useThisAbility.NoOfEntitiesAffectedMax >= 3)
             {
                 for (int j = 2; j < checkNoOfItems && j < useThisAbility.NoOfEntitiesAffectedMax; j++)
                 { listOfTargets = $" {Targets[j].Name }, {listOfTargets}"; }
             }
-                if (useThisAbility.Abil_Name == "MageThrow")
+            useThisAbility.TargetEntitiesAffected = targetList;
+
+            if (useThisAbility.Abil_Name == "MageThrow")
                 {
-                    Target thisAbilityTarget = (Target)ViableMeleeTargets.SelectedItem;
-                    useThisAbility.TargetEntitiesAffected = thisAbilityTarget.Name + "|" + thisAbilityTarget.PartyName + "|";
-                    nextRound = $"{showcharacter.Name} intends to use {useThisAbility.Abil_Name} next round versus {thisAbilityTarget.Name}";
+                    nextRound = $"{showcharacter.Name} intends to use Mage Throw next round versus {listOfTargets}";
                 }
-                if (useThisAbility.Abil_Name == "HealOverTime")
-                {
-                  //  if (checkNoOfItems == 1)                 // let's put a loop in to do this better
-                nextRound = $"{showcharacter.Name} intends to Heal over time {listOfTargets}"; 
-                 //   if (checkNoOfItems == 2)
-                 //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name} and {Targets[1].Name}"; }
-                 //   if (checkNoOfItems == 3)
-                 //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}, {Targets[1].Name} and {Targets[2].Name}"; }
+            if (useThisAbility.Abil_Name == "HealOverTime")
+            {
+                nextRound = $"{showcharacter.Name} intends to Heal over time {listOfTargets}";
+                //   if (checkNoOfItems == 2)
+                //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name} and {Targets[1].Name}"; }
+                //   if (checkNoOfItems == 3)
+                //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}, {Targets[1].Name} and {Targets[2].Name}"; }
 
-                    useThisAbility.TargetEntitiesAffected = targetList;
+                //   useThisAbility.TargetEntitiesAffected = targetList;
+            }
 
-
-                    UpdateShowCharWin();
-                }
+         UpdateShowCharWin();
+                
         }
     }
 }
