@@ -32,7 +32,6 @@ namespace JBFantasyGame
     {     // ovbviously will have option to change connection for other people
         SqlConnection con = new SqlConnection(@"Data Source = JBLAPTOP\SQLEXPRESS; Initial Catalog = FantasyGame; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
         Party Meleegroup = new Party();
-        Party outofMeleeGroup = new Party();
         public Character checkCharacter = new Character();
         public DMMainWin()
         {
@@ -639,23 +638,28 @@ namespace JBFantasyGame
                         }                                                          // need to have upgradeable way for multiple targets 
                         {
                             if (checkAbility.Abil_Name == "HealOverTime")
-                            { MessageBox.Show("Heal Over Time Reached");
+                            { //MessageBox.Show("Heal Over Time Reached");
                                 string healOverTimeTarget = checkAbility.TargetEntitiesAffected;
-                                string[] splitTarget = healOverTimeTarget.Split(new Char[] { '|' });
-                                string target1Name = splitTarget[0];
-                                string target1PartyName = splitTarget[1];
-                                string target2Name = splitTarget[2];
-                                string target2PartyName = splitTarget[3];
-                                string target3Name = splitTarget[4];
-                                string target3PartyName = splitTarget[5];
-                                bool affectThisEntity = false;
+                                (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
+            string targ3Name, string targ3PartyName) = TargetSplit(healOverTimeTarget);
+
+                              //  string healOverTimeTarget = checkAbility.TargetEntitiesAffected;
+                               // string[] splitTarget = healOverTimeTarget.Split(new Char[] { '|' });
+                              //  string target1Name = splitTarget[0];
+                              //  string target1PartyName = splitTarget[1];
+                             //   string target2Name = splitTarget[2];
+                             //   string target2PartyName = splitTarget[3];
+                             //   string target3Name = splitTarget[4];
+                             //   string target3PartyName = splitTarget[5];
+                                
                                 foreach (Fant_Entity entityToBeAffected in Meleegroup)
                                 {
-                                    if (entityToBeAffected.PartyName == target1PartyName && entityToBeAffected.Name == target1Name)
+                                    bool affectThisEntity = false;
+                                    if (entityToBeAffected.PartyName == targ1PartyName && entityToBeAffected.Name == targ1Name)
                                     { affectThisEntity = true; }
-                                    if (entityToBeAffected.PartyName == target2PartyName && entityToBeAffected.Name == target2Name)
+                                    if (entityToBeAffected.PartyName == targ2PartyName && entityToBeAffected.Name == targ2Name)
                                     { affectThisEntity = true; }
-                                    if (entityToBeAffected.PartyName == target3PartyName && entityToBeAffected.Name == target3Name)
+                                    if (entityToBeAffected.PartyName == targ3PartyName && entityToBeAffected.Name == targ3Name)
                                     { affectThisEntity = true; }
                                     //     (entityToBeAffected.PartyName == target2PartyName && entityToBeAffected.Name == target2Name)||
                                     //     (entityToBeAffected.PartyName == target3PartyName && entityToBeAffected.Name == target3Name))
@@ -671,13 +675,42 @@ namespace JBFantasyGame
                                         if (entityToBeAffected.Hp > entityToBeAffected.MaxHp)
                                         { entityToBeAffected.Hp = entityToBeAffected.MaxHp; }
                                     }
-                            }   }
+                                }
+                                checkAbility.DurationElapsed += 1;
+                            }
                         }
                     }
                     
                 }
 
             }
+        }
+        public static (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
+            string targ3Name, string targ3PartyName) TargetSplit(string targetToBeSplit)
+        { string targ1Name = "";
+            string targ1PartyName = "";
+            string targ2Name = "";
+            string targ2PartyName = "";
+            string targ3Name = "";
+            string targ3PartyName = "";
+            string[] splitTarget = targetToBeSplit.Split(new Char[] { '|' });
+            int countOfSPlitTarget = splitTarget.Count();
+            if (countOfSPlitTarget >= 2)
+            {
+                targ1Name = splitTarget[0];
+                targ1PartyName = splitTarget[1];
+            }
+            if (countOfSPlitTarget >= 4)
+            {
+                targ2Name = splitTarget[2];
+                targ2PartyName = splitTarget[3];
+            }
+            if (countOfSPlitTarget >= 6)
+            {
+                string target3Name = splitTarget[4];
+                string target3PartyName = splitTarget[5];
+            }
+            return (targ1Name, targ1PartyName, targ2Name, targ2PartyName, targ3Name, targ3PartyName);
         }
         #endregion combatRounds
         private void MonstGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)

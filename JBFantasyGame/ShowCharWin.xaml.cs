@@ -172,7 +172,32 @@ namespace JBFantasyGame
             { nullAbility.AbilIsActive = false; }
             Ability useThisAbility = (Ability)SpecialActions.SelectedItem;
             useThisAbility.AbilIsActive = true;
-            
+
+            List<Target> Targets = new List<Target>();
+            int checkNoOfItems = ViableMeleeTargets.SelectedItems.Count;
+            string targetList = "";
+            if (checkNoOfItems >= 1 && useThisAbility.NoOfEntitiesAffectedMax >= 1)    // should be able to make this into a neat loop
+            {
+                Target Target0 = new Target();                       
+                Target0 = (Target)ViableMeleeTargets.SelectedItems[0];
+                targetList += Target0.Name + "|" + Target0.PartyName + "|";
+                Targets.Add(Target0);
+            }
+            if (checkNoOfItems >= 2 && useThisAbility.NoOfEntitiesAffectedMax >= 2)
+            {
+                Target Target1 = new Target();
+                Target1 = (Target)ViableMeleeTargets.SelectedItems[1];
+                targetList += Target1.Name + "|" + Target1.PartyName + "|";
+                Targets.Add(Target1);
+            }
+            if (checkNoOfItems >= 3 && useThisAbility.NoOfEntitiesAffectedMax >= 3)
+            {
+                Target Target2 = new Target();
+                Target2 = (Target)ViableMeleeTargets.SelectedItems[2];
+                targetList += Target2.Name + "|" + Target2.PartyName + "|";
+                Targets.Add(Target2);
+            }
+
             if (useThisAbility.Abil_Name== "MageThrow")
             { Target thisAbilityTarget = (Target)ViableMeleeTargets.SelectedItem;
               useThisAbility.TargetEntitiesAffected =  thisAbilityTarget.Name + "|" + thisAbilityTarget.PartyName + "|";
@@ -180,18 +205,14 @@ namespace JBFantasyGame
             }
             if (useThisAbility.Abil_Name == "HealOverTime")
             {
-                 Target target1 = (Target)ViableMeleeTargets.SelectedItems[0]  ;      // will come back and make a generalized target method using check indice
-                 Target target2 = (Target)ViableMeleeTargets.SelectedItems[1];
-                 Target target3 = (Target)ViableMeleeTargets.SelectedItems[2];
+            
+                if (checkNoOfItems == 1)
+                { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}"; }
+                if (checkNoOfItems == 2)
+                { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name} and {Targets[1].Name}"; }
+                if (checkNoOfItems == 3)
+                { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}, {Targets[1].Name} and {Targets[2].Name}"; }
 
-                nextRound = $"{showcharacter.Name} intends to Heal over time {target1.Name} {target2.Name} {target3.Name}";
-                string targetList = "";
-                if (target1.Name !="")
-                        { targetList = target1.Name + "|" + target1.PartyName + "|"; };
-                if(target2.Name != "")
-                        { targetList += target2.Name + "|" + target2.PartyName + "|"; };
-                if(target3.Name != "")
-                        { targetList += target3.Name + "|" + target3.PartyName + "|"; };
                 useThisAbility.TargetEntitiesAffected = targetList;
             }
 
