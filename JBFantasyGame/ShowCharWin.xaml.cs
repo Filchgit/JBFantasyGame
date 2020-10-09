@@ -25,12 +25,12 @@ namespace JBFantasyGame
         private Character showcharacter;                              //seeing if I can use an object model - data grid  
         private DispatcherTimer dispatcherTimer = null;
         private string nextRound = "";
-       
+
         public ShowCharWin(Character thischaracter)
         {
             InitializeComponent();
-    
-             showcharacter = thischaracter;                     //}
+
+            showcharacter = thischaracter;                     //}
             UpdateShowCharWin();                                      // currently updating character sheets on a timer might see if I can do this from a global event later 
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5.0);
@@ -38,15 +38,15 @@ namespace JBFantasyGame
             dispatcherTimer.Start();
         }
         private void OnTimerTick(object sender, EventArgs e)                 // there was a tip to make sure that lengthy operations
-              { UpdateShowCharWin(); }
+        { UpdateShowCharWin(); }
         public void UpdateShowCharWin()
-             { 
-                                                                              // are not done on tick event as it runs on UI thread, and 
+        {
+            // are not done on tick event as it runs on UI thread, and 
             ShowCharClass.Text = showcharacter.CharType.ToString();          // as such may block UI from responding. Don't think this is lengthy.
             ShowCharname.Text = showcharacter.Name.ToString();
             ShowCharHP.Text = showcharacter.Hp.ToString();
-            ShowCharMaxHP.Text = showcharacter.MaxHp.ToString(); 
-            ShowCharStr.Text = showcharacter.Str.ToString();  
+            ShowCharMaxHP.Text = showcharacter.MaxHp.ToString();
+            ShowCharStr.Text = showcharacter.Str.ToString();
             ShowCharInt.Text = showcharacter.Inte.ToString();
             ShowCharWis.Text = showcharacter.Wis.ToString();
             ShowCharDex.Text = showcharacter.Dex.ToString();
@@ -60,14 +60,14 @@ namespace JBFantasyGame
             ShowCharHiton20.Text = showcharacter.HitOn20.ToString();
             ShowCharNextRound.Text = nextRound;
 
-           
-            PhysObjects = new ObservableCollection<PhysObj >               //all this bit is databinding my inventory grid to 
+
+            PhysObjects = new ObservableCollection<PhysObj>               //all this bit is databinding my inventory grid to 
             { };                                                          // the PhysObjects ObservableCollection
-             foreach (PhysObj  physthing in showcharacter.Inventory)       //  can't make binding to way to source ; at least
-             {                                                            //I can't work out how to atm; so updating time atm.
-                  PhysObjects.Add(physthing); 
-             }
-             
+            foreach (PhysObj physthing in showcharacter.Inventory)       //  can't make binding to way to source ; at least
+            {                                                            //I can't work out how to atm; so updating time atm.
+                PhysObjects.Add(physthing);
+            }
+
             PersonalInventory.ItemsSource = PhysObjects;
             Abilities = new ObservableCollection<Ability>
             { };
@@ -77,32 +77,33 @@ namespace JBFantasyGame
                 Abilities.Add(thisAbility);
             }
 
-            showcharacter.AC = showcharacter.ACRecalc(showcharacter);    
+            showcharacter.AC = showcharacter.ACRecalc(showcharacter);
             ShowCharAC.Text = showcharacter.AC.ToString();
             SpecialActions.ItemsSource = Abilities;
 
-            MeleeTargets = new ObservableCollection<Target >
+            MeleeTargets = new ObservableCollection<Target>
             { };
-            foreach (Target _aTarget in showcharacter.MeleeTargets )
+            foreach (Target _aTarget in showcharacter.MeleeTargets)
             {
                 MeleeTargets.Add(_aTarget);
             }
             ViableMeleeTargets.ItemsSource = MeleeTargets;
         }
-        public ObservableCollection<PhysObj > PhysObjects
+        public ObservableCollection<PhysObj> PhysObjects
         {
-            get { return (ObservableCollection<PhysObj >)GetValue(PhysObjectsProperty); }
+            get { return (ObservableCollection<PhysObj>)GetValue(PhysObjectsProperty); }
             set { SetValue(PhysObjectsProperty, value); }
         }
         public static readonly DependencyProperty PhysObjectsProperty =
             DependencyProperty.Register("PhysObjects",
-                     typeof(ObservableCollection<PhysObj >),
+                     typeof(ObservableCollection<PhysObj>),
                      typeof(JBFantasyGame.ShowCharWin),
                      new PropertyMetadata(null));
- 
+
         public ObservableCollection<Ability> Abilities
-        { get { return (ObservableCollection<Ability>)GetValue(AbilitiesProperty); }
-          set { SetValue(AbilitiesProperty, value);}
+        {
+            get { return (ObservableCollection<Ability>)GetValue(AbilitiesProperty); }
+            set { SetValue(AbilitiesProperty, value); }
         }
         public static readonly DependencyProperty AbilitiesProperty =
             DependencyProperty.Register("Abilities",
@@ -111,11 +112,11 @@ namespace JBFantasyGame
                 new PropertyMetadata(null));
         private void PersonalInventory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           PersonalInventory.SelectionChanged += PersonalInventory_SelectionChanged;       
+            PersonalInventory.SelectionChanged += PersonalInventory_SelectionChanged;
         }
-        public ObservableCollection <Target> MeleeTargets
+        public ObservableCollection<Target> MeleeTargets
         {
-            get { return (ObservableCollection<Target>)GetValue(MeleeTargetsProperty);}
+            get { return (ObservableCollection<Target>)GetValue(MeleeTargetsProperty); }
             set { SetValue(MeleeTargetsProperty, value); }
         }
         public static readonly DependencyProperty MeleeTargetsProperty =
@@ -133,22 +134,22 @@ namespace JBFantasyGame
 
         private void ViableMeleeTargets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ViableMeleeTargets.SelectionChanged += ViableMeleeTargets_SelectionChanged; 
+            ViableMeleeTargets.SelectionChanged += ViableMeleeTargets_SelectionChanged;
         }
         private void Delete1st_Click(object sender, RoutedEventArgs e)
         {
-            PhysObj  removethis =(PhysObj )PersonalInventory.SelectedItem;
+            PhysObj removethis = (PhysObj)PersonalInventory.SelectedItem;
             showcharacter.Inventory.Remove(removethis);
             UpdateShowCharWin();
         }
 
         private void EquipThisButt_Click(object sender, RoutedEventArgs e)          // Obviously can put a lot of type checking in here and then conditions
         {
-            PhysObj  equipthis = (PhysObj )PersonalInventory.SelectedItem;
-            if (equipthis.IsEquipped == true  )
-              { equipthis.IsEquipped = false; }
-            else { equipthis.IsEquipped = true; }                    
-           UpdateShowCharWin(); 
+            PhysObj equipthis = (PhysObj)PersonalInventory.SelectedItem;
+            if (equipthis.IsEquipped == true)
+            { equipthis.IsEquipped = false; }
+            else { equipthis.IsEquipped = true; }
+            UpdateShowCharWin();
         }
 
         private void MeleeThisEnt_Click(object sender, RoutedEventArgs e)
@@ -176,49 +177,48 @@ namespace JBFantasyGame
             List<Target> Targets = new List<Target>();
             int checkNoOfItems = ViableMeleeTargets.SelectedItems.Count;
             string targetList = "";
-            if (checkNoOfItems >= 1 && useThisAbility.NoOfEntitiesAffectedMax >= 1)    // should be able to make this into a neat loop
-            {
-                Target Target0 = new Target();                       
-                Target0 = (Target)ViableMeleeTargets.SelectedItems[0];
-                targetList += Target0.Name + "|" + Target0.PartyName + "|";
-                Targets.Add(Target0);
-            }
-            if (checkNoOfItems >= 2 && useThisAbility.NoOfEntitiesAffectedMax >= 2)
-            {
-                Target Target1 = new Target();
-                Target1 = (Target)ViableMeleeTargets.SelectedItems[1];
-                targetList += Target1.Name + "|" + Target1.PartyName + "|";
-                Targets.Add(Target1);
-            }
-            if (checkNoOfItems >= 3 && useThisAbility.NoOfEntitiesAffectedMax >= 3)
-            {
-                Target Target2 = new Target();
-                Target2 = (Target)ViableMeleeTargets.SelectedItems[2];
-                targetList += Target2.Name + "|" + Target2.PartyName + "|";
-                Targets.Add(Target2);
-            }
 
-            if (useThisAbility.Abil_Name== "MageThrow")
-            { Target thisAbilityTarget = (Target)ViableMeleeTargets.SelectedItem;
-              useThisAbility.TargetEntitiesAffected =  thisAbilityTarget.Name + "|" + thisAbilityTarget.PartyName + "|";
-             nextRound = $"{showcharacter.Name} intends to use {useThisAbility.Abil_Name} next round versus {thisAbilityTarget.Name}" ;
-            }
-            if (useThisAbility.Abil_Name == "HealOverTime")
+            for (int i = 0; i < checkNoOfItems; i++)
             {
-            
-                if (checkNoOfItems == 1)
-                { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}"; }
-                if (checkNoOfItems == 2)
-                { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name} and {Targets[1].Name}"; }
-                if (checkNoOfItems == 3)
-                { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}, {Targets[1].Name} and {Targets[2].Name}"; }
+                if (checkNoOfItems > i && useThisAbility.NoOfEntitiesAffectedMax > i)    // should be able to make this into a neat loop
+                {
+                    Targets.Add((Target)ViableMeleeTargets.SelectedItems[i]);
+                    targetList += Targets[i].Name + "|" + Targets[i].PartyName + "|";
 
-                useThisAbility.TargetEntitiesAffected = targetList;
+                }
             }
+            string listOfTargets = "";
+            if (checkNoOfItems == 1)
+            { listOfTargets = $"{Targets[0].Name}"; }
+            if (checkNoOfItems >= 2)
+            { listOfTargets = $"{Targets[0].Name} and {Targets[1].Name}"; }
+            if (checkNoOfItems > 2)
+            {
+                for (int j = 2; j < checkNoOfItems && j < useThisAbility.NoOfEntitiesAffectedMax; j++)
+                { listOfTargets = $" {Targets[j].Name }, {listOfTargets}"; }
+            }
+                if (useThisAbility.Abil_Name == "MageThrow")
+                {
+                    Target thisAbilityTarget = (Target)ViableMeleeTargets.SelectedItem;
+                    useThisAbility.TargetEntitiesAffected = thisAbilityTarget.Name + "|" + thisAbilityTarget.PartyName + "|";
+                    nextRound = $"{showcharacter.Name} intends to use {useThisAbility.Abil_Name} next round versus {thisAbilityTarget.Name}";
+                }
+                if (useThisAbility.Abil_Name == "HealOverTime")
+                {
+                  //  if (checkNoOfItems == 1)                 // let's put a loop in to do this better
+                nextRound = $"{showcharacter.Name} intends to Heal over time {listOfTargets}"; 
+                 //   if (checkNoOfItems == 2)
+                 //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name} and {Targets[1].Name}"; }
+                 //   if (checkNoOfItems == 3)
+                 //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}, {Targets[1].Name} and {Targets[2].Name}"; }
 
-                UpdateShowCharWin();
+                    useThisAbility.TargetEntitiesAffected = targetList;
 
+
+                    UpdateShowCharWin();
+                }
         }
     }
 }
+
 
