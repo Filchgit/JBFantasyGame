@@ -25,7 +25,7 @@ namespace JBFantasyGame
         private Character showcharacter;                              //seeing if I can use an object model - data grid  
         private DispatcherTimer dispatcherTimer = null;
         private string nextRound = "";
-
+       
         public ShowCharWin(Character thischaracter)
         {
             InitializeComponent();
@@ -178,7 +178,25 @@ namespace JBFantasyGame
               useThisAbility.TargetEntitiesAffected =  thisAbilityTarget.Name + "|" + thisAbilityTarget.PartyName + "|";
              nextRound = $"{showcharacter.Name} intends to use {useThisAbility.Abil_Name} next round versus {thisAbilityTarget.Name}" ;
             }
-            UpdateShowCharWin();
+            if (useThisAbility.Abil_Name == "HealOverTime")
+            {
+                 Target target1 = (Target)ViableMeleeTargets.SelectedItems[0]  ;      // will come back and make a generalized target method using check indice
+                 Target target2 = (Target)ViableMeleeTargets.SelectedItems[1];
+                 Target target3 = (Target)ViableMeleeTargets.SelectedItems[2];
+
+                nextRound = $"{showcharacter.Name} intends to Heal over time {target1.Name} {target2.Name} {target3.Name}";
+                string targetList = "";
+                if (target1.Name !="")
+                        { targetList = target1.Name + "|" + target1.PartyName + "|"; };
+                if(target2.Name != "")
+                        { targetList += target2.Name + "|" + target2.PartyName + "|"; };
+                if(target3.Name != "")
+                        { targetList += target3.Name + "|" + target3.PartyName + "|"; };
+                useThisAbility.TargetEntitiesAffected = targetList;
+            }
+
+                UpdateShowCharWin();
+
         }
     }
 }

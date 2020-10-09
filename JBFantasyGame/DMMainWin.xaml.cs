@@ -489,7 +489,15 @@ namespace JBFantasyGame
             foreach (Fant_Entity thisEntity in Defparty)    // might have to change this so you can target own party with spells
                                       // alternatively always have own party as valid target may be better
                                       // both will eventually have to take into account range
-            {
+            {   foreach (Fant_Entity myPartyEntity in Defparty)
+                {
+                    Target Targetnew = new Target();
+                    Targetnew.Name = myPartyEntity.Name;
+                    Targetnew.Hp = myPartyEntity.Hp;
+                    Targetnew.MaxHp = myPartyEntity.MaxHp;
+                    Targetnew.PartyName = myPartyEntity.PartyName;
+                    thisEntity.MeleeTargets.Add(Targetnew);
+                }
                 foreach (Fant_Entity AttEntity in partycombat)
                 {
                     Target Targetnew = new Target();
@@ -509,6 +517,15 @@ namespace JBFantasyGame
                     Targetnew.Hp = DefEntity.Hp;
                     Targetnew.MaxHp = DefEntity.MaxHp;
                     Targetnew.PartyName = DefEntity.PartyName;
+                    thisEntity.MeleeTargets.Add(Targetnew);
+                }
+                foreach (Fant_Entity myPartyEntity in partycombat)
+                {
+                    Target Targetnew = new Target();
+                    Targetnew.Name = myPartyEntity.Name;
+                    Targetnew.Hp = myPartyEntity.Hp;
+                    Targetnew.MaxHp = myPartyEntity.MaxHp;
+                    Targetnew.PartyName = myPartyEntity.PartyName;
                     thisEntity.MeleeTargets.Add(Targetnew);
                 }
             }
@@ -582,7 +599,7 @@ namespace JBFantasyGame
                       thisEntity.CurrentMana -= checkAbility.ManaCost;
                       thisEntity.ManaRegen -= checkAbility.ManaRegenCost;
                       thisEntity.Hp -= checkAbility.HpCost;                          // so takes off costs for ability activated
-                        checkAbility.DurationElapsed = 0;
+                        checkAbility.DurationElapsed = 0;                            // this starts the active duration 'timer'
                         checkAbility.AbilIsActive = false;
                     }
                     if (checkAbility.DurationMax > checkAbility.DurationElapsed)                     // and this bit checks if ability is still ongoing
@@ -618,10 +635,48 @@ namespace JBFantasyGame
                                     checkAbility.DurationElapsed += 1;
                                  } 
                             }
-
+                                                 
                         }                                                          // need to have upgradeable way for multiple targets 
+                        {
+                            if (checkAbility.Abil_Name == "HealOverTime")
+                            { MessageBox.Show("Heal Over Time Reached");
+                                string healOverTimeTarget = checkAbility.TargetEntitiesAffected;
+                                string[] splitTarget = healOverTimeTarget.Split(new Char[] { '|' });
+                                string target1Name = splitTarget[0];
+                                string target1PartyName = splitTarget[1];
+                                string target2Name = splitTarget[2];
+                                string target2PartyName = splitTarget[3];
+                                string target3Name = splitTarget[4];
+                                string target3PartyName = splitTarget[5];
+                                bool affectThisEntity = false;
+                                foreach (Fant_Entity entityToBeAffected in Meleegroup)
+                                {
+                                    if (entityToBeAffected.PartyName == target1PartyName && entityToBeAffected.Name == target1Name)
+                                    { affectThisEntity = true; }
+                                    if (entityToBeAffected.PartyName == target2PartyName && entityToBeAffected.Name == target2Name)
+                                    { affectThisEntity = true; }
+                                    if (entityToBeAffected.PartyName == target3PartyName && entityToBeAffected.Name == target3Name)
+                                    { affectThisEntity = true; }
+                                    //     (entityToBeAffected.PartyName == target2PartyName && entityToBeAffected.Name == target2Name)||
+                                    //     (entityToBeAffected.PartyName == target3PartyName && entityToBeAffected.Name == target3Name))
+                                    if (affectThisEntity ==true)
+                                    {
+                                        int healing = 0;
+                                        string healingRange;
+                                        healingRange = checkAbility.HpEffect;                                      // need to allow for two handed etc etc etc 
+                                        (int i1, int i2, int i3) = RollingDie.Diecheck(healingRange);
+                                        RollingDie thisRoll = new RollingDie(i1, i2, i3);
+                                        healing = thisRoll.Roll();
+                                        entityToBeAffected.Hp += healing;
+                                        if (entityToBeAffected.Hp > entityToBeAffected.MaxHp)
+                                        { entityToBeAffected.Hp = entityToBeAffected.MaxHp; }
+                                    }
+                            }   }
+                        }
                     }
+                    
                 }
+
             }
         }
         #endregion combatRounds

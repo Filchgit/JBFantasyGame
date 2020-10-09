@@ -25,8 +25,8 @@
         <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="761,253,0,0" VerticalAlignment="Top" Width="279" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
         <Button x:Name="SaveAll"  Content="Save All Parties (XML)" HorizontalAlignment="Left" Margin="203,10,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
 
-        <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="761,220,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.237,0.346" Width="100" Height="33" Background="#FFFBFBFB"/>
-        <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="1040,293,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.093,-0.35" Height="45" Click="AssigntoCharacter_Click" />
+        <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="761,220,0,0" VerticalAlignment="Top" Width="100" Height="33" Background="#FFFBFBFB"/>
+        <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="1040,293,0,0" VerticalAlignment="Top" Width="118" Height="45" Click="AssigntoCharacter_Click" />
 
         <Rectangle x:Name="SecondaryFocusRectangle" Fill="#FFB5EAF0" HorizontalAlignment="Left" Height="128" Margin="530,37,0,0" Stroke="Black" VerticalAlignment="Top" Width="406" RenderTransformOrigin="0.577,0.517"/>
         <ListBox x:Name="TargetFocusGroupList" HorizontalAlignment="Left" Height="100" Margin="530,65,0,0" VerticalAlignment="Top" Width="219" SelectedIndex="0" SelectionChanged="TargetFocusGroupList_SelectionChanged"/>
