@@ -593,7 +593,7 @@ namespace JBFantasyGame
                 }
                 foreach (Ability checkAbility in thisEntity.Abilities)
                 {
-                    if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round, actually will be better to check duration instead
+                    if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round, 
                     {
                       thisEntity.CurrentMana -= checkAbility.ManaCost;
                       thisEntity.ManaRegen -= checkAbility.ManaRegenCost;
@@ -601,7 +601,8 @@ namespace JBFantasyGame
                         checkAbility.DurationElapsed = 0;                            // this starts the active duration 'timer'
                         checkAbility.AbilIsActive = false;
                     }
-                    if (checkAbility.DurationMax > checkAbility.DurationElapsed)                     // and this bit checks if ability is still ongoing
+
+                    if (checkAbility.DurationMax > checkAbility.DurationElapsed)                     // and this bit checks if an ability is still ongoing
                     { if (checkAbility.Abil_Name == "MageThrow")
                         { string mageThrowTarget = checkAbility.TargetEntitiesAffected;
                             string[] splitTarget = mageThrowTarget.Split(new Char[] { '|' });
@@ -625,7 +626,7 @@ namespace JBFantasyGame
                                     {
                                         int damage;
                                         string damagerange;
-                                        damagerange = checkAbility.HpEffect;                                      // need to allow for two handed etc etc etc 
+                                        damagerange = checkAbility.HpEffect;                                      // an ability will work for 2nd and third attacks per round for characters maybe 
                                         (int i1, int i2, int i3) = RollingDie.Diecheck(damagerange);
                                         RollingDie thisRoll = new RollingDie(i1, i2, i3);
                                         damage = thisRoll.Roll();
@@ -638,32 +639,18 @@ namespace JBFantasyGame
                         }                                                          // need to have upgradeable way for multiple targets 
                         {
                             if (checkAbility.Abil_Name == "HealOverTime")
-                            { //MessageBox.Show("Heal Over Time Reached");
-                                string healOverTimeTarget = checkAbility.TargetEntitiesAffected;
+                            { 
+                                string targetToBeSplit  = checkAbility.TargetEntitiesAffected; 
+                                
                                 (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
-            string targ3Name, string targ3PartyName) = TargetSplit(healOverTimeTarget);
-
-                              //  string healOverTimeTarget = checkAbility.TargetEntitiesAffected;
-                               // string[] splitTarget = healOverTimeTarget.Split(new Char[] { '|' });
-                              //  string target1Name = splitTarget[0];
-                              //  string target1PartyName = splitTarget[1];
-                             //   string target2Name = splitTarget[2];
-                             //   string target2PartyName = splitTarget[3];
-                             //   string target3Name = splitTarget[4];
-                             //   string target3PartyName = splitTarget[5];
+            string targ3Name, string targ3PartyName) = TargetSplit(targetToBeSplit);
                                 
                                 foreach (Fant_Entity entityToBeAffected in Meleegroup)
                                 {
-                                    bool affectThisEntity = false;
-                                    if (entityToBeAffected.PartyName == targ1PartyName && entityToBeAffected.Name == targ1Name)
-                                    { affectThisEntity = true; }
-                                    if (entityToBeAffected.PartyName == targ2PartyName && entityToBeAffected.Name == targ2Name)
-                                    { affectThisEntity = true; }
-                                    if (entityToBeAffected.PartyName == targ3PartyName && entityToBeAffected.Name == targ3Name)
-                                    { affectThisEntity = true; }
-                                    //     (entityToBeAffected.PartyName == target2PartyName && entityToBeAffected.Name == target2Name)||
-                                    //     (entityToBeAffected.PartyName == target3PartyName && entityToBeAffected.Name == target3Name))
-                                    if (affectThisEntity ==true)
+                                    bool affectThisEntity = IsEntityAffected(entityToBeAffected, targ1Name, targ1PartyName, targ2Name, targ2PartyName,
+                                     targ3Name, targ3PartyName);
+
+                                   if (affectThisEntity ==true)
                                     {
                                         int healing = 0;
                                         string healingRange;
@@ -694,24 +681,35 @@ namespace JBFantasyGame
             string targ3Name = "";
             string targ3PartyName = "";
             string[] splitTarget = targetToBeSplit.Split(new Char[] { '|' });
-            int countOfSPlitTarget = splitTarget.Count();
-            if (countOfSPlitTarget >= 2)
+            int countOfSplitTarget = splitTarget.Count();
+            if (countOfSplitTarget >= 2)                              //would be nice to write a loop to do this cleanly
             {
                 targ1Name = splitTarget[0];
                 targ1PartyName = splitTarget[1];
             }
-            if (countOfSPlitTarget >= 4)
+            if (countOfSplitTarget >= 4)
             {
                 targ2Name = splitTarget[2];
                 targ2PartyName = splitTarget[3];
             }
-            if (countOfSPlitTarget >= 6)
+            if (countOfSplitTarget >= 6)
             {
-                string target3Name = splitTarget[4];
-                string target3PartyName = splitTarget[5];
+                targ3Name = splitTarget[4];
+                targ3PartyName = splitTarget[5];
             }
             return (targ1Name, targ1PartyName, targ2Name, targ2PartyName, targ3Name, targ3PartyName);
         }
+        public static bool IsEntityAffected (Fant_Entity entityToBeAffected, string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName, string targ3Name, string targ3PartyName)
+        {
+            bool isEntityAffected = false;
+            if (entityToBeAffected.PartyName == targ1PartyName && entityToBeAffected.Name == targ1Name)
+            { isEntityAffected = true; }
+            if (entityToBeAffected.PartyName == targ2PartyName && entityToBeAffected.Name == targ2Name)
+            { isEntityAffected = true; }
+            if (entityToBeAffected.PartyName == targ3PartyName && entityToBeAffected.Name == targ3Name)
+            { isEntityAffected = true; }
+            return isEntityAffected; }
+
         #endregion combatRounds
         private void MonstGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
