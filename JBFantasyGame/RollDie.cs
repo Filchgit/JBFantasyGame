@@ -46,8 +46,8 @@ namespace JBFantasyGame
         public static (int i1, int i2, int i3) Diecheck(string diecheck)
         {
             string extraspace = " ";
-            diecheck = diecheck + extraspace;    
-            //String diecheck = RollDieDM.Text;                                         // I think diecheck should be split off into RollingDie as a function
+            diecheck += extraspace;    
+            //String diecheck = RollDieDM.Text;                                        
             string rex = "^([0-9]*)[D-d]([0-9]+)([ ]+)([+|-]*)([0-9]*)";
             if (Regex.IsMatch(diecheck, rex) == true)
             {
@@ -76,8 +76,7 @@ namespace JBFantasyGame
                     return (i1, i2, i3);
                 }
             }
-            //       RollingDie thisRoll = new RollingDie(i1, i2);
-            // MessageBox.Show($"{thisRoll.Roll() } {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
+           
 
            else
             {

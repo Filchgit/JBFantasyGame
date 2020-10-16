@@ -553,6 +553,20 @@ namespace JBFantasyGame
                 Meleegroup.Remove(thisEntity);
             }
         }
+        private void CombatScript (string addToCombatScript)
+        { StreamWriter comScript;
+        if (!File.Exists(@"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt"))
+            {
+                comScript = new StreamWriter(@"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt");
+            }
+        else
+            {
+                comScript = File.AppendText(@"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt");
+            }
+            comScript.WriteLine(addToCombatScript);
+            comScript.WriteLine();
+            comScript.Close();
+        }
         private void NextCombatRound_Click(object sender, RoutedEventArgs e)
         {
             foreach (Fant_Entity thisEntity in Meleegroup)                  
@@ -567,11 +581,13 @@ namespace JBFantasyGame
 
                 RollingDie d60 = new RollingDie(60, 1);
                 thisEntity.InitRoll = (d60.Roll() + thisEntity.InitMod);                //can put individual adjustments in at this point later 
+        
             }
             Meleegroup.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
-            foreach (Fant_Entity thisEntity in Meleegroup)                      // lower is better on init roll
-                                                                                // at this point want special abilities to fire, have Duration based and new ones
+            foreach (Fant_Entity thisEntity in Meleegroup)                      // lower is better on init roll                                                                                // at this point want special abilities to fire, have Duration based and new ones
             {
+                CombatScript($"{thisEntity.Name} gets an adjusted initiative roll of  {thisEntity.InitRoll} ");     
+
                 if (thisEntity.MyTargetParty != null)                        // so this bit takes care of thisEntity's melee attack is applicable,
                 {
                     string targetParty = thisEntity.MyTargetParty;
@@ -580,6 +596,7 @@ namespace JBFantasyGame
                     {
                         if (entitytobeattacked.PartyName == targetParty && entitytobeattacked.Name == targetEntity)
                         {
+                            int Hpb4 = entitytobeattacked.Hp;                          //saving prev HP for a sec
                             if (entitytobeattacked is Character)
                             {
                                 Character attackasCharacter = new Character();
@@ -588,13 +605,17 @@ namespace JBFantasyGame
                             }
                             else
                             { thisEntity.MeleeAttack(entitytobeattacked); }
+
+                            int damage = Hpb4 - entitytobeattacked.Hp;
+                            CombatScript($"{thisEntity.Name} attacks {entitytobeattacked.Name} for {damage} ");
                         }
                     }
                 }
                 foreach (Ability checkAbility in thisEntity.Abilities)
                 {
                     if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round, 
-                    {
+                    { CombatScript($"{thisEntity.Name} uses {checkAbility.Abil_Name}");
+
                       thisEntity.CurrentMana -= checkAbility.ManaCost;
                       thisEntity.ManaRegen -= checkAbility.ManaRegenCost;
                       thisEntity.Hp -= checkAbility.HpCost;                          // so takes off costs for ability activated
@@ -603,6 +624,8 @@ namespace JBFantasyGame
                     }
 
                     if (checkAbility.DurationMax > checkAbility.DurationElapsed)                     // and this bit checks if an ability is still ongoing
+
+
                     { if (checkAbility.Abil_Name == "MageThrow")
                         { string mageThrowTarget = checkAbility.TargetEntitiesAffected;
                             string[] splitTarget = mageThrowTarget.Split(new Char[] { '|' });
@@ -610,6 +633,7 @@ namespace JBFantasyGame
                             string targetPartyName = splitTarget[1];
                             foreach (Fant_Entity entityToBeAffected in Meleegroup)
                             { if (entityToBeAffected.PartyName == targetPartyName && entityToBeAffected.Name == targetName)
+             
                                 { MessageBox.Show ($"{thisEntity.Name} fires MageThrow at {entityToBeAffected.Name} ");                        //do something 
                                     RollingDie twentyside = new RollingDie(20, 1);
                                     int tohit;
@@ -643,12 +667,13 @@ namespace JBFantasyGame
                                 string targetToBeSplit  = checkAbility.TargetEntitiesAffected; 
                                 
                                 (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
-            string targ3Name, string targ3PartyName) = TargetSplit(targetToBeSplit);
+            string targ3Name, string targ3PartyName, string targ4Name, string targ4PartyName,
+            string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName) = TargetSplit(targetToBeSplit);
                                 
                                 foreach (Fant_Entity entityToBeAffected in Meleegroup)
                                 {
                                     bool affectThisEntity = IsEntityAffected(entityToBeAffected, targ1Name, targ1PartyName, targ2Name, targ2PartyName,
-                                     targ3Name, targ3PartyName);
+                                     targ3Name, targ3PartyName, targ4Name, targ4PartyName, targ5Name, targ5PartyName, targ6Name, targ6PartyName);
 
                                    if (affectThisEntity ==true)
                                     {
@@ -673,13 +698,20 @@ namespace JBFantasyGame
             }
         }
         public static (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
-            string targ3Name, string targ3PartyName) TargetSplit(string targetToBeSplit)
+            string targ3Name, string targ3PartyName, string targ4Name, string targ4PartyName,
+            string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName) TargetSplit(string targetToBeSplit)
         { string targ1Name = "";
             string targ1PartyName = "";
             string targ2Name = "";
             string targ2PartyName = "";
             string targ3Name = "";
             string targ3PartyName = "";
+            string targ4Name = "";
+            string targ4PartyName = "";
+            string targ5Name = "";
+            string targ5PartyName = "";
+            string targ6Name = "";
+            string targ6PartyName = "";
             string[] splitTarget = targetToBeSplit.Split(new Char[] { '|' });
             int countOfSplitTarget = splitTarget.Count();
             if (countOfSplitTarget >= 2)                              //would be nice to write a loop to do this cleanly
@@ -697,9 +729,26 @@ namespace JBFantasyGame
                 targ3Name = splitTarget[4];
                 targ3PartyName = splitTarget[5];
             }
-            return (targ1Name, targ1PartyName, targ2Name, targ2PartyName, targ3Name, targ3PartyName);
+            if (countOfSplitTarget >= 8)
+            {
+                targ4Name = splitTarget[6];
+                targ4PartyName = splitTarget[7];
+            }
+            if (countOfSplitTarget >= 10)
+            {
+                targ5Name = splitTarget[8];
+                targ5PartyName = splitTarget[9];
+            }
+            if (countOfSplitTarget >= 12)
+            {
+                targ6Name = splitTarget[10];
+                targ6PartyName = splitTarget[11];
+            }
+            return (targ1Name, targ1PartyName, targ2Name, targ2PartyName, targ3Name, targ3PartyName,
+                targ4Name, targ4PartyName, targ5Name, targ5PartyName, targ6Name, targ6PartyName);
         }
-        public static bool IsEntityAffected (Fant_Entity entityToBeAffected, string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName, string targ3Name, string targ3PartyName)
+        public static bool IsEntityAffected (Fant_Entity entityToBeAffected, string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName, string targ3Name, string targ3PartyName,
+            string targ4Name, string targ4PartyName, string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName)
         {
             bool isEntityAffected = false;
             if (entityToBeAffected.PartyName == targ1PartyName && entityToBeAffected.Name == targ1Name)
@@ -707,6 +756,12 @@ namespace JBFantasyGame
             if (entityToBeAffected.PartyName == targ2PartyName && entityToBeAffected.Name == targ2Name)
             { isEntityAffected = true; }
             if (entityToBeAffected.PartyName == targ3PartyName && entityToBeAffected.Name == targ3Name)
+            { isEntityAffected = true; }
+            if (entityToBeAffected.PartyName == targ4PartyName && entityToBeAffected.Name == targ4Name)
+            { isEntityAffected = true; }
+            if (entityToBeAffected.PartyName == targ5PartyName && entityToBeAffected.Name == targ5Name)
+            { isEntityAffected = true; }
+            if (entityToBeAffected.PartyName == targ6PartyName && entityToBeAffected.Name == targ6Name)
             { isEntityAffected = true; }
             return isEntityAffected; }
 

@@ -179,7 +179,7 @@ namespace JBFantasyGame
 
             for (int i = 0; i < checkNoOfItems; i++)
             {
-                if (checkNoOfItems > i && useThisAbility.NoOfEntitiesAffectedMax > i)    
+                if (checkNoOfItems > i && useThisAbility.NoOfEntitiesAffectedMax >= i)    
                 {
                     Targets.Add((Target)ViableMeleeTargets.SelectedItems[i]);
                     targetList += Targets[i].Name + "|" + Targets[i].PartyName + "|";
