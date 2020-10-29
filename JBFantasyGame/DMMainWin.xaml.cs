@@ -29,15 +29,16 @@ namespace JBFantasyGame
     /// Interaction logic for DMMainWin.xaml
     /// </summary>
     public partial class DMMainWin : Window
-    {     // ovbviously will have option to change connection for other people
+    {     // obviously will have option to change connection for other people
         SqlConnection con = new SqlConnection(@"Data Source = JBLAPTOP\SQLEXPRESS; Initial Catalog = FantasyGame; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
+        string comScriptPath = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt";
         Party Meleegroup = new Party();
         public Character checkCharacter = new Character();
         public DMMainWin()
         {
             InitializeComponent();
             UpdateGlobalItems();
-         //   UpdateSQLList();       //might move these last two items elsewhere so I can call this page without this happenning.
+
         }
      
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
@@ -52,36 +53,43 @@ namespace JBFantasyGame
             if (i1 != 0)
             {
                 RollingDie thisRoll = new RollingDie(i1, i2, i3);
-                string rollexp = thisRoll.ToString();
-                MessageBox.Show($"{thisRoll.Roll() } {rollexp}  {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
+                string rollexpl = thisRoll.ToString();
+                MessageBox.Show($"{thisRoll.Roll() } {rollexpl}  {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
             }
         }
         private void Nameinput_TextInput(object sender, TextCompositionEventArgs e)
-        {
-            string var2;                      //I don't think I need this; put in when I was going to error check
-            var2 = Nameinput.Text;
+        {    
         }
+
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
         {
-            if ((Party)EntGroupList.SelectedItem is null)                         // if ((CharParty)GroupList.SelectedItem is null)
+            if ((Party)EntGroupList.SelectedItem is null)                         
             { MessageBox.Show("You must pick a party to add a new character. "); }
             else
-            {
-                Character thischaracter = new Character();             // might need to add check to exclude names that are identical to any already in party
-                thischaracter.NewCharacter(thischaracter);
-                thischaracter.Name = Nameinput.Text;
-                Party thisparty = (Party)EntGroupList.SelectedItem;
-                int index = EntGroupList.SelectedIndex;
-                CharParty charpartythis = MainWindow.CharParties[index];
-                //CharParty charpartythis = (CharParty)GroupList.SelectedItem;      // this works but have to manually change it there
-                thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
-                charpartythis.Add(thischaracter);
-                thisparty.Add(thischaracter);
-                UpdatePartyListBox();
-                UpdateTargetFocusCharListBox();
-                // going to try and add simultaneously to an Fant_Entity party
+            { 
+               bool invalidName = false;
+               string checkName = "";
+               checkName = Nameinput.Text;
+               invalidName = checkName.Contains("|");
+               if (invalidName == false)
+                {
+                    Character thischaracter = new Character();             // might need to add check to exclude names that are identical to any already in party
+                    thischaracter.NewCharacter(thischaracter);
+                    thischaracter.Name = Nameinput.Text;
+                    Party thisparty = (Party)EntGroupList.SelectedItem;
+                    int index = EntGroupList.SelectedIndex;
+                    CharParty charpartythis = MainWindow.CharParties[index];
+                    //CharParty charpartythis = (CharParty)GroupList.SelectedItem;      // this works but have to manually change it there
+                    thischaracter.PartyName = thisparty.Name;                          // on adding a character to a party change the character PartyName to selected party's name 
+                    charpartythis.Add(thischaracter);
+                    thisparty.Add(thischaracter);
+                    UpdatePartyListBox();
+                    UpdateTargetFocusCharListBox();
+                    
 
-                UpdateEntPartyListBox();
+                    UpdateEntPartyListBox();
+                }
+                else { MessageBox.Show("Invalid name - contains |"); }
             }
         }
         private void QuickCreateMonster_Click(object sender, RoutedEventArgs e)
@@ -90,19 +98,26 @@ namespace JBFantasyGame
             { MessageBox.Show("You must pick a party to add a new Monster. "); }
             else
             {
-                Monster thisMonster = new Monster();             // might need to add check to exclude names that are identical to any already in party
-                thisMonster.NewMonster(thisMonster);
-                thisMonster.Name = Nameinput.Text;
-                Party thisparty = (Party)EntGroupList.SelectedItem;
-                int index = EntGroupList.SelectedIndex;
-                MonsterParty monstPartyThis = MainWindow.MonsterParties[index];
+                bool invalidName = false;
+                string checkName = "";
+                checkName = Nameinput.Text;
+                invalidName = checkName.Contains("|");
+                if (invalidName == false)
+                {
+                    Monster thisMonster = new Monster();             // might need to add check to exclude names that are identical to any already in party
+                    thisMonster.NewMonster(thisMonster);
+                    thisMonster.Name = Nameinput.Text;
+                    Party thisparty = (Party)EntGroupList.SelectedItem;
+                    int index = EntGroupList.SelectedIndex;
+                    MonsterParty monstPartyThis = MainWindow.MonsterParties[index];
 
-                thisMonster.PartyName = thisparty.Name;        // on adding a character to a party change the character PartyName to selected party's name 
-                thisparty.Add(thisMonster);
-                monstPartyThis.Add(thisMonster);
-                UpdateMonstPartyListBox();
-                UpdateEntPartyListBox();
-                //  UpdateTargetFocusCharListBox();              maybe I should just do an updateAllListBoxes 
+                    thisMonster.PartyName = thisparty.Name;        // on adding a character to a party change the character PartyName to selected party's name 
+                    thisparty.Add(thisMonster);
+                    monstPartyThis.Add(thisMonster);
+                    UpdateMonstPartyListBox();
+                    UpdateEntPartyListBox();
+                }                                 //  UpdateTargetFocusCharListBox();              maybe I should just do an updateAllListBoxes 
+                else { MessageBox.Show("Invalid name - contains |"); }
             }
         }
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
@@ -153,8 +168,6 @@ namespace JBFantasyGame
             {
                 Fant_Entity selected = (Fant_Entity)EntCurrentPartyList.SelectedItem;
                 Party toNewParty = (Party)TargetFocusGroupList.SelectedItem;
-                //    Party oldParty = (Party)EntGroupList.SelectedItem;
-                //  int oldInd = EntCurrentPartyList.SelectedIndex; 
                 string oldPartyName = selected.PartyName;
                 string newPartyName = toNewParty.Name;
                 selected.PartyName = newPartyName;
@@ -277,8 +290,8 @@ namespace JBFantasyGame
         private void UpdateTargetFocusCharListBox()
         {
             List<Fant_Entity> currentparty = new List<Fant_Entity>();
-            Party thisparty = (Party)TargetFocusGroupList.SelectedItem;              //was MainWindow.Party.Add(thischaracter);                                 
-            foreach (Fant_Entity entThis in thisparty)                                //was MainWindow.Party
+            Party thisparty = (Party)TargetFocusGroupList.SelectedItem;                                           
+            foreach (Fant_Entity entThis in thisparty)                                
             { currentparty.Add(entThis); }
             TargetFocusCharList.ItemsSource = currentparty;
             TargetFocusCharList.DisplayMemberPath = "Name";
@@ -313,17 +326,24 @@ namespace JBFantasyGame
             bool partyExists = DoesPartyExistinSQL(Nameinput.Text);
             if (partyExists == false)
             {
-                CharParty charPartyThis = new CharParty();
-                Party entPartyThis = new Party();
-                MonsterParty monsterPartyThis = new MonsterParty();
-                charPartyThis.Name = Nameinput.Text;
-                entPartyThis.Name = Nameinput.Text;
-                monsterPartyThis.Name = Nameinput.Text;
-                MainWindow.CharParties.Add(charPartyThis);
-                MainWindow.Parties.Add(entPartyThis);
-                MainWindow.MonsterParties.Add(monsterPartyThis);
-                UpdateAllListBoxes();
-
+                bool invalidName = false;
+                string checkName = "";
+                checkName = Nameinput.Text;
+                invalidName = checkName.Contains("|");
+                if (invalidName == false)
+                {
+                    CharParty charPartyThis = new CharParty();
+                    Party entPartyThis = new Party();
+                    MonsterParty monsterPartyThis = new MonsterParty();
+                    charPartyThis.Name = Nameinput.Text;
+                    entPartyThis.Name = Nameinput.Text;
+                    monsterPartyThis.Name = Nameinput.Text;
+                    MainWindow.CharParties.Add(charPartyThis);
+                    MainWindow.Parties.Add(entPartyThis);
+                    MainWindow.MonsterParties.Add(monsterPartyThis);
+                    UpdateAllListBoxes();
+                }
+                else { MessageBox.Show("Invalid name - contains |"); }
             }
         }
         #region XML Save and Load
@@ -485,9 +505,9 @@ namespace JBFantasyGame
             Party partycombat = (Party)EntGroupList.SelectedItem;
             Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
 
-            foreach (Fant_Entity thisEntity in Defparty)    // might have to change this so you can target own party with spells
-                                      // alternatively always have own party as valid target may be better
-                                      // both will eventually have to take into account range
+            foreach (Fant_Entity thisEntity in Defparty)         // might have to change this so you can target own party with spells
+                                                                  // alternatively always have own party as valid target may be better
+                                                                  // both will eventually have to take into account range
             {   foreach (Fant_Entity myPartyEntity in Defparty)
                 {
                     Target Targetnew = new Target();
@@ -554,14 +574,15 @@ namespace JBFantasyGame
             }
         }
         private void CombatScript (string addToCombatScript)
-        { StreamWriter comScript;
-        if (!File.Exists(@"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt"))
+        { StreamWriter comScript;    //   string comScriptPath = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt";
+                                                      // have this string defined in window as will change it g;lobally
+            if (!File.Exists(comScriptPath))
             {
-                comScript = new StreamWriter(@"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt");
+                comScript = new StreamWriter(comScriptPath);
             }
         else
             {
-                comScript = File.AppendText(@"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt");
+                comScript = File.AppendText(comScriptPath);
             }
             comScript.WriteLine(addToCombatScript);
             comScript.WriteLine();
@@ -569,6 +590,8 @@ namespace JBFantasyGame
         }
         private void NextCombatRound_Click(object sender, RoutedEventArgs e)
         {
+          string timestamp = DateTime.Now.ToString("T"); 
+          CombatScript($"*** New Combat Round *** {timestamp}"); 
             foreach (Fant_Entity thisEntity in Meleegroup)                  
             {
                 if (thisEntity is Character)                             
@@ -585,11 +608,11 @@ namespace JBFantasyGame
             }
             Meleegroup.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
             foreach (Fant_Entity thisEntity in Meleegroup)                      // lower is better on init roll                                                                                // at this point want special abilities to fire, have Duration based and new ones
-            {
-                CombatScript($"{thisEntity.Name} gets an adjusted initiative roll of  {thisEntity.InitRoll} ");     
+            { if (thisEntity.Hp>0)
+             {   CombatScript($"{thisEntity.Name} gets an adjusted initiative roll of  {thisEntity.InitRoll} ");
 
-                if (thisEntity.MyTargetParty != null)                        // so this bit takes care of thisEntity's melee attack is applicable,
-                {
+                 if (thisEntity.MyTargetParty != null )    // so this bit takes care of thisEntity's melee attack is applicable,
+                 {
                     string targetParty = thisEntity.MyTargetParty;
                     string targetEntity = thisEntity.MyTargetEnt;
                     foreach (Fant_Entity entitytobeattacked in Meleegroup)
@@ -608,74 +631,34 @@ namespace JBFantasyGame
 
                             int damage = Hpb4 - entitytobeattacked.Hp;
                             CombatScript($"{thisEntity.Name} attacks {entitytobeattacked.Name} for {damage} ");
+
+                                if (entitytobeattacked.Hp < 0)
+                                { CombatScript($"{entitytobeattacked.Name} has less than zero hitpoints and is dying."); }
                         }
                     }
-                }
-                foreach (Ability checkAbility in thisEntity.Abilities)
-                {
-                    if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round, 
-                    { CombatScript($"{thisEntity.Name} uses {checkAbility.Abil_Name}");
-
-                      thisEntity.CurrentMana -= checkAbility.ManaCost;
-                      thisEntity.ManaRegen -= checkAbility.ManaRegenCost;
-                      thisEntity.Hp -= checkAbility.HpCost;                          // so takes off costs for ability activated
-                        checkAbility.DurationElapsed = 0;                            // this starts the active duration 'timer'
-                        checkAbility.AbilIsActive = false;
-                    }
-
-                    if (checkAbility.DurationMax > checkAbility.DurationElapsed)                     // and this bit checks if an ability is still ongoing
-
-
-                    { if (checkAbility.Abil_Name == "MageThrow")
-                        { string mageThrowTarget = checkAbility.TargetEntitiesAffected;
-                            string[] splitTarget = mageThrowTarget.Split(new Char[] { '|' });
-                            string targetName = splitTarget[0];
-                            string targetPartyName = splitTarget[1];
-                            foreach (Fant_Entity entityToBeAffected in Meleegroup)
-                            { if (entityToBeAffected.PartyName == targetPartyName && entityToBeAffected.Name == targetName)
-             
-                                { MessageBox.Show ($"{thisEntity.Name} fires MageThrow at {entityToBeAffected.Name} ");                        //do something 
-                                    RollingDie twentyside = new RollingDie(20, 1);
-                                    int tohit;
-                                    int assHitOn20;
-                                    assHitOn20 = thisEntity.HitOn20 + 10;                    // so this give a bonus to hit of plus 10 on normal hit tables; not a guaranteed hit
-                                    int attRoll = twentyside.Roll();
-                                    if (entityToBeAffected.AC < assHitOn20)
-                                    { tohit = 20 - (assHitOn20 - entityToBeAffected.AC); }
-                                    else if (entityToBeAffected.AC >= (assHitOn20 + 5))
-                                    { tohit = 20 + ((entityToBeAffected.AC - assHitOn20) - 5); }
-                                    else tohit = 20;
-
-                                    if (attRoll >= tohit)
-                                    {
-                                        int damage;
-                                        string damagerange;
-                                        damagerange = checkAbility.HpEffect;                                      // an ability will work for 2nd and third attacks per round for characters maybe 
-                                        (int i1, int i2, int i3) = RollingDie.Diecheck(damagerange);
-                                        RollingDie thisRoll = new RollingDie(i1, i2, i3);
-                                        damage = thisRoll.Roll();
-                                        entityToBeAffected.Hp -= damage;
-                                    }
-                                    checkAbility.DurationElapsed += 1;
-                                 } 
-                            }
-                                                 
-                        }                                                          // need to have upgradeable way for multiple targets 
+                 }
+                    foreach (Ability checkAbility in thisEntity.Abilities)
+                    {
+                        if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round, 
                         {
-                            if (checkAbility.Abil_Name == "HealOverTime")
-                            { 
-                                string targetToBeSplit  = checkAbility.TargetEntitiesAffected; 
-                                
-                                (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
-            string targ3Name, string targ3PartyName, string targ4Name, string targ4PartyName,
-            string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName) = TargetSplit(targetToBeSplit);
-                                
-                                foreach (Fant_Entity entityToBeAffected in Meleegroup)
-                                {
-                                    bool affectThisEntity = IsEntityAffected(entityToBeAffected, targ1Name, targ1PartyName, targ2Name, targ2PartyName,
-                                     targ3Name, targ3PartyName, targ4Name, targ4PartyName, targ5Name, targ5PartyName, targ6Name, targ6PartyName);
+                            if (thisEntity.CurrentMana >= checkAbility.ManaCost &&
+                               thisEntity.ManaRegen >= checkAbility.ManaRegenCost &&
+                               thisEntity.Hp >= checkAbility.HpCost)
+                            {
+                                CombatScript($"{thisEntity.Name} uses {checkAbility.Abil_Name}");
+                                thisEntity.CurrentMana -= checkAbility.ManaCost;
+                                thisEntity.ManaRegen -= checkAbility.ManaRegenCost;
+                                thisEntity.Hp -= checkAbility.HpCost;                          // so takes off costs for ability activated
+                                checkAbility.DurationElapsed = 0;                            // this starts the active duration 'timer'                             
+                                checkAbility.AbilIsActive = false;
+                            }
+                            else { CombatScript($"{thisEntity.Name} is unable to use {checkAbility.Abil_Name} "); } 
+                        }
 
-                                   if (affectThisEntity ==true)
+                        if (checkAbility.DurationMax > checkAbility.DurationElapsed)          // and this bit checks if an ability is still ongoing
+                             { if (checkAbility.TargetEntitiesAffected == "Self")                  //put a break in here for self(only) affecting abilities to save cycles
+                               { if (checkAbility.Abil_Name == "Regeneration")
+                                 { if (thisEntity.Hp < thisEntity.MaxHp)
                                     {
                                         int healing = 0;
                                         string healingRange;
@@ -683,20 +666,75 @@ namespace JBFantasyGame
                                         (int i1, int i2, int i3) = RollingDie.Diecheck(healingRange);
                                         RollingDie thisRoll = new RollingDie(i1, i2, i3);
                                         healing = thisRoll.Roll();
+                                        CombatScript($"{thisEntity.Name} regenerates {healing} hit points");
+                                        thisEntity.Hp += healing;
+                                        if (thisEntity.Hp > thisEntity.MaxHp)
+                                        { thisEntity.Hp = thisEntity.MaxHp; }
+                                        checkAbility.DurationElapsed += 1;
+                                    }
+                                 }    
+                               }
+                          else{  
+                              string targetToBeSplit = checkAbility.TargetEntitiesAffected;
+
+                            (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
+                             string targ3Name, string targ3PartyName, string targ4Name, string targ4PartyName,
+                             string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName) = TargetSplit(targetToBeSplit);
+
+                                foreach (Fant_Entity entityToBeAffected in Meleegroup)
+                                {
+                                    bool affectThisEntity = IsEntityAffected(entityToBeAffected, targ1Name, targ1PartyName, targ2Name, targ2PartyName,
+                                    targ3Name, targ3PartyName, targ4Name, targ4PartyName, targ5Name, targ5PartyName, targ6Name, targ6PartyName);
+
+                                    if (checkAbility.Abil_Name == "MageThrow" && affectThisEntity == true)
+                                    {
+                                        RollingDie twentyside = new RollingDie(20, 1);
+                                        int tohit;
+                                        int assHitOn20;
+                                        assHitOn20 = thisEntity.HitOn20 + 10;       // so this give a bonus to hit of plus 10 on normal hit tables; not a guaranteed hit
+                                        int attRoll = twentyside.Roll();
+                                        if (entityToBeAffected.AC < assHitOn20)
+                                        { tohit = 20 - (assHitOn20 - entityToBeAffected.AC); }
+                                        else if (entityToBeAffected.AC >= (assHitOn20 + 5))
+                                        { tohit = 20 + ((entityToBeAffected.AC - assHitOn20) - 5); }
+                                        else tohit = 20;
+
+                                        if (attRoll >= tohit)
+                                        {
+                                            int damage;
+                                            string damagerange;
+                                            damagerange = checkAbility.HpEffect;      // an ability will work for 2nd and third attacks per round for characters maybe 
+                                            (int i1, int i2, int i3) = RollingDie.Diecheck(damagerange);
+                                            RollingDie thisRoll = new RollingDie(i1, i2, i3);
+                                            damage = thisRoll.Roll();
+                                            CombatScript($"{thisEntity.Name} fires MageThrow at {entityToBeAffected.Name} for {damage} ");
+                                            entityToBeAffected.Hp -= damage;
+                                        }
+                                        checkAbility.DurationElapsed += 1;
+                                    }
+                                    if (checkAbility.Abil_Name == "HealOverTime" && affectThisEntity == true)
+                                    {
+                                        int healing = 0;
+                                        string healingRange;
+                                        healingRange = checkAbility.HpEffect;                                      // need to allow for two handed etc etc etc 
+                                        (int i1, int i2, int i3) = RollingDie.Diecheck(healingRange);
+                                        RollingDie thisRoll = new RollingDie(i1, i2, i3);
+                                        healing = thisRoll.Roll();
+                                        CombatScript($"{thisEntity.Name} heals {entityToBeAffected.Name} for {healing} with {checkAbility.Abil_Name}");
                                         entityToBeAffected.Hp += healing;
                                         if (entityToBeAffected.Hp > entityToBeAffected.MaxHp)
                                         { entityToBeAffected.Hp = entityToBeAffected.MaxHp; }
+                                        checkAbility.DurationElapsed += 1;
                                     }
-                                }
-                                checkAbility.DurationElapsed += 1;
-                            }
+                          }     }
                         }
-                    }
-                    
-                }
-
+                }   }                     
             }
+            var combatTxt = File.ReadAllText(comScriptPath);
+            CombatDialog.Text = combatTxt;
         }
+
+
         public static (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
             string targ3Name, string targ3PartyName, string targ4Name, string targ4PartyName,
             string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName) TargetSplit(string targetToBeSplit)
@@ -895,11 +933,12 @@ namespace JBFantasyGame
         }
 
         private void SQLLoadEnt (Fant_Entity entThis)
-        { 
-            //MessageBox.Show($"I am about to load from SQL for {entThis.Name }");//stub for loading from SQL Database; actually I think I will make a reader and display first 
-           // var (fantExists, isChar) =  ExistinCurrentLists(entThis);            as I always want this to upload from SQl as Definitive
-           ///  if (fantExists==false)   
-           // {
+        { if (entThis.Name != null)
+            {
+                //MessageBox.Show($"I am about to load from SQL for {entThis.Name }");//stub for loading from SQL Database; actually I think I will make a reader and display first 
+                // var (fantExists, isChar) =  ExistinCurrentLists(entThis);            as I always want this to upload from SQl as Definitive
+                ///  if (fantExists==false)   
+                // {
                 Monster UpLoadedMonst = new Monster();
                 Character UpLoadedChar = new Character();
                 con.Open();
@@ -907,10 +946,11 @@ namespace JBFantasyGame
                 SqlDataReader dataReader;
                 string sql;               //, Output="";
                 sql = "select AC, HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTargetEnt, MyTargetParty, MyTurn," +
-                    "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str, Wis, MaxMana, CurrentMana, MaxManaRegen,ManaRegen from Fant_Character ";                      //add the rest here
+                    "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str, Wis, MaxMana, CurrentMana, MaxManaRegen,ManaRegen," +
+                    "XPOnDefeat, DefeatMult from Fant_Character ";                      //add the rest here
                 sql = sql + $"where PartyName = '{entThis.PartyName}' and Name = '{entThis.Name}' ";
                 cmdPartyUpload = new SqlCommand(sql, con);
-                
+
                 dataReader = cmdPartyUpload.ExecuteReader();
                 while (dataReader.Read())
                 {
@@ -918,13 +958,13 @@ namespace JBFantasyGame
                     UpLoadedChar.HitOn20 = dataReader.GetByte(1);
                     UpLoadedChar.Hp = dataReader.GetInt16(2);
                     UpLoadedChar.InitMod = dataReader.GetInt16(3);
-                    UpLoadedChar.InitRoll = dataReader.GetByte(4);                  
+                    UpLoadedChar.InitRoll = dataReader.GetByte(4);
                     UpLoadedChar.IsAlive = dataReader.GetBoolean(5);
                     UpLoadedChar.Lvl = dataReader.GetByte(6);
                     UpLoadedChar.MaxHp = dataReader.GetInt16(7);
                     UpLoadedChar.MyTargetEnt = dataReader.GetString(8);
                     UpLoadedChar.MyTargetParty = dataReader.GetString(9);
-                    UpLoadedChar.MyTurn = dataReader.GetBoolean(10);                   
+                    UpLoadedChar.MyTurn = dataReader.GetBoolean(10);
                     UpLoadedChar.Name = dataReader.GetString(11);
                     UpLoadedChar.PartyName = dataReader.GetString(12);
                     UpLoadedChar.CharType = dataReader.GetString(13);
@@ -936,10 +976,12 @@ namespace JBFantasyGame
                     UpLoadedChar.Str = dataReader.GetByte(19);
                     UpLoadedChar.Wis = dataReader.GetByte(20);
 
-                    UpLoadedChar.MaxMana = dataReader.GetDouble(21);              
+                    UpLoadedChar.MaxMana = dataReader.GetDouble(21);
                     UpLoadedChar.CurrentMana = dataReader.GetDouble(22);
                     UpLoadedChar.MaxManaRegen = dataReader.GetDouble(23);
                     UpLoadedChar.ManaRegen = dataReader.GetDouble(24);
+                    UpLoadedChar.XPOnDefeat = dataReader.GetDouble(25);
+                    UpLoadedChar.DefeatMult = dataReader.GetDouble(26);
                     // ok this bit seems to have sucessfully loaded basic character need to add inventory items
                 }
                 con.Close();
@@ -948,7 +990,8 @@ namespace JBFantasyGame
                 SqlDataReader dataReader4;
                 string sql4;               //, Output="";
                 sql4 = "select AC, HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTargetEnt, MyTargetParty, MyTurn," +
-                    "Name, PartyName,MonsterType, NoOfAtt, DamPerAtt1, DamPerAtt2, DamPerAtt3, HitDie from Monster ";                      //add the rest here
+                    "Name, PartyName,MonsterType, NoOfAtt, DamPerAtt1, DamPerAtt2, DamPerAtt3, HitDie, MaxMana, CurrentMana," +
+                    " MaxManaRegen,ManaRegen, XPOnDefeat, DefeatMult from Monster ";                      //add the rest here
                 sql4 = sql4 + $"where PartyName = '{entThis.PartyName}' and Name = '{entThis.Name}' ";
                 cmdPartyUpload4 = new SqlCommand(sql4, con);
 
@@ -974,14 +1017,15 @@ namespace JBFantasyGame
                     UpLoadedMonst.DamPerAtt2 = dataReader4.GetString(16);
                     UpLoadedMonst.DamPerAtt3 = dataReader4.GetString(17);
                     UpLoadedMonst.HitDie = dataReader4.GetString(18);
-                UpLoadedMonst.MaxMana = dataReader4.GetDouble(19);
-                UpLoadedMonst.CurrentMana = dataReader4.GetDouble(20);
-                UpLoadedMonst.MaxManaRegen = dataReader4.GetDouble(21);
-                UpLoadedMonst.ManaRegen = dataReader4.GetDouble(22);
-                 
+                    UpLoadedMonst.MaxMana = dataReader4.GetDouble(19);
+                    UpLoadedMonst.CurrentMana = dataReader4.GetDouble(20);
+                    UpLoadedMonst.MaxManaRegen = dataReader4.GetDouble(21);
+                    UpLoadedMonst.ManaRegen = dataReader4.GetDouble(22);
+                    UpLoadedMonst.XPOnDefeat = dataReader4.GetDouble(23);
+                    UpLoadedMonst.DefeatMult = dataReader4.GetDouble(24);
                 }
                 con.Close();
-                con.Open();                               
+                con.Open();
                 SqlCommand cmdPartyUpload2;
                 SqlDataReader dataReader2;
                 string sql2;                      //, Output2 = "";
@@ -991,7 +1035,8 @@ namespace JBFantasyGame
                 cmdPartyUpload2 = new SqlCommand(sql2, con);
                 dataReader2 = cmdPartyUpload2.ExecuteReader();
                 while (dataReader2.Read())
-                { PhysObj addPhysObj = new PhysObj();
+                {
+                    PhysObj addPhysObj = new PhysObj();
                     addPhysObj.ACEffect = dataReader2.GetByte(0);
                     addPhysObj.Damage = dataReader2.GetString(1);
                     addPhysObj.IsEquipped = dataReader2.GetBoolean(2);
@@ -1006,40 +1051,41 @@ namespace JBFantasyGame
                 con.Close();
 
                 con.Open();
-            SqlCommand cmdPartyUpload5;
-            SqlDataReader dataReader5;
-            string sql5;
-            sql5 = "select Abil_Name, Abil_Level, DescrOfAbility, AbilIsActive, ManaCost, ManaRegenCost, HpCost, DurationMax, DurationElapsed," +
-                " NoOfEntitiesAffectedMax, TargetEntitiesAffected, HpEffect, TargetRange, SaveType" +
-                " from Ability ";
-            sql5 = sql5 + $"where OwnersPartyName = '{entThis.PartyName}' and OwnersName = '{entThis.Name}' ";
-            cmdPartyUpload5 = new SqlCommand(sql5, con);
-            dataReader5 = cmdPartyUpload5.ExecuteReader();
-            while (dataReader5.Read() )
-            { Ability addAbility = new Ability();
-                addAbility.Abil_Name = dataReader5.GetString(0);
-                addAbility.Abil_Level = dataReader5.GetByte(1);
-                addAbility.DescrOfAbility = dataReader5.GetString(2);
-                addAbility.AbilIsActive = dataReader5.GetBoolean(3);
-                addAbility.ManaCost = dataReader5.GetDouble(4);
-                addAbility.ManaRegenCost = dataReader5.GetDouble(5);
-                addAbility.HpCost = dataReader5.GetInt16(6);
-                addAbility.DurationMax = dataReader5.GetInt16(7);
-                addAbility.DurationElapsed = dataReader5.GetInt16(8);
-                addAbility.NoOfEntitiesAffectedMax = dataReader5.GetByte(9);
-                addAbility.TargetEntitiesAffected = dataReader5.GetString(10);
-                addAbility.HpEffect = dataReader5.GetString(11);
-                addAbility.TargetRange = dataReader5.GetDouble(12);
-                addAbility.SaveType = dataReader5.GetString(13);
+                SqlCommand cmdPartyUpload5;
+                SqlDataReader dataReader5;
+                string sql5;
+                sql5 = "select Abil_Name, Abil_Level, DescrOfAbility, AbilIsActive, ManaCost, ManaRegenCost, HpCost, DurationMax, DurationElapsed," +
+                    " NoOfEntitiesAffectedMax, TargetEntitiesAffected, HpEffect, TargetRange, SaveType" +
+                    " from Ability ";
+                sql5 = sql5 + $"where OwnersPartyName = '{entThis.PartyName}' and OwnersName = '{entThis.Name}' ";
+                cmdPartyUpload5 = new SqlCommand(sql5, con);
+                dataReader5 = cmdPartyUpload5.ExecuteReader();
+                while (dataReader5.Read())
+                {
+                    Ability addAbility = new Ability();
+                    addAbility.Abil_Name = dataReader5.GetString(0);
+                    addAbility.Abil_Level = dataReader5.GetByte(1);
+                    addAbility.DescrOfAbility = dataReader5.GetString(2);
+                    addAbility.AbilIsActive = dataReader5.GetBoolean(3);
+                    addAbility.ManaCost = dataReader5.GetDouble(4);
+                    addAbility.ManaRegenCost = dataReader5.GetDouble(5);
+                    addAbility.HpCost = dataReader5.GetInt16(6);
+                    addAbility.DurationMax = dataReader5.GetInt16(7);
+                    addAbility.DurationElapsed = dataReader5.GetInt16(8);
+                    addAbility.NoOfEntitiesAffectedMax = dataReader5.GetByte(9);
+                    addAbility.TargetEntitiesAffected = dataReader5.GetString(10);
+                    addAbility.HpEffect = dataReader5.GetString(11);
+                    addAbility.TargetRange = dataReader5.GetDouble(12);
+                    addAbility.SaveType = dataReader5.GetString(13);
 
-                if (UpLoadedMonst.Name != null)
-                { UpLoadedMonst.Abilities.Add(addAbility); }
-                if (UpLoadedChar.Name != null)
-                { UpLoadedChar.Abilities.Add(addAbility); }
-            }
+                    if (UpLoadedMonst.Name != null)
+                    { UpLoadedMonst.Abilities.Add(addAbility); }
+                    if (UpLoadedChar.Name != null)
+                    { UpLoadedChar.Abilities.Add(addAbility); }
+                }
 
 
-            con.Close();
+                con.Close();
                 con.Open();
                 SqlCommand cmdPartyUpload3;
                 SqlDataReader dataReader3;
@@ -1047,10 +1093,11 @@ namespace JBFantasyGame
                 sql3 = "select IsAlive, Name, Hp, MaxHp, PartyName " +
                       " from Target ";                      //add the rest here
                 sql3 = sql3 + $"where OwnersPartyName = '{entThis.PartyName}' and OwnersName = '{entThis.Name}' ";
-                cmdPartyUpload3= new SqlCommand(sql3, con);
+                cmdPartyUpload3 = new SqlCommand(sql3, con);
                 dataReader3 = cmdPartyUpload3.ExecuteReader();
                 while (dataReader3.Read())
-                { Target addTarget = new Target();
+                {
+                    Target addTarget = new Target();
                     addTarget.IsAlive = dataReader3.GetBoolean(0);
                     addTarget.Name = dataReader3.GetString(1);
                     addTarget.Hp = dataReader3.GetInt16(2);
@@ -1063,116 +1110,122 @@ namespace JBFantasyGame
                 }
                 con.Close();
 
-            bool entPartyExist = false;
-            foreach (Party checkParty in MainWindow.Parties)
-            {
-                if (checkParty.Name == entThis.PartyName)
-                { entPartyExist = true; }
-            }
-            if (entPartyExist == false)          // only checking EntityParty List as the other two should only exist in tandem with this one
-            {
-             Party newEntParty = new Party();
-             CharParty newCharParty = new CharParty();
-             MonsterParty newMonsterParty = new MonsterParty();
-             newEntParty.Name = entThis.PartyName;
-             newCharParty.Name = entThis.PartyName;
-             newMonsterParty.Name = entThis.PartyName;
-              if (UpLoadedChar.Name != null)
+                bool entPartyExist = false;
+                foreach (Party checkParty in MainWindow.Parties)
                 {
-                newEntParty.Add(UpLoadedChar);
-                newCharParty.Add(UpLoadedChar);
-              }
-              if (UpLoadedMonst.Name != null)
-               {
-                newEntParty.Add(UpLoadedMonst);
-               newMonsterParty.Add(UpLoadedMonst);
+                    if (checkParty.Name == entThis.PartyName)
+                    { entPartyExist = true; }
                 }
-             MainWindow.Parties.Add(newEntParty);
-             MainWindow.CharParties.Add(newCharParty);
-             MainWindow.MonsterParties.Add(newMonsterParty);
-            }
-            if (entPartyExist == true && UpLoadedChar.Name != null)
-            { foreach (Party addToThisParty in MainWindow.Parties)
-                { if (addToThisParty.Name == entThis.PartyName)            // need to have something here to check if character is already here
-                    { int index=0;
-                        bool checkEntExists = false;
-                        foreach(Fant_Entity check_Ent in addToThisParty )
-                        { if (check_Ent.Name ==entThis.Name)
-                            { checkEntExists = true;
-                                index = addToThisParty.IndexOf(check_Ent);
-                            } 
-                        }   
-                        if (checkEntExists == false)
-                        { addToThisParty.Add(UpLoadedChar); }
-                         if(checkEntExists==true)
-                        { addToThisParty[index] = UpLoadedChar; }                        
-                    }
-                }
-                foreach (CharParty addToCharParty in MainWindow.CharParties)
+                if (entPartyExist == false)          // only checking EntityParty List as the other two should only exist in tandem with this one
                 {
-                    if (addToCharParty.Name == entThis.PartyName)
+                    Party newEntParty = new Party();
+                    CharParty newCharParty = new CharParty();
+                    MonsterParty newMonsterParty = new MonsterParty();
+                    newEntParty.Name = entThis.PartyName;
+                    newCharParty.Name = entThis.PartyName;
+                    newMonsterParty.Name = entThis.PartyName;
+                    if (UpLoadedChar.Name != null)
                     {
-                        int index = 0;
-                        bool checkCharExists = false;
-                        foreach (Character check_Char in addToCharParty)
-                        {
-                            if (check_Char.Name == entThis.Name)
-                            {
-                                checkCharExists = true;
-                                index = addToCharParty.IndexOf(check_Char);
-                            }
-                        }
-                        if (checkCharExists == false)
-                        { addToCharParty.Add(UpLoadedChar); }
-                        if (checkCharExists == true)
-                        { addToCharParty[index] = UpLoadedChar; }
+                        newEntParty.Add(UpLoadedChar);
+                        newCharParty.Add(UpLoadedChar);
                     }
-                }                     
-            }
-            if (entPartyExist == true && UpLoadedMonst.Name != null)
-            {
-                foreach (Party addToThisParty in MainWindow.Parties)
-                {
-                    if (addToThisParty.Name == entThis.PartyName)
+                    if (UpLoadedMonst.Name != null)
                     {
-                        int index = 0;
-                        bool checkEntExists = false;
-                        foreach (Fant_Entity check_Ent in addToThisParty)
+                        newEntParty.Add(UpLoadedMonst);
+                        newMonsterParty.Add(UpLoadedMonst);
+                    }
+                    MainWindow.Parties.Add(newEntParty);
+                    MainWindow.CharParties.Add(newCharParty);
+                    MainWindow.MonsterParties.Add(newMonsterParty);
+                }
+                if (entPartyExist == true && UpLoadedChar.Name != null)
+                {
+                    foreach (Party addToThisParty in MainWindow.Parties)
+                    {
+                        if (addToThisParty.Name == entThis.PartyName)            // need to have something here to check if character is already here
                         {
-                            if (check_Ent.Name == entThis.Name)
+                            int index = 0;
+                            bool checkEntExists = false;
+                            foreach (Fant_Entity check_Ent in addToThisParty)
                             {
-                                checkEntExists = true;
-                                index = addToThisParty.IndexOf(check_Ent);
+                                if (check_Ent.Name == entThis.Name)
+                                {
+                                    checkEntExists = true;
+                                    index = addToThisParty.IndexOf(check_Ent);
+                                }
                             }
+                            if (checkEntExists == false)
+                            { addToThisParty.Add(UpLoadedChar); }
+                            if (checkEntExists == true)
+                            { addToThisParty[index] = UpLoadedChar; }
                         }
-                        if (checkEntExists == false)
-                        { addToThisParty.Add(UpLoadedMonst); }
-                        if (checkEntExists == true)
-                        { addToThisParty[index] = UpLoadedMonst; }
+                    }
+                    foreach (CharParty addToCharParty in MainWindow.CharParties)
+                    {
+                        if (addToCharParty.Name == entThis.PartyName)
+                        {
+                            int index = 0;
+                            bool checkCharExists = false;
+                            foreach (Character check_Char in addToCharParty)
+                            {
+                                if (check_Char.Name == entThis.Name)
+                                {
+                                    checkCharExists = true;
+                                    index = addToCharParty.IndexOf(check_Char);
+                                }
+                            }
+                            if (checkCharExists == false)
+                            { addToCharParty.Add(UpLoadedChar); }
+                            if (checkCharExists == true)
+                            { addToCharParty[index] = UpLoadedChar; }
+                        }
                     }
                 }
-                foreach (MonsterParty addToMonstParty in MainWindow.MonsterParties)
+                if (entPartyExist == true && UpLoadedMonst.Name != null)
                 {
-                    if (addToMonstParty.Name == entThis.PartyName)
+                    foreach (Party addToThisParty in MainWindow.Parties)
                     {
-                        int index = 0;
-                        bool checkMonstExists = false;
-                        foreach (Monster checkMonst in addToMonstParty)
+                        if (addToThisParty.Name == entThis.PartyName)
                         {
-                            if (checkMonst.Name == entThis.Name)
+                            int index = 0;
+                            bool checkEntExists = false;
+                            foreach (Fant_Entity check_Ent in addToThisParty)
                             {
-                                checkMonstExists = true;
-                                index = addToMonstParty.IndexOf(checkMonst);
+                                if (check_Ent.Name == entThis.Name)
+                                {
+                                    checkEntExists = true;
+                                    index = addToThisParty.IndexOf(check_Ent);
+                                }
                             }
+                            if (checkEntExists == false)
+                            { addToThisParty.Add(UpLoadedMonst); }
+                            if (checkEntExists == true)
+                            { addToThisParty[index] = UpLoadedMonst; }
                         }
-                        if (checkMonstExists == false)
-                        { addToMonstParty.Add(UpLoadedMonst); }
-                        if(checkMonstExists==true)
-                        { addToMonstParty[index] = UpLoadedMonst; }
+                    }
+                    foreach (MonsterParty addToMonstParty in MainWindow.MonsterParties)
+                    {
+                        if (addToMonstParty.Name == entThis.PartyName)
+                        {
+                            int index = 0;
+                            bool checkMonstExists = false;
+                            foreach (Monster checkMonst in addToMonstParty)
+                            {
+                                if (checkMonst.Name == entThis.Name)
+                                {
+                                    checkMonstExists = true;
+                                    index = addToMonstParty.IndexOf(checkMonst);
+                                }
+                            }
+                            if (checkMonstExists == false)
+                            { addToMonstParty.Add(UpLoadedMonst); }
+                            if (checkMonstExists == true)
+                            { addToMonstParty[index] = UpLoadedMonst; }
+                        }
                     }
                 }
+
             }
-     
             UpdateAllListBoxes();   
         }
         private static (bool Fant_exists, bool isChar)  ExistinCurrentLists(Fant_Entity checkThisOne)
@@ -1319,7 +1372,8 @@ namespace JBFantasyGame
                     " InitRoll=@InitRoll, IsAlive=@IsAlive, Lvl=@Lvl, MaxHp=@MaxHp, MyTurn=@MyTurn, " +
                     "CharType=@CharType, Chr=@Chr, Con=@Con, Dex=@Dex, Exp=@Exp, Inte=@Inte, Str=@Str, Wis=@Wis," +
                     "MyTargetEnt=@MyTargetEnt, MyTargetParty=@MyTargetParty," +
-                    "MaxMana=@MaxMana, CurrentMana=@CurrentMana, MaxManaRegen=@MaxManaRegen, ManaRegen=@ManaRegen " +
+                    "MaxMana=@MaxMana, CurrentMana=@CurrentMana, MaxManaRegen=@MaxManaRegen, ManaRegen=@ManaRegen," +
+                    "XPOnDefeat=@XPOnDefeat, DefeatMult=@DefeatMult " +
                     "where Name = @Name and PartyName= @PartyName", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
                 cmd2.Parameters.AddWithValue("@AC", selected.AC);
                 cmd2.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
@@ -1355,6 +1409,8 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@CurrentMana", charSelected.CurrentMana);
                 cmd2.Parameters.AddWithValue("@MaxManaRegen", charSelected.MaxManaRegen);
                 cmd2.Parameters.AddWithValue("@ManaRegen", charSelected.ManaRegen);
+                cmd2.Parameters.AddWithValue("@XPOnDefeat", charSelected.XPOnDefeat);
+                cmd2.Parameters.AddWithValue("@DefeatMult", charSelected.DefeatMult);
                 if (selected.MyTargetEnt != null)
                 {
                     cmd2.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
@@ -1376,7 +1432,8 @@ namespace JBFantasyGame
                     " Hp=@Hp, InitMod=@InitMod, InitRoll=@InitRoll, IsAlive=@IsAlive," +
                     " MaxHp=@MaxHp, MyTargetEnt=@MyTargetEnt, MyTargetParty=@MyTargetParty, MyTurn=@MyTurn, Lvl=@Lvl," +
                     " NoOfAtt=@NoOfAtt, DamPerAtt1=@DamPerAtt1, DamPerAtt2=@DamPerAtt2, DamPerAtt3=@DamPerAtt3, HitDie=@HitDie," +
-                    "MaxMana=@MaxMana, CurrentMana=@CurrentMana, MaxManaRegen=@MaxManaRegen, ManaRegen=@ManaRegen" +
+                    "MaxMana=@MaxMana, CurrentMana=@CurrentMana, MaxManaRegen=@MaxManaRegen, ManaRegen=@ManaRegen," +
+                    "XPOnDefeat=@XPOnDefeat, DefeatMult=@DefeatMult" +
                     " where Name = @Name and PartyName = @PartyName", con);
                 cmd3.Parameters.AddWithValue("@AC", monstSelected.AC);
                 cmd3.Parameters.AddWithValue("@MonsterType", monstSelected.MonsterType);
@@ -1409,6 +1466,8 @@ namespace JBFantasyGame
                 cmd3.Parameters.AddWithValue("@CurrentMana", monstSelected.CurrentMana);
                 cmd3.Parameters.AddWithValue("@MaxManaRegen", monstSelected.MaxManaRegen);
                 cmd3.Parameters.AddWithValue("@ManaRegen", monstSelected.ManaRegen);
+                cmd3.Parameters.AddWithValue("@XPOnDefeat", monstSelected.XPOnDefeat);
+                cmd3.Parameters.AddWithValue("@DefeatMult", monstSelected.DefeatMult);
                 cmd3.ExecuteNonQuery();
                 con.Close();
             }
@@ -1510,10 +1569,10 @@ namespace JBFantasyGame
             { Character charSelected = (Character)selected;  
               SqlCommand cmd2 = new SqlCommand("Insert into Fant_Character (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName, " +
                     "CharType, Chr, Con, Dex, Exp, Inte, Str, Wis, MyTargetEnt, MyTargetParty," +
-                    "MaxMana, CurrentMana, MaxManaRegen, ManaRegen) " +
+                    "MaxMana, CurrentMana, MaxManaRegen, ManaRegen, XPOnDefeat, DefeatMult) " +
                     "values  (@AC,@HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @Lvl, @MaxHp,  @MyTurn,@Name, @PartyName," +
                     "@CharType, @Chr, @Con, @Dex, @Exp, @Inte, @Str, @Wis, @MyTargetEnt, @MyTargetParty," +
-                    "@MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen )", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
+                    "@MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen, @XPOnDefeat, @DefeatMult )", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
                 cmd2.Parameters.AddWithValue("@AC", selected.AC);
                 cmd2.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
                 cmd2.Parameters.AddWithValue("@Hp", selected.Hp);
@@ -1548,6 +1607,8 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@CurrentMana", charSelected.CurrentMana);
                 cmd2.Parameters.AddWithValue("@MaxManaRegen", charSelected.MaxManaRegen);
                 cmd2.Parameters.AddWithValue("@ManaRegen", charSelected.ManaRegen);
+                cmd2.Parameters.AddWithValue("@XPOnDefeat", charSelected.XPOnDefeat);
+                cmd2.Parameters.AddWithValue("@DefeatMult", charSelected.DefeatMult);
                 if (selected.MyTargetEnt != null)
                 {
                 cmd2.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
@@ -1565,10 +1626,10 @@ namespace JBFantasyGame
                 Monster monstSelected = (Monster)selected;
                 SqlCommand cmd3 = new SqlCommand("Insert into Monster (AC, MonsterType, HitOn20, Hp, InitMod, InitRoll, IsAlive," +
                     " MaxHp, MyTargetEnt, MyTargetParty,MyTurn,Name, PartyName, Lvl, NoOfAtt, DamPerAtt1, DamPerAtt2, DamPerAtt3, HitDie," +
-                    " MaxMana, CurrentMana, MaxManaRegen, ManaRegen)" +
+                    " MaxMana, CurrentMana, MaxManaRegen, ManaRegen, XPOnDefeat, DefeatMult)" +
                     " values (@AC, @MonsterType, @HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @MaxHp, @MyTargetEnt,@MyTargetParty," +
                     "@MyTurn,@Name,@PartyName, @Lvl,@NoOfAtt, @DamPerAtt1, @DamPerAtt2, @DamPerAtt3, @HitDie," +
-                    " @MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen)", con);
+                    " @MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen, @XPOnDefeat, @DefeatMult)", con);
                 cmd3.Parameters.AddWithValue("@AC", monstSelected.AC);
                 cmd3.Parameters.AddWithValue("@MonsterType", monstSelected.MonsterType);
                 cmd3.Parameters.AddWithValue("@HitOn20", monstSelected.HitOn20);
@@ -1600,6 +1661,8 @@ namespace JBFantasyGame
                 cmd3.Parameters.AddWithValue("@CurrentMana", monstSelected.CurrentMana);
                 cmd3.Parameters.AddWithValue("@MaxManaRegen", monstSelected.MaxManaRegen);
                 cmd3.Parameters.AddWithValue("@ManaRegen", monstSelected.ManaRegen);
+                cmd3.Parameters.AddWithValue("@XPOnDefeat", monstSelected.XPOnDefeat);
+                cmd3.Parameters.AddWithValue("@DefeatMult", monstSelected.DefeatMult);
 
                 cmd3.ExecuteNonQuery();
             }
@@ -1635,6 +1698,100 @@ namespace JBFantasyGame
             UpdateMonstPartiesListBox();
             UpdatePartiesListBox();
            
+        }
+
+        private void ClearDialog_Click(object sender, RoutedEventArgs e)
+        {
+            File.Delete(comScriptPath);
+            CombatDialog.Text = "Combat Log Cleared.";
+        }
+
+        private void RollDieDM_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void CalcXP_Click(object sender, RoutedEventArgs e)
+        {
+            CalculateXP();
+        }
+        private void CalculateXP()
+        {
+            double outnumberedMod = 1;
+            double calculatedXP = 0;
+            double aveLvlDefPArty = 0;
+            int cumulLvlsDef = 0;
+            int cumLvlsAttack = 0;      
+            double aveLvlAttParty = 0;
+            Party defeatedParty = (Party)TargetFocusGroupList.SelectedItem;
+            Party attackingParty = (Party)EntGroupList.SelectedItem;
+            foreach (Fant_Entity thisEntity in defeatedParty)
+            {
+                int lvlHPCalcs = thisEntity.Lvl;
+                int hpXPCalcs = thisEntity.MaxHp;
+                double defeatMult = thisEntity.DefeatMult;
+                CalculateXP thisCalc = new CalculateXP(lvlHPCalcs, hpXPCalcs, defeatMult);
+                calculatedXP += thisCalc.XPForDefeatCalc();
+                cumulLvlsDef += thisEntity.Lvl;
+            }
+            calculatedXP = Math.Round(calculatedXP,0);
+            CombatScript($"{defeatedParty.Name} is worth {calculatedXP} experience points, unadjusted for difficulty");
+            
+           
+            foreach (Fant_Entity attEntity in attackingParty)
+            { cumLvlsAttack += attEntity.Lvl; }
+            aveLvlDefPArty = cumulLvlsDef / defeatedParty.Count;
+            aveLvlAttParty = cumLvlsAttack / attackingParty.Count;
+            if (aveLvlAttParty >= aveLvlDefPArty + 9)
+            { outnumberedMod = 0; }
+              if (aveLvlAttParty >= aveLvlDefPArty + 6)
+            {
+                 if (attackingParty.Count / defeatedParty.Count > 6)
+                { outnumberedMod = .0025; }
+                else if (attackingParty.Count / defeatedParty.Count > 3)
+                { outnumberedMod = .075; }
+                else if (attackingParty.Count / defeatedParty.Count > 2)
+                { outnumberedMod = .15; }
+                else if (attackingParty.Count / defeatedParty.Count > 1.5)
+                { outnumberedMod = .2125; }
+                else
+                { outnumberedMod = .25; }
+            }
+            else if (aveLvlAttParty >= aveLvlDefPArty + 3)
+              {
+                if (attackingParty.Count / defeatedParty.Count > 6)
+                { outnumberedMod = .05; }
+                else if (attackingParty.Count / defeatedParty.Count > 3)
+                { outnumberedMod = .125; }
+                else if (attackingParty.Count / defeatedParty.Count > 2)
+                { outnumberedMod = .30; }
+                else if (attackingParty.Count / defeatedParty.Count > 1.5)
+                { outnumberedMod = .425; }
+                else
+                { outnumberedMod = .50; }
+              }
+            else 
+             {
+                if (attackingParty.Count / defeatedParty.Count > 6)
+                { outnumberedMod = .1; }
+                else if (attackingParty.Count / defeatedParty.Count > 3)
+                { outnumberedMod = .25; }
+                else if (attackingParty.Count / defeatedParty.Count > 2)
+                { outnumberedMod = .60; }
+                else if (attackingParty.Count / defeatedParty.Count > 1.5)
+                { outnumberedMod = .85; }
+               
+                
+                
+             
+                
+                
+            }
+            calculatedXP *= outnumberedMod;
+            calculatedXP = Math.Round(calculatedXP, 0);
+            CombatScript($"{defeatedParty.Name} is worth {calculatedXP} experience points, after difficulty adjustments");
+            var combatTxt = File.ReadAllText(comScriptPath);
+            CombatDialog.Text = combatTxt;
         }
     }
 }

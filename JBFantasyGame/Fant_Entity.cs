@@ -13,6 +13,8 @@ namespace JBFantasyGame
 {
     public class Fant_Entity
     {
+      
+   
         protected bool isAlive;
         public bool IsAlive
         {
@@ -150,12 +152,25 @@ namespace JBFantasyGame
             set { maxManaRegen = value; }
         }
 
-        protected double manaRegen;                   
+        protected double manaRegen;
         public double ManaRegen
         { get { return manaRegen; }
             set { manaRegen = value; }
         }
-
+        protected double xPOnDefeat;
+        public double XPOnDefeat                            // this value holds the XP value for defeating monster in a fair fight 
+        {
+            get { return xPOnDefeat; }
+            set { xPOnDefeat = value; }
+        }
+        protected double defeatMult;
+        public double DefeatMult                              // this value holds how a multiplier to denote how difficult the moster type is relative to others of it's Hit Die Level
+        {                                                    // might set defeatMult to 1 if value is 0 or null 
+            get { return defeatMult; }
+            set { defeatMult = value; }
+        }
+      
+      
         public virtual int MeleeAttack(Fant_Entity Defender)    //this should be currently overridden for both monsters and charac
         {
             RollingDie twentyside = new RollingDie(20, 1);
@@ -186,7 +201,8 @@ namespace JBFantasyGame
             {// WriteLine($"{name} missed!");
                 return Defender.Hp;
             }
-}
+        }
+       
         public virtual int MeleeAttack(Character Defender)
         {
             Defender.AC = 0;                                   //this should be currently overridden for both monsters and characters

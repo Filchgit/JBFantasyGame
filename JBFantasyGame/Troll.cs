@@ -29,8 +29,12 @@ namespace JBFantasyGame
       a_monster.NoOfAtt = 3;
       a_monster.DamPerAtt1 = "1d4 +3";
       a_monster.DamPerAtt2 = "1d4 +3";
-      a_monster.DamPerAtt3 = "1d12 +4"; 
+      a_monster.DamPerAtt3 = "1d12 +4";
+      a_monster.DefeatMult = 1.6;              //has multi-attacks plus Regeneration ability        
       
+            //  need to put in code to clear other abilities here
+            // & auto-add Regeneration Ability 
+
             return a_monster;
      }
     }

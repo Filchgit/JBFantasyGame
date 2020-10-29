@@ -12,25 +12,25 @@ namespace JBFantasyGame
     {
         public static Character ClericInitialize(Character a_character)
         {
-            if (a_character.Exp <= 1500)                                  // this are straight from AD&D atm but will change as time goes on, will also have a better
+            if (a_character.Exp <= 280)                       //1500) this are straight from AD&D atm but will change as time goes on, will also have a better
             { a_character.Lvl = 1; }                                      // check when going between levels by gaining experience
-            else if (a_character.Exp <= 3000)
+            else if (a_character.Exp <= 1055)                 //3000)
             { a_character.Lvl = 2; }
-            else if (a_character.Exp <= 6000)
+            else if (a_character.Exp <= 2865)                 // 6000)
             { a_character.Lvl = 3; }
-            else if (a_character.Exp <= 13000)
+            else if (a_character.Exp <=  6420)                 // 13000)
             { a_character.Lvl = 4; }
-            else if (a_character.Exp <= 27500)
+            else if (a_character.Exp <= 14100)                       // 27500)
             { a_character.Lvl = 5; }
-            else if (a_character.Exp <= 55000)
+            else if (a_character.Exp <= 28000)                    // 55000)
             { a_character.Lvl = 6; }
-            else if (a_character.Exp <= 110000)
+            else if (a_character.Exp <= 56380)                       //110000)
             { a_character.Lvl = 7; }
-            else if (a_character.Exp <= 225000)
+            else if (a_character.Exp <= 106020)                       //225000)
             { a_character.Lvl = 8; }
-            else if (a_character.Exp <= 450000)
+            else if (a_character.Exp <= 190215)                              // 450000)
             { a_character.Lvl = 9; }
-            else if (a_character.Exp <= 675000)
+            else if (a_character.Exp <= 330460)                                    // 675000)
             { a_character.Lvl = 10; }
             else
             { a_character.Lvl = 11; }

@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Ability.cs" />
+    <Compile Include="CalculateXP.cs" />
     <Compile Include="CharParty.cs" />
     <Compile Include="Cleric.cs" />
     <Compile Include="DMMainWin.xaml.cs">

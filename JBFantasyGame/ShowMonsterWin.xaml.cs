@@ -21,12 +21,14 @@ namespace JBFantasyGame
     /// </summary>
     public partial class ShowMonsterWin : Window
     {
+        private string nextRound = "";
         private Monster showmonster;
         private DispatcherTimer dispatcherTimer = null;
         public ShowMonsterWin(Monster thismonster)
         {
             InitializeComponent();
             showmonster = thismonster;
+            
             UpdateShowMonsterWin();
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5.0);
@@ -52,9 +54,23 @@ namespace JBFantasyGame
             AttDam1.Text = showmonster.DamPerAtt1;
             AttDam2.Text = showmonster.DamPerAtt2;
             AttDam3.Text = showmonster.DamPerAtt3;
+            MaxMana.Text = showmonster.MaxMana.ToString();
+            CurrMana.Text = showmonster.CurrentMana.ToString();
+            MaxManaRegen.Text = showmonster.MaxManaRegen.ToString();
+            ManaRegen.Text = showmonster.ManaRegen.ToString();
+            XPOnDefeat.Text = showmonster.XPOnDefeat.ToString();
+            DefeatXPMult.Text = showmonster.DefeatMult.ToString();
 
+            ShowMonstNextRound.Text = nextRound;
 
-
+            SpecialActions.ItemsSource = Abilities;
+            Abilities = new ObservableCollection<Ability>
+            { };
+            foreach (Ability thisAbility in showmonster.Abilities)
+            {
+                Abilities.Add(thisAbility);
+            }
+           
 
             PhysObjects = new ObservableCollection<PhysObj >               //all this bit is databinding my inventory grid to 
             { };                                                          // the PhysObjects ObservableCollection
@@ -102,9 +118,13 @@ namespace JBFantasyGame
         }
         private void MeleeThisEnt_Click(object sender, RoutedEventArgs e)
         {
+            nextRound = "";
+            foreach (Ability nullAbility in showmonster.Abilities)                     // as you can only attack or use Special ability
+            { nullAbility.AbilIsActive = false; }
             Target thisTargetAttack = (Target)ViableMeleeTargets.SelectedItem;
             showmonster.MyTargetParty = thisTargetAttack.PartyName;
             showmonster.MyTargetEnt = thisTargetAttack.Name;
+            nextRound = $"{showmonster.Name} plans to attack {thisTargetAttack.Name} next round.";      //can add detail later as to equipped weapons etc 
         }
         private void Delete1st_Click(object sender, RoutedEventArgs e)
         {
@@ -112,6 +132,7 @@ namespace JBFantasyGame
             showmonster.Inventory.Remove(removethis);
             UpdateShowMonsterWin();
         }
+       
         private void EquipThisButt_Click(object sender, RoutedEventArgs e)          // Obviously can put a lot of type checking in here and then conditions
         {
             PhysObj equipthis = (PhysObj )PersonalInventory.SelectedItem;
@@ -124,7 +145,21 @@ namespace JBFantasyGame
         {
             PersonalInventory.SelectionChanged += PersonalInventory_SelectionChanged;
         }
+        public ObservableCollection<Ability> Abilities
+        {
+            get { return (ObservableCollection<Ability>)GetValue(AbilitiesProperty); }
+            set { SetValue(AbilitiesProperty, value); }
+        }
+        public static readonly DependencyProperty AbilitiesProperty =
+            DependencyProperty.Register("Abilities",
+                typeof(ObservableCollection<Ability>),
+                typeof(JBFantasyGame.ShowMonsterWin),
+                new PropertyMetadata(null));
 
+        private void SpecialActions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SpecialActions.SelectionChanged += SpecialActions_SelectionChanged;
+        }
         private void StopTimerUpdate_Click(object sender, RoutedEventArgs e)
         {dispatcherTimer.Stop();}
 
@@ -150,6 +185,13 @@ namespace JBFantasyGame
                 AttDam1.Text = showmonster.DamPerAtt1;
                 AttDam2.Text = showmonster.DamPerAtt2;
                 AttDam3.Text = showmonster.DamPerAtt3;
+                MaxMana.Text = showmonster.MaxMana.ToString();
+                CurrMana.Text = showmonster.CurrentMana.ToString();
+                MaxManaRegen.Text = showmonster.MaxManaRegen.ToString();
+                ManaRegen.Text = showmonster.ManaRegen.ToString();
+                XPOnDefeat.Text = showmonster.XPOnDefeat.ToString();
+                DefeatXPMult.Text = showmonster.DefeatMult.ToString();
+
             }                                                       // PartyName not to change from here TBPartyName.Text = showmonster.PartyName;
 
             showmonster.Name = ShowMonsterName.Text;
@@ -164,8 +206,127 @@ namespace JBFantasyGame
             showmonster.DamPerAtt1 = AttDam1.Text;
             showmonster.DamPerAtt2 = AttDam2.Text;
             showmonster.DamPerAtt3 = AttDam3.Text;
+            showmonster.MaxMana = double.Parse(MaxMana.Text);
+            showmonster.CurrentMana = double.Parse(CurrMana.Text);
+            showmonster.MaxManaRegen = double.Parse(MaxManaRegen.Text);
+            showmonster.ManaRegen = double.Parse(ManaRegen.Text);
+            showmonster.XPOnDefeat = double.Parse(XPOnDefeat.Text);
+            showmonster.DefeatMult = double.Parse(DefeatXPMult.Text);
 
+
+
+            ShowMonstNextRound.Text = nextRound;
 
             dispatcherTimer.Start();}
+
+        private void UseAbility_Click(object sender, RoutedEventArgs e)
+        {
+            
+                showmonster.MyTargetParty = null;
+                showmonster.MyTargetEnt = null;
+
+                foreach (Ability nullAbility in showmonster.Abilities)            // quick thing to null abilities, for changing mind
+                { nullAbility.AbilIsActive = false; }
+                Ability useThisAbility = (Ability)SpecialActions.SelectedItem;
+                useThisAbility.AbilIsActive = true;
+
+                List<Target> Targets = new List<Target>();
+                int checkNoOfItems = ViableMeleeTargets.SelectedItems.Count;
+                string targetList = "";
+
+                for (int i = 0; i < checkNoOfItems; i++)
+                {
+                    if (checkNoOfItems > i && useThisAbility.NoOfEntitiesAffectedMax >= i)
+                    {
+                        Targets.Add((Target)ViableMeleeTargets.SelectedItems[i]);
+                        targetList += Targets[i].Name + "|" + Targets[i].PartyName + "|";
+                    }
+                }
+                string listOfTargets = "";
+                if (checkNoOfItems == 1 || useThisAbility.NoOfEntitiesAffectedMax == 1)
+                { listOfTargets = $"{Targets[0].Name}"; }
+                if (checkNoOfItems >= 2 && useThisAbility.NoOfEntitiesAffectedMax >= 2)
+                { listOfTargets = $"{Targets[0].Name} and {Targets[1].Name}"; }
+                if (checkNoOfItems > 2 && useThisAbility.NoOfEntitiesAffectedMax >= 3)
+                {
+                    for (int j = 2; j < checkNoOfItems && j < useThisAbility.NoOfEntitiesAffectedMax; j++)
+                    { listOfTargets = $" {Targets[j].Name }, {listOfTargets}"; }
+                }
+                useThisAbility.TargetEntitiesAffected = targetList;
+
+                if (useThisAbility.Abil_Name == "MageThrow")
+                {
+                    nextRound = $"{showmonster.Name} intends to use Mage Throw next round versus {listOfTargets}";
+                }
+                if (useThisAbility.Abil_Name == "HealOverTime")
+                {
+                    nextRound = $"{showmonster.Name} intends to Heal over time {listOfTargets}";
+                    //   if (checkNoOfItems == 2)
+                    //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name} and {Targets[1].Name}"; }
+                    //   if (checkNoOfItems == 3)
+                    //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}, {Targets[1].Name} and {Targets[2].Name}"; }
+
+                    //   useThisAbility.TargetEntitiesAffected = targetList;
+                }
+
+                UpdateShowMonsterWin();
+
+            
+        }
+
+        private void UseMonstAbility_Click(object sender, RoutedEventArgs e)
+        {
+            
+                showmonster.MyTargetParty = null;
+                showmonster.MyTargetEnt = null;
+
+                foreach (Ability nullAbility in showmonster.Abilities)            // quick thing to null abilities, for changing mind
+                { nullAbility.AbilIsActive = false; }
+                Ability useThisAbility = (Ability)SpecialActions.SelectedItem;
+                useThisAbility.AbilIsActive = true;
+
+                List<Target> Targets = new List<Target>();
+                int checkNoOfItems = ViableMeleeTargets.SelectedItems.Count;
+                string targetList = "";
+
+                for (int i = 0; i < checkNoOfItems; i++)
+                {
+                    if (checkNoOfItems > i && useThisAbility.NoOfEntitiesAffectedMax >= i)
+                    {
+                        Targets.Add((Target)ViableMeleeTargets.SelectedItems[i]);
+                        targetList += Targets[i].Name + "|" + Targets[i].PartyName + "|";
+                    }
+                }
+                string listOfTargets = "";
+                if (checkNoOfItems == 1 || useThisAbility.NoOfEntitiesAffectedMax == 1)
+                { listOfTargets = $"{Targets[0].Name}"; }
+                if (checkNoOfItems >= 2 && useThisAbility.NoOfEntitiesAffectedMax >= 2)
+                { listOfTargets = $"{Targets[0].Name} and {Targets[1].Name}"; }
+                if (checkNoOfItems > 2 && useThisAbility.NoOfEntitiesAffectedMax >= 3)
+                {
+                    for (int j = 2; j < checkNoOfItems && j < useThisAbility.NoOfEntitiesAffectedMax; j++)
+                    { listOfTargets = $" {Targets[j].Name }, {listOfTargets}"; }
+                }
+                useThisAbility.TargetEntitiesAffected = targetList;
+
+                if (useThisAbility.Abil_Name == "MageThrow")
+                {
+                    nextRound = $"{showmonster.Name} intends to use Mage Throw next round versus {listOfTargets}";
+                }
+                if (useThisAbility.Abil_Name == "HealOverTime")
+                {
+                    nextRound = $"{showmonster.Name} intends to Heal over time {listOfTargets}";
+                    //   if (checkNoOfItems == 2)
+                    //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name} and {Targets[1].Name}"; }
+                    //   if (checkNoOfItems == 3)
+                    //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}, {Targets[1].Name} and {Targets[2].Name}"; }
+
+                    //   useThisAbility.TargetEntitiesAffected = targetList;
+                }
+
+                UpdateShowMonsterWin();
+
+            
+        }
     }
 }

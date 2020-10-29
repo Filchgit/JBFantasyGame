@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -29,8 +30,7 @@ namespace JBFantasyGame
         public static List<Party> Parties;
         public static List<PhysObj > GlobalItems;
         public static Fant_Entity entitySelected;
-        //public static Fant_Entity sqlEntitySelected;
-        public MainWindow()
+                public MainWindow()
         {
             GlobalItems = new List<PhysObj >();
             CharParty = new List<Character>();
@@ -45,6 +45,7 @@ namespace JBFantasyGame
             entitySelected.HitOn20 = 10;
             entitySelected.MaxHp = 1;
             entitySelected.PartyName = "Default";
+
            // sqlEntitySelected = new Fant_Entity();
            // sqlEntitySelected.Name = "Default";
            // sqlEntitySelected.PartyName= "Default";

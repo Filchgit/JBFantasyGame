@@ -154,7 +154,7 @@ namespace JBFantasyGame
             return InitMod; 
         }
 
-            public int ACRecalc(Character characterIn )
+        public int ACRecalc(Character characterIn )
            {
             AC = 0;
             int DexACAdj = 0;
@@ -177,14 +177,15 @@ namespace JBFantasyGame
 
             foreach (PhysObj  CheckObject in characterIn.Inventory)
             {
-                if (CheckObject.IsEquipped == true && CheckObject.ObjType is "Armour")     // this was just a rough first concept check  
+                if (CheckObject.IsEquipped == true) // && CheckObject.ObjType is "Armour") this was just a rough first concept check  
+                                                     //actually doen't need the armour check, should save type to save double equipping
                 {
                     AC = AC + CheckObject.ACEffect;
                 }
             }
             AC = AC + DexACAdj;
             return AC ;
-            }
+        }
 
         public override int MeleeAttack(Fant_Entity Defender)
         {          

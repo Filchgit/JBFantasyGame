@@ -10,27 +10,27 @@ namespace JBFantasyGame
     {
         public static Character RogueInitialize(Character a_character)
         {
-            if (a_character.Exp <= 1250)                                  // this are straight from AD&D atm but will change as time goes on, will also have a better
+            if (a_character.Exp <= 235)                           // 1250) this are straight from AD&D atm but will change as time goes on, will also have a better
             { a_character.Lvl = 1; }                                       // check when going between levels by gaining experience
-            else if (a_character.Exp <= 2500)
+            else if (a_character.Exp <= 880)                           //2500)
             { a_character.Lvl = 2; }
-            else if (a_character.Exp <= 5000)
+            else if (a_character.Exp <= 2387)                                 //5000)
             { a_character.Lvl = 3; }
-            else if (a_character.Exp <= 10000)
+            else if (a_character.Exp <= 4940)                                   //10000)
             { a_character.Lvl = 4; }
-            else if (a_character.Exp <= 20000)
+            else if (a_character.Exp <= 10255)                                  // 20000)
             { a_character.Lvl = 5; }
-            else if (a_character.Exp <= 42500)
+            else if (a_character.Exp <= 20922)                                  // 42500)
             { a_character.Lvl = 6; }
-            else if (a_character.Exp <= 70000)
+            else if (a_character.Exp <= 35880)                                  // 70000)
             { a_character.Lvl = 7; }
-            else if (a_character.Exp <= 110000)
+            else if (a_character.Exp <= 51832)                                  //    110000)
             { a_character.Lvl = 8; }
-            else if (a_character.Exp <= 160000)
+            else if (a_character.Exp <= 75000)                                  // 160000)
             { a_character.Lvl = 9; }
-            else if (a_character.Exp <= 220000)
+            else if (a_character.Exp <= 100500)                                  //220000)
             { a_character.Lvl = 10; }
-            else if (a_character.Exp <= 440000)
+            else if (a_character.Exp <= 250000 )                                  //440000)
             { a_character.Lvl = 11; }
             else
             { a_character.Lvl = 12; }

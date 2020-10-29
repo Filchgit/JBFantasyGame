@@ -69,6 +69,7 @@ namespace JBFantasyGame
             }
 
             PersonalInventory.ItemsSource = PhysObjects;
+
             Abilities = new ObservableCollection<Ability>
             { };
 

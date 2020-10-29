@@ -1,9 +1,10 @@
-﻿<Window x:Class="JBFantasyGame.DMMainWin"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JBFantasyGame"
+        xmlns:Properties="clr-namespace:JBFantasyGame.Properties" x:Class="JBFantasyGame.DMMainWin"
         mc:Ignorable="d"
         Title="DMMainWin" Height="800" Width="1200" WindowStartupLocation="CenterScreen">
     <Grid Background= "LightBlue" Margin="0,0,0,-94">
@@ -11,7 +12,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Button x:Name="DMRollDiceBtn" Content="Roll Dice" HorizontalAlignment="Left" Margin="21,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.052,0.101" Click="DMRollDiceBtn_Click" FontFamily="Yu Gothic UI Semibold" />
-        <TextBox x:Name="RollDieDM" HorizontalAlignment="Left" Height="20" Margin="96,10,0,0" TextWrapping="Wrap" Text="1d6" VerticalAlignment="Top" Width="88" TextInput="RollDieDM_TextInput" FontFamily="Yu Gothic UI Semibold" RenderTransformOrigin="0.886,0.45" />
+        <TextBox x:Name="RollDieDM" HorizontalAlignment="Left" Height="20" Margin="96,10,0,0" TextWrapping="Wrap" Text="1d6" VerticalAlignment="Top" Width="88" TextInput="RollDieDM_TextInput" FontFamily="Yu Gothic UI Semibold" RenderTransformOrigin="0.886,0.45" TextChanged="RollDieDM_TextChanged" />
         <TextBox x:Name="Nameinput"  HorizontalAlignment="Left" Height="38" Margin="21,65,0,0" TextWrapping="Wrap" Text="Orcs" VerticalAlignment="Top" Width="131" TextInput="Nameinput_TextInput" RenderTransformOrigin="1.167,-0.174" />
         <Button x:Name="CreateNewCharacter" Content="Create New Character" HorizontalAlignment="Left" Margin="21,123,0,0" VerticalAlignment="Top" Width="131" Click="CreateNewCharacter_Click"/>
         <Button x:Name="CreateNewParty" Content="Create New Party" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="131"  RenderTransformOrigin="0.467,1.8" Click="CreateNewParty_Click"/>
@@ -19,14 +20,14 @@
         <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="678,505,0,0" VerticalAlignment="Top" Width="183" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" SelectedIndex="0" SourceUpdated="CurrentPartyList_SourceUpdated" />
         <Label x:Name="CurrentPartyLabel" Content="Current Party Characters" HorizontalAlignment="Left" Margin="678,471,0,0" VerticalAlignment="Top" Width="183" Height="33" Background="#FFF9F9F9"/>
 
-        <Label Name="PartiesAvailable" Content="Available Character Parties" HorizontalAlignment="Left" Margin="488,471,0,0" VerticalAlignment="Top" Width="166" Background="#FFF7EEEE" Height="33"/>
+        <Label x:Name="PartiesAvailable" Content="Available Character Parties" HorizontalAlignment="Left" Margin="488,471,0,0" VerticalAlignment="Top" Width="166" Background="#FFF7EEEE" Height="33"/>
         <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="488,505,0,0" VerticalAlignment="Top" Width="181" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0" RenderTransformOrigin="0.453,0.65"/>
 
-        <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="761,253,0,0" VerticalAlignment="Top" Width="279" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
+        <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="409,288,0,0" VerticalAlignment="Top" Width="279" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
         <Button x:Name="SaveAll"  Content="Save All Parties (XML)" HorizontalAlignment="Left" Margin="203,10,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
 
-        <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="761,220,0,0" VerticalAlignment="Top" Width="100" Height="33" Background="#FFFBFBFB"/>
-        <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="1040,293,0,0" VerticalAlignment="Top" Width="118" Height="45" Click="AssigntoCharacter_Click" />
+        <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="418,264,0,0" VerticalAlignment="Top" Width="81" Height="24" Background="#FFFBFBFB" RenderTransformOrigin="-0.58,1.333"/>
+        <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="409,398,0,0" VerticalAlignment="Top" Width="118" Height="45" Click="AssigntoCharacter_Click" />
 
         <Rectangle x:Name="SecondaryFocusRectangle" Fill="#FFB5EAF0" HorizontalAlignment="Left" Height="128" Margin="530,37,0,0" Stroke="Black" VerticalAlignment="Top" Width="406" RenderTransformOrigin="0.577,0.517"/>
         <ListBox x:Name="TargetFocusGroupList" HorizontalAlignment="Left" Height="100" Margin="530,65,0,0" VerticalAlignment="Top" Width="219" SelectedIndex="0" SelectionChanged="TargetFocusGroupList_SelectionChanged"/>
@@ -36,11 +37,11 @@
         <Label x:Name="TargetCharLabel" Content="TargetCharacter" HorizontalAlignment="Left" Margin="754,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.132,0.038" Width="182" Background="#FF77F3F9"/>
         <Button x:Name ="TransfertoNewParty"  Content="Transfer New Party" HorizontalAlignment="Left" Margin="341,192,0,0" VerticalAlignment="Top" Width="142" Click="TransfertoNewParty_Click"/>
         <Button x:Name="Meleethis" Content="Melee Attack Target" HorizontalAlignment="Left" Margin="530,225,0,0" VerticalAlignment="Top" Width="175" Click="Meleethis_Click"/>
-        <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="1040,248,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
+        <Button x:Name="QuickCreateObj" Content="Create Global Item" HorizontalAlignment="Left" Margin="409,373,0,0" VerticalAlignment="Top" Width="118" Height="25" Click="QuickCreateObj_Click"/>
         <Button x:Name="LoadAllFileDialog" Content="Load all Parties (XML)" HorizontalAlignment="Left" Margin="400,10,0,0" VerticalAlignment="Top" Width="209" Click="LoadAllFileDialog_Click"/>
 
         <Button x:Name="DmAdjustChar" Content="DM Quick Adjust" HorizontalAlignment="Left" Margin="341,212,0,0" VerticalAlignment="Top" Width="142" Click="DmAdjustChar_Click"/>
-        <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="1040,273,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
+        <Button x:Name="ItemUpdateGlobals" Content="Update Global Items" HorizontalAlignment="Left" Margin="527,373,0,0" VerticalAlignment="Top" Width="118" Click="ItemUpdateGlobals_Click" />
 
         <Button x:Name="GroupsIntoCombat" Content="Put groups into Combat" HorizontalAlignment="Left" Margin="530,165,0,0" VerticalAlignment="Top" Width="175" Click="GroupsIntoCombat_Click"/>
         <Button x:Name="GroupsOutOfCombat" Content="Take groups out of Combat" HorizontalAlignment="Left" Margin="530,185,0,0" VerticalAlignment="Top" Width="175" Click="GroupsOutOfCombat_Click"/>
@@ -58,21 +59,28 @@
         <Label Content="Available Parties" HorizontalAlignment="Left" Margin="161,38,0,0" VerticalAlignment="Top" Width="180" Height="27"  Background="#FFF7EEEE"         />
         <Label Content="Party Members" HorizontalAlignment="Left" Margin="341,38,0,0" VerticalAlignment="Top" Width="189" Background="#FFF7EEEE"  />
         <Button x:Name="DeleteEntity"  Content="Delete Entity" HorizontalAlignment="Left" Margin="341,230,0,0" VerticalAlignment="Top" Width="142" Click="DeleteEntity_Click"/>
-        <Button x:Name="SQLSave" Content="Save/Update Ent to SQL" HorizontalAlignment="Left" Margin="583,392,0,0" VerticalAlignment="Top" Width="178" Click="SQLSave_Click" />
-        <Button x:Name="ExistinSQL" Content="Check in SQL" HorizontalAlignment="Left" Margin="320,392,0,0" VerticalAlignment="Top" Width="75" Click="ExistinSQL_Click"/>
-        <Button x:Name="UpdateInSQL" Content="Update Entity in SQL" HorizontalAlignment="Left" Margin="173,392,0,0" VerticalAlignment="Top" Width="142" Click="UpdateInSQL_Click"/>
-        <Button x:Name="SQLLoad" Content="Load/Update Ent from SQL" HorizontalAlignment="Left" Margin="400,392,0,0" VerticalAlignment="Top" Width="178" Click="SQLLoad_Click"/>
+        <Button x:Name="SQLSave" Content="Save/Update Ent to SQL" HorizontalAlignment="Left" Margin="64,433,0,0" VerticalAlignment="Top" Width="178" Click="SQLSave_Click" />
+        <Button x:Name="ExistinSQL" Content="Check in SQL" HorizontalAlignment="Left" Margin="215,373,0,0" VerticalAlignment="Top" Width="75" Click="ExistinSQL_Click"/>
+        <Button x:Name="UpdateInSQL" Content="Update Entity in SQL" HorizontalAlignment="Left" Margin="64,393,0,0" VerticalAlignment="Top" Width="142" Click="UpdateInSQL_Click"/>
+        <Button x:Name="SQLLoad" Content="Load/Update Ent from SQL" HorizontalAlignment="Left" Margin="64,413,0,0" VerticalAlignment="Top" Width="178" Click="SQLLoad_Click"/>
 
         <DataGrid x:Name="Fant_Ents_inSQL" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="100" Margin="64,273,0,0" VerticalAlignment="Top" Width="302" SelectionChanged="Fant_Ents_inSQL_SelectionChanged" SelectedIndex="0">
             <DataGrid.Columns >
                 <DataGridTextColumn Header=" Name" Binding ="{Binding Name}"/>
                 <DataGridTextColumn Header=" Party Name" Binding ="{Binding PartyName}"/>
                 <DataGridTextColumn Header=" Level " Binding ="{Binding Lvl}"/>
-     
+
 
             </DataGrid.Columns>
 
         </DataGrid>
         <Button x:Name="SqlDataGridUpdate" Content="Update SQL data " HorizontalAlignment="Left" Margin="64,373,0,0" VerticalAlignment="Top" Width="130" Click="SqlDataGridUpdate_Click"/>
+        <TextBox x:Name="CombatDialog" HorizontalAlignment="Left" Height="218" Margin="727,198,0,0" TextWrapping="Wrap" Text="Combat Dialog Goes here" VerticalAlignment="Top" Width="440">
+            <TextBox.DataContext>
+                <Properties:Resources/>
+            </TextBox.DataContext>
+        </TextBox>
+        <Button x:Name="ClearDialog" Content="Clear Dialog" HorizontalAlignment="Left" Margin="727,416,0,0" VerticalAlignment="Top" Width="75" Click="ClearDialog_Click"/>
+        <Button x:Name="CalcXP" Content="Calc. XP on Defeat " HorizontalAlignment="Left" Margin="530,245,0,0" VerticalAlignment="Top" Width="175" Click="CalcXP_Click" />
     </Grid>
 </Window>

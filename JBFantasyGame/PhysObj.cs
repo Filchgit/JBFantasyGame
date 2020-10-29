@@ -33,7 +33,7 @@ namespace JBFantasyGame
             set { isEquipped = value; }
         }
         protected int  aCEffect;                       // Effect on AC if equipped 
-       
+                                                       // higher AC is better; harder to ht, base AC of humans is 0.
          public int  ACEffect
         {
             get { return aCEffect; }
