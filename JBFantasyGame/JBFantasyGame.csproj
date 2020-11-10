@@ -77,6 +77,7 @@
     <Compile Include="GlobalItemAdd.xaml.cs">
       <DependentUpon>GlobalItemAdd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="JBAsynchTCPClient.cs" />
     <Compile Include="JBSocketServer.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="MonsterParty.cs" />

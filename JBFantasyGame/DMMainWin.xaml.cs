@@ -22,8 +22,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Collections.ObjectModel;
 using System.Security.Policy;
-
-
+using System.Net;
 
 namespace JBFantasyGame
 {
@@ -38,6 +37,8 @@ namespace JBFantasyGame
         public Character checkCharacter = new Character();
         //Stuff for TCP Server
         JBSocketServer myServer;
+        int portNumb = 23000;
+       
 
         public DMMainWin()
         {
@@ -47,6 +48,10 @@ namespace JBFantasyGame
             myServer = new JBSocketServer();
             myServer.RaiseClientConnectedEvent += HandleClientConnected;
             myServer.RaiseTextReceivedEvent += HandleTextReceived;
+           
+            string hostName = Dns.GetHostName();
+            string myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+            txtMyIPAddress.Text = myIP;
         }
      
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
@@ -1818,9 +1823,24 @@ namespace JBFantasyGame
 # region TCP Server stuff
         private void StartServer_Click(object sender, RoutedEventArgs e)
         {
-
+            
+            int portNumberOut;
+            if (!int.TryParse(txtBoxServerPort.Text.Trim(), out portNumberOut))
+            {
+                MessageBox.Show("Invalid port number supplied, return.");
+                txtBoxServerPort.Text = portNumb.ToString();
+                return;
+            }
+            if (portNumberOut <= 0 || portNumberOut > 65535)
+            {
+                MessageBox.Show("Port Number must be between 0 and 65535.");
+                txtBoxServerPort.Text = portNumb.ToString();
+                return;
+            }
+            else portNumb = portNumberOut;
+            myServer.StartListeningForIncomingConnection(null, portNumb);
         }
-        #endregion TCP Server Stuff
+       
         void HandleClientConnected(object sender, ClientConnectedEventArgs ccea)
         {
             CombatScript($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
@@ -1833,8 +1853,34 @@ namespace JBFantasyGame
         }
         void HandleTextReceived(object sender, TextReceivedEventArgs trea)
         {
-           // txtConsole.AppendText($"{DateTime.Now} - Received from {trea.ClientThatSentText} : {trea.TextReceived}");
-           // txtConsole.AppendText(Environment.NewLine);
+           CombatDialog.AppendText($"{DateTime.Now} - Received from {trea.ClientThatSentText} : {trea.TextReceived}");
+           CombatDialog.AppendText(Environment.NewLine);
+        }
+
+        private void SendToAll_Click(object sender, RoutedEventArgs e)
+        {
+            //var combatTxt = File.ReadAllText(comScriptPath);
+          //  CombatDialog.Text = combatTxt;
+            myServer.SendToAll(CombatDialog.Text);
+        }
+
+        //should probably put something in to stop Server on DmMainWindow exit.
+        private void StopServer_Click(object sender, RoutedEventArgs e)
+        {
+            myServer.StopServer();
+        }
+        #endregion TCP Server Stuff
+
+   
+
+        private void txtBoxServerPort_TextInput(object sender, TextCompositionEventArgs e)
+        {
+          
+        }
+
+        private void txtBoxServerPort_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
