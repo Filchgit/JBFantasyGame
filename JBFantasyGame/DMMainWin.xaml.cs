@@ -1738,9 +1738,9 @@ namespace JBFantasyGame
             CombatScript($"{defeatedParty.Name} is worth {calculatedXP} experience points, unadjusted for difficulty");
             
            
-            foreach (Fant_Entity attEntity in attackingParty)
-            { cumLvlsAttack += attEntity.Lvl; }
-            aveLvlDefPArty = cumulLvlsDef / defeatedParty.Count;
+            foreach (Fant_Entity attEntity in attackingParty)                     //at the moment this just takes into account 
+            { cumLvlsAttack += attEntity.Lvl; }                                   // too many attackers, or attackers too high a level.
+            aveLvlDefPArty = cumulLvlsDef / defeatedParty.Count;                  // the reverse is sort of taken care off as with inc. XP per level. 
             aveLvlAttParty = cumLvlsAttack / attackingParty.Count;
             if (aveLvlAttParty >= aveLvlDefPArty + 9)
             { outnumberedMod = 0; }
@@ -1780,18 +1780,32 @@ namespace JBFantasyGame
                 { outnumberedMod = .60; }
                 else if (attackingParty.Count / defeatedParty.Count > 1.5)
                 { outnumberedMod = .85; }
-               
-                
-                
              
-                
-                
             }
             calculatedXP *= outnumberedMod;
+            calculatedXP = Math.Round(calculatedXP, 0);           // yes I know this introduces rounding errors but it isn't important
+            CombatScript($"For{attackingParty.Name}, {defeatedParty.Name} is worth {calculatedXP} experience points, after difficulty adjustments");
+            calculatedXP /= attackingParty.Count;             //this is equivalent to calculatedXP/attacking party.Count
             calculatedXP = Math.Round(calculatedXP, 0);
-            CombatScript($"{defeatedParty.Name} is worth {calculatedXP} experience points, after difficulty adjustments");
+            CombatScript($"which works out at {calculatedXP} per attacker.");
             var combatTxt = File.ReadAllText(comScriptPath);
             CombatDialog.Text = combatTxt;
+
+            MessageBoxResult xPAddToEntities = MessageBox.Show("Would you like to add the final calculated XP \n" +
+                " divided by number of attackers to attacking group","Add Experience", MessageBoxButton.YesNo);
+            switch(xPAddToEntities)
+            {
+                case MessageBoxResult.Yes:
+                    foreach (Fant_Entity thisEntity in attackingParty)
+                    { if (thisEntity is Character)
+                        { Character thisChar = new Character();
+                            thisChar =(Character)thisEntity;
+                            thisChar.Exp += (int)calculatedXP; }    
+                    }
+                    break;
+                case MessageBoxResult.No:
+                    break; 
+            }
         }
     }
 }
