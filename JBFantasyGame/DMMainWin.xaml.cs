@@ -23,6 +23,8 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.Security.Policy;
 
+
+
 namespace JBFantasyGame
 {
     /// <summary>
@@ -34,11 +36,17 @@ namespace JBFantasyGame
         string comScriptPath = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt";
         Party Meleegroup = new Party();
         public Character checkCharacter = new Character();
+        //Stuff for TCP Server
+        JBSocketServer myServer;
+
         public DMMainWin()
         {
             InitializeComponent();
             UpdateGlobalItems();
-
+            //stuff for TCP Server
+            myServer = new JBSocketServer();
+            myServer.RaiseClientConnectedEvent += HandleClientConnected;
+            myServer.RaiseTextReceivedEvent += HandleTextReceived;
         }
      
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
@@ -1806,6 +1814,27 @@ namespace JBFantasyGame
                 case MessageBoxResult.No:
                     break; 
             }
+        }
+# region TCP Server stuff
+        private void StartServer_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion TCP Server Stuff
+        void HandleClientConnected(object sender, ClientConnectedEventArgs ccea)
+        {
+            CombatScript($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
+            //txtConsole.AppendText($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
+            // txtConsole.AppendText(Environment.NewLine);
+            var combatTxt = File.ReadAllText(comScriptPath);
+            CombatDialog.Text = combatTxt;
+            // the combat script log may be getting a bit overused but it works for now.
+
+        }
+        void HandleTextReceived(object sender, TextReceivedEventArgs trea)
+        {
+           // txtConsole.AppendText($"{DateTime.Now} - Received from {trea.ClientThatSentText} : {trea.TextReceived}");
+           // txtConsole.AppendText(Environment.NewLine);
         }
     }
 }
