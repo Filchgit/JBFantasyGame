@@ -15,6 +15,7 @@ namespace JBFantasyGame
         IPAddress myIP;
         int myPort;
         TcpListener myTCPListener;
+        TcpListener myTCPListenerCom;
 
         List<TcpClient> myTcpClients;
 
@@ -48,16 +49,19 @@ namespace JBFantasyGame
         }
 
 
-        public async void StartListeningForIncomingConnection(IPAddress ipaddr = null, int port = 23000)
+        public async void StartListeningForIncomingConnection(IPAddress ipaddr = null, int port = 50000)
         // I need the async keyword in the method declare as I will be making an async call within it 
+        // I am changing this to start two listeners at once
         {
+            
             if (ipaddr == null)
             {
                 ipaddr = IPAddress.Any;
             }
             if (port <= 0 || port >= 65535)
             {
-                port = 23000;
+                port = 50000;
+              
             }
             myIP = ipaddr;
             myPort = port;
@@ -65,18 +69,21 @@ namespace JBFantasyGame
             System.Diagnostics.Debug.WriteLine(string.Format($"IP Address: {ipaddr}  - Port: {port} "));
             // since we are using.System Diagnostics we can skip the System.Diagnostics bit really
 
-            myTCPListener = new TcpListener(myIP, port);
+            myTCPListener = new TcpListener(myIP, myPort);
+
             try
             {
                 myTCPListener.Start();
+
                 KeepRunning = true;
                 while (KeepRunning)
                 {
                     var returnedByAccept = await myTCPListener.AcceptTcpClientAsync();
 
+
                     myTcpClients.Add(returnedByAccept);
                     //so if a new Tcp Client connects we add them to our Tcp Client List. . . . 
-
+                    // I would like to do something with aliases here, tp refer correctly to each client
                     Debug.WriteLine(string.Format($"Client connected successfully, count" +
                         $" {myTcpClients.Count} - {returnedByAccept.Client.RemoteEndPoint}"
                         ));
@@ -88,15 +95,83 @@ namespace JBFantasyGame
                         returnedByAccept.Client.RemoteEndPoint.ToString()
                         );
                     OnRaiseClientConnectedEvent(eaClientConnected);
+
                 }
             }
-            catch(Exception excp) 
+            catch (Exception excp)
             {
                 Debug.WriteLine(excp.ToString());
             }
+
+        }
+        //trying to make a new async for commands port TCP
+        public async void StartListeningForIncomingConnectionCom(IPAddress ipaddr = null, int portCom = 49999)
+        // I need the async keyword in the method declare as I will be making an async call within it 
+        // I am changing this to start two listeners at once
+        {
+            
+            if (ipaddr == null)
+            {
+                ipaddr = IPAddress.Any;
+            }
+            if (portCom <= 49999 || portCom >= 65535)
+            {
+               
+                portCom = 49999;
+            }
+            myIP = ipaddr;
+            myPort = portCom;
+
+            System.Diagnostics.Debug.WriteLine(string.Format($"IP Address: {ipaddr}  - Port: {portCom} "));
+            // since we are using.System Diagnostics we can skip the System.Diagnostics bit really
+
+            myTCPListenerCom = new TcpListener(myIP, myPort);
+
+            try
+            {
+                myTCPListenerCom.Start();
+
+                KeepRunning = true;
+                while (KeepRunning)
+                {
+                    var returnedByAccept = await myTCPListenerCom.AcceptTcpClientAsync();
+
+
+                    myTcpClients.Add(returnedByAccept);
+                    //so if a new Tcp Client connects we add them to our Tcp Client List. . . . 
+                    // I would like to do something with aliases here, tp refer correctly to each client
+                    Debug.WriteLine(string.Format($"Client connected successfully this one is a command Client, count" +
+                        $" {myTcpClients.Count} - {returnedByAccept.Client.RemoteEndPoint}"
+                        ));
+
+                    TakeCareOfTCPClient(returnedByAccept);
+
+                    ClientConnectedEventArgs eaClientConnected;
+                    eaClientConnected = new ClientConnectedEventArgs(
+                        returnedByAccept.Client.RemoteEndPoint.ToString()
+                        );
+                    OnRaiseClientConnectedEvent(eaClientConnected);
+
+                }
+            }
+            catch (Exception excp)
+            {
+                Debug.WriteLine(excp.ToString());
+            }
+
+
+
+
         }
 
-        public void StopServer()
+
+
+
+
+
+
+
+            public void StopServer()
         {
             try 
             {   if (myTCPListener != null)

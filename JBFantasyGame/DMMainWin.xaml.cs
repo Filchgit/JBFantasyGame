@@ -37,8 +37,9 @@ namespace JBFantasyGame
         public Character checkCharacter = new Character();
         //Stuff for TCP Server
         JBSocketServer myServer;
-        int portNumb = 23000;
-       
+        int portNumb = 50000;
+        JBSocketServer myServerCommands;
+        int portNumbCom = 50000;
 
         public DMMainWin()
         {
@@ -46,8 +47,10 @@ namespace JBFantasyGame
             UpdateGlobalItems();
             //stuff for TCP Server
             myServer = new JBSocketServer();
+            myServerCommands = new JBSocketServer();
             myServer.RaiseClientConnectedEvent += HandleClientConnected;
             myServer.RaiseTextReceivedEvent += HandleTextReceived;
+            myServerCommands.RaiseClientConnectedEvent += HandleClientComConnected;
            
             string hostName = Dns.GetHostName();
             string myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
@@ -1831,21 +1834,50 @@ namespace JBFantasyGame
                 txtBoxServerPort.Text = portNumb.ToString();
                 return;
             }
-            if (portNumberOut <= 0 || portNumberOut > 65535)
-            {
-                MessageBox.Show("Port Number must be between 0 and 65535.");
+            if (portNumberOut <= 49153 || portNumberOut > 65535)
+            {   // I might change this to only allow port numbers from 49,153 to 65535 to prevent overlap on normal registered ports
+                // MessageBox.Show("Port Number must be between 0 and 65535.");
+                MessageBox.Show("Port Number must be between 49153 and 65535.");
                 txtBoxServerPort.Text = portNumb.ToString();
                 return;
             }
             else portNumb = portNumberOut;
+            portNumbCom = portNumb - 1;
             myServer.StartListeningForIncomingConnection(null, portNumb);
+          
+        
         }
-       
+
+        private void StartTCPCommandServer_Click(object sender, RoutedEventArgs e)
+        {
+            int portNumberOut;
+            if (!int.TryParse(txtBoxServerPort.Text.Trim(), out portNumberOut))
+            {
+                MessageBox.Show("Invalid port number supplied, return.");
+                txtBoxServerPort.Text = portNumb.ToString();
+                return;
+            }
+            if (portNumberOut <= 49153 || portNumberOut > 65535)
+            {   // I might change this to only allow port numbers from 49,153 to 65535 to prevent overlap on normal registered ports
+                // MessageBox.Show("Port Number must be between 0 and 65535.");
+                MessageBox.Show("Port Number must be between 49153 and 65535.");
+                txtBoxServerPort.Text = portNumb.ToString();
+            }
+            else portNumb = portNumberOut;
+            portNumbCom = portNumb - 1;
+            myServerCommands.StartListeningForIncomingConnectionCom(null, portNumbCom);
+        }
+        void HandleClientComConnected(object sender, ClientConnectedEventArgs ccea )
+        {
+            CombatScript($"{DateTime.Now} - New Tcp client (command) connected : {ccea.NewClient.ToString()}  ");
+        }
+
         void HandleClientConnected(object sender, ClientConnectedEventArgs ccea)
         {
             CombatScript($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
             //txtConsole.AppendText($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
             // txtConsole.AppendText(Environment.NewLine);
+           
             var combatTxt = File.ReadAllText(comScriptPath);
             CombatDialog.Text = combatTxt;
             // the combat script log may be getting a bit overused but it works for now.
@@ -1853,6 +1885,9 @@ namespace JBFantasyGame
         }
         void HandleTextReceived(object sender, TextReceivedEventArgs trea)
         {
+            //at this point maybe I could actually save the text received as a file, try and convert it a party via XML serializer 
+            //and only if that fails write it to the combat dialog . . . 
+
            CombatDialog.AppendText($"{DateTime.Now} - Received from {trea.ClientThatSentText} : {trea.TextReceived}");
            CombatDialog.AppendText(Environment.NewLine);
         }
@@ -1868,6 +1903,7 @@ namespace JBFantasyGame
         private void StopServer_Click(object sender, RoutedEventArgs e)
         {
             myServer.StopServer();
+            myServerCommands.StopServer();
         }
         #endregion TCP Server Stuff
 
@@ -1882,5 +1918,7 @@ namespace JBFantasyGame
         {
 
         }
+
+
     }
 }

@@ -86,8 +86,9 @@
         <Button x:Name="SendToAll" Content="Send to all" HorizontalAlignment="Left" Margin="802,416,0,0" VerticalAlignment="Top" Width="75" Click="SendToAll_Click"/>
         <Button x:Name="StopServer" Content="Stop TCP Server" HorizontalAlignment="Left" Margin="999,565,0,0" VerticalAlignment="Top" Width="103" Click="StopServer_Click"/>
         <Label Content="Using Port:" Background="#FFFBFBFB" HorizontalAlignment="Left" Margin="893,585,0,0" VerticalAlignment="Top" Width="106"/>
-        <TextBox x:Name="txtBoxServerPort" HorizontalAlignment="Left" Height="26" Margin="999,585,0,0" TextWrapping="Wrap" Text="23000" VerticalAlignment="Top" Width="103"  TextInput="txtBoxServerPort_TextInput" TextChanged="txtBoxServerPort_TextChanged"/>
+        <TextBox x:Name="txtBoxServerPort" HorizontalAlignment="Left" Height="26" Margin="999,585,0,0" TextWrapping="Wrap" Text="50000" VerticalAlignment="Top" Width="103"  TextInput="txtBoxServerPort_TextInput" TextChanged="txtBoxServerPort_TextChanged"/>
         <Label Content="My IP Adress:" Background="#FFFBFBFB" HorizontalAlignment="Left" Margin="893,611,0,0" VerticalAlignment="Top" Width="106"/>
         <TextBlock x:Name="txtMyIPAddress" HorizontalAlignment="Left" Background="#FFFBFBFB" Margin="999,611,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="26" Width="103" IsEnabled="False"/>
+        <Button x:Name="StartTCPCommandServer" Content="Start TCP Command Server" HorizontalAlignment="Left" Margin="936,656,0,0" VerticalAlignment="Top" Width="154" Click="StartTCPCommandServer_Click"/>
     </Grid>
 </Window>
