@@ -48,9 +48,12 @@ namespace JBFantasyGame
             //stuff for TCP Server
             myServer = new JBSocketServer();
             myServerCommands = new JBSocketServer();
+
             myServer.RaiseClientConnectedEvent += HandleClientConnected;
             myServer.RaiseTextReceivedEvent += HandleTextReceived;
+
             myServerCommands.RaiseClientConnectedEvent += HandleClientComConnected;
+            myServerCommands.RaiseTextReceivedEvent += HandleTextComReceived;
            
             string hostName = Dns.GetHostName();
             string myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
@@ -1826,7 +1829,7 @@ namespace JBFantasyGame
 # region TCP Server stuff
         private void StartServer_Click(object sender, RoutedEventArgs e)
         {
-            
+            //remember this starts both the  TCP chat server and the TCP command server 
             int portNumberOut;
             if (!int.TryParse(txtBoxServerPort.Text.Trim(), out portNumberOut))
             {
@@ -1835,8 +1838,7 @@ namespace JBFantasyGame
                 return;
             }
             if (portNumberOut <= 49153 || portNumberOut > 65535)
-            {   // I might change this to only allow port numbers from 49,153 to 65535 to prevent overlap on normal registered ports
-                // MessageBox.Show("Port Number must be between 0 and 65535.");
+            {             
                 MessageBox.Show("Port Number must be between 49153 and 65535.");
                 txtBoxServerPort.Text = portNumb.ToString();
                 return;
@@ -1844,29 +1846,13 @@ namespace JBFantasyGame
             else portNumb = portNumberOut;
             portNumbCom = portNumb - 1;
             myServer.StartListeningForIncomingConnection(null, portNumb);
-          
-        
-        }
 
-        private void StartTCPCommandServer_Click(object sender, RoutedEventArgs e)
-        {
-            int portNumberOut;
-            if (!int.TryParse(txtBoxServerPort.Text.Trim(), out portNumberOut))
-            {
-                MessageBox.Show("Invalid port number supplied, return.");
-                txtBoxServerPort.Text = portNumb.ToString();
-                return;
-            }
-            if (portNumberOut <= 49153 || portNumberOut > 65535)
-            {   // I might change this to only allow port numbers from 49,153 to 65535 to prevent overlap on normal registered ports
-                // MessageBox.Show("Port Number must be between 0 and 65535.");
-                MessageBox.Show("Port Number must be between 49153 and 65535.");
-                txtBoxServerPort.Text = portNumb.ToString();
-            }
-            else portNumb = portNumberOut;
+            
             portNumbCom = portNumb - 1;
             myServerCommands.StartListeningForIncomingConnectionCom(null, portNumbCom);
+
         }
+
         void HandleClientComConnected(object sender, ClientConnectedEventArgs ccea )
         {
             CombatScript($"{DateTime.Now} - New Tcp client (command) connected : {ccea.NewClient.ToString()}  ");
@@ -1883,11 +1869,15 @@ namespace JBFantasyGame
             // the combat script log may be getting a bit overused but it works for now.
 
         }
+        // note that I will need another eventy handler =>HandleTextReceivedCom
+       void HandleTextComReceived(object sender, TextReceivedEventArgs trea)
+        {
+            //this is temp to get things set up 
+            CombatDialog.AppendText($"{DateTime.Now} - Command Server Received from {trea.ClientThatSentText} : {trea.TextReceived}");
+            CombatDialog.AppendText(Environment.NewLine);
+        }
         void HandleTextReceived(object sender, TextReceivedEventArgs trea)
         {
-            //at this point maybe I could actually save the text received as a file, try and convert it a party via XML serializer 
-            //and only if that fails write it to the combat dialog . . . 
-
            CombatDialog.AppendText($"{DateTime.Now} - Received from {trea.ClientThatSentText} : {trea.TextReceived}");
            CombatDialog.AppendText(Environment.NewLine);
         }

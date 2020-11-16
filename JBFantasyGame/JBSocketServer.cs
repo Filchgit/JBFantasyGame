@@ -18,6 +18,8 @@ namespace JBFantasyGame
         TcpListener myTCPListenerCom;
 
         List<TcpClient> myTcpClients;
+        List<TcpClient> myTcpClientsCom;
+        //I need to treat the command line TCP clients seperately 
 
         public EventHandler<ClientConnectedEventArgs> RaiseClientConnectedEvent;
         public EventHandler<TextReceivedEventArgs> RaiseTextReceivedEvent;
@@ -27,6 +29,7 @@ namespace JBFantasyGame
         public JBSocketServer()
         {
             myTcpClients = new List<TcpClient>();
+            myTcpClientsCom = new List<TcpClient>();
         }
 
         protected virtual void OnRaiseClientConnectedEvent(ClientConnectedEventArgs e)
@@ -137,14 +140,14 @@ namespace JBFantasyGame
                     var returnedByAccept = await myTCPListenerCom.AcceptTcpClientAsync();
 
 
-                    myTcpClients.Add(returnedByAccept);
+                    myTcpClientsCom.Add(returnedByAccept);
                     //so if a new Tcp Client connects we add them to our Tcp Client List. . . . 
                     // I would like to do something with aliases here, tp refer correctly to each client
                     Debug.WriteLine(string.Format($"Client connected successfully this one is a command Client, count" +
-                        $" {myTcpClients.Count} - {returnedByAccept.Client.RemoteEndPoint}"
+                        $" {myTcpClientsCom.Count} - {returnedByAccept.Client.RemoteEndPoint}"
                         ));
 
-                    TakeCareOfTCPClient(returnedByAccept);
+                    TakeCareOfTCPClientCom(returnedByAccept);
 
                     ClientConnectedEventArgs eaClientConnected;
                     eaClientConnected = new ClientConnectedEventArgs(
@@ -158,23 +161,12 @@ namespace JBFantasyGame
             {
                 Debug.WriteLine(excp.ToString());
             }
-
-
-
-
         }
 
-
-
-
-
-
-
-
-            public void StopServer()
+        public void StopServer()
         {
-            try 
-            {   if (myTCPListener != null)
+            try
+            { if (myTCPListener != null)
                 {
                     myTCPListener.Stop();
                     // if I have a myTCPlistener instantiated then stop it. close the listener.
@@ -183,14 +175,32 @@ namespace JBFantasyGame
                 {
                     thisTcpClient.Close();
                 }
-                myTcpClients.Clear();
+
             }
-            catch(Exception excp)
+            catch (Exception excp)
             {
                 Debug.WriteLine(excp.ToString());
             }
-        }
+            myTcpClients.Clear();
+            try
+                {
+                
+                    if (myTCPListenerCom != null)
+                    {
+                        myTCPListenerCom.Stop();
+                    }
+                    foreach (TcpClient thisTcpClientCom in myTcpClientsCom)
+                    {
+                        thisTcpClientCom.Close();
+                    }
+                 }
+          catch (Exception excp)
+            {
+                Debug.WriteLine(excp.ToString());
 
+            }
+            myTcpClientsCom.Clear();
+        }
         private async void TakeCareOfTCPClient(TcpClient paramClient)
         {
             NetworkStream stream = null;
@@ -235,7 +245,60 @@ namespace JBFantasyGame
                 Debug.WriteLine(excp.ToString());
             }
         }
+        private async void TakeCareOfTCPClientCom(TcpClient paramClient)
+        {
+            NetworkStream stream = null;
+            StreamReader reader = null;
+            try
+            {
+                stream = paramClient.GetStream();
+                reader = new StreamReader(stream);
 
+                char[] buff = new char[64];
+
+                while (KeepRunning)
+                {
+                    Debug.WriteLine("**Ready to read.**");
+                    int intReturned = await reader.ReadAsync(buff, 0, buff.Length);
+
+                    Debug.WriteLine(string.Format($"Returned:" + intReturned));
+
+                    if (intReturned == 0)
+                    {
+ //coming back here need to fix all this to refer to TCPClientCom
+                        
+                        RemoveTcpClientCom(paramClient);
+
+                        Debug.WriteLine("Socket disconnected.");
+                        //as a zero Intreturned means the stream has ended
+                        break;
+                    }
+                    string receivedText = new string(buff);
+
+                    Debug.WriteLine(string.Format("Command Server Received: " + receivedText));
+                    // need to clear the buff array after writing/using each time otherwise it will be garbled
+                    OnRaiseTextReceivedEvent(new TextReceivedEventArgs(
+                     paramClient.Client.RemoteEndPoint.ToString(),
+                     receivedText
+                        ));
+                    Array.Clear(buff, 0, buff.Length);
+                }
+            }
+            catch (Exception excp)
+            {
+                RemoveTcpClientCom(paramClient);
+
+                Debug.WriteLine(excp.ToString());
+            }
+        }
+        private void RemoveTcpClientCom(TcpClient paramClient)
+        {
+            if (myTcpClientsCom.Contains(paramClient))
+            {
+                myTcpClientsCom.Remove(paramClient);
+                Debug.WriteLine($"client command removed, count {myTcpClientsCom.Count} ");
+            }
+        }
         private void RemoveTcpClient(TcpClient paramClient)
         {
           if(myTcpClients.Contains(paramClient))
