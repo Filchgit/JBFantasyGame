@@ -21,6 +21,7 @@ namespace JBFantasyGame
     public partial class PlayerMain : Window
     {
         JBAsynchTCPClient myTcpClient = new JBAsynchTCPClient();
+        JBAsynchTCPClient myTcpClientCom = new JBAsynchTCPClient();
         
         public PlayerMain()
         {
@@ -71,7 +72,7 @@ namespace JBFantasyGame
         private void btnConnectToServer_Click(object sender, RoutedEventArgs e)
         {
             string strIPAdress = txtDMsIpAddress.Text.Trim();
-            //string strIPAdress = "127.0.0.1";
+            
             int dMPortNumber;
 
             if (!myTcpClient.SetServerIPAdress(strIPAdress))
@@ -82,8 +83,18 @@ namespace JBFantasyGame
             
             if(!myTcpClient.SetPortNumber(txtDMsPort.Text.Trim()))
             { return; }
+
             myTcpClient.ConnectToServer();
-            
+
+            if (!myTcpClientCom.SetServerIPAdress(strIPAdress))
+            {
+                return;
+            }
+
+            if (!myTcpClientCom.SetPortNumber(txtDMsPort.Text.Trim()))
+            { return; }
+
+            myTcpClientCom.ConnectToServerCom();
         }
 
         private void btnPlayerSendTxt_Click(object sender, RoutedEventArgs e)

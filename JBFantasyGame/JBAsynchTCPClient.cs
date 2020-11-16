@@ -16,14 +16,19 @@ namespace JBFantasyGame
         IPAddress myServerIPAddress;
         int myServerPort;
         TcpClient myTcpClient;
+        TcpClient myTcpClientCom;
+
         //adding the member variables to this class
         public EventHandler<TextReceivedEventArgs> RaiseTextReceivedEvent;
 
         public JBAsynchTCPClient()
         {  //declaring class constructor and setting default values
             myTcpClient = null;
+            myTcpClientCom = null;
+
             myServerPort = -1;
             myServerIPAddress = null;
+
         }
         public IPAddress ServerIPAddress
         {
@@ -136,6 +141,35 @@ namespace JBFantasyGame
                 throw;
             }
         }
+        public async Task ConnectToServerCom()
+        {
+            if (myTcpClientCom == null)
+            {
+                myTcpClientCom = new TcpClient();
+            }
+
+            try
+            {
+                
+                myServerPort -= 1;
+                await myTcpClientCom.ConnectAsync(myServerIPAddress, myServerPort);
+                MessageBox.Show($"Connected to Command server IP/Port: {myServerIPAddress} / {myServerPort}");
+
+                ReadDataAsync(myTcpClientCom);
+            }
+            catch (Exception excp)
+            {
+                MessageBox.Show(excp.ToString());
+                throw;
+            }
+
+
+
+        }
+
+
+
+
 
         private async Task ReadDataAsync(TcpClient myTcpClient)
         {

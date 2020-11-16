@@ -12,7 +12,7 @@
         <Label Background="#FFFBFBFB" Content="DM's IP Address" HorizontalAlignment="Left" Margin="224,7,0,0" VerticalAlignment="Top" Width="112"/>
         <Label Background="#FFFBFBFB" Content="DM's Port" HorizontalAlignment="Left" Margin="224,33,0,0" VerticalAlignment="Top" Width="112"/>
         <TextBox x:Name="txtDMsIpAddress" HorizontalAlignment="Left" Height="23" Margin="336,11,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtDMsPort" HorizontalAlignment="Left" Height="23" Margin="336,36,0,0" TextWrapping="Wrap" Text="23000" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtDMsPort" HorizontalAlignment="Left" Height="23" Margin="336,36,0,0" TextWrapping="Wrap" Text="50000" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtPlayerDialog" HorizontalAlignment="Left" Height="262" Margin="21,161,0,0" TextWrapping="Wrap" Text="Dialog" VerticalAlignment="Top" Width="587"/>
         <Button x:Name="btnClearPlayerDialog" Content="Clear Dialog
                 " HorizontalAlignment="Left" Margin="21,428,0,0" VerticalAlignment="Top" Width="75" Click="btnClearPlayerDialog_Click"/>
