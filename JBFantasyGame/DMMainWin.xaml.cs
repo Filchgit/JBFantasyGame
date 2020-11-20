@@ -54,12 +54,12 @@ namespace JBFantasyGame
 
             myServerCommands.RaiseClientConnectedEvent += HandleClientComConnected;
             myServerCommands.RaiseTextReceivedEvent += HandleTextComReceived;
-           
+
             string hostName = Dns.GetHostName();
             string myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
             txtMyIPAddress.Text = myIP;
         }
-     
+
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
         {
             string var;
@@ -77,20 +77,20 @@ namespace JBFantasyGame
             }
         }
         private void Nameinput_TextInput(object sender, TextCompositionEventArgs e)
-        {    
+        {
         }
 
         private void CreateNewCharacter_Click(object sender, RoutedEventArgs e)
         {
-            if ((Party)EntGroupList.SelectedItem is null)                         
+            if ((Party)EntGroupList.SelectedItem is null)
             { MessageBox.Show("You must pick a party to add a new character. "); }
             else
-            { 
-               bool invalidName = false;
-               string checkName = "";
-               checkName = Nameinput.Text;
-               invalidName = checkName.Contains("|");
-               if (invalidName == false)
+            {
+                bool invalidName = false;
+                string checkName = "";
+                checkName = Nameinput.Text;
+                invalidName = checkName.Contains("|");
+                if (invalidName == false)
                 {
                     Character thischaracter = new Character();             // might need to add check to exclude names that are identical to any already in party
                     thischaracter.NewCharacter(thischaracter);
@@ -104,7 +104,7 @@ namespace JBFantasyGame
                     thisparty.Add(thischaracter);
                     UpdatePartyListBox();
                     UpdateTargetFocusCharListBox();
-                    
+
 
                     UpdateEntPartyListBox();
                 }
@@ -152,7 +152,7 @@ namespace JBFantasyGame
                 {
                     ShowMonsterWin ShowMonsterWin1 = new ShowMonsterWin((Monster)selected);
                     ShowMonsterWin1.Show();
-                }     
+                }
             }
         }
         public void UpdateGlobalItems()
@@ -225,7 +225,7 @@ namespace JBFantasyGame
                             charPartyThis.Add((Character)selected);
                 }
                 toNewParty.Add(selected);
-                UpdateAllListBoxes(); 
+                UpdateAllListBoxes();
             }
         }
         private void Meleethis_Click(object sender, RoutedEventArgs e)              // this was a temp test 
@@ -309,8 +309,8 @@ namespace JBFantasyGame
         private void UpdateTargetFocusCharListBox()
         {
             List<Fant_Entity> currentparty = new List<Fant_Entity>();
-            Party thisparty = (Party)TargetFocusGroupList.SelectedItem;                                           
-            foreach (Fant_Entity entThis in thisparty)                                
+            Party thisparty = (Party)TargetFocusGroupList.SelectedItem;
+            foreach (Fant_Entity entThis in thisparty)
             { currentparty.Add(entThis); }
             TargetFocusCharList.ItemsSource = currentparty;
             TargetFocusCharList.DisplayMemberPath = "Name";
@@ -525,9 +525,10 @@ namespace JBFantasyGame
             Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
 
             foreach (Fant_Entity thisEntity in Defparty)         // might have to change this so you can target own party with spells
-                                                                  // alternatively always have own party as valid target may be better
-                                                                  // both will eventually have to take into account range
-            {   foreach (Fant_Entity myPartyEntity in Defparty)
+                                                                 // alternatively always have own party as valid target may be better
+                                                                 // both will eventually have to take into account range
+            {
+                foreach (Fant_Entity myPartyEntity in Defparty)
                 {
                     Target Targetnew = new Target();
                     Targetnew.Name = myPartyEntity.Name;
@@ -585,21 +586,25 @@ namespace JBFantasyGame
             Party partycombat = (Party)EntGroupList.SelectedItem;
             Party Defparty = (Party)TargetFocusGroupList.SelectedItem;
             foreach (Fant_Entity thisEntity in Defparty)
-            { thisEntity.MeleeTargets.Clear();
-                Meleegroup.Remove(thisEntity); }
+            {
+                thisEntity.MeleeTargets.Clear();
+                Meleegroup.Remove(thisEntity);
+            }
             foreach (Fant_Entity thisEntity in partycombat)
-            { thisEntity.MeleeTargets.Clear();
+            {
+                thisEntity.MeleeTargets.Clear();
                 Meleegroup.Remove(thisEntity);
             }
         }
-        private void CombatScript (string addToCombatScript)
-        { StreamWriter comScript;    //   string comScriptPath = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt";
-                                                      // have this string defined in window as will change it g;lobally
+        private void CombatScript(string addToCombatScript)
+        {
+            StreamWriter comScript;    //   string comScriptPath = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt";
+                                       // have this string defined in window as will change it g;lobally
             if (!File.Exists(comScriptPath))
             {
                 comScript = new StreamWriter(comScriptPath);
             }
-        else
+            else
             {
                 comScript = File.AppendText(comScriptPath);
             }
@@ -609,11 +614,11 @@ namespace JBFantasyGame
         }
         private void NextCombatRound_Click(object sender, RoutedEventArgs e)
         {
-          string timestamp = DateTime.Now.ToString("T"); 
-          CombatScript($"*** New Combat Round *** {timestamp}"); 
-            foreach (Fant_Entity thisEntity in Meleegroup)                  
+            string timestamp = DateTime.Now.ToString("T");
+            CombatScript($"*** New Combat Round *** {timestamp}");
+            foreach (Fant_Entity thisEntity in Meleegroup)
             {
-                if (thisEntity is Character)                             
+                if (thisEntity is Character)
                 {
                     Character characterthis = new Character();
                     characterthis = (Character)thisEntity;
@@ -623,39 +628,41 @@ namespace JBFantasyGame
 
                 RollingDie d60 = new RollingDie(60, 1);
                 thisEntity.InitRoll = (d60.Roll() + thisEntity.InitMod);                //can put individual adjustments in at this point later 
-        
+
             }
             Meleegroup.Sort((x, y) => x.InitRoll.CompareTo(y.InitRoll));   // Awesome this function sorts my list based on the property InitRoll (lowest to highest)
             foreach (Fant_Entity thisEntity in Meleegroup)                      // lower is better on init roll                                                                                // at this point want special abilities to fire, have Duration based and new ones
-            { if (thisEntity.Hp>0)
-             {   CombatScript($"{thisEntity.Name} gets an adjusted initiative roll of  {thisEntity.InitRoll} ");
+            {
+                if (thisEntity.Hp > 0)
+                {
+                    CombatScript($"{thisEntity.Name} gets an adjusted initiative roll of  {thisEntity.InitRoll} ");
 
-                 if (thisEntity.MyTargetParty != null )    // so this bit takes care of thisEntity's melee attack is applicable,
-                 {
-                    string targetParty = thisEntity.MyTargetParty;
-                    string targetEntity = thisEntity.MyTargetEnt;
-                    foreach (Fant_Entity entitytobeattacked in Meleegroup)
+                    if (thisEntity.MyTargetParty != null)    // so this bit takes care of thisEntity's melee attack is applicable,
                     {
-                        if (entitytobeattacked.PartyName == targetParty && entitytobeattacked.Name == targetEntity)
+                        string targetParty = thisEntity.MyTargetParty;
+                        string targetEntity = thisEntity.MyTargetEnt;
+                        foreach (Fant_Entity entitytobeattacked in Meleegroup)
                         {
-                            int Hpb4 = entitytobeattacked.Hp;                          //saving prev HP for a sec
-                            if (entitytobeattacked is Character)
+                            if (entitytobeattacked.PartyName == targetParty && entitytobeattacked.Name == targetEntity)
                             {
-                                Character attackasCharacter = new Character();
-                                attackasCharacter = (Character)entitytobeattacked;
-                                thisEntity.MeleeAttack(attackasCharacter);
-                            }
-                            else
-                            { thisEntity.MeleeAttack(entitytobeattacked); }
+                                int Hpb4 = entitytobeattacked.Hp;                          //saving prev HP for a sec
+                                if (entitytobeattacked is Character)
+                                {
+                                    Character attackasCharacter = new Character();
+                                    attackasCharacter = (Character)entitytobeattacked;
+                                    thisEntity.MeleeAttack(attackasCharacter);
+                                }
+                                else
+                                { thisEntity.MeleeAttack(entitytobeattacked); }
 
-                            int damage = Hpb4 - entitytobeattacked.Hp;
-                            CombatScript($"{thisEntity.Name} attacks {entitytobeattacked.Name} for {damage} ");
+                                int damage = Hpb4 - entitytobeattacked.Hp;
+                                CombatScript($"{thisEntity.Name} attacks {entitytobeattacked.Name} for {damage} ");
 
                                 if (entitytobeattacked.Hp < 0)
                                 { CombatScript($"{entitytobeattacked.Name} has less than zero hitpoints and is dying."); }
+                            }
                         }
                     }
-                 }
                     foreach (Ability checkAbility in thisEntity.Abilities)
                     {
                         if (checkAbility.AbilIsActive == true)                            //   AbilIsActive means ability activated this round, 
@@ -671,13 +678,16 @@ namespace JBFantasyGame
                                 checkAbility.DurationElapsed = 0;                            // this starts the active duration 'timer'                             
                                 checkAbility.AbilIsActive = false;
                             }
-                            else { CombatScript($"{thisEntity.Name} is unable to use {checkAbility.Abil_Name} "); } 
+                            else { CombatScript($"{thisEntity.Name} is unable to use {checkAbility.Abil_Name} "); }
                         }
 
                         if (checkAbility.DurationMax > checkAbility.DurationElapsed)          // and this bit checks if an ability is still ongoing
-                             { if (checkAbility.TargetEntitiesAffected == "Self")                  //put a break in here for self(only) affecting abilities to save cycles
-                               { if (checkAbility.Abil_Name == "Regeneration")
-                                 { if (thisEntity.Hp < thisEntity.MaxHp)
+                        {
+                            if (checkAbility.TargetEntitiesAffected == "Self")                  //put a break in here for self(only) affecting abilities to save cycles
+                            {
+                                if (checkAbility.Abil_Name == "Regeneration")
+                                {
+                                    if (thisEntity.Hp < thisEntity.MaxHp)
                                     {
                                         int healing = 0;
                                         string healingRange;
@@ -691,14 +701,15 @@ namespace JBFantasyGame
                                         { thisEntity.Hp = thisEntity.MaxHp; }
                                         checkAbility.DurationElapsed += 1;
                                     }
-                                 }    
-                               }
-                          else{  
-                              string targetToBeSplit = checkAbility.TargetEntitiesAffected;
+                                }
+                            }
+                            else
+                            {
+                                string targetToBeSplit = checkAbility.TargetEntitiesAffected;
 
-                            (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
-                             string targ3Name, string targ3PartyName, string targ4Name, string targ4PartyName,
-                             string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName) = TargetSplit(targetToBeSplit);
+                                (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
+                                 string targ3Name, string targ3PartyName, string targ4Name, string targ4PartyName,
+                                 string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName) = TargetSplit(targetToBeSplit);
 
                                 foreach (Fant_Entity entityToBeAffected in Meleegroup)
                                 {
@@ -745,9 +756,11 @@ namespace JBFantasyGame
                                         { entityToBeAffected.Hp = entityToBeAffected.MaxHp; }
                                         checkAbility.DurationElapsed += 1;
                                     }
-                          }     }
+                                }
+                            }
                         }
-                }   }                     
+                    }
+                }
             }
             var combatTxt = File.ReadAllText(comScriptPath);
             CombatDialog.Text = combatTxt;
@@ -757,7 +770,8 @@ namespace JBFantasyGame
         public static (string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName,
             string targ3Name, string targ3PartyName, string targ4Name, string targ4PartyName,
             string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName) TargetSplit(string targetToBeSplit)
-        { string targ1Name = "";
+        {
+            string targ1Name = "";
             string targ1PartyName = "";
             string targ2Name = "";
             string targ2PartyName = "";
@@ -804,7 +818,7 @@ namespace JBFantasyGame
             return (targ1Name, targ1PartyName, targ2Name, targ2PartyName, targ3Name, targ3PartyName,
                 targ4Name, targ4PartyName, targ5Name, targ5PartyName, targ6Name, targ6PartyName);
         }
-        public static bool IsEntityAffected (Fant_Entity entityToBeAffected, string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName, string targ3Name, string targ3PartyName,
+        public static bool IsEntityAffected(Fant_Entity entityToBeAffected, string targ1Name, string targ1PartyName, string targ2Name, string targ2PartyName, string targ3Name, string targ3PartyName,
             string targ4Name, string targ4PartyName, string targ5Name, string targ5PartyName, string targ6Name, string targ6PartyName)
         {
             bool isEntityAffected = false;
@@ -820,7 +834,8 @@ namespace JBFantasyGame
             { isEntityAffected = true; }
             if (entityToBeAffected.PartyName == targ6PartyName && entityToBeAffected.Name == targ6Name)
             { isEntityAffected = true; }
-            return isEntityAffected; }
+            return isEntityAffected;
+        }
 
         #endregion combatRounds
         private void MonstGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -881,8 +896,8 @@ namespace JBFantasyGame
                 if (thisEntParty.Name == removeFromGroup)
                 { thisEntParty.Remove(selected); }
 
-            UpdateAllListBoxes(); 
-         
+            UpdateAllListBoxes();
+
         }
         #region SQL Save and Load
         public void UpdateSQLList()
@@ -946,13 +961,15 @@ namespace JBFantasyGame
             { SQLSaveFantEntity(selected); }
         }
         private void SQLLoad_Click(object sender, RoutedEventArgs e)
-        { Fant_Entity entThis = new Fant_Entity();
+        {
+            Fant_Entity entThis = new Fant_Entity();
             entThis = (Fant_Entity)Fant_Ents_inSQL.SelectedItem;
             SQLLoadEnt(entThis);
         }
 
-        private void SQLLoadEnt (Fant_Entity entThis)
-        { if (entThis.Name != null)
+        private void SQLLoadEnt(Fant_Entity entThis)
+        {
+            if (entThis.Name != null)
             {
                 //MessageBox.Show($"I am about to load from SQL for {entThis.Name }");//stub for loading from SQL Database; actually I think I will make a reader and display first 
                 // var (fantExists, isChar) =  ExistinCurrentLists(entThis);            as I always want this to upload from SQl as Definitive
@@ -1245,20 +1262,24 @@ namespace JBFantasyGame
                 }
 
             }
-            UpdateAllListBoxes();   
+            UpdateAllListBoxes();
         }
-        private static (bool Fant_exists, bool isChar)  ExistinCurrentLists(Fant_Entity checkThisOne)
-        {   bool isChar = false;
+        private static (bool Fant_exists, bool isChar) ExistinCurrentLists(Fant_Entity checkThisOne)
+        {
+            bool isChar = false;
             bool Fant_Exists = false;
             foreach (CharParty listCheckParty in MainWindow.CharParties)
-             {
+            {
                 CharParty CheckParty = listCheckParty;
-                foreach (Character checkChar in CheckParty )
-                { if (checkChar.Name == checkThisOne.Name && checkChar.PartyName == checkThisOne.PartyName)
-                    { Fant_Exists = true;
-                        isChar = true;}
+                foreach (Character checkChar in CheckParty)
+                {
+                    if (checkChar.Name == checkThisOne.Name && checkChar.PartyName == checkThisOne.PartyName)
+                    {
+                        Fant_Exists = true;
+                        isChar = true;
+                    }
                 }
-              }
+            }
             foreach (MonsterParty listCheckParty in MainWindow.MonsterParties)
             {
                 MonsterParty checkParty = listCheckParty;
@@ -1268,7 +1289,7 @@ namespace JBFantasyGame
                         Fant_Exists = true;
                     }
             }
-            return (Fant_Exists,isChar) ;
+            return (Fant_Exists, isChar);
         }
         private void ExistinSQL_Click(object sender, RoutedEventArgs e)
         {
@@ -1300,8 +1321,10 @@ namespace JBFantasyGame
             cmdPartyCheck = new SqlCommand(sql, con);
             dataReader = cmdPartyCheck.ExecuteReader();
             while (dataReader.Read())
-            { if ((string)dataReader.GetValue(0) == checkPartyName)
-                { partyExists = true;
+            {
+                if ((string)dataReader.GetValue(0) == checkPartyName)
+                {
+                    partyExists = true;
                 }
             }
             con.Close();
@@ -1320,34 +1343,37 @@ namespace JBFantasyGame
                 if ((string)dataReaderMonst.GetValue(0) == checkPartyName)
                 {
                     monstPartyExists = true;
-                    partyExists = true; }
+                    partyExists = true;
+                }
             }
             con.Close();
             if (monstPartyExists == true)
             { MessageBox.Show($"{checkPartyName} already exists in this Database, with Monster members."); }
             return partyExists;
         }
-   
+
         public bool DoesEntExistInSQL(Fant_Entity selected)
-        { bool entExists = false;
+        {
+            bool entExists = false;
             string entPartyNameToCheck = selected.PartyName;
-            string entNameToCheck = selected.Name;  
+            string entNameToCheck = selected.Name;
             con.Open();
             SqlCommand cmdthis;
             SqlDataReader dataReader;
             string sql, Output = "";
-              // if (selected is Character)
+            // if (selected is Character)
             sql = "select Name, PartyName from Fant_Character";        //should default to this, change on Monster 
             if (selected is Monster)
             { sql = "select Name, PartyName from monster"; }
             cmdthis = new SqlCommand(sql, con);
             dataReader = cmdthis.ExecuteReader();
             while (dataReader.Read())
-            { Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "\n";
-              if (entPartyNameToCheck==(string)dataReader.GetValue(1) && entNameToCheck ==(string) dataReader.GetValue(0))
+            {
+                Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "\n";
+                if (entPartyNameToCheck == (string)dataReader.GetValue(1) && entNameToCheck == (string)dataReader.GetValue(0))
                 { entExists = true; }
             }
-           // MessageBox.Show(Output);
+            // MessageBox.Show(Output);
             con.Close();
             return entExists;
         }
@@ -1363,7 +1389,7 @@ namespace JBFantasyGame
             cmdDelObj.ExecuteNonQuery();
             con.Close();
             InsertObjInSQLInv(selected);         //inserts this Fant_Ent's Items
-           
+
             con.Open();
             SqlCommand cmdDelTarg = new SqlCommand("Delete from Target " +
                        "where OwnersName = @selectedName and OwnersPartyName= @selectedPartyName", con);
@@ -1538,9 +1564,11 @@ namespace JBFantasyGame
                 con.Close();
             }
         }
-        private void InsertAbilitiesSQLAbility (Fant_Entity selected)
-        { foreach (Ability thisAbility in selected.Abilities)
-            { con.Open();
+        private void InsertAbilitiesSQLAbility(Fant_Entity selected)
+        {
+            foreach (Ability thisAbility in selected.Abilities)
+            {
+                con.Open();
                 SqlCommand cmdAbil = new SqlCommand("Insert into Ability (OwnersPartyName, OwnersName, Abil_Name, Abil_Level, DescrOfAbility," +
                     " AbilIsActive, ManaCost, ManaRegenCost, HpCost, DurationMax, DurationElapsed, NoOfEntitiesAffectedMax," +
                     " TargetEntitiesAffected, HpEffect, TargetRange, SaveType" +
@@ -1573,25 +1601,26 @@ namespace JBFantasyGame
 
             }
         }
-        
+
         private void SQLSaveFantEntity(Fant_Entity selected)
         {   //?? is it better to do this as a Using or just make sure I close the connection?
 
-           InsertObjInSQLInv(selected);
+            InsertObjInSQLInv(selected);
 
-           InsertTargetsSQLTargets(selected);
+            InsertTargetsSQLTargets(selected);
 
-           InsertAbilitiesSQLAbility(selected);
+            InsertAbilitiesSQLAbility(selected);
 
             con.Open();
             if (selected is Character)
-            { Character charSelected = (Character)selected;  
-              SqlCommand cmd2 = new SqlCommand("Insert into Fant_Character (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName, " +
-                    "CharType, Chr, Con, Dex, Exp, Inte, Str, Wis, MyTargetEnt, MyTargetParty," +
-                    "MaxMana, CurrentMana, MaxManaRegen, ManaRegen, XPOnDefeat, DefeatMult) " +
-                    "values  (@AC,@HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @Lvl, @MaxHp,  @MyTurn,@Name, @PartyName," +
-                    "@CharType, @Chr, @Con, @Dex, @Exp, @Inte, @Str, @Wis, @MyTargetEnt, @MyTargetParty," +
-                    "@MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen, @XPOnDefeat, @DefeatMult )", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
+            {
+                Character charSelected = (Character)selected;
+                SqlCommand cmd2 = new SqlCommand("Insert into Fant_Character (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName, " +
+                      "CharType, Chr, Con, Dex, Exp, Inte, Str, Wis, MyTargetEnt, MyTargetParty," +
+                      "MaxMana, CurrentMana, MaxManaRegen, ManaRegen, XPOnDefeat, DefeatMult) " +
+                      "values  (@AC,@HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @Lvl, @MaxHp,  @MyTurn,@Name, @PartyName," +
+                      "@CharType, @Chr, @Con, @Dex, @Exp, @Inte, @Str, @Wis, @MyTargetEnt, @MyTargetParty," +
+                      "@MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen, @XPOnDefeat, @DefeatMult )", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
                 cmd2.Parameters.AddWithValue("@AC", selected.AC);
                 cmd2.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
                 cmd2.Parameters.AddWithValue("@Hp", selected.Hp);
@@ -1630,8 +1659,8 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@DefeatMult", charSelected.DefeatMult);
                 if (selected.MyTargetEnt != null)
                 {
-                cmd2.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
-                cmd2.Parameters.AddWithValue("@MyTargetParty", selected.MyTargetParty);
+                    cmd2.Parameters.AddWithValue("@MyTargetEnt", selected.MyTargetEnt);
+                    cmd2.Parameters.AddWithValue("@MyTargetParty", selected.MyTargetParty);
                 }
                 else
                 {
@@ -1656,17 +1685,17 @@ namespace JBFantasyGame
                 cmd3.Parameters.AddWithValue("@InitMod", monstSelected.InitMod);
                 cmd3.Parameters.AddWithValue("@InitRoll", monstSelected.InitRoll);
                 cmd3.Parameters.AddWithValue("@IsAlive", monstSelected.IsAlive);
-                cmd3.Parameters.AddWithValue("@MaxHp", monstSelected.MaxHp);              
+                cmd3.Parameters.AddWithValue("@MaxHp", monstSelected.MaxHp);
                 if (monstSelected.MyTargetEnt != null)
                 {
                     cmd3.Parameters.AddWithValue("@MyTargetEnt", monstSelected.MyTargetEnt);
-                    cmd3.Parameters.AddWithValue("@MyTargetParty",monstSelected.MyTargetParty);
+                    cmd3.Parameters.AddWithValue("@MyTargetParty", monstSelected.MyTargetParty);
                 }
                 else
                 {
                     cmd3.Parameters.AddWithValue("@MyTargetEnt", "");
                     cmd3.Parameters.AddWithValue("@MyTargetParty", "");
-                }         
+                }
                 cmd3.Parameters.AddWithValue("@MyTurn", monstSelected.MyTurn);
                 cmd3.Parameters.AddWithValue("@Name", monstSelected.Name);
                 cmd3.Parameters.AddWithValue("@PartyName", monstSelected.PartyName);
@@ -1698,7 +1727,7 @@ namespace JBFantasyGame
         private void Fant_Ents_inSQL_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Fant_Ents_inSQL.SelectionChanged += Fant_Ents_inSQL_SelectionChanged;
-       
+
         }
 
         private void SqlDataGridUpdate_Click(object sender, RoutedEventArgs e)
@@ -1708,7 +1737,7 @@ namespace JBFantasyGame
         #endregion SQL Load and Save
         private void UpdateAllListBoxes()
         {
-            UpdatePartyListBox();           
+            UpdatePartyListBox();
             UpdateMonstPartyListBox();
             UpdateEntPartiesListBox();
             UpdateEntPartyListBox();
@@ -1716,7 +1745,7 @@ namespace JBFantasyGame
             UpdateTargetFocusCharListBox();
             UpdateMonstPartiesListBox();
             UpdatePartiesListBox();
-           
+
         }
 
         private void ClearDialog_Click(object sender, RoutedEventArgs e)
@@ -1740,7 +1769,7 @@ namespace JBFantasyGame
             double calculatedXP = 0;
             double aveLvlDefPArty = 0;
             int cumulLvlsDef = 0;
-            int cumLvlsAttack = 0;      
+            int cumLvlsAttack = 0;
             double aveLvlAttParty = 0;
             Party defeatedParty = (Party)TargetFocusGroupList.SelectedItem;
             Party attackingParty = (Party)EntGroupList.SelectedItem;
@@ -1753,19 +1782,19 @@ namespace JBFantasyGame
                 calculatedXP += thisCalc.XPForDefeatCalc();
                 cumulLvlsDef += thisEntity.Lvl;
             }
-            calculatedXP = Math.Round(calculatedXP,0);
+            calculatedXP = Math.Round(calculatedXP, 0);
             CombatScript($"{defeatedParty.Name} is worth {calculatedXP} experience points, unadjusted for difficulty");
-            
-           
+
+
             foreach (Fant_Entity attEntity in attackingParty)                     //at the moment this just takes into account 
             { cumLvlsAttack += attEntity.Lvl; }                                   // too many attackers, or attackers too high a level.
             aveLvlDefPArty = cumulLvlsDef / defeatedParty.Count;                  // the reverse is sort of taken care off as with inc. XP per level. 
             aveLvlAttParty = cumLvlsAttack / attackingParty.Count;
             if (aveLvlAttParty >= aveLvlDefPArty + 9)
             { outnumberedMod = 0; }
-              if (aveLvlAttParty >= aveLvlDefPArty + 6)
+            if (aveLvlAttParty >= aveLvlDefPArty + 6)
             {
-                 if (attackingParty.Count / defeatedParty.Count > 6)
+                if (attackingParty.Count / defeatedParty.Count > 6)
                 { outnumberedMod = .0025; }
                 else if (attackingParty.Count / defeatedParty.Count > 3)
                 { outnumberedMod = .075; }
@@ -1777,7 +1806,7 @@ namespace JBFantasyGame
                 { outnumberedMod = .25; }
             }
             else if (aveLvlAttParty >= aveLvlDefPArty + 3)
-              {
+            {
                 if (attackingParty.Count / defeatedParty.Count > 6)
                 { outnumberedMod = .05; }
                 else if (attackingParty.Count / defeatedParty.Count > 3)
@@ -1788,9 +1817,9 @@ namespace JBFantasyGame
                 { outnumberedMod = .425; }
                 else
                 { outnumberedMod = .50; }
-              }
-            else 
-             {
+            }
+            else
+            {
                 if (attackingParty.Count / defeatedParty.Count > 6)
                 { outnumberedMod = .1; }
                 else if (attackingParty.Count / defeatedParty.Count > 3)
@@ -1799,7 +1828,7 @@ namespace JBFantasyGame
                 { outnumberedMod = .60; }
                 else if (attackingParty.Count / defeatedParty.Count > 1.5)
                 { outnumberedMod = .85; }
-             
+
             }
             calculatedXP *= outnumberedMod;
             calculatedXP = Math.Round(calculatedXP, 0);           // yes I know this introduces rounding errors but it isn't important
@@ -1811,22 +1840,25 @@ namespace JBFantasyGame
             CombatDialog.Text = combatTxt;
 
             MessageBoxResult xPAddToEntities = MessageBox.Show("Would you like to add the final calculated XP \n" +
-                " divided by number of attackers to attacking group","Add Experience", MessageBoxButton.YesNo);
-            switch(xPAddToEntities)
+                " divided by number of attackers to attacking group", "Add Experience", MessageBoxButton.YesNo);
+            switch (xPAddToEntities)
             {
                 case MessageBoxResult.Yes:
                     foreach (Fant_Entity thisEntity in attackingParty)
-                    { if (thisEntity is Character)
-                        { Character thisChar = new Character();
-                            thisChar =(Character)thisEntity;
-                            thisChar.Exp += (int)calculatedXP; }    
+                    {
+                        if (thisEntity is Character)
+                        {
+                            Character thisChar = new Character();
+                            thisChar = (Character)thisEntity;
+                            thisChar.Exp += (int)calculatedXP;
+                        }
                     }
                     break;
                 case MessageBoxResult.No:
-                    break; 
+                    break;
             }
         }
-# region TCP Server stuff
+        #region TCP Server stuff
         private void StartServer_Click(object sender, RoutedEventArgs e)
         {
             //remember this starts both the  TCP chat server and the TCP command server 
@@ -1838,7 +1870,7 @@ namespace JBFantasyGame
                 return;
             }
             if (portNumberOut <= 49153 || portNumberOut > 65535)
-            {             
+            {
                 MessageBox.Show("Port Number must be between 49153 and 65535.");
                 txtBoxServerPort.Text = portNumb.ToString();
                 return;
@@ -1847,13 +1879,13 @@ namespace JBFantasyGame
             portNumbCom = portNumb - 1;
             myServer.StartListeningForIncomingConnection(null, portNumb);
 
-            
+
             portNumbCom = portNumb - 1;
             myServerCommands.StartListeningForIncomingConnectionCom(null, portNumbCom);
 
         }
 
-        void HandleClientComConnected(object sender, ClientConnectedEventArgs ccea )
+        void HandleClientComConnected(object sender, ClientConnectedEventArgs ccea)
         {
             CombatScript($"{DateTime.Now} - New Tcp client (command) connected : {ccea.NewClient.ToString()}  ");
         }
@@ -1863,14 +1895,14 @@ namespace JBFantasyGame
             CombatScript($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
             //txtConsole.AppendText($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
             // txtConsole.AppendText(Environment.NewLine);
-           
+
             var combatTxt = File.ReadAllText(comScriptPath);
             CombatDialog.Text = combatTxt;
             // the combat script log may be getting a bit overused but it works for now.
 
         }
         // note that I will need another eventy handler =>HandleTextReceivedCom
-       void HandleTextComReceived(object sender, TextReceivedEventArgs trea)
+        void HandleTextComReceived(object sender, TextReceivedEventArgs trea)
         {
             //this is temp to get things set up 
             CombatDialog.AppendText($"{DateTime.Now} - Command Server Received from {trea.ClientThatSentText} : {trea.TextReceived}");
@@ -1878,14 +1910,14 @@ namespace JBFantasyGame
         }
         void HandleTextReceived(object sender, TextReceivedEventArgs trea)
         {
-           CombatDialog.AppendText($"{DateTime.Now} - Received from {trea.ClientThatSentText} : {trea.TextReceived}");
-           CombatDialog.AppendText(Environment.NewLine);
+            CombatDialog.AppendText($"{DateTime.Now} - Received from {trea.ClientThatSentText} : {trea.TextReceived}");
+            CombatDialog.AppendText(Environment.NewLine);
         }
 
         private void SendToAll_Click(object sender, RoutedEventArgs e)
         {
             //var combatTxt = File.ReadAllText(comScriptPath);
-          //  CombatDialog.Text = combatTxt;
+            //  CombatDialog.Text = combatTxt;
             myServer.SendToAll(CombatDialog.Text);
         }
 
@@ -1893,6 +1925,7 @@ namespace JBFantasyGame
         {
             myServer.SendToTcpClient(CombatDialog.Text, Int32.Parse(ClientToSendTxt.Text));
         }
+
         //should probably put something in to stop Server on DmMainWindow exit.
         private void StopServer_Click(object sender, RoutedEventArgs e)
         {
@@ -1901,11 +1934,11 @@ namespace JBFantasyGame
         }
         #endregion TCP Server Stuff
 
-   
+
 
         private void txtBoxServerPort_TextInput(object sender, TextCompositionEventArgs e)
         {
-          
+
         }
 
         private void txtBoxServerPort_TextChanged(object sender, TextChangedEventArgs e)
@@ -1923,6 +1956,16 @@ namespace JBFantasyGame
 
         }
 
-       
+        private void SendXMLEntity_Click(object sender, RoutedEventArgs e)
+        {
+            Fant_Entity selected = (Fant_Entity)EntCurrentPartyList.SelectedItem;
+            XmlSerializer _XMLformatter = new XmlSerializer(selected.GetType());
+            StringWriter stringwriter = new StringWriter();
+            string stringToSend = "";
+            _XMLformatter.Serialize(stringwriter, selected);
+            stringToSend = stringwriter.ToString();
+            myServerCommands.SendToTcpClientCom(stringToSend, 0);
+            //temporarily sending it to TCPClientCom[0] only 
+        }
     }
 }

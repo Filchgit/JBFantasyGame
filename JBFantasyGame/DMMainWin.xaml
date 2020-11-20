@@ -26,7 +26,7 @@
         <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="409,288,0,0" VerticalAlignment="Top" Width="279" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
         <Button x:Name="SaveAll"  Content="Save All Parties (XML)" HorizontalAlignment="Left" Margin="203,10,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
 
-        <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="418,264,0,0" VerticalAlignment="Top" Width="81" Height="24" Background="#FFFBFBFB" RenderTransformOrigin="-0.58,1.333"/>
+        <Label x:Name="GlobalItemsLabel" Content="Global Items" HorizontalAlignment="Left" Margin="468,264,0,0" VerticalAlignment="Top" Width="81" Height="24" Background="#FFFBFBFB" RenderTransformOrigin="-0.58,1.333"/>
         <Button x:Name="AssigntoCharacter" Content="Assign to Character"  HorizontalAlignment="Left" Margin="409,398,0,0" VerticalAlignment="Top" Width="118" Height="45" Click="AssigntoCharacter_Click" />
 
         <Rectangle x:Name="SecondaryFocusRectangle" Fill="#FFB5EAF0" HorizontalAlignment="Left" Height="128" Margin="530,37,0,0" Stroke="Black" VerticalAlignment="Top" Width="406" RenderTransformOrigin="0.577,0.517"/>
@@ -91,6 +91,7 @@
         <TextBlock x:Name="txtMyIPAddress" HorizontalAlignment="Left" Background="#FFFBFBFB" Margin="999,611,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="26" Width="103" IsEnabled="False"/>
         <Button x:Name="SendToSingleClient" Content="Send to TCP CLient:" HorizontalAlignment="Left" Margin="877,416,0,0" VerticalAlignment="Top" Width="122" Click="SendToSingleClient_Click"/>
         <TextBox x:Name="ClientToSendTxt" HorizontalAlignment="Left" Height="20" Margin="999,416,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="58" TextChanged="ClientToSendTxt_TextChanged" TextInput="ClientToSendTxt_TextInput"/>
+        <Button x:Name="SendXMLEntity" Content="Temp: Create and Send XML Entity" HorizontalAlignment="Left" Margin="749,443,0,0" VerticalAlignment="Top" Width="206" Click="SendXMLEntity_Click"/>
 
     </Grid>
 </Window>
