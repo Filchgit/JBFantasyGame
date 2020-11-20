@@ -30,6 +30,7 @@ namespace JBFantasyGame
         public static List<Party> Parties;
         public static List<PhysObj > GlobalItems;
         public static Fant_Entity entitySelected;
+        public static Character characterExample;
                 public MainWindow()
         {
             GlobalItems = new List<PhysObj >();
@@ -40,6 +41,7 @@ namespace JBFantasyGame
             Party = new List<Fant_Entity>();
             Parties = new List<Party>();
             entitySelected = new Fant_Entity();
+            characterExample = new Character();
             entitySelected.Name = "Default";
             entitySelected.IsAlive = true;
             entitySelected.HitOn20 = 10;

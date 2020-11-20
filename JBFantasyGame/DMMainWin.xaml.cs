@@ -1888,14 +1888,13 @@ namespace JBFantasyGame
         void HandleClientComConnected(object sender, ClientConnectedEventArgs ccea)
         {
             CombatScript($"{DateTime.Now} - New Tcp client (command) connected : {ccea.NewClient.ToString()}  ");
+            var combatTxt = File.ReadAllText(comScriptPath);
+            CombatDialog.Text = combatTxt;
         }
 
         void HandleClientConnected(object sender, ClientConnectedEventArgs ccea)
         {
             CombatScript($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
-            //txtConsole.AppendText($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
-            // txtConsole.AppendText(Environment.NewLine);
-
             var combatTxt = File.ReadAllText(comScriptPath);
             CombatDialog.Text = combatTxt;
             // the combat script log may be getting a bit overused but it works for now.

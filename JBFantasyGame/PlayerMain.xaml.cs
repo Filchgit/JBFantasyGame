@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace JBFantasyGame
 {
@@ -22,11 +24,13 @@ namespace JBFantasyGame
     {
         JBAsynchTCPClient myTcpClient = new JBAsynchTCPClient();
         JBAsynchTCPClient myTcpClientCom = new JBAsynchTCPClient();
-        
+        string receivedString = "";
+        string finalString = "";
         public PlayerMain()
         {
             InitializeComponent();
             myTcpClient.RaiseTextReceivedEvent += HandleTextReceived;
+            myTcpClientCom.RaiseTextReceivedEvent += HandleTextReceivedCom;
             
         }
 
@@ -38,7 +42,6 @@ namespace JBFantasyGame
         private void PlayRollDiceBtn_Click(object sender, RoutedEventArgs e)
         {
             String diecheck = RollDiePlay.Text;
-
             (int i1, int i2, int i3) = RollingDie.Diecheck(diecheck);
             if (i1 != 0)
             { 
@@ -46,8 +49,6 @@ namespace JBFantasyGame
                // MessageBox.Show($"{thisRoll.Roll() } {RollDiePlay.Text }");   // we will make this talk out to a rolling chat box in a sec
                 txtPlayerDialog.AppendText($" {thisRoll.Roll() } {RollDiePlay.Text } \n");
             }
-            
-
         }
 
         private void RollDiePlay_TextInput(object sender, TextCompositionEventArgs e)
@@ -60,10 +61,15 @@ namespace JBFantasyGame
         {
           //  string moreDialog =($" {DateTime.Now} - Received: {trea.TextReceived}");
             txtPlayerDialog.AppendText($"\n {trea.ClientThatSentText} : {trea.TextReceived}");
-            
-
         }
 
+        private void HandleTextReceivedCom (object sender, TextReceivedEventArgs trea)
+        {
+           // string receivedString="";
+            //string finalString = "";
+            receivedString = (trea.TextReceived);
+            finalString += receivedString;
+        }
         private void btnClearPlayerDialog_Click(object sender, RoutedEventArgs e)
         {
             txtPlayerDialog.Text = "Player Dialog Cleared";
@@ -100,6 +106,18 @@ namespace JBFantasyGame
         private void btnPlayerSendTxt_Click(object sender, RoutedEventArgs e)
         {
             myTcpClient.SendToServer(txtOutgoingMessages.Text);
+        }
+
+        private void ReceiveXMLEntity_Click(object sender, RoutedEventArgs e)
+        {
+           // MessageBox.Show(finalString);
+            XmlSerializer xmlSerializer = new XmlSerializer(MainWindow.characterExample.GetType());
+            Character transferChar = new Character();
+            StringReader stringReader = new StringReader(finalString);
+            var what = xmlSerializer.Deserialize(stringReader);
+            transferChar =(Character)what;
+            ShowCharWin playerCharSheet = new ShowCharWin(transferChar);
+            playerCharSheet.Show();
         }
     }
 }
