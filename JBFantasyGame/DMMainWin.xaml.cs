@@ -1889,6 +1889,10 @@ namespace JBFantasyGame
             myServer.SendToAll(CombatDialog.Text);
         }
 
+        private void SendToSingleClient_Click(object sender, RoutedEventArgs e)
+        {
+            myServer.SendToTcpClient(CombatDialog.Text, Int32.Parse(ClientToSendTxt.Text));
+        }
         //should probably put something in to stop Server on DmMainWindow exit.
         private void StopServer_Click(object sender, RoutedEventArgs e)
         {
@@ -1909,6 +1913,16 @@ namespace JBFantasyGame
 
         }
 
+        private void ClientToSendTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
+        }
+
+        private void ClientToSendTxt_TextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
+
+       
     }
 }

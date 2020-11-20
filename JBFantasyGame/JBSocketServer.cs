@@ -327,6 +327,26 @@ namespace JBFantasyGame
                 Debug.WriteLine(excp.ToString());
             }
         }
-    
+        public async void SendToTcpClient(string allMessage, int TcpClientIndexNum)
+        {
+            if (string.IsNullOrEmpty(allMessage))
+            {
+                return;
+            }
+            try
+            {
+                byte[] buffMessage = Encoding.ASCII.GetBytes(allMessage);
+                
+                
+                    myTcpClients[TcpClientIndexNum].GetStream().WriteAsync(buffMessage, 0, buffMessage.Length);
+                    //so this gets the networkstream associated with this TCP CLient and writes to it async
+                
+            }
+            catch (Exception excp)
+            {
+                Debug.WriteLine(excp.ToString());
+            }
+
+        }
     }
 }
