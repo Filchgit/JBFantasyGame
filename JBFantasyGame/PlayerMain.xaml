@@ -20,8 +20,8 @@
         <Button x:Name="btnPlayerSendTxt" Content="Send Message" HorizontalAlignment="Left" Margin="358,122,0,0" VerticalAlignment="Top" Width="98" Click="btnPlayerSendTxt_Click"/>
         <Button x:Name="btnConnectToServer" Content="Connect to DM
 " HorizontalAlignment="Left" Margin="473,11,0,0" VerticalAlignment="Top" Width="104" Click="btnConnectToServer_Click"/>
-        <Button x:Name="ReceiveXMLEntity" Content="Temp Receive XML Entity" HorizontalAlignment="Left" Margin="473,54,0,0" VerticalAlignment="Top" Width="160" Click="ReceiveXMLEntity_Click"/>
-        <Button x:Name="ShowCharSheet" Content="Show Char Sheet" HorizontalAlignment="Left" Margin="509,98,0,0" VerticalAlignment="Top" Width="124" Click="ShowCharSheet_Click"/>
+        <Button x:Name="ReceiveXMLEntity" Content="Temp Receive XML Entity" HorizontalAlignment="Left" Margin="1006,21,0,0" VerticalAlignment="Top" Width="160" Click="ReceiveXMLEntity_Click"/>
+        
 
     </Grid>
 </Window>

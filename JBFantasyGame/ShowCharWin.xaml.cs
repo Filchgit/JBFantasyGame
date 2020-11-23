@@ -218,6 +218,13 @@ namespace JBFantasyGame
          UpdateShowCharWin();
                 
         }
+
+    
+
+        private void SendToDM_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
 

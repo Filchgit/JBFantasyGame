@@ -26,24 +26,27 @@ namespace JBFantasyGame
     {
         JBAsynchTCPClient myTcpClient = new JBAsynchTCPClient();
         JBAsynchTCPClient myTcpClientCom = new JBAsynchTCPClient();
-        private Character showCharacter = new Character();
-     
+       
+        public Character showCharacter = new Character();
+   
 
         string receivedString = "";
         string finalString = "";
         string xML = "";
         private DispatcherTimer dispatcherTimerCommand = null;
+
         public PlayerMain()
         {
             InitializeComponent();
             myTcpClient.RaiseTextReceivedEvent += HandleTextReceived;
             myTcpClientCom.RaiseTextReceivedEvent += HandleTextReceivedCom;
-          
+           // showCharacter = MainWindow.characterExample;
+           // ShowCharWin myCharWinShow = new ShowCharWin(showCharacter);
             dispatcherTimerCommand = new DispatcherTimer();
             dispatcherTimerCommand.Interval = TimeSpan.FromSeconds(5.0);
             dispatcherTimerCommand.Tick += OnTimerTickCommand;
             dispatcherTimerCommand.Start();
-    
+          
         }
         private void OnTimerTickCommand(object sender, EventArgs e)                 // there was a tip to make sure that lengthy operations
         {   if (finalString != "")
@@ -60,30 +63,79 @@ namespace JBFantasyGame
 
                     if (com1 == "01 ")
                     { Character  aNewCharacter = ReturnCharacter();
+                        MainWindow.entitySelected = aNewCharacter;
                         if (MainWindow.CharParties.Count != 0)
                         {
+                            bool thisPartyexist = false;
                             //this stuff is for later in case I want to have them using multiple characters per player
                             foreach (CharParty chkCharParty in MainWindow.CharParties)
                             {
                                 if (chkCharParty.Name == aNewCharacter.PartyName)
-                                { chkCharParty.Add(aNewCharacter); }
-                                else
                                 {
-                                    NewPlayerParty(aNewCharacter.PartyName);
-                                    int myIndex = MainWindow.CharParties.FindIndex(CharParty => CharParty.Name == aNewCharacter.PartyName);
-                                    MainWindow.CharParties[myIndex].Add(aNewCharacter);
+                                    chkCharParty.Add(aNewCharacter);
+                                    thisPartyexist = true;
                                 }
                             }
-
+                            if (thisPartyexist == false)
+                            {
+                                NewPlayerParty(aNewCharacter.PartyName);
+                                int myIndex = MainWindow.CharParties.FindIndex(CharParty => CharParty.Name == aNewCharacter.PartyName);
+                                MainWindow.CharParties[myIndex].Add(aNewCharacter);
+                            }
                         }
-                        NewPlayerParty(aNewCharacter.PartyName);
-                       
-                        MainWindow.CharParties[0].Add(aNewCharacter);
-                        ShowCharWin showCharWin = new ShowCharWin(MainWindow.CharParties[0][0]);
-                        showCharWin.Show();
+                        else
+                        {
+                            NewPlayerParty(aNewCharacter.PartyName);
+                            int myIndex = MainWindow.CharParties.FindIndex(CharParty => CharParty.Name == aNewCharacter.PartyName);
+                            MainWindow.CharParties[myIndex].Add(aNewCharacter);
+                        }
+
+                       int myPartyIndex = MainWindow.CharParties.FindIndex(CharParty => CharParty.Name == aNewCharacter.PartyName);
+                       int myCharIndex = MainWindow.CharParties[myPartyIndex].FindIndex(Character => Character.Name == aNewCharacter.Name);
+                        ShowCharWin showCharWin = new ShowCharWin(MainWindow.CharParties[myPartyIndex][myCharIndex]);
+
+                        showCharWin.Show();                      
                     }
-                    
-                    
+                    if (com1 == "02 ")
+                    { Character updateCharacter = ReturnCharacter();
+                         int myPartyIndex = MainWindow.CharParties.FindIndex(CharParty => CharParty.Name == updateCharacter.PartyName);
+                         int myCharIndex = MainWindow.CharParties[myPartyIndex].FindIndex(Character => Character.Name == updateCharacter.Name);
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Hp = updateCharacter.Hp;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].MaxHp = updateCharacter.MaxHp;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Str = updateCharacter.Str;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Inte = updateCharacter.Inte;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Wis = updateCharacter.Wis;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Dex = updateCharacter.Dex;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Con = updateCharacter.Con;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].MaxMana = updateCharacter.MaxMana;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].CurrentMana = updateCharacter.CurrentMana;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].MaxManaRegen = updateCharacter.MaxManaRegen;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].ManaRegen = updateCharacter.ManaRegen;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Lvl = updateCharacter.Lvl;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Exp = updateCharacter.Exp;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].HitOn20 = updateCharacter.HitOn20;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].MyTurn = updateCharacter.MyTurn;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].InitMod = updateCharacter.InitMod;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].IsAlive = updateCharacter.IsAlive;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].MyTargetEnt = updateCharacter.MyTargetEnt;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].MyTargetParty = updateCharacter.MyTargetParty;
+
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Inventory.Clear();
+                        foreach(PhysObj physthing in updateCharacter.Inventory)
+                        { MainWindow.CharParties[myPartyIndex][myCharIndex].Inventory.Add(physthing);  }
+
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Abilities.Clear();
+                        foreach (Ability thisAbility in updateCharacter.Abilities)
+                        { MainWindow.CharParties[myPartyIndex][myCharIndex].Abilities.Add(thisAbility); }
+
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].MeleeTargets.Clear();
+                        foreach ( Target thisTarget in updateCharacter.MeleeTargets)
+                        { MainWindow.CharParties[myPartyIndex][myCharIndex].MeleeTargets.Add(thisTarget); }
+
+                        // so when I comeback I have to do this for all stats , dont forget to wipe and then add for abilities and targets
+                    }
+
+
                 }
             }
         }
@@ -214,9 +266,5 @@ namespace JBFantasyGame
             playerCharSheet.Show();
         }
 
-        private void ShowCharSheet_Click(object sender, RoutedEventArgs e)
-        {
-       
-        }
     }
 }

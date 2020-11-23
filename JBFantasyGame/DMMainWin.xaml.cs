@@ -142,15 +142,16 @@ namespace JBFantasyGame
         private void ShwCharSht_Click(object sender, RoutedEventArgs e)
         {
             foreach (Fant_Entity selected in EntCurrentPartyList.SelectedItems)
-            {
-                if (selected is Character)
+            {   //without pattern matching the first one is if (selected is Character)
+                // ShowCharWin ShowCharWin1 = new ShowCharWin((Character)selected)
+                if (selected is Character character)
                 {
-                    ShowCharWin ShowCharWin1 = new ShowCharWin((Character)selected);
+                    ShowCharWin ShowCharWin1 = new ShowCharWin(character);
                     ShowCharWin1.Show();
                 }
-                if (selected is Monster)
+                if (selected is Monster monster)
                 {
-                    ShowMonsterWin ShowMonsterWin1 = new ShowMonsterWin((Monster)selected);
+                    ShowMonsterWin ShowMonsterWin1 = new ShowMonsterWin(monster);
                     ShowMonsterWin1.Show();
                 }
             }
@@ -190,20 +191,20 @@ namespace JBFantasyGame
                 string oldPartyName = selected.PartyName;
                 string newPartyName = toNewParty.Name;
                 selected.PartyName = newPartyName;
-                if (selected is Monster)
+                if (selected is Monster monster)
                 {
                     foreach (MonsterParty monsterPartyThis in MainWindow.MonsterParties)
                     {
                         if (monsterPartyThis.Name == oldPartyName)
-                            monsterPartyThis.Remove((Monster)selected);
+                            monsterPartyThis.Remove(monster);
                     }
                 }
-                if (selected is Character)
+                if (selected is Character character)
                 {
                     foreach (CharParty charPartythis in MainWindow.CharParties)
                     {
                         if (charPartythis.Name == oldPartyName)
-                            charPartythis.Remove((Character)selected);
+                            charPartythis.Remove(character);
                     }
                 }
                 foreach (Party entParty in MainWindow.Parties)
@@ -1862,8 +1863,7 @@ namespace JBFantasyGame
         private void StartServer_Click(object sender, RoutedEventArgs e)
         {
             //remember this starts both the  TCP chat server and the TCP command server 
-            int portNumberOut;
-            if (!int.TryParse(txtBoxServerPort.Text.Trim(), out portNumberOut))
+            if (!int.TryParse(txtBoxServerPort.Text.Trim(), out int portNumberOut))
             {
                 MessageBox.Show("Invalid port number supplied, return.");
                 txtBoxServerPort.Text = portNumb.ToString();
@@ -1887,14 +1887,14 @@ namespace JBFantasyGame
 
         void HandleClientComConnected(object sender, ClientConnectedEventArgs ccea)
         {
-            CombatScript($"{DateTime.Now} - New Tcp client (command) connected : {ccea.NewClient.ToString()}  ");
+            CombatScript($"{DateTime.Now} - New Tcp client (command) connected : {ccea.NewClient}  ");
             var combatTxt = File.ReadAllText(comScriptPath);
             CombatDialog.Text = combatTxt;
         }
 
         void HandleClientConnected(object sender, ClientConnectedEventArgs ccea)
         {
-            CombatScript($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient.ToString()}  ");
+            CombatScript($"{DateTime.Now} - New Tcp client connected : {ccea.NewClient}  ");
             var combatTxt = File.ReadAllText(comScriptPath);
             CombatDialog.Text = combatTxt;
             // the combat script log may be getting a bit overused but it works for now.
@@ -1954,19 +1954,34 @@ namespace JBFantasyGame
         {
 
         }
+        private string ThisEntityToXMLString(Fant_Entity fant_Entity)
+        {
+            XmlSerializer _XMLformatter = new XmlSerializer(fant_Entity.GetType());
+            StringWriter stringwriter = new StringWriter();
+            string stringXML = "";      
+            _XMLformatter.Serialize(stringwriter, fant_Entity);
+            stringXML = stringwriter.ToString();
+            return stringXML;
+        }
 
         private void SendXMLEntity_Click(object sender, RoutedEventArgs e)
         {
             Fant_Entity selected = (Fant_Entity)EntCurrentPartyList.SelectedItem;
-            XmlSerializer _XMLformatter = new XmlSerializer(selected.GetType());
-            StringWriter stringwriter = new StringWriter();
-            string stringXML = "";
-            string stringToSend = "";
-            _XMLformatter.Serialize(stringwriter, selected);
-            stringXML = stringwriter.ToString();
-            stringToSend = "01 01" +stringXML;
+             string stringToSend = "";
+            string _XML = ThisEntityToXMLString(selected);
+            stringToSend = "01 01" + _XML;
             myServerCommands.SendToTcpClientCom(stringToSend, 0);
             //temporarily sending it to TCPClientCom[0] only 
+
+        }
+
+        private void UpdateXMLEntity_Click(object sender, RoutedEventArgs e)
+        {
+            Fant_Entity selected = (Fant_Entity)EntCurrentPartyList.SelectedItem;
+            string stringToSend = "";
+            string _XML = ThisEntityToXMLString(selected);
+            stringToSend = "02 01" + _XML;
+            myServerCommands.SendToTcpClientCom(stringToSend, 0);
         }
     }
 }

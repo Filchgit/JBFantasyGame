@@ -92,6 +92,7 @@
         <Button x:Name="SendToSingleClient" Content="Send to TCP CLient:" HorizontalAlignment="Left" Margin="877,416,0,0" VerticalAlignment="Top" Width="122" Click="SendToSingleClient_Click"/>
         <TextBox x:Name="ClientToSendTxt" HorizontalAlignment="Left" Height="20" Margin="999,416,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="58" TextChanged="ClientToSendTxt_TextChanged" TextInput="ClientToSendTxt_TextInput"/>
         <Button x:Name="SendXMLEntity" Content="Temp: Create and Send XML Entity" HorizontalAlignment="Left" Margin="749,443,0,0" VerticalAlignment="Top" Width="206" Click="SendXMLEntity_Click"/>
+        <Button x:Name="UpdateXMLEntity" Content="Temp: Update Player XML Entity" HorizontalAlignment="Left" Margin="893,468,0,0" VerticalAlignment="Top" Width="164" Click="UpdateXMLEntity_Click"/>
 
     </Grid>
 </Window>

@@ -81,6 +81,9 @@
             <TextBlock x:Name="ShowCharMaxMana" Height=" 30" VerticalAlignment ="Top" FontSize="15" FontWeight="Bold" Margin="0,0,10,0"/>
             <TextBlock x:Name="ShowCharMaxManaRegen" Height=" 30" VerticalAlignment ="Top" FontSize="15" FontWeight="Bold" Margin="0,0,10,0"/>
         </StackPanel>
+        <Button x:Name="SendToDM" Content="Send to DM" HorizontalAlignment="Left" Margin="1106,17,0,0" FontSize="18" VerticalAlignment="Top" Width="115" Height="55" Click="SendToDM_Click" />
+
+
 
 
 
