@@ -21,7 +21,7 @@
         <Button x:Name="btnConnectToServer" Content="Connect to DM
 " HorizontalAlignment="Left" Margin="473,11,0,0" VerticalAlignment="Top" Width="104" Click="btnConnectToServer_Click"/>
         <Button x:Name="ReceiveXMLEntity" Content="Temp Receive XML Entity" HorizontalAlignment="Left" Margin="473,54,0,0" VerticalAlignment="Top" Width="160" Click="ReceiveXMLEntity_Click"/>
-        <Button x:Name="UpdateCharacter" Content="Update Character" HorizontalAlignment="Left" Margin="509,98,0,0" VerticalAlignment="Top" Width="124"/>
+        <Button x:Name="ShowCharSheet" Content="Show Char Sheet" HorizontalAlignment="Left" Margin="509,98,0,0" VerticalAlignment="Top" Width="124" Click="ShowCharSheet_Click"/>
 
     </Grid>
 </Window>

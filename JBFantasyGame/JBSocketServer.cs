@@ -318,8 +318,9 @@ namespace JBFantasyGame
                 byte[] buffMessage = Encoding.ASCII.GetBytes(allMessage);
                 foreach (TcpClient thisTcpClient in myTcpClients)
                 {
-                    thisTcpClient.GetStream().WriteAsync(buffMessage, 0, buffMessage.Length);
-                        //so this gets the networkstream associated with this TCP CLient and writes to it async
+                   await thisTcpClient.GetStream().WriteAsync(buffMessage, 0, buffMessage.Length);
+                        //so this gets the networkstream associated with this TCP CLient and writes to it async without await??
+                        // I put in the await to see what it does
                 }
             }
             catch (Exception excp)
@@ -352,7 +353,7 @@ namespace JBFantasyGame
             try
             {
                 byte[] buffMessage = Encoding.ASCII.GetBytes(allMessage);
-                myTcpClientsCom[TcpClientIndexNum].GetStream().WriteAsync(buffMessage, 0, buffMessage.Length);
+              await  myTcpClientsCom[TcpClientIndexNum].GetStream().WriteAsync(buffMessage, 0, buffMessage.Length);
             }
             catch (Exception excp)
             {

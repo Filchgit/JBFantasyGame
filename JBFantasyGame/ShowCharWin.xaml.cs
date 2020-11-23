@@ -38,7 +38,9 @@ namespace JBFantasyGame
             dispatcherTimer.Start();
         }
         private void OnTimerTick(object sender, EventArgs e)                 // there was a tip to make sure that lengthy operations
-        { UpdateShowCharWin(); }
+        { 
+            
+            UpdateShowCharWin(); }
         public void UpdateShowCharWin()
         {
                                                                              // are not done on tick event as it runs on UI thread, and 

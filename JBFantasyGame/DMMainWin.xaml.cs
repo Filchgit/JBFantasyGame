@@ -1960,9 +1960,11 @@ namespace JBFantasyGame
             Fant_Entity selected = (Fant_Entity)EntCurrentPartyList.SelectedItem;
             XmlSerializer _XMLformatter = new XmlSerializer(selected.GetType());
             StringWriter stringwriter = new StringWriter();
+            string stringXML = "";
             string stringToSend = "";
             _XMLformatter.Serialize(stringwriter, selected);
-            stringToSend = stringwriter.ToString();
+            stringXML = stringwriter.ToString();
+            stringToSend = "01 01" +stringXML;
             myServerCommands.SendToTcpClientCom(stringToSend, 0);
             //temporarily sending it to TCPClientCom[0] only 
         }
