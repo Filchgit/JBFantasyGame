@@ -176,7 +176,7 @@ namespace JBFantasyGame
                 await myTcpClientCom.ConnectAsync(myServerIPAddress, myServerPort);
                 MessageBox.Show($"Connected to Command server IP/Port: {myServerIPAddress} / {myServerPort}");
 
-                ReadDataAsync(myTcpClientCom);
+                await ReadDataAsync(myTcpClientCom);
             }
             catch (Exception excp)
             {

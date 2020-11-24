@@ -40,7 +40,9 @@ namespace JBFantasyGame
         int portNumb = 50000;
         JBSocketServer myServerCommands;
         int portNumbCom = 50000;
-
+        string finalStringRecCom = "";
+        string finalString = "";
+        string xML = "";
         public DMMainWin()
         {
             InitializeComponent();
@@ -1903,10 +1905,67 @@ namespace JBFantasyGame
         // note that I will need another eventy handler =>HandleTextReceivedCom
         void HandleTextComReceived(object sender, TextReceivedEventArgs trea)
         {
+            string receivedString = (trea.TextReceived);
+            //need to put in some logic here so that multiple clients sending commands at once dont get messed up 
+            finalStringRecCom += receivedString;
             //this is temp to get things set up 
-            CombatDialog.AppendText($"{DateTime.Now} - Command Server Received from {trea.ClientThatSentText} : {trea.TextReceived}");
-            CombatDialog.AppendText(Environment.NewLine);
+            //think I will start/reset a timer at this point, after a certain number of milliseconds it will check if finalStringRecCom
+            // is a stable set size and then convert to a character
+         
         }
+        private Character ReturnCharacter()
+        {
+
+            XmlSerializer xmlSerializer = new XmlSerializer(MainWindow.characterExample.GetType());
+            Character transferChar = new Character();
+            StringReader stringReader = new StringReader(xML);
+            var what = xmlSerializer.Deserialize(stringReader);
+            transferChar = (Character)what;
+
+            return transferChar;
+        }
+        private void UpdateCharacterFromPlayer()
+        {
+            xML = finalStringRecCom;
+            finalStringRecCom = "";
+
+            Character updateCharacter = ReturnCharacter();
+            int myPartyIndex = MainWindow.CharParties.FindIndex(CharParty => CharParty.Name == updateCharacter.PartyName);
+            int myCharIndex = MainWindow.CharParties[myPartyIndex].FindIndex(Character => Character.Name == updateCharacter.Name);
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Hp = updateCharacter.Hp;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].MaxHp = updateCharacter.MaxHp;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Str = updateCharacter.Str;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Inte = updateCharacter.Inte;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Wis = updateCharacter.Wis;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Dex = updateCharacter.Dex;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Con = updateCharacter.Con;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].MaxMana = updateCharacter.MaxMana;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].CurrentMana = updateCharacter.CurrentMana;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].MaxManaRegen = updateCharacter.MaxManaRegen;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].ManaRegen = updateCharacter.ManaRegen;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Lvl = updateCharacter.Lvl;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Exp = updateCharacter.Exp;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].HitOn20 = updateCharacter.HitOn20;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].MyTurn = updateCharacter.MyTurn;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].InitMod = updateCharacter.InitMod;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].IsAlive = updateCharacter.IsAlive;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].MyTargetEnt = updateCharacter.MyTargetEnt;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].MyTargetParty = updateCharacter.MyTargetParty;
+
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Inventory.Clear();
+            foreach (PhysObj physthing in updateCharacter.Inventory)
+            { MainWindow.CharParties[myPartyIndex][myCharIndex].Inventory.Add(physthing); }
+
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Abilities.Clear();
+            foreach (Ability thisAbility in updateCharacter.Abilities)
+            { MainWindow.CharParties[myPartyIndex][myCharIndex].Abilities.Add(thisAbility); }
+
+            MainWindow.CharParties[myPartyIndex][myCharIndex].MeleeTargets.Clear();
+            foreach (Target thisTarget in updateCharacter.MeleeTargets)
+            { MainWindow.CharParties[myPartyIndex][myCharIndex].MeleeTargets.Add(thisTarget); }
+
+        }
+
         void HandleTextReceived(object sender, TextReceivedEventArgs trea)
         {
             CombatDialog.AppendText($"{DateTime.Now} - Received from {trea.ClientThatSentText} : {trea.TextReceived}");
@@ -1982,6 +2041,11 @@ namespace JBFantasyGame
             string _XML = ThisEntityToXMLString(selected);
             stringToSend = "02 01" + _XML;
             myServerCommands.SendToTcpClientCom(stringToSend, 0);
+        }
+
+        private void ClientUpdatesCharacter_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateCharacterFromPlayer();
         }
     }
 }

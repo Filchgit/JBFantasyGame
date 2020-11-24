@@ -64,7 +64,7 @@ namespace JBFantasyGame
                     string com1 = commands.Substring(0, 3);
                     string com2 = commands.Substring(3, 2);
 
-                    if (com1 == "01 ")
+                    if (com1 == "01 ")                                          //01 means add this as a new character
                     { Character  aNewCharacter = ReturnCharacter();
                         MainWindow.entitySelected = aNewCharacter;
                         if (MainWindow.CharParties.Count != 0)

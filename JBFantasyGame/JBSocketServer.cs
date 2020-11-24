@@ -337,7 +337,7 @@ namespace JBFantasyGame
             try
             {
                 byte[] buffMessage = Encoding.ASCII.GetBytes(allMessage); 
-                    myTcpClients[TcpClientIndexNum].GetStream().WriteAsync(buffMessage, 0, buffMessage.Length);
+               await myTcpClients[TcpClientIndexNum].GetStream().WriteAsync(buffMessage, 0, buffMessage.Length);
             }
             catch (Exception excp)
             {
