@@ -44,9 +44,9 @@ namespace JBFantasyGame
            // showCharacter = MainWindow.characterExample;
            // ShowCharWin myCharWinShow = new ShowCharWin(showCharacter);
             dispatcherTimerCommand = new DispatcherTimer();
-            dispatcherTimerCommand.Interval = TimeSpan.FromSeconds(5.0);
+            dispatcherTimerCommand.Interval = TimeSpan.FromMilliseconds(200);
             dispatcherTimerCommand.Tick += OnTimerTickCommand;
-            dispatcherTimerCommand.Start();
+           // dispatcherTimerCommand.Start();
 
            
           
@@ -58,6 +58,8 @@ namespace JBFantasyGame
                 Thread.Sleep(20);
                 if (finalString == quickChkForStatic)
                 {
+                    dispatcherTimerCommand.Stop();
+                 //actually might need to put a try /catch block in here in case my timing is off
                     xML = finalString.Substring(5);
                     string commands = finalString.Remove(5);
                     finalString = "";
@@ -187,14 +189,16 @@ namespace JBFantasyGame
             txtPlayerDialog.AppendText($"\n {trea.ClientThatSentText} : {trea.TextReceived}");
         }
 
-        private void HandleTextReceivedCom (object sender, TextReceivedEventArgs trea)
+        private void HandleTextReceivedCom(object sender, TextReceivedEventArgs trea)
         {
-           // string receivedString="";
+            // string receivedString="";
             //string finalString = "";
             receivedString = (trea.TextReceived);
-       
+
             finalString += receivedString;
-           
+
+            if (!dispatcherTimerCommand.IsEnabled)
+            { dispatcherTimerCommand.Start(); }
        
 
         }

@@ -23,6 +23,8 @@ using System.Data;
 using System.Collections.ObjectModel;
 using System.Security.Policy;
 using System.Net;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace JBFantasyGame
 {
@@ -43,6 +45,7 @@ namespace JBFantasyGame
         string finalStringRecCom = "";
         string finalString = "";
         string xML = "";
+        private DispatcherTimer dispatcherTimerCom = null;
         public DMMainWin()
         {
             InitializeComponent();
@@ -60,6 +63,10 @@ namespace JBFantasyGame
             string hostName = Dns.GetHostName();
             string myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
             txtMyIPAddress.Text = myIP;
+            dispatcherTimerCom = new DispatcherTimer();
+            dispatcherTimerCom.Interval = TimeSpan.FromMilliseconds(200);
+            dispatcherTimerCom.Tick += OnTimerTickCom;
+
         }
 
         private void RollDieDM_TextInput(object sender, TextCompositionEventArgs e)
@@ -1910,12 +1917,35 @@ namespace JBFantasyGame
             finalStringRecCom += receivedString;
             //this is temp to get things set up 
             //think I will start/reset a timer at this point, after a certain number of milliseconds it will check if finalStringRecCom
-            // is a stable set size and then convert to a character
-         
+            // is a stable set size and then convert to a character     
+            if (!dispatcherTimerCom.IsEnabled)
+
+            { StartTimerCheckForReceivedAll(); }
+        }
+
+        private void StartTimerCheckForReceivedAll()
+        { 
+       
+            dispatcherTimerCom.Start();
+        }
+        private void OnTimerTickCom (object sender, EventArgs e)
+        { if (finalStringRecCom != "")
+            {
+                string quickChkForStatic = finalStringRecCom;
+                Thread.Sleep(20);
+                //might need to change this sleep value to allow for reasonable network traffix
+                if (finalStringRecCom == quickChkForStatic)
+                {
+                    dispatcherTimerCom.Stop();
+                    //at the moment there are no commands coming from client, can do so later
+                    UpdateCharacterFromPlayer();
+
+                    
+                }
+            }
         }
         private Character ReturnCharacter()
         {
-
             XmlSerializer xmlSerializer = new XmlSerializer(MainWindow.characterExample.GetType());
             Character transferChar = new Character();
             StringReader stringReader = new StringReader(xML);
@@ -1928,7 +1958,7 @@ namespace JBFantasyGame
         {
             xML = finalStringRecCom;
             finalStringRecCom = "";
-
+           
             Character updateCharacter = ReturnCharacter();
             int myPartyIndex = MainWindow.CharParties.FindIndex(CharParty => CharParty.Name == updateCharacter.PartyName);
             int myCharIndex = MainWindow.CharParties[myPartyIndex].FindIndex(Character => Character.Name == updateCharacter.Name);
