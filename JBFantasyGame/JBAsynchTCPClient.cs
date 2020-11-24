@@ -80,6 +80,27 @@ namespace JBFantasyGame
             }
         }
 
+        internal async Task SendToServerCom(string strInputUser)
+        {
+            if (string.IsNullOrEmpty(strInputUser))
+            {
+                MessageBox.Show("Empty string supplied to send.");
+                return;
+            }
+            if (myTcpClientCom != null)
+            {
+                if (myTcpClientCom.Connected)
+                {
+                    StreamWriter clientStreamWriter = new StreamWriter(myTcpClientCom.GetStream());
+                    clientStreamWriter.AutoFlush = true;
+                    // clientStreamWriter.AutoFlush being true means every it will 
+                    //flush its buffer to underlying stream after every call to StreamWriter.Write(char)
+
+                    await clientStreamWriter.WriteAsync(strInputUser);
+                    // Console.WriteLine("Data sent.");
+                }
+            }
+        }
         public void CloseAndDisconnect()
         {
             if (myTcpClient != null)

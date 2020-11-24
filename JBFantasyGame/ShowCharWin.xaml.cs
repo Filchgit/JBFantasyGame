@@ -14,8 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using System.IO;
 
-namespace JBFantasyGame
+ namespace JBFantasyGame
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -218,13 +220,10 @@ namespace JBFantasyGame
          UpdateShowCharWin();
                 
         }
+      
 
-    
 
-        private void SendToDM_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+   
     }
 }
 

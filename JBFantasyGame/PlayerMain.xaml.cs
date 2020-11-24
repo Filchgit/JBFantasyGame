@@ -28,6 +28,7 @@ namespace JBFantasyGame
         JBAsynchTCPClient myTcpClientCom = new JBAsynchTCPClient();
        
         public Character showCharacter = new Character();
+        
    
 
         string receivedString = "";
@@ -46,6 +47,8 @@ namespace JBFantasyGame
             dispatcherTimerCommand.Interval = TimeSpan.FromSeconds(5.0);
             dispatcherTimerCommand.Tick += OnTimerTickCommand;
             dispatcherTimerCommand.Start();
+
+           
           
         }
         private void OnTimerTickCommand(object sender, EventArgs e)                 // there was a tip to make sure that lengthy operations
@@ -227,6 +230,9 @@ namespace JBFantasyGame
 
             myTcpClientCom.ConnectToServerCom();
         }
+       
+        public void SendToServerCom(string textToCommandServer)
+        { myTcpClientCom.SendToServerCom(textToCommandServer); }
 
         private void btnPlayerSendTxt_Click(object sender, RoutedEventArgs e)
         {
@@ -266,5 +272,21 @@ namespace JBFantasyGame
             playerCharSheet.Show();
         }
 
+        private string ThisEntityToXMLString(Fant_Entity fant_Entity)
+        {
+            XmlSerializer _XMLformatter = new XmlSerializer(fant_Entity.GetType());
+            StringWriter stringwriter = new StringWriter();
+            string stringXML = "";
+            _XMLformatter.Serialize(stringwriter, fant_Entity);
+            stringXML = stringwriter.ToString();
+            return stringXML;
+        }
+
+        private void SendCharacterToDM_Click(object sender, RoutedEventArgs e)
+        {
+            //at the moment just having one character per player so 
+            string _XMLToSend = ThisEntityToXMLString(MainWindow.CharParties[0][0]);
+            SendToServerCom(_XMLToSend);
+        }
     }
 }
