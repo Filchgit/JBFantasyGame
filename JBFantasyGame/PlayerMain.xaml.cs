@@ -254,16 +254,7 @@ namespace JBFantasyGame
             return transferChar;
         }
 
-        private void UpdateShowCharacter()
-        {
-            
-            XmlSerializer xmlSerializer = new XmlSerializer(MainWindow.characterExample.GetType());
-            Character transferChar = new Character();
-            StringReader stringReader = new StringReader(xML);
-            var what = xmlSerializer.Deserialize(stringReader);
-            showCharacter = (Character)what;
-             
-        }
+
         private void ReceiveXMLEntity_Click(object sender, RoutedEventArgs e)
         {
            // MessageBox.Show(finalString);

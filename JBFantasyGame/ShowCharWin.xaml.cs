@@ -63,6 +63,8 @@ using System.IO;
             ShowGroup.Text = showcharacter.PartyName.ToString();
             ShowCharHiton20.Text = showcharacter.HitOn20.ToString();
             ShowCharNextRound.Text = nextRound;
+            ShowCharMana.Text = showcharacter.CurrentMana.ToString();
+            ShowCharManaRegen.Text = showcharacter.ManaRegen.ToString();
 
 
             PhysObjects = new ObservableCollection<PhysObj>               //all this bit is databinding my inventory grid to 
@@ -209,12 +211,7 @@ using System.IO;
             if (useThisAbility.Abil_Name == "HealOverTime")
             {
                 nextRound = $"{showcharacter.Name} intends to Heal over time {listOfTargets}";
-                //   if (checkNoOfItems == 2)
-                //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name} and {Targets[1].Name}"; }
-                //   if (checkNoOfItems == 3)
-                //   { nextRound = $"{showcharacter.Name} intends to Heal over time {Targets[0].Name}, {Targets[1].Name} and {Targets[2].Name}"; }
 
-                //   useThisAbility.TargetEntitiesAffected = targetList;
             }
 
          UpdateShowCharWin();

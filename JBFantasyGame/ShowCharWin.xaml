@@ -47,7 +47,7 @@
         <Button x:Name="EquipThisButt" Content="Equip/UnEquip" HorizontalAlignment="Left" Margin="804,10,0,0" VerticalAlignment="Top" Width="114" Click="EquipThisButt_Click" Grid.Row="1"/>
 
         <DataGrid x:Name ="ViableMeleeTargets" IsReadOnly="True" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="100" Margin="255,175,0,0" VerticalAlignment="Top" Width="391" SelectionChanged="ViableMeleeTargets_SelectionChanged"/>
-        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"  Height="52" Margin="10,0,0,0" VerticalAlignment="Top" Width="1004">
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"  Height="52" Margin="10,0,0,0" VerticalAlignment="Top" Width="1214">
             <TextBlock x:Name="ShowCharname" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center" Height="42" Width="340" FontSize="32" />
             <Label  x:Name="HpLabel"  Content="HP: " HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" FontSize ="25"  Height="42" Width="53"/>
             <TextBlock x:Name="ShowCharHP" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center" Height="42" Width="76" FontSize="25" />
@@ -55,6 +55,11 @@
             <TextBlock x:Name="ShowCharHiton20" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center"  Height="42" Width="58" FontSize="25"  />
             <Label  x:Name="AClabel"  Content="AC:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"   FontSize ="25"  Height="42" Width="46" />
             <TextBlock x:Name="ShowCharAC" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center"  Height="42" Width="74" FontSize="25" />
+            <Label  x:Name="ManaLabel"  Content="Mana:" HorizontalAlignment="Left" Margin="0,5" VerticalAlignment="Center"   FontSize ="25"  Height="42" Width="78" />
+            <TextBlock x:Name="ShowCharMana" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Center"  Height="42" Width="74" FontSize="25" />
+            <Label  x:Name="ManaRegenLabel"  Content="Regen:" HorizontalAlignment="Left" Margin="0,5" VerticalAlignment="Center"   FontSize ="25"  Height="42" Width="87" />
+            <TextBlock x:Name="ShowCharManaRegen" HorizontalAlignment="Left" Margin="0,5" TextWrapping="NoWrap"  VerticalAlignment="Center"  Height="42" Width="74" FontSize="25" />
+
         </StackPanel>
         <DataGrid x:Name="SpecialActions" HorizontalAlignment="Left" Height="137" AutoGenerateColumns="True" Margin="156,90,-45,0" VerticalAlignment="Top" Width="932" SelectionChanged="SpecialActions_SelectionChanged" Grid.Row="1"/>
         <TextBlock x:Name="ShowCharNextRound" HorizontalAlignment="Left" Margin="355,104,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="16" Width="406"/>
@@ -81,7 +86,7 @@
             <TextBlock x:Name="ShowCharMaxMana" Height=" 30" VerticalAlignment ="Top" FontSize="15" FontWeight="Bold" Margin="0,0,10,0"/>
             <TextBlock x:Name="ShowCharMaxManaRegen" Height=" 30" VerticalAlignment ="Top" FontSize="15" FontWeight="Bold" Margin="0,0,10,0"/>
         </StackPanel>
-      
+
 
 
 

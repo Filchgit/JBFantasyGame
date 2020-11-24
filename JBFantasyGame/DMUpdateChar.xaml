@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:JBFantasyGame"
         mc:Ignorable="d"
         Title="DMUpdateChar" Height="450" Width="800">
-    <Grid Background="#FFD3F5F4" >
-        <StackPanel x:Name="DMUpdateCharLabels" HorizontalAlignment="Left" Height="368" Margin="27,25,0,0" VerticalAlignment="Top" Width="94">
+    <Grid Background="#FFD3F5F4" Margin="0,0,0,-54" >
+        <StackPanel x:Name="DMUpdateCharLabels" HorizontalAlignment="Left" Height="424" Margin="27,25,0,0" VerticalAlignment="Top" Width="108">
             <Label Content="Name" Height="30" />
             <Label Content="CharType" Height="30" />
+            <Label Content="Party Name" Height="30" />
             <Label Content="Experience" Height="30" />
             <Label Content="MaxHP" Height="30" />
             <Label Content="Str" Height="30" />
@@ -18,13 +19,14 @@
             <Label Content="Dex" Height="30" />
             <Label Content="Con" Height="30" />
             <Label Content="Chr" Height="30" />
-            <Label Content="Party Name" Height="30" />
-
+            <Label Content="Max Mana" Height="30" />
+            <Label Content="MaxMana Regen" Height="30" />
 
         </StackPanel>
-        <StackPanel x:Name="DMUpdateCharTextBoxes" HorizontalAlignment="Left" Height="372" Margin="121,25,0,0" VerticalAlignment="Top" Width="94" RenderTransformOrigin="0.5,0.5" >
+        <StackPanel x:Name="DMUpdateCharTextBoxes" HorizontalAlignment="Left" Height="424" Margin="135,25,0,0" VerticalAlignment="Top" Width="73" RenderTransformOrigin="0.715,0.499" >
             <TextBox x:Name ="DMUpdateCharName"  Height="30" TextWrapping="Wrap" Text="Name"    />
             <TextBox x:Name = "DMUpdateCharType"  Height="30" TextWrapping="Wrap" Text="Char Type" />
+            <TextBox Height="30" x:Name="DMUpdateCharPartyName" TextWrapping="Wrap" Text="Party"/>
             <TextBox Height="30" x:Name="DMUpdateCharExp" TextWrapping="Wrap" Text="Exp" />
             <TextBox Height="30" x:Name="DMUpdateCharMaxHp" TextWrapping="Wrap" Text="MaxHp"/>
             <TextBox Height="30" x:Name="DMUpdateCharStr" TextWrapping="Wrap" Text="Str"/>
@@ -33,10 +35,20 @@
             <TextBox Height="30" x:Name="DMUpdateCharDex" TextWrapping="Wrap" Text="Dex"/>
             <TextBox Height="30" x:Name="DMUpdateCharCon" TextWrapping="Wrap" Text="Con"/>
             <TextBox Height="30" x:Name="DMUpdateCharChr" TextWrapping="Wrap" Text="Chr"/>
-            <TextBox Height="30" x:Name="DMUpdateCharPartyName" TextWrapping="Wrap" Text="Party"/>
-            
-            
+            <TextBox Height="30" x:Name="DMUpdateCharMaxMana" TextWrapping="Wrap" Text="Max Mana"/>
+            <TextBox Height="30" x:Name="DMUpdateCharMaxManaRegen" TextWrapping="Wrap" Text="Max Mana Regen"/>
+
         </StackPanel>
-        <Button x:Name="UpdateChar" Content="Update This Character" HorizontalAlignment="Left" Margin="483,48,0,0" VerticalAlignment="Top" Width="144" Click="UpdateChar_Click"/>
+        <Button x:Name="UpdateChar" Content="Update/ReInitialize This Character" HorizontalAlignment="Left" Margin="437,196,0,0" VerticalAlignment="Top" Width="182" Click="UpdateChar_Click"/>
+        <Button x:Name="UpdateStatsAndNames" Content="Update only" HorizontalAlignment="Left" Margin="437,108,0,0" VerticalAlignment="Top" Width="138" Click="UpdateStatsAndNames_Click"/>
+
+        <Label Content="HP:" HorizontalAlignment="Left" Margin="252,25,0,0" VerticalAlignment="Top" Height="30" Width="33"/>
+        <TextBox x:Name="DMUpdateCurrentHP" HorizontalAlignment="Left" Height="30" Margin="285,25,0,0" TextWrapping="Wrap" Text="HP" VerticalAlignment="Top" Width="68"/>
+        <Label Content="Mana:" HorizontalAlignment="Left" Margin="353,25,0,0" VerticalAlignment="Top" Height="30" Width="47"/>
+        <TextBox x:Name="DMUpdateCurrentMana" HorizontalAlignment="Left" Height="30" Margin="400,25,0,0" TextWrapping="Wrap" Text="Mana" VerticalAlignment="Top" Width="68"/>
+        <Label Content="Mana Regen:" HorizontalAlignment="Left" Margin="468,25,0,0" VerticalAlignment="Top" Height="30" Width="83"/>
+        <TextBox x:Name="DMUpdateCurrentManaRegen" HorizontalAlignment="Left" Height="30" Margin="551,25,0,0" TextWrapping="Wrap" Text="Mana Regen" VerticalAlignment="Top" Width="68"/>
+        
+
     </Grid>
 </Window>
