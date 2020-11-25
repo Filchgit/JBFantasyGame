@@ -281,6 +281,8 @@ namespace JBFantasyGame
         {
             //at the moment just having one character per player so 
             string _XMLToSend = ThisEntityToXMLString(MainWindow.CharParties[0][0]);
+            string updateCharCom = "01   ";
+            _XMLToSend = updateCharCom + _XMLToSend;
             SendToServerCom(_XMLToSend);
         }
     }

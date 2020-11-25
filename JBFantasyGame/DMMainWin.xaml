@@ -13,15 +13,15 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="DMRollDiceBtn" Content="Roll Dice" HorizontalAlignment="Left" Margin="21,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.052,0.101" Click="DMRollDiceBtn_Click" FontFamily="Yu Gothic UI Semibold" />
         <TextBox x:Name="RollDieDM" HorizontalAlignment="Left" Height="20" Margin="96,10,0,0" TextWrapping="Wrap" Text="1d6" VerticalAlignment="Top" Width="88" TextInput="RollDieDM_TextInput" FontFamily="Yu Gothic UI Semibold" RenderTransformOrigin="0.886,0.45" TextChanged="RollDieDM_TextChanged" />
-        <TextBox x:Name="Nameinput"  HorizontalAlignment="Left" Height="38" Margin="21,65,0,0" TextWrapping="Wrap" Text="Orcs" VerticalAlignment="Top" Width="131" TextInput="Nameinput_TextInput" RenderTransformOrigin="1.167,-0.174" />
+        <TextBox x:Name="Nameinput"  HorizontalAlignment="Left" Height="38" Margin="21,65,0,0" TextWrapping="Wrap" Text="Orcs" VerticalAlignment="Top" Width="131" TextInput="Nameinput_TextInput"  />
         <Button x:Name="CreateNewCharacter" Content="Create New Character" HorizontalAlignment="Left" Margin="21,123,0,0" VerticalAlignment="Top" Width="131" Click="CreateNewCharacter_Click"/>
         <Button x:Name="CreateNewParty" Content="Create New Party" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="131"  RenderTransformOrigin="0.467,1.8" Click="CreateNewParty_Click"/>
         <Button x:Name="ShwCharSht" Content ="Show Char Sheet"  HorizontalAlignment="Left" Margin="341,165,0,0" VerticalAlignment="Top" Width="142" Height="27"  Click="ShwCharSht_Click" RenderTransformOrigin="0.52,0.037" />
-        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="678,505,0,0" VerticalAlignment="Top" Width="183" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" SelectedIndex="0" SourceUpdated="CurrentPartyList_SourceUpdated" />
-        <Label x:Name="CurrentPartyLabel" Content="Current Party Characters" HorizontalAlignment="Left" Margin="678,471,0,0" VerticalAlignment="Top" Width="183" Height="33" Background="#FFF9F9F9"/>
+        <ListBox x:Name="CurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="678,544,0,0" VerticalAlignment="Top" Width="183" SelectionMode="Extended" SelectionChanged="CurrentPartyList_SelectionChanged" SelectedIndex="0" SourceUpdated="CurrentPartyList_SourceUpdated" />
+        <Label x:Name="CurrentPartyLabel" Content="Current Party Characters" HorizontalAlignment="Left" Margin="678,511,0,0" VerticalAlignment="Top" Width="183" Height="33" Background="#FFF9F9F9"/>
 
-        <Label x:Name="PartiesAvailable" Content="Available Character Parties" HorizontalAlignment="Left" Margin="488,471,0,0" VerticalAlignment="Top" Width="166" Background="#FFF7EEEE" Height="33"/>
-        <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="488,505,0,0" VerticalAlignment="Top" Width="181" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0" RenderTransformOrigin="0.453,0.65"/>
+        <Label x:Name="PartiesAvailable" Content="Available Character Parties" HorizontalAlignment="Left" Margin="492,511,0,0" VerticalAlignment="Top" Width="166" Background="#FFF7EEEE" Height="33"/>
+        <ListBox x:Name="GroupList" HorizontalAlignment="Left" Height="80" Margin="492,544,0,0" VerticalAlignment="Top" Width="181" SelectionChanged="GroupList_SelectionChanged" SelectedIndex="0" RenderTransformOrigin="0.453,0.65"/>
 
         <ListBox x:Name="GlobalItems"  HorizontalAlignment="Left" Height="85" Margin="409,288,0,0" VerticalAlignment="Top" Width="279" SelectedIndex="0" SelectionChanged="GlobalItems_SelectionChanged"/>
         <Button x:Name="SaveAll"  Content="Save All Parties (XML)" HorizontalAlignment="Left" Margin="203,10,0,0" VerticalAlignment="Top" Width="209" Click="SaveAll_Click" />
@@ -49,13 +49,13 @@
         <Button x:Name="NextCombatRound" Content="New Combat Round" HorizontalAlignment="Left" Margin="530,205,0,0" VerticalAlignment="Top" Width="175" Click="NextCombatRound_Click"/>
         <Button x:Name="QuickCreateMonster" Content="Quick Create Monster" HorizontalAlignment="Left" Margin="21,143,0,0" VerticalAlignment="Top" Width="131" Click="QuickCreateMonster_Click"/>
 
-        <Label Content="Available Monster Parties" HorizontalAlignment="Left" Margin="96,479,0,0" VerticalAlignment="Top" Width="155" Background="#FFF7EEEE"  />
-        <ListBox x:Name="MonstGroupList"  HorizontalAlignment="Left" Height="80" Margin="96,505,0,0" VerticalAlignment="Top" Width="155" SelectedIndex="0" SelectionChanged="MonstGroupList_SelectionChanged"/>
-        <ListBox x:Name="MonstCurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="269,505,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="MonstCurrentPartyList_SelectionChanged" SourceUpdated="MonstCurrentPartyList_SourceUpdated" SelectedIndex="0"/>
+        <Label Content="Available Monster Parties" HorizontalAlignment="Left" Margin="96,518,0,0" VerticalAlignment="Top" Width="155" Background="#FFF7EEEE"  />
+        <ListBox x:Name="MonstGroupList"  HorizontalAlignment="Left" Height="80" Margin="96,544,0,0" VerticalAlignment="Top" Width="155" SelectedIndex="0" SelectionChanged="MonstGroupList_SelectionChanged"/>
+        <ListBox x:Name="MonstCurrentPartyList" HorizontalAlignment="Left" Height="80" Margin="269,544,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="MonstCurrentPartyList_SelectionChanged" SourceUpdated="MonstCurrentPartyList_SourceUpdated" SelectedIndex="0"/>
 
         <ListBox x:Name="EntGroupList"  HorizontalAlignment="Left" Height="100" Margin="157,65,0,0" VerticalAlignment="Top" Width="184"  SelectionChanged="EntGroupList_SelectionChanged" SelectedIndex="0" SourceUpdated="EntGroupList_SourceUpdated"/>
         <ListBox x:Name="EntCurrentPartyList"  HorizontalAlignment="Left" Height="100" Margin="341,65,0,0" VerticalAlignment="Top" Width="189" SelectionMode="Single" SourceUpdated="EntCurrentPartyList_SourceUpdated" SelectionChanged="EntCurrentPartyList_SelectionChanged" SelectedIndex="0"  />
-        <Label Content="Monster Party Members" HorizontalAlignment="Left" Margin="269,478,0,0" VerticalAlignment="Top" Width="178" Background="#FFF7EEEE" />
+        <Label Content="Monster Party Members" HorizontalAlignment="Left" Margin="269,518,0,0" VerticalAlignment="Top" Width="178" Background="#FFF7EEEE" />
         <Label Content="Available Parties" HorizontalAlignment="Left" Margin="161,38,0,0" VerticalAlignment="Top" Width="180" Height="27"  Background="#FFF7EEEE"         />
         <Label Content="Party Members" HorizontalAlignment="Left" Margin="341,38,0,0" VerticalAlignment="Top" Width="189" Background="#FFF7EEEE"  />
         <Button x:Name="DeleteEntity"  Content="Delete Entity" HorizontalAlignment="Left" Margin="341,230,0,0" VerticalAlignment="Top" Width="142" Click="DeleteEntity_Click"/>
@@ -91,8 +91,8 @@
         <TextBlock x:Name="txtMyIPAddress" HorizontalAlignment="Left" Background="#FFFBFBFB" Margin="999,611,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="26" Width="103" IsEnabled="False"/>
         <Button x:Name="SendToSingleClient" Content="Send to TCP CLient:" HorizontalAlignment="Left" Margin="877,416,0,0" VerticalAlignment="Top" Width="122" Click="SendToSingleClient_Click"/>
         <TextBox x:Name="ClientToSendTxt" HorizontalAlignment="Left" Height="20" Margin="999,416,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="58" TextChanged="ClientToSendTxt_TextChanged" TextInput="ClientToSendTxt_TextInput"/>
-        <Button x:Name="SendXMLEntity" Content="Temp: Create and Send XML Entity" HorizontalAlignment="Left" Margin="749,443,0,0" VerticalAlignment="Top" Width="206" Click="SendXMLEntity_Click"/>
-        <Button x:Name="UpdateXMLEntity" Content="Temp: Update Player XML Entity" HorizontalAlignment="Left" Margin="893,468,0,0" VerticalAlignment="Top" Width="164" Click="UpdateXMLEntity_Click"/>
+        <Button x:Name="SendXMLEntity" Content="Temp: Create and Send XML Entity" HorizontalAlignment="Left" Margin="793,436,0,0" VerticalAlignment="Top" Width="206" Click="SendXMLEntity_Click"/>
+        <Button x:Name="UpdateXMLEntity" Content="Temp: Update Player XML Entity" HorizontalAlignment="Left" Margin="793,456,0,0" VerticalAlignment="Top" Width="206" Click="UpdateXMLEntity_Click"/>
         <Button x:Name="ClientUpdatesCharacter" Content="Temp update from CLient" HorizontalAlignment="Left" Margin="893,489,0,0" VerticalAlignment="Top" Width="164" Click="ClientUpdatesCharacter_Click"/>
 
     </Grid>

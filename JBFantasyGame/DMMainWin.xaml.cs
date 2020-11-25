@@ -1938,9 +1938,20 @@ namespace JBFantasyGame
                 {
                     dispatcherTimerCom.Stop();
                     //at the moment there are no commands coming from client, can do so later
-                    UpdateCharacterFromPlayer();
+                    xML = finalStringRecCom.Substring(5);
+                    string commands = finalStringRecCom.Remove(5);
+                    string inCom1 = commands.Substring(0, 3);
+                    string inCom2 = commands.Substring(3, 2);
+                    finalStringRecCom = "";
 
-                    
+                    if (inCom1 == "01 ")
+                    { UpdateCharacterFromPlayer(); }
+                    if (inCom1 == "02 ")
+                    {
+                        MessageBox.Show($"{xML}");
+                        //this works but I don't really know how to autoassign a character to a TCPclient as yet.
+                        
+                    }
                 }
             }
         }
@@ -1956,8 +1967,8 @@ namespace JBFantasyGame
         }
         private void UpdateCharacterFromPlayer()
         {
-            xML = finalStringRecCom;
-            finalStringRecCom = "";
+           
+           
            
             Character updateCharacter = ReturnCharacter();
             int myPartyIndex = MainWindow.CharParties.FindIndex(CharParty => CharParty.Name == updateCharacter.PartyName);
@@ -2020,46 +2031,14 @@ namespace JBFantasyGame
             myServer.StopServer();
             myServerCommands.StopServer();
         }
-        #endregion TCP Server Stuff
-
-
-
-        private void txtBoxServerPort_TextInput(object sender, TextCompositionEventArgs e)
-        {
-
-        }
-
-        private void txtBoxServerPort_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void ClientToSendTxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void ClientToSendTxt_TextInput(object sender, TextCompositionEventArgs e)
-        {
-
-        }
-        private string ThisEntityToXMLString(Fant_Entity fant_Entity)
-        {
-            XmlSerializer _XMLformatter = new XmlSerializer(fant_Entity.GetType());
-            StringWriter stringwriter = new StringWriter();
-            string stringXML = "";      
-            _XMLformatter.Serialize(stringwriter, fant_Entity);
-            stringXML = stringwriter.ToString();
-            return stringXML;
-        }
 
         private void SendXMLEntity_Click(object sender, RoutedEventArgs e)
         {
             Fant_Entity selected = (Fant_Entity)EntCurrentPartyList.SelectedItem;
-             string stringToSend = "";
+            string stringToSend = "";
             string _XML = ThisEntityToXMLString(selected);
             stringToSend = "01 01" + _XML;
-            myServerCommands.SendToTcpClientCom(stringToSend, 0);
+            myServerCommands.SendToTcpClientCom(stringToSend, Int32.Parse(ClientToSendTxt.Text));   //was , 0
             //temporarily sending it to TCPClientCom[0] only 
 
         }
@@ -2070,12 +2049,42 @@ namespace JBFantasyGame
             string stringToSend = "";
             string _XML = ThisEntityToXMLString(selected);
             stringToSend = "02 01" + _XML;
-            myServerCommands.SendToTcpClientCom(stringToSend, 0);
+            myServerCommands.SendToTcpClientCom(stringToSend, Int32.Parse(ClientToSendTxt.Text));
+        }
+        private string ThisEntityToXMLString(Fant_Entity fant_Entity)
+        {
+            XmlSerializer _XMLformatter = new XmlSerializer(fant_Entity.GetType());
+            StringWriter stringwriter = new StringWriter();
+            string stringXML = "";
+            _XMLformatter.Serialize(stringwriter, fant_Entity);
+            stringXML = stringwriter.ToString();
+            return stringXML;
         }
 
         private void ClientUpdatesCharacter_Click(object sender, RoutedEventArgs e)
         {
             UpdateCharacterFromPlayer();
         }
+
+        #endregion TCP Server Stuff
+
+
+
+        private void txtBoxServerPort_TextInput(object sender, TextCompositionEventArgs e)
+        {
+        }
+
+        private void txtBoxServerPort_TextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void ClientToSendTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void ClientToSendTxt_TextInput(object sender, TextCompositionEventArgs e)
+        {
+        }
+      
     }
 }

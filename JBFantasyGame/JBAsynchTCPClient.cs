@@ -175,7 +175,8 @@ namespace JBFantasyGame
                 myServerPort -= 1;
                 await myTcpClientCom.ConnectAsync(myServerIPAddress, myServerPort);
                 MessageBox.Show($"Connected to Command server IP/Port: {myServerIPAddress} / {myServerPort}");
-
+                // this will later send from a saved file that the game gets on loading 
+                SendToServerCom("02   JBAlias");
                 await ReadDataAsync(myTcpClientCom);
             }
             catch (Exception excp)
