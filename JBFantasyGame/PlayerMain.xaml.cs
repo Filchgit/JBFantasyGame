@@ -109,7 +109,7 @@ namespace JBFantasyGame
                         MainWindow.CharParties[myPartyIndex][myCharIndex].MaxHp = updateCharacter.MaxHp;
                         MainWindow.CharParties[myPartyIndex][myCharIndex].Str = updateCharacter.Str;
                         MainWindow.CharParties[myPartyIndex][myCharIndex].Inte = updateCharacter.Inte;
-                        MainWindow.CharParties[myPartyIndex][myCharIndex].Wis = updateCharacter.Wis;
+                        MainWindow.CharParties[myPartyIndex][myCharIndex].Emp = updateCharacter.Emp;
                         MainWindow.CharParties[myPartyIndex][myCharIndex].Dex = updateCharacter.Dex;
                         MainWindow.CharParties[myPartyIndex][myCharIndex].Con = updateCharacter.Con;
                         MainWindow.CharParties[myPartyIndex][myCharIndex].MaxMana = updateCharacter.MaxMana;

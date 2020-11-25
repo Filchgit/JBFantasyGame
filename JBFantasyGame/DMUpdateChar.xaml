@@ -31,7 +31,7 @@
             <TextBox Height="30" x:Name="DMUpdateCharMaxHp" TextWrapping="Wrap" Text="MaxHp"/>
             <TextBox Height="30" x:Name="DMUpdateCharStr" TextWrapping="Wrap" Text="Str"/>
             <TextBox Height="30" x:Name="DMUpdateCharInte" TextWrapping="Wrap" Text="Int"/>
-            <TextBox Height="30" x:Name="DMUpdateCharWis" TextWrapping="Wrap" Text="Wis"/>
+            <TextBox Height="30" x:Name="DMUpdateCharEmp" TextWrapping="Wrap" Text="Wis"/>
             <TextBox Height="30" x:Name="DMUpdateCharDex" TextWrapping="Wrap" Text="Dex"/>
             <TextBox Height="30" x:Name="DMUpdateCharCon" TextWrapping="Wrap" Text="Con"/>
             <TextBox Height="30" x:Name="DMUpdateCharChr" TextWrapping="Wrap" Text="Chr"/>

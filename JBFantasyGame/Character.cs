@@ -37,14 +37,14 @@ namespace JBFantasyGame
             }
 
         }
-        protected int wis;
-        public int Wis
+        protected int emp;
+        public int Emp
         {
-            get { return wis; }
+            get { return emp; }
             set
             {
                 if (value > 0 && value <= 25)
-                    wis = value;
+                    emp = value;
                 else throw new ArgumentOutOfRangeException();
             }
         }
@@ -126,7 +126,7 @@ namespace JBFantasyGame
             RollingDie three6d = new RollingDie(6, 3);       // this is the same as rolling a six sided dice three times and totalling
             chartoreroll.Str = three6d.Roll();
             chartoreroll.Inte = three6d.Roll();
-            chartoreroll.Wis = three6d.Roll();
+            chartoreroll.Emp = three6d.Roll();
             chartoreroll.Dex = three6d.Roll();
             chartoreroll.Con = three6d.Roll();
             chartoreroll.Chr = three6d.Roll();

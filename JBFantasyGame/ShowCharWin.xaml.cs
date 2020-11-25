@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -52,7 +53,7 @@ using System.IO;
             ShowCharMaxHP.Text = showcharacter.MaxHp.ToString();
             ShowCharStr.Text = showcharacter.Str.ToString();
             ShowCharInt.Text = showcharacter.Inte.ToString();
-            ShowCharWis.Text = showcharacter.Wis.ToString();
+            ShowCharEmp.Text = showcharacter.Emp.ToString();
             ShowCharDex.Text = showcharacter.Dex.ToString();
             ShowCharCon.Text = showcharacter.Con.ToString();
             ShowCharChr.Text = showcharacter.Chr.ToString();

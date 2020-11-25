@@ -1020,7 +1020,7 @@ namespace JBFantasyGame
                     UpLoadedChar.Exp = (int)dataReader.GetInt64(17);
                     UpLoadedChar.Inte = dataReader.GetByte(18);
                     UpLoadedChar.Str = dataReader.GetByte(19);
-                    UpLoadedChar.Wis = dataReader.GetByte(20);
+                    UpLoadedChar.Emp = dataReader.GetByte(20);
 
                     UpLoadedChar.MaxMana = dataReader.GetDouble(21);
                     UpLoadedChar.CurrentMana = dataReader.GetDouble(22);
@@ -1459,7 +1459,7 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@Exp", charSelected.Exp);
                 cmd2.Parameters.AddWithValue("@Inte", charSelected.Inte);
                 cmd2.Parameters.AddWithValue("@Str", charSelected.Str);
-                cmd2.Parameters.AddWithValue("@Wis", charSelected.Wis);
+                cmd2.Parameters.AddWithValue("@Wis", charSelected.Emp);
                 cmd2.Parameters.AddWithValue("@MaxMana", charSelected.MaxMana);
                 cmd2.Parameters.AddWithValue("@CurrentMana", charSelected.CurrentMana);
                 cmd2.Parameters.AddWithValue("@MaxManaRegen", charSelected.MaxManaRegen);
@@ -1660,7 +1660,7 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@Exp", charSelected.Exp);
                 cmd2.Parameters.AddWithValue("@Inte", charSelected.Inte);
                 cmd2.Parameters.AddWithValue("@Str", charSelected.Str);
-                cmd2.Parameters.AddWithValue("@Wis", charSelected.Wis);
+                cmd2.Parameters.AddWithValue("@Wis", charSelected.Emp);
                 cmd2.Parameters.AddWithValue("@MaxMana", charSelected.MaxMana);
                 cmd2.Parameters.AddWithValue("@CurrentMana", charSelected.CurrentMana);
                 cmd2.Parameters.AddWithValue("@MaxManaRegen", charSelected.MaxManaRegen);
@@ -1977,7 +1977,7 @@ namespace JBFantasyGame
             MainWindow.CharParties[myPartyIndex][myCharIndex].MaxHp = updateCharacter.MaxHp;
             MainWindow.CharParties[myPartyIndex][myCharIndex].Str = updateCharacter.Str;
             MainWindow.CharParties[myPartyIndex][myCharIndex].Inte = updateCharacter.Inte;
-            MainWindow.CharParties[myPartyIndex][myCharIndex].Wis = updateCharacter.Wis;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].Emp = updateCharacter.Emp;
             MainWindow.CharParties[myPartyIndex][myCharIndex].Dex = updateCharacter.Dex;
             MainWindow.CharParties[myPartyIndex][myCharIndex].Con = updateCharacter.Con;
             MainWindow.CharParties[myPartyIndex][myCharIndex].MaxMana = updateCharacter.MaxMana;

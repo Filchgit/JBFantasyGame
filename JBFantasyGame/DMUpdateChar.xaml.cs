@@ -33,7 +33,7 @@ namespace JBFantasyGame
             DMUpdateCharExp.Text = characterUpdated.Exp.ToString();
             DMUpdateCharStr.Text = characterUpdated.Str.ToString();
             DMUpdateCharInte.Text = characterUpdated.Inte.ToString();
-            DMUpdateCharWis.Text = characterUpdated.Wis.ToString();
+            DMUpdateCharEmp.Text = characterUpdated.Emp.ToString();
             DMUpdateCharCon.Text = characterUpdated.Con.ToString();
             DMUpdateCharDex.Text = characterUpdated.Dex.ToString();
             DMUpdateCharChr.Text = characterUpdated.Chr.ToString();
@@ -97,7 +97,7 @@ namespace JBFantasyGame
             characterUpdated.Exp = Int32.Parse(DMUpdateCharExp.Text);
             characterUpdated.Str = Int32.Parse(DMUpdateCharStr.Text);
             characterUpdated.Inte = Int32.Parse(DMUpdateCharInte.Text);
-            characterUpdated.Wis = Int32.Parse(DMUpdateCharWis.Text);
+            characterUpdated.Emp = Int32.Parse(DMUpdateCharEmp.Text);
             characterUpdated.Con = Int32.Parse(DMUpdateCharCon.Text);
             characterUpdated.Dex = Int32.Parse(DMUpdateCharDex.Text);
             characterUpdated.Chr = Int32.Parse(DMUpdateCharChr.Text);
