@@ -681,6 +681,7 @@ namespace JBFantasyGame
                                thisEntity.ManaRegen >= checkAbility.ManaRegenCost &&
                                thisEntity.Hp >= checkAbility.HpCost)
                             {
+                                checkAbility.TimesUsed += 1;
                                 CombatScript($"{thisEntity.Name} uses {checkAbility.Abil_Name}");
                                 thisEntity.CurrentMana -= checkAbility.ManaCost;
                                 thisEntity.ManaRegen -= checkAbility.ManaRegenCost;
@@ -990,7 +991,8 @@ namespace JBFantasyGame
                 con.Open();
                 SqlCommand cmdPartyUpload;
                 SqlDataReader dataReader;
-                string sql;               //, Output="";
+                //Emp is still denoted as Wis in SQl; might change that the next time I have to add fields in SQL
+                string sql;               
                 sql = "select AC, HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTargetEnt, MyTargetParty, MyTurn," +
                     "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str, Wis, MaxMana, CurrentMana, MaxManaRegen,ManaRegen," +
                     "XPOnDefeat, DefeatMult from Fant_Character ";                      //add the rest here
@@ -1101,7 +1103,7 @@ namespace JBFantasyGame
                 SqlDataReader dataReader5;
                 string sql5;
                 sql5 = "select Abil_Name, Abil_Level, DescrOfAbility, AbilIsActive, ManaCost, ManaRegenCost, HpCost, DurationMax, DurationElapsed," +
-                    " NoOfEntitiesAffectedMax, TargetEntitiesAffected, HpEffect, TargetRange, SaveType" +
+                    " NoOfEntitiesAffectedMax, TargetEntitiesAffected, HpEffect, TargetRange, SaveType, TimesUsed" +
                     " from Ability ";
                 sql5 = sql5 + $"where OwnersPartyName = '{entThis.PartyName}' and OwnersName = '{entThis.Name}' ";
                 cmdPartyUpload5 = new SqlCommand(sql5, con);
@@ -1123,6 +1125,7 @@ namespace JBFantasyGame
                     addAbility.HpEffect = dataReader5.GetString(11);
                     addAbility.TargetRange = dataReader5.GetDouble(12);
                     addAbility.SaveType = dataReader5.GetString(13);
+                    addAbility.TimesUsed = dataReader5.GetInt32(14);
 
                     if (UpLoadedMonst.Name != null)
                     { UpLoadedMonst.Abilities.Add(addAbility); }
@@ -1581,10 +1584,10 @@ namespace JBFantasyGame
                 con.Open();
                 SqlCommand cmdAbil = new SqlCommand("Insert into Ability (OwnersPartyName, OwnersName, Abil_Name, Abil_Level, DescrOfAbility," +
                     " AbilIsActive, ManaCost, ManaRegenCost, HpCost, DurationMax, DurationElapsed, NoOfEntitiesAffectedMax," +
-                    " TargetEntitiesAffected, HpEffect, TargetRange, SaveType" +
+                    " TargetEntitiesAffected, HpEffect, TargetRange, SaveType, TimesUsed" +
                     ") values (@OwnersPartyName, @OwnersName, @Abil_Name, @Abil_Level, @DescrOfAbility, " +
                     " @AbilIsActive, @ManaCost, @ManaRegenCost, @HpCost, @DurationMax, @DurationElapsed, @NoOfEntitiesAffectedMax," +
-                    " @TargetEntitiesAffected, @HpEffect, @TargetRange, @SaveType)", con);
+                    " @TargetEntitiesAffected, @HpEffect, @TargetRange, @SaveType, @TimesUsed)", con);
                 cmdAbil.Parameters.AddWithValue("@OwnersPartyName", selected.PartyName);
                 cmdAbil.Parameters.AddWithValue("@OwnersName", selected.Name);
                 cmdAbil.Parameters.AddWithValue("@Abil_Name", thisAbility.Abil_Name);
@@ -1606,6 +1609,7 @@ namespace JBFantasyGame
                 cmdAbil.Parameters.AddWithValue("@HpEffect", thisAbility.HpEffect);
                 cmdAbil.Parameters.AddWithValue("@TargetRange", thisAbility.TargetRange);
                 cmdAbil.Parameters.AddWithValue("@SaveType", thisAbility.SaveType);
+                cmdAbil.Parameters.AddWithValue("@TimesUsed", thisAbility.TimesUsed);
                 cmdAbil.ExecuteNonQuery();
                 con.Close();
 

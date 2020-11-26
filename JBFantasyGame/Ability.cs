@@ -79,6 +79,12 @@ namespace JBFantasyGame
         { get { return saveType; }
         set { saveType = value; }
         }
+        protected int timesUsed;
+        public int TimesUsed
+        {
+            get { return timesUsed; }
+            set { timesUsed = value; }
+        }
 
     }
 

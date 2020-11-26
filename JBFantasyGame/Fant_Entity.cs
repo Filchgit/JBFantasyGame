@@ -165,10 +165,17 @@ namespace JBFantasyGame
         }
         protected double defeatMult;
         public double DefeatMult                              // this value holds how a multiplier to denote how difficult the moster type is relative to others of it's Hit Die Level
-        {                                                    // might set defeatMult to 1 if value is 0 or null 
+        {                                                     // might set defeatMult to 1 if value is 0 or null 
             get { return defeatMult; }
             set { defeatMult = value; }
         }
+        protected int entTcpClientNumPlusOne;
+        public int EntTcpClientNumPlusOne                               // will set this when I assign a character or monster for a player to look after
+        {                                                               // there a value of zero here will mean no TCP client
+            get { return entTcpClientNumPlusOne; }                      // and therefore not in use by player 
+            set { entTcpClientNumPlusOne = value; }                    // note that I have not currently saved this in SQL version of save 
+        }
+
       
       
         public virtual int MeleeAttack(Fant_Entity Defender)    //this should be currently overridden for both monsters and charac
