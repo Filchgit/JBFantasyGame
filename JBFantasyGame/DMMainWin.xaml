@@ -91,9 +91,9 @@
         <TextBlock x:Name="txtMyIPAddress" HorizontalAlignment="Left" Background="#FFFBFBFB" Margin="999,611,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="26" Width="103" IsEnabled="False"/>
         <Button x:Name="SendToSingleClient" Content="Send to TCP CLient:" HorizontalAlignment="Left" Margin="877,416,0,0" VerticalAlignment="Top" Width="122" Click="SendToSingleClient_Click"/>
         <TextBox x:Name="ClientToSendTxt" HorizontalAlignment="Left" Height="20" Margin="999,416,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="58" TextChanged="ClientToSendTxt_TextChanged" TextInput="ClientToSendTxt_TextInput"/>
-        <Button x:Name="SendXMLEntity" Content="Temp: Create and Send XML Entity" HorizontalAlignment="Left" Margin="793,436,0,0" VerticalAlignment="Top" Width="206" Click="SendXMLEntity_Click"/>
-        <Button x:Name="UpdateXMLEntity" Content="Temp: Update Player XML Entity" HorizontalAlignment="Left" Margin="793,456,0,0" VerticalAlignment="Top" Width="206" Click="UpdateXMLEntity_Click"/>
-        <Button x:Name="ClientUpdatesCharacter" Content="Temp update from CLient" HorizontalAlignment="Left" Margin="893,489,0,0" VerticalAlignment="Top" Width="164" Click="ClientUpdatesCharacter_Click"/>
+        <Button x:Name="SendXMLEntity" Content="Assign and send this Character to Client:" HorizontalAlignment="Left" Margin="775,436,0,0" VerticalAlignment="Top" Width="224" Click="SendXMLEntity_Click"/>
+        <Button x:Name="UpdateXMLEntity" Content="Temp: Update Player XML Entity" HorizontalAlignment="Left" Margin="970,509,0,0" VerticalAlignment="Top" Width="206" Click="UpdateXMLEntity_Click"/>
+        <Button x:Name="ClientUpdatesCharacter" Content="Temp update from CLient" HorizontalAlignment="Left" Margin="970,529,0,0" VerticalAlignment="Top" Width="164" Click="ClientUpdatesCharacter_Click"/>
 
     </Grid>
 </Window>
