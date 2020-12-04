@@ -214,7 +214,8 @@ namespace JBFantasyGame
         {
             Defender.AC = 0;                                   //this should be currently overridden for both monsters and characters
             Character recalcACObject = new Character();
-            Defender.AC= recalcACObject.ACRecalc(recalcACObject);          
+            
+            Defender.AC= recalcACObject.ACRecalc(Defender);          
             RollingDie twentyside = new RollingDie(20, 1);
             int tohit;
             int attRoll = twentyside.Roll();

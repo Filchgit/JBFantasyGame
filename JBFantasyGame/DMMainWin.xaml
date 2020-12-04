@@ -94,6 +94,7 @@
         <Button x:Name="SendXMLEntity" Content="Assign and send this Character to Client:" HorizontalAlignment="Left" Margin="775,436,0,0" VerticalAlignment="Top" Width="224" Click="SendXMLEntity_Click"/>
         <Button x:Name="UpdateXMLEntity" Content="Temp: Update Player XML Entity" HorizontalAlignment="Left" Margin="970,509,0,0" VerticalAlignment="Top" Width="206" Click="UpdateXMLEntity_Click"/>
         <Button x:Name="ClientUpdatesCharacter" Content="Temp update from CLient" HorizontalAlignment="Left" Margin="970,529,0,0" VerticalAlignment="Top" Width="164" Click="ClientUpdatesCharacter_Click"/>
+        <Button x:Name="UpdateAllAssignedChars" Content="Update and send all TCP Assigned Chars" HorizontalAlignment="Left" Margin="775,456,0,0" VerticalAlignment="Top" Width="224" Click="UpdateAllAssignedChars_Click"/>
 
     </Grid>
 </Window>

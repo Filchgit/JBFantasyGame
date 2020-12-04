@@ -1996,6 +1996,7 @@ namespace JBFantasyGame
             MainWindow.CharParties[myPartyIndex][myCharIndex].IsAlive = updateCharacter.IsAlive;
             MainWindow.CharParties[myPartyIndex][myCharIndex].MyTargetEnt = updateCharacter.MyTargetEnt;
             MainWindow.CharParties[myPartyIndex][myCharIndex].MyTargetParty = updateCharacter.MyTargetParty;
+            MainWindow.CharParties[myPartyIndex][myCharIndex].EntTcpClientNumPlusOne = updateCharacter.EntTcpClientNumPlusOne;
 
             MainWindow.CharParties[myPartyIndex][myCharIndex].Inventory.Clear();
             foreach (PhysObj physthing in updateCharacter.Inventory)
@@ -2040,6 +2041,7 @@ namespace JBFantasyGame
         {
             Fant_Entity selected = (Fant_Entity)EntCurrentPartyList.SelectedItem;
             string stringToSend = "";
+            selected.EntTcpClientNumPlusOne = Int32.Parse(ClientToSendTxt.Text) + 1;
             string _XML = ThisEntityToXMLString(selected);
             stringToSend = "01 01" + _XML;
             myServerCommands.SendToTcpClientCom(stringToSend, Int32.Parse(ClientToSendTxt.Text));   //was , 0
@@ -2089,6 +2091,22 @@ namespace JBFantasyGame
         private void ClientToSendTxt_TextInput(object sender, TextCompositionEventArgs e)
         {
         }
-      
+
+        private void UpdateAllAssignedChars_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (CharParty selectedParty in MainWindow.CharParties)
+
+            {
+                foreach (Character selected in selectedParty)
+                { if (selected.EntTcpClientNumPlusOne != 0)
+                    {
+                        string stringToSend = "";
+                        string _XML = ThisEntityToXMLString(selected);
+                        stringToSend = "02 01" + _XML;
+                        myServerCommands.SendToTcpClientCom(stringToSend, selected.EntTcpClientNumPlusOne-1);
+                    }
+                }
+            }
+        }
     }
 }

@@ -111,10 +111,10 @@ namespace JBFantasyGame
             a_character.isAlive = true;
             a_character.Name = "Default";
             a_character.AC =0;
-            a_character.exp = 120000;
+            a_character.exp = 0;
             a_character.hitOn20 = 0;                                       // temporary to test combat
-            a_character.MaxHp = 8;                                        // temporary to test combat
-            a_character.Hp = 8;                                            // ditto
+            a_character.MaxHp = 2;                                        // temporary to test combat
+            a_character.Hp = 2;                                            // ditto
             a_character.CharType = "Fighter";
             a_character = Fighter.FighterInitialize(a_character);
             return a_character;
