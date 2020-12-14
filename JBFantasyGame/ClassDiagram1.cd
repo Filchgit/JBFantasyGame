@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="JBFantasyGame.App" Collapsed="true">
+    <Position X="12" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.Character">
+    <Position X="4.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQCAAgAAQABQAGAAEAAgQAAIQGACCAAoQAAAAEAAgA=</HashCode>
+      <FileName>Character.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.CharParty" Collapsed="true">
+    <Position X="13.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CharParty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.Cleric" Collapsed="true">
+    <Position X="6.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cleric.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.DMMainWin" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DAwUA5kExIECYgAYSAAFDcAMgmCEELWEIAAgIwcIwIg=</HashCode>
+      <FileName>DMMainWin.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.DMUpdateChar" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>DMUpdateChar.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.Fant_Entity">
+    <Position X="0.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GQAAURAAAAEAAABAAAAAAAQACBQEAAk1CABhIwkAYAE=</HashCode>
+      <FileName>Fant_Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.Fighter" Collapsed="true">
+    <Position X="7" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Fighter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.GlobalItemAdd" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAACEEBAAABAAAAAAAAEAAIAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>GlobalItemAdd.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.Mage" Collapsed="true">
+    <Position X="7.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Mage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAgAACAAAAAAAAgAAAAAAAAAAAgACAAACAIACAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.Monster">
+    <Position X="2.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABwAAAAAQAAAAEQBABwEAAAAAAAAAEABAAEAAAAAAA=</HashCode>
+      <FileName>Monster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.MonsterParty" Collapsed="true">
+    <Position X="15.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MonsterParty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.Party" Collapsed="true">
+    <Position X="17.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Party.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.PhysObj">
+    <Position X="10" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAACCAAAAAwAAAAAAAAAQAAAAEQAABAAAAAQCAAAA=</HashCode>
+      <FileName>PhysObj.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.PlayerMain" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhAAAA=</HashCode>
+      <FileName>PlayerMain.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.RollingDie" Collapsed="true">
+    <Position X="17.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAEADAABAAAAAwAAAAAAAAAAAAAQAQ=</HashCode>
+      <FileName>RollDie.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.Rogue" Collapsed="true">
+    <Position X="7.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Rougue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.ShowCharWin" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQgAAQAAAABABAAAGABEAIEAAAAAAAABQIAAAAAAAEI=</HashCode>
+      <FileName>ShowCharWin.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.ShowMonsterWin" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAABABAIgGAAAAAFAAAAAAAABAIAAABAAAEI=</HashCode>
+      <FileName>ShowMonsterWin.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="JBFantasyGame.Target" Collapsed="true">
+    <Position X="17.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQAAABAAAAAAAAAAAAAAAAQAAAAEAAEAAABBAAEAQAA=</HashCode>
+      <FileName>Target.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.Troll" Collapsed="true">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Troll.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.Properties.Resources" Collapsed="true">
+    <Position X="15.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JBFantasyGame.Properties.Settings" Collapsed="true">
+    <Position X="12" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

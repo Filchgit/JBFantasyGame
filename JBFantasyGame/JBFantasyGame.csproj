@@ -35,8 +35,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JBAsyncServerDemo">
+      <HintPath>..\..\..\..\GitHub\Udemy\JBAsyncServerDemo\JBAsyncServerDemo\bin\Debug\JBAsyncServerDemo.exe</HintPath>
+    </Reference>
+    <Reference Include="JBAsyncTCPServer">
+      <HintPath>..\..\..\..\GitHub\Udemy\JBAsyncServerDemo\JBAsyncServerDemo\bin\Debug\JBAsyncTCPServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,14 +62,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Ability.cs" />
+    <Compile Include="CalculateXP.cs" />
+    <Compile Include="CharParty.cs" />
+    <Compile Include="Cleric.cs" />
+    <Compile Include="CustomEventArg.cs" />
     <Compile Include="DMMainWin.xaml.cs">
       <DependentUpon>DMMainWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DMUpdateChar.xaml.cs">
+      <DependentUpon>DMUpdateChar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Fighter.cs" />
+    <Compile Include="GlobalItemAdd.xaml.cs">
+      <DependentUpon>GlobalItemAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JBAsynchTCPClient.cs" />
+    <Compile Include="JBSocketServer.cs" />
+    <Compile Include="Monster.cs" />
+    <Compile Include="MonsterParty.cs" />
     <Compile Include="PlayerMain.xaml.cs">
       <DependentUpon>PlayerMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="RollDie.cs" />
+    <Compile Include="Rougue.cs" />
+    <Compile Include="ShowCharWin.xaml.cs">
+      <DependentUpon>ShowCharWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShowMonsterWin.xaml.cs">
+      <DependentUpon>ShowMonsterWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Target.cs" />
+    <Compile Include="Troll.cs" />
     <Page Include="DMMainWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DMUpdateChar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalItemAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -75,14 +115,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Character.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="Item.cs" />
+    <Compile Include="Fant_Entity.cs" />
+    <Compile Include="PhysObj.cs" />
     <Compile Include="Mage.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PlayerMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowCharWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowMonsterWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,6 +154,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -113,6 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Quick Jaguar2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

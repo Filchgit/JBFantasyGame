@@ -1,0 +1,83 @@
+﻿<Window x:Class="JBFantasyGame.ShowMonsterWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JBFantasyGame"
+        mc:Ignorable="d"
+        Title="ShowMonsterWin" Height="750" Width="800" Background="BlanchedAlmond" >
+    <Grid Margin="0,10,2,0" Height="708" VerticalAlignment="Top">
+        <Button x:Name= "MeleeThisEnt" Content="Melee Attack Selected Target" HorizontalAlignment="Left" Margin="581,387,0,0" VerticalAlignment="Top" Width="180" Click="MeleeThisEnt_Click" RenderTransformOrigin="0.482,1.621"/>
+        <DataGrid x:Name="SpecialActions" HorizontalAlignment="Left" Height="137" AutoGenerateColumns="True" Margin="62,528,0,0" VerticalAlignment="Top" Width="601" SelectionChanged="SpecialActions_SelectionChanged"/>
+        <Button x:Name="UseMonstAbility" Content="Use Ability" HorizontalAlignment="Left" Margin="666,558,0,0" VerticalAlignment="Top" Width="114" Click="UseMonstAbility_Click" RenderTransformOrigin="0.584,3.896"   />
+        <TextBlock x:Name="ShowMonstNextRound" HorizontalAlignment="Left" Margin="355,104,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="16" Width="406"/>
+
+        <DataGrid x:Name="PersonalInventory" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="100" Margin="210,169,0,0" VerticalAlignment="Top" Width="472" SelectionChanged="PersonalInventory_SelectionChanged" >
+
+            <DataGrid.Columns >
+                <DataGridTextColumn Header=" Name" Binding ="{Binding Name}"/>
+                <DataGridTextColumn Header=" Type" Binding ="{Binding ObjType}"/>
+                <DataGridTextColumn Header=" Equipped" Binding ="{Binding IsEquipped, Mode=TwoWay}"/>
+                <DataGridTextColumn Header=" Base Damage" Binding ="{Binding Damage}"/>
+                <DataGridTextColumn Header=" Effect on AC " Binding ="{Binding ACEffect}"/>
+                <DataGridTextColumn Header=" Description" Binding ="{Binding DescrPhysObj}"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <Button x:Name="Delete1st" Content="Delete Item" HorizontalAlignment="Left" Margin="666,187,0,0" VerticalAlignment="Top" Width="114" Click="Delete1st_Click" RenderTransformOrigin="1.018,-6.704"/>
+        <Button x:Name="EquipThisButt" Content="Equip/UnEquip" HorizontalAlignment="Left" Margin="666,212,0,0" VerticalAlignment="Top" Width="114" Click="EquipThisButt_Click" RenderTransformOrigin="0.448,0.143"/>
+
+        <DataGrid x:Name ="ViableMeleeTargets" IsReadOnly="True" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="100" Margin="272,282,0,0" VerticalAlignment="Top" Width="391" SelectionChanged="ViableMeleeTargets_SelectionChanged"/>
+        <TextBox x:Name ="ShowMonsterName"   HorizontalAlignment="Left" Height="23" Margin="313,7,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="130" />
+
+        <TextBox x:Name ="ShowMonsterType"   HorizontalAlignment="Left" Height="26" Margin="121,4,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="140" />
+        <Button x:Name ="StopTimerUpdate"  Content="Stop Timed Update" HorizontalAlignment="Left" Margin="645,10,0,0" VerticalAlignment="Top" Width="126" Click="StopTimerUpdate_Click"/>
+        <Button x:Name="UpdateRestartTimer"   Content="Update /Restart Timer" HorizontalAlignment="Left" Margin="645,32,0,0" VerticalAlignment="Top" Width="126" Click="UpdateRestartTimer_Click"/>
+        <StackPanel HorizontalAlignment="Left" Height="454" Margin="17,43,0,0" VerticalAlignment="Top" Width="107">
+            <Label Content="Level:" Height="25"  HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="A.C:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="Hit Die:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="57"/>
+            <Label Content="Max.Hp:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="Hit Pts:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="Hit on 20:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="Init. Mod." Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top" Width="66"/>
+            <Label Content="No Of Attacks:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="Att 1 Damage:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="Att 2 Damage:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="Att 3 Damage:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="Max Mana:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="Current Mana:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="MaxManaRegen:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="ManaRegen:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="XP on Defeat:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+            <Label Content="Def. XP Mult.:" Height="25" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Top"  Width="100"/>
+
+        </StackPanel>
+
+
+        <Label Content="Monster Type" HorizontalAlignment="Left" FontWeight="Bold" Margin="10,1,0,0" VerticalAlignment="Top"  Width="99"/>
+        <Label Content="Name:" HorizontalAlignment="Left" FontWeight="Bold" Margin="261,4,0,0" VerticalAlignment="Top"  Width="52" RenderTransformOrigin="0.868,0.939"/>
+        <Label Content="Group Name:" HorizontalAlignment="Left" FontWeight="Bold" Margin="443,4,0,0" VerticalAlignment="Top"  Width="99"/>
+        <StackPanel HorizontalAlignment="Left" Height="454" Margin="124,43,0,0" VerticalAlignment="Top" Width="65">
+            <TextBox x:Name="TBLevel" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBAC" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBHitDie" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBMaxHP" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBHP" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBHitOn20" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBInitMod" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="TBNoOfAtt" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="AttDam1" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="AttDam2" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="AttDam3" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="MaxMana" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="CurrMana" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="MaxManaRegen" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="ManaRegen" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="XPOnDefeat" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+            <TextBox x:Name="DefeatXPMult" Height="25" TextWrapping="Wrap" Text="TextBox"/>
+        </StackPanel>
+        <TextBlock x:Name="TBPartyName"  HorizontalAlignment="Left" Margin="530,8,0,0" TextWrapping="Wrap" Text="Group Name" VerticalAlignment="Top" Width="133" Height="19"/>
+    </Grid>
+</Window>

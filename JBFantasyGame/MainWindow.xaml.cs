@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,10 +22,38 @@ namespace JBFantasyGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static List<Character> playcharacter;
-        public MainWindow()
+        public static List<Character> CharParty;
+        public static List<CharParty> CharParties;
+        public static List<Monster> MonsterParty;
+        public static List<MonsterParty> MonsterParties;
+        public static List<Fant_Entity> Party;
+        public static List<Party> Parties;
+        public static List<PhysObj > GlobalItems;
+        public static Fant_Entity entitySelected;
+        public static Character characterExample;
+                public MainWindow()
         {
-            playcharacter = new List<Character>();
+            GlobalItems = new List<PhysObj >();
+            CharParty = new List<Character>();
+            CharParties = new List <CharParty>();
+            MonsterParty = new List<Monster>();
+            MonsterParties = new List<MonsterParty>();
+            Party = new List<Fant_Entity>();
+            Parties = new List<Party>();
+            entitySelected = new Fant_Entity();
+            characterExample = new Character();
+            entitySelected.Name = "Default";
+            entitySelected.IsAlive = true;
+            entitySelected.HitOn20 = 10;
+            entitySelected.MaxHp = 1;
+            entitySelected.PartyName = "Default";
+
+           // sqlEntitySelected = new Fant_Entity();
+           // sqlEntitySelected.Name = "Default";
+           // sqlEntitySelected.PartyName= "Default";
+           // sqlEntitySelected.Lvl = 1;
+
+
             InitializeComponent();
             
         }
