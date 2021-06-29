@@ -34,7 +34,9 @@ namespace JBFantasyGame
     public partial class DMMainWin : Window
     {     // obviously will have option to change connection for other people
         SqlConnection con = new SqlConnection(@"Data Source = JBLAPTOP\SQLEXPRESS; Initial Catalog = FantasyGame; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
-        string comScriptPath = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt";
+                                    //       (@"Data Source = JBLAPTOP\SQLEXPRESS; Initial Catalog = PharmacyScrapedStock; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False;");
+        //string comScriptPath = @"C:\Users\John MacAulay\Documents\AD&D\JBFantasyGame\combatScript.txt";
+        string comScriptPath = @"C:\Users\merjo\OneDrive\Documents\AD&D\JBFantasyGame\FantasyGameSaves\combatScript.txt";
         Party Meleegroup = new Party();
         public Character checkCharacter = new Character();
         //Stuff for TCP Server
@@ -82,7 +84,7 @@ namespace JBFantasyGame
             {
                 RollingDie thisRoll = new RollingDie(i1, i2, i3);
                 string rollexpl = thisRoll.ToString();
-                MessageBox.Show($"{thisRoll.Roll() } {rollexpl}  {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
+                MessageBox.Show($"Roll Result:{thisRoll.Roll() } \n  {rollexpl}  {RollDieDM.Text }");   // we will make this talk out to a rolling chat box in a sec
             }
         }
         private void Nameinput_TextInput(object sender, TextCompositionEventArgs e)
@@ -928,7 +930,7 @@ namespace JBFantasyGame
                 Character addCharacter = new Character();
                 addCharacter.Name = (string)dataReader.GetValue(0);
                 addCharacter.PartyName = (string)dataReader.GetValue(1);
-                addCharacter.Lvl = dataReader.GetByte(2);             //  this is using an implict cast Byte to Int
+                addCharacter.Lvl = dataReader.GetInt16(2);             //  this is using an implict cast Byte to Int
                 Fant_Entities.Add(addCharacter);
             }
             con.Close();
@@ -941,7 +943,7 @@ namespace JBFantasyGame
                 Monster addMonster = new Monster();
                 addMonster.Name = (string)dataReader.GetValue(0);
                 addMonster.PartyName = (string)dataReader.GetValue(1);
-                addMonster.Lvl = dataReader.GetByte(2);
+                addMonster.Lvl = dataReader.GetInt16(2);
                 Fant_Entities.Add(addMonster);
             }
 
@@ -994,7 +996,7 @@ namespace JBFantasyGame
                 //Emp is still denoted as Wis in SQl; might change that the next time I have to add fields in SQL
                 string sql;               
                 sql = "select AC, HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTargetEnt, MyTargetParty, MyTurn," +
-                    "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str, Wis, MaxMana, CurrentMana, MaxManaRegen,ManaRegen," +
+                    "Name, PartyName,CharType,Chr,Con,Dex, Exp, Inte, Str, Emp, MaxMana, CurrentMana, MaxManaRegen,ManaRegen," +
                     "XPOnDefeat, DefeatMult from Fant_Character ";                      //add the rest here
                 sql = sql + $"where PartyName = '{entThis.PartyName}' and Name = '{entThis.Name}' ";
                 cmdPartyUpload = new SqlCommand(sql, con);
@@ -1006,9 +1008,9 @@ namespace JBFantasyGame
                     UpLoadedChar.HitOn20 = dataReader.GetByte(1);
                     UpLoadedChar.Hp = dataReader.GetInt16(2);
                     UpLoadedChar.InitMod = dataReader.GetInt16(3);
-                    UpLoadedChar.InitRoll = dataReader.GetByte(4);
+                    UpLoadedChar.InitRoll = dataReader.GetInt16(4);
                     UpLoadedChar.IsAlive = dataReader.GetBoolean(5);
-                    UpLoadedChar.Lvl = dataReader.GetByte(6);
+                    UpLoadedChar.Lvl = dataReader.GetInt16(6);
                     UpLoadedChar.MaxHp = dataReader.GetInt16(7);
                     UpLoadedChar.MyTargetEnt = dataReader.GetString(8);
                     UpLoadedChar.MyTargetParty = dataReader.GetString(9);
@@ -1019,7 +1021,7 @@ namespace JBFantasyGame
                     UpLoadedChar.Chr = dataReader.GetByte(14);
                     UpLoadedChar.Con = dataReader.GetByte(15);
                     UpLoadedChar.Dex = dataReader.GetByte(16);
-                    UpLoadedChar.Exp = (int)dataReader.GetInt64(17);
+                    UpLoadedChar.Exp = (int)dataReader.GetInt32(17);
                     UpLoadedChar.Inte = dataReader.GetByte(18);
                     UpLoadedChar.Str = dataReader.GetByte(19);
                     UpLoadedChar.Emp = dataReader.GetByte(20);
@@ -1050,9 +1052,9 @@ namespace JBFantasyGame
                     UpLoadedMonst.HitOn20 = dataReader4.GetByte(1);
                     UpLoadedMonst.Hp = dataReader4.GetInt16(2);
                     UpLoadedMonst.InitMod = dataReader4.GetInt16(3);
-                    UpLoadedMonst.InitRoll = dataReader4.GetByte(4);
+                    UpLoadedMonst.InitRoll = dataReader4.GetInt16(4);
                     UpLoadedMonst.IsAlive = dataReader4.GetBoolean(5);
-                    UpLoadedMonst.Lvl = dataReader4.GetByte(6);
+                    UpLoadedMonst.Lvl = dataReader4.GetInt16(6);
                     UpLoadedMonst.MaxHp = dataReader4.GetInt16(7);
                     UpLoadedMonst.MyTargetEnt = dataReader4.GetString(8);
                     UpLoadedMonst.MyTargetParty = dataReader4.GetString(9);
@@ -1368,6 +1370,7 @@ namespace JBFantasyGame
         public bool DoesEntExistInSQL(Fant_Entity selected)
         {
             bool entExists = false;
+            
             string entPartyNameToCheck = selected.PartyName;
             string entNameToCheck = selected.Name;
             con.Open();
@@ -1377,7 +1380,7 @@ namespace JBFantasyGame
             // if (selected is Character)
             sql = "select Name, PartyName from Fant_Character";        //should default to this, change on Monster 
             if (selected is Monster)
-            { sql = "select Name, PartyName from monster"; }
+            { sql = "select Name, PartyName from Monster"; }
             cmdthis = new SqlCommand(sql, con);
             dataReader = cmdthis.ExecuteReader();
             while (dataReader.Read())
@@ -1428,7 +1431,7 @@ namespace JBFantasyGame
                 //selected.MyTurn = true;    //temp just to see the issue
                 SqlCommand cmd2 = new SqlCommand("update Fant_Character set AC = @AC, HitOn20 =@HitOn20, Hp=@Hp, InitMod =@InitMod," +
                     " InitRoll=@InitRoll, IsAlive=@IsAlive, Lvl=@Lvl, MaxHp=@MaxHp, MyTurn=@MyTurn, " +
-                    "CharType=@CharType, Chr=@Chr, Con=@Con, Dex=@Dex, Exp=@Exp, Inte=@Inte, Str=@Str, Wis=@Wis," +
+                    "CharType=@CharType, Chr=@Chr, Con=@Con, Dex=@Dex, Exp=@Exp, Inte=@Inte, Str=@Str, Emp=@Emp," +
                     "MyTargetEnt=@MyTargetEnt, MyTargetParty=@MyTargetParty," +
                     "MaxMana=@MaxMana, CurrentMana=@CurrentMana, MaxManaRegen=@MaxManaRegen, ManaRegen=@ManaRegen," +
                     "XPOnDefeat=@XPOnDefeat, DefeatMult=@DefeatMult " +
@@ -1462,7 +1465,7 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@Exp", charSelected.Exp);
                 cmd2.Parameters.AddWithValue("@Inte", charSelected.Inte);
                 cmd2.Parameters.AddWithValue("@Str", charSelected.Str);
-                cmd2.Parameters.AddWithValue("@Wis", charSelected.Emp);
+                cmd2.Parameters.AddWithValue("@Emp", charSelected.Emp);
                 cmd2.Parameters.AddWithValue("@MaxMana", charSelected.MaxMana);
                 cmd2.Parameters.AddWithValue("@CurrentMana", charSelected.CurrentMana);
                 cmd2.Parameters.AddWithValue("@MaxManaRegen", charSelected.MaxManaRegen);
@@ -1630,10 +1633,10 @@ namespace JBFantasyGame
             {
                 Character charSelected = (Character)selected;
                 SqlCommand cmd2 = new SqlCommand("Insert into Fant_Character (AC,HitOn20, Hp, InitMod, InitRoll, IsAlive, Lvl, MaxHp, MyTurn,Name, PartyName, " +
-                      "CharType, Chr, Con, Dex, Exp, Inte, Str, Wis, MyTargetEnt, MyTargetParty," +
+                      "CharType, Chr, Con, Dex, Exp, Inte, Str, Emp, MyTargetEnt, MyTargetParty," +
                       "MaxMana, CurrentMana, MaxManaRegen, ManaRegen, XPOnDefeat, DefeatMult) " +
                       "values  (@AC,@HitOn20, @Hp, @InitMod, @InitRoll, @IsAlive, @Lvl, @MaxHp,  @MyTurn,@Name, @PartyName," +
-                      "@CharType, @Chr, @Con, @Dex, @Exp, @Inte, @Str, @Wis, @MyTargetEnt, @MyTargetParty," +
+                      "@CharType, @Chr, @Con, @Dex, @Exp, @Inte, @Str, @Emp, @MyTargetEnt, @MyTargetParty," +
                       "@MaxMana, @CurrentMana, @MaxManaRegen, @ManaRegen, @XPOnDefeat, @DefeatMult )", con);     //taken out for now    @MyTargetEnt, @MyTargetParty, 
                 cmd2.Parameters.AddWithValue("@AC", selected.AC);
                 cmd2.Parameters.AddWithValue("@HitOn20", selected.HitOn20);
@@ -1664,7 +1667,7 @@ namespace JBFantasyGame
                 cmd2.Parameters.AddWithValue("@Exp", charSelected.Exp);
                 cmd2.Parameters.AddWithValue("@Inte", charSelected.Inte);
                 cmd2.Parameters.AddWithValue("@Str", charSelected.Str);
-                cmd2.Parameters.AddWithValue("@Wis", charSelected.Emp);
+                cmd2.Parameters.AddWithValue("@Emp", charSelected.Emp);
                 cmd2.Parameters.AddWithValue("@MaxMana", charSelected.MaxMana);
                 cmd2.Parameters.AddWithValue("@CurrentMana", charSelected.CurrentMana);
                 cmd2.Parameters.AddWithValue("@MaxManaRegen", charSelected.MaxManaRegen);

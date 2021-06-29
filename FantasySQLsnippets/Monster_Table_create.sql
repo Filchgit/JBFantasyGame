@@ -1,0 +1,3 @@
+create table Monster ( AC tinyint, Monster_Type varchar(50), HitOn20 tinyint, Hp smallint, InitMod smallint, initRoll smallint, isAlive bit, MaxHp smallint, MyTargetEnt varchar(100), MyTargetParty varchar(100),
+MyTurn bit, Name varchar(100), PartyName varchar(100), Lvl smallint, NoOfAtt tinyint, DamPerAtt1 varchar(50), DamPerAtt2 varchar(50), DamPerAtt3 varchar(50), HitDie varchar(50),
+MaxMana float, CurrentMana float, MaxManaRegen float, ManaRegen float, XPOnDefeat int, DefeatMult smallint );

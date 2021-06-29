@@ -1,0 +1,3 @@
+create table Fant_Character ( AC tinyint, HitOn20 tinyint, Hp smallint, InitMod smallint, initRoll smallint, isAlive bit, Lvl smallint, MaxHp smallint, myTurn bit, Name varchar(100), PartyName varchar(100),
+CharType varchar(50), Chr tinyint, Con tinyint, Dex tinyint, Exp tinyint, Inte tinyint, Str tinyint, Wis tinyint, MyTargetEnt varchar(100), MyTargetParty varchar(100),
+MaxMana float, CurrentMana float, MaxManaRegen float, ManaRegen float, XPOnDefeat int, DefeatMult smallint   );
